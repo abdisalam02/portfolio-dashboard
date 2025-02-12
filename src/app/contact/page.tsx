@@ -1,3 +1,5 @@
+/* eslint react/no-unescaped-entities: "off" */
+
 "use client";
 
 import { useForm, ValidationError } from "@formspree/react";
