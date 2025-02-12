@@ -4,6 +4,17 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Loading from "../Loading";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import screenshot from "./Img/portfolio.png";
+import Task from "./Img/Taks.png";
+import Recipe from "./Img/Recipe.png";
+
+interface Repo {
+  id: number;
+  name: string;
+  description: string | null;
+  html_url: string;
+}
 
 const MAX_REPOS = 3;
 
@@ -13,26 +24,28 @@ const selectedProjects = [
     title: "Portfolio Website",
     description: "A modern portfolio built with Next.js and Tailwind CSS.",
     url: "https://your-portfolio.com",
-    image: "/images/portfolio.png",
+    image: screenshot,
   },
   {
     id: 2,
-    title: "E-commerce Store",
-    description: "A scalable e-commerce store using TypeScript and Next.js.",
-    url: "https://your-ecommerce.com",
-    image: "/images/ecommerce.png",
+    title: "Recipes App",
+    description:
+      "A recipe app that shows nutritional info and allows users to add new recipes.",
+    url: "https://recipes-app-qnwl-19lhmjtpf-abdisalam02s-projects.vercel.app/",
+    image: Recipe,
   },
   {
     id: 3,
-    title: "Task Manager App",
-    description: "A simple yet powerful task manager app built with React.",
-    url: "https://your-task-manager.com",
-    image: "/images/task-manager.png",
+    title: "Task App",
+    description:
+      "A task app where you can generate tasks, assign them to friends, earn points, and it has authentication implemented.",
+    url: "https://tasks-app-teal.vercel.app/",
+    image: Task,
   },
 ];
 
 export default function Projects() {
-  const [repos, setRepos] = useState([]);
+  const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -76,16 +89,20 @@ export default function Projects() {
               whileHover={{ scale: 1.05 }}
             >
               <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
+                  width={500}
+                  height={300}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
                   <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-200">
                     {project.title}
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    {project.description}
+                  </p>
                   <a
                     href={project.url}
                     target="_blank"

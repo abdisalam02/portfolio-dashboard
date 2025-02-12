@@ -5,8 +5,17 @@ import { useEffect, useState } from "react";
 import { FaJsSquare, FaPython, FaReact, FaHtml5, FaCss3Alt, FaPhp } from "react-icons/fa";
 import { SiNextdotjs, SiTypescript, SiMysql } from "react-icons/si";
 import Loading from "../../Loading";
+import React from "react";
 
-const skills = {
+// Define a type for our skill data
+type SkillData = {
+  name: string;
+  icon: React.ReactElement;
+  bg: string;
+};
+
+// Annotate the skills object using a Record type
+const skills: Record<string, SkillData> = {
   javascript: { name: "JavaScript", icon: <FaJsSquare className="text-yellow-500 text-6xl" />, bg: "bg-yellow-500" },
   typescript: { name: "TypeScript", icon: <SiTypescript className="text-blue-600 text-6xl" />, bg: "bg-blue-600" },
   python: { name: "Python", icon: <FaPython className="text-blue-400 text-6xl" />, bg: "bg-blue-400" },
@@ -19,19 +28,33 @@ const skills = {
 };
 
 export default function SkillPage() {
-  const { skill } = useParams();
+  const params = useParams();
+
+  // Convert params.skill to a string: if it's an array, use the first element.
+  const skillParam =
+    typeof params.skill === "string"
+      ? params.skill
+      : Array.isArray(params.skill)
+      ? params.skill[0]
+      : "";
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 100); // Simulate loading delay
-    return () => clearTimeout(timer); // Cleanup on component unmount
+    const timer = setTimeout(() => setLoading(false), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
     return <Loading />;
   }
 
-  const skillData = skills[skill.toLowerCase()];
+  if (!skillParam) {
+    return <div className="text-center text-xl font-bold">No skill provided</div>;
+  }
+
+  // Now we can safely call toLowerCase on skillParam
+  const skillData = skills[skillParam.toLowerCase()];
 
   if (!skillData) {
     return <div className="text-center text-xl font-bold">Skill not found</div>;
@@ -45,7 +68,9 @@ export default function SkillPage() {
       </div>
       <div className="mt-6">
         <h2 className="text-2xl font-bold mb-4">Projects using {skillData.name}</h2>
-        <p className="text-gray-700">This is where you can list or describe the projects related to {skillData.name}.</p>
+        <p className="text-gray-700">
+          This is where you can list or describe the projects related to {skillData.name}.
+        </p>
       </div>
     </div>
   );

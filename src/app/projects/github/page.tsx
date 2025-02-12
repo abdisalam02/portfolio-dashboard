@@ -3,8 +3,15 @@
 import { useEffect, useState } from "react";
 import Loading from "../../Loading";
 
+interface Repo {
+  id: number;
+  name: string;
+  description: string | null;
+  html_url: string;
+}
+
 export default function GitHubProjects() {
-  const [repos, setRepos] = useState([]);
+  const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,7 +21,7 @@ export default function GitHubProjects() {
         if (!response.ok) {
           throw new Error("Failed to fetch repositories");
         }
-        const data = await response.json();
+        const data: Repo[] = await response.json();
         setRepos(data);
       } catch (error) {
         console.error("Error fetching repositories:", error);
