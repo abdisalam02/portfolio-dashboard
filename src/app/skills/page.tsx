@@ -1,10 +1,17 @@
 /* eslint react/no-unescaped-entities: "off" */
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaJsSquare, FaPython, FaReact, FaHtml5, FaCss3Alt, FaPhp } from "react-icons/fa";
+import {
+  FaJsSquare,
+  FaPython,
+  FaReact,
+  FaHtml5,
+  FaCss3Alt,
+  FaPhp,
+  FaGithub,
+} from "react-icons/fa";
 import { SiNextdotjs, SiMysql } from "react-icons/si";
 import Loading from "../Loading";
 
@@ -17,14 +24,62 @@ interface Skill {
 }
 
 const skillsData: Skill[] = [
-  { name: "HTML", route: "html", level: 95, color: "bg-orange-500", icon: <FaHtml5 className="text-white text-5xl" /> },
-  { name: "CSS", route: "css", level: 90, color: "bg-blue-500", icon: <FaCss3Alt className="text-white text-5xl" /> },
-  { name: "JavaScript", route: "javascript", level: 90, color: "bg-yellow-500", icon: <FaJsSquare className="text-white text-5xl" /> },
-  { name: "React", route: "react", level: 85, color: "bg-blue-400", icon: <FaReact className="text-white text-5xl" /> },
-  { name: "SQL", route: "sql", level: 80, color: "bg-blue-600", icon: <SiMysql className="text-white text-5xl" /> },
-  { name: "Python", route: "python", level: 75, color: "bg-blue-400", icon: <FaPython className="text-white text-5xl" /> },
-  { name: "PHP", route: "php", level: 60, color: "bg-indigo-600", icon: <FaPhp className="text-white text-5xl" /> },
-  { name: "Next.js", route: "next.js", level: 70, color: "bg-gray-800", icon: <SiNextdotjs className="text-white text-5xl" /> },
+  {
+    name: "HTML",
+    route: "html",
+    level: 95,
+    color: "bg-orange-500",
+    icon: <FaHtml5 className="text-white text-5xl" />,
+  },
+  {
+    name: "CSS",
+    route: "css",
+    level: 90,
+    color: "bg-blue-500",
+    icon: <FaCss3Alt className="text-white text-5xl" />,
+  },
+  {
+    name: "JavaScript",
+    route: "javascript",
+    level: 90,
+    color: "bg-yellow-500",
+    icon: <FaJsSquare className="text-white text-5xl" />,
+  },
+  {
+    name: "React",
+    route: "react",
+    level: 85,
+    color: "bg-blue-400",
+    icon: <FaReact className="text-white text-5xl" />,
+  },
+  {
+    name: "SQL",
+    route: "sql",
+    level: 80,
+    color: "bg-blue-600",
+    icon: <SiMysql className="text-white text-5xl" />,
+  },
+  {
+    name: "Python",
+    route: "python",
+    level: 75,
+    color: "bg-blue-400",
+    icon: <FaPython className="text-white text-5xl" />,
+  },
+  {
+    name: "PHP",
+    route: "php",
+    level: 60,
+    color: "bg-indigo-600",
+    icon: <FaPhp className="text-white text-5xl" />,
+  },
+  {
+    name: "Next.js",
+    route: "next.js",
+    level: 70,
+    color: "bg-gray-800",
+    icon: <SiNextdotjs className="text-white text-5xl" />,
+  },
 ];
 
 export default function Skills() {
@@ -42,6 +97,10 @@ export default function Skills() {
 
   const handleSkillClick = (skill: Skill) => {
     setSelectedSkill(skill);
+    // Scroll to top smoothly when a skill is selected (mobile-friendly)
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const handleBack = () => {
@@ -56,19 +115,23 @@ export default function Skills() {
             {/* Skill Detail Card */}
             <motion.div
               key="skillCard"
+              layout
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className="rounded-lg shadow-lg p-6 flex flex-col items-center bg-white dark:bg-gray-800"
+              className={`${selectedSkill.color} rounded-lg shadow-lg p-6 flex flex-col items-center relative`}
             >
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 pt-4">
                 {selectedSkill.icon}
-                <h1 className="text-3xl font-bold">{selectedSkill.name}</h1>
+                <h1 className="text-3xl font-bold text-white">
+                  {selectedSkill.name}
+                </h1>
               </div>
+              {/* Progress Bar */}
               <div className="w-full bg-gray-300 rounded-lg h-4 mt-6">
                 <motion.div
-                  className={`h-4 rounded-lg ${selectedSkill.color}`}
+                  className="h-4 rounded-lg bg-white"
                   initial={{ width: "0%" }}
                   animate={{ width: `${selectedSkill.level}%` }}
                   transition={{ duration: 1 }}
@@ -90,7 +153,7 @@ export default function Skills() {
               transition={{ duration: 0.5 }}
               className="mt-6"
             >
-              <h2 className="text-2xl font-bold mb-4">
+              <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">
                 Projects using {selectedSkill.name}
               </h2>
               <GitHubProjectsBySkill skillName={selectedSkill.name} />
@@ -112,9 +175,11 @@ export default function Skills() {
               {skillsData.map((skill) => (
                 <motion.div
                   key={skill.name}
+                  layout
                   className="space-y-4 block cursor-pointer"
                   onClick={() => handleSkillClick(skill)}
                   whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.3 }}
                 >
                   <div
@@ -125,10 +190,11 @@ export default function Skills() {
                   <div>
                     <h2 className="text-lg font-medium">{skill.name}</h2>
                     <div className="w-full bg-gray-300 rounded-lg h-4">
-                      <div
-                        className={`h-4 rounded-lg ${skill.color} transition-all duration-700 ease-in-out`}
+                      <motion.div
+                        className={`h-4 rounded-lg ${skill.color}`}
+                        transition={{ duration: 0.7, ease: "easeInOut" }}
                         style={{ width: `${skill.level}%` }}
-                      ></div>
+                      ></motion.div>
                     </div>
                   </div>
                 </motion.div>
@@ -207,26 +273,36 @@ function GitHubProjectsBySkill({ skillName }: GitHubProjectsBySkillProps) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {filteredRepos.length > 0 ? (
         filteredRepos.map((repo) => (
-          <div
+          <motion.div
             key={repo.id}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow p-4"
+            whileHover={{ scale: 1.03 }}
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-transparent hover:border-blue-500 transition-all duration-300 flex flex-col justify-between"
           >
-            <h3 className="text-xl font-bold mb-2">{repo.name}</h3>
-            <p className="text-gray-600 mb-2">
-              {repo.description || "No description available."}
-            </p>
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <FaGithub size={32} className="text-gray-800 dark:text-gray-200" />
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+                  {repo.name}
+                </h3>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                {repo.description || "No description available."}
+              </p>
+            </div>
             <a
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
+              className="mt-4 inline-block text-white bg-blue-500 px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition"
             >
               View Repository
             </a>
-          </div>
+          </motion.div>
         ))
       ) : (
-        <p>No projects found for {skillName}.</p>
+        <p className="col-span-full text-center text-gray-600 dark:text-gray-400">
+          No projects found for {skillName}.
+        </p>
       )}
     </div>
   );

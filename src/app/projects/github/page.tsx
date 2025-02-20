@@ -1,8 +1,9 @@
-/* eslint react/no-unescaped-entities: "off" */
 "use client";
 
 import { useEffect, useState } from "react";
 import Loading from "../../Loading";
+import { motion } from "framer-motion";
+import { FaGithub } from "react-icons/fa";
 
 interface Repo {
   id: number;
@@ -31,10 +32,9 @@ export default function GitHubProjects() {
       }
     };
 
-    // Simulate loading delay
+    // Simulate a brief loading delay
     const timer = setTimeout(() => fetchRepos(), 100);
-
-    return () => clearTimeout(timer); // Cleanup timer on unmount
+    return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
@@ -43,28 +43,45 @@ export default function GitHubProjects() {
 
   return (
     <div className="p-6">
-      <h1 className="text-4xl font-bold text-center mb-8">All GitHub Repositories</h1>
+      <motion.h1 
+        className="text-4xl font-bold text-center mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        All GitHub Repositories
+      </motion.h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {repos.map((repo) => (
-          <div
+          <motion.div 
             key={repo.id}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow p-6"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col justify-between"
+            whileHover={{ scale: 1.03 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
           >
-            <h3 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-200">
-              {repo.name}
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
-              {repo.description || "No description available."}
-            </p>
-            <a
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <FaGithub size={32} className="text-gray-800 dark:text-gray-200" />
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
+                  {repo.name}
+                </h3>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                {repo.description || "No description available."}
+              </p>
+            </div>
+            <motion.a 
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 dark:text-blue-400 font-medium hover:underline"
+              className="mt-auto inline-block text-white bg-blue-500 px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition"
+              whileHover={{ scale: 1.05 }}
             >
               View Repository
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         ))}
       </div>
     </div>
