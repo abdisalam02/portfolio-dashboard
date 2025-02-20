@@ -23,7 +23,7 @@ const selectedProjects = [
     title: "Portfolio Website",
     description: "A modern portfolio built with Next.js and Tailwind CSS.",
     url: "/projects/1",
-    image: "/img/portfolio.png", // Path to image in public/img/
+    image: "/images/portfolio.png", // Path to image in public/img/
     tech: ["Next.js", "Tailwind", "Framer Motion"],
   },
   {
@@ -31,7 +31,7 @@ const selectedProjects = [
     title: "Recipes App",
     description: "A recipe app with nutritional info and user submissions.",
     url: "/projects/2",
-    image: "/img/Recipe.png",
+    image: "/images/Recipe.png",
     tech: ["React", "Firebase", "Spoonacular API"],
   },
   {
@@ -39,7 +39,7 @@ const selectedProjects = [
     title: "Task App",
     description: "Task management with points system and authentication.",
     url: "/projects/3",
-    image: "/img/Taks.png",
+    image: "/images/Taks.png",
     tech: ["Next.js", "MongoDB", "NextAuth"],
   },
   {
@@ -48,7 +48,7 @@ const selectedProjects = [
     description:
       "A dynamic music app that leverages Spotify and Deezer APIs.",
     url: "/projects/4",
-    image: "/img/Music.png",
+    image: "/images/Music.png",
     tech: ["React", "Spotify API", "Deezer API", "Supabase",],
   },
 ];
