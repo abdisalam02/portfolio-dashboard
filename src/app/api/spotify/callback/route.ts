@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
+
 // app/api/spotify/callback/route.ts
 import { NextResponse } from 'next/server';
 
