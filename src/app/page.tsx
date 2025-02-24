@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -7,6 +5,7 @@ import Link from "next/link";
 import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Loading from "./Loading";
+import SpotifyNowPlaying from "../app/components/SpotifyNowPlaying"; // Import the Spotify component
 
 // Profile section animation
 const profileVariant = {
@@ -68,7 +67,8 @@ export default function Overview() {
   if (loading) return <Loading />;
 
   return (
-    <div className="p-6 space-y-8">
+    // Added pb-24 to avoid content being hidden behind the fixed nav
+    <div className="p-6 pb-24 space-y-8">
       <motion.div
         className="flex flex-col items-center text-center space-y-4"
         initial="hidden"
@@ -98,7 +98,7 @@ export default function Overview() {
         {[
           {
             icon: <FaLinkedin className="text-blue-600 text-3xl" />,
-            href: "https://www.linkedin.com/in/abdisalam-adan-416766183/"
+            href: "https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/"
           },
           {
             icon: <FaGithub className="text-gray-800 text-3xl" />,
@@ -147,6 +147,11 @@ export default function Overview() {
           </div>
         </Link>
       </motion.div>
+
+      {/* Spotify Now Playing Card */}
+      <div className="mt-8">
+        <SpotifyNowPlaying />
+      </div>
     </div>
   );
 }

@@ -58,7 +58,7 @@ export default function Contact() {
         transition={{ duration: 0.5, delay: 0.2 }}
       >
         <motion.a
-          href="https://linkedin.com/in/yourprofile"
+          href="https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/"
           target="_blank"
           rel="noopener noreferrer"
           className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-transform transform hover:scale-110"
@@ -66,7 +66,7 @@ export default function Contact() {
           <FaLinkedin className="text-blue-600 text-3xl" />
         </motion.a>
         <motion.a
-          href="https://github.com/yourprofile"
+          href="https://github.com/abdisalam0"
           target="_blank"
           rel="noopener noreferrer"
           className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-transform transform hover:scale-110"
@@ -74,7 +74,7 @@ export default function Contact() {
           <FaGithub className="text-gray-800 text-3xl" />
         </motion.a>
         <motion.a
-          href="https://twitter.com/yourprofile"
+          href="https://x.com/aqaghsww"
           target="_blank"
           rel="noopener noreferrer"
           className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-transform transform hover:scale-110"

@@ -90,52 +90,53 @@ export default function Projects() {
         </motion.h1>
         
         <div className="overflow-x-auto py-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-          <div className="flex space-x-8 px-4">
-            {selectedProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, type: "spring", stiffness: 50 }}
-                className="min-w-[300px] relative group flex-shrink-0"
-              >
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
-                <div className="relative bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-                  <Link href={project.url}>
-                    <motion.div whileHover={{ scale: 1.05 }}>
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        width={600}
-                        height={400}
-                        className="w-full h-48 object-cover"
-                      />
-                      <div className="p-6">
-                        <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-200">
-                          {project.title}
-                        </h2>
-                        <p className="text-gray-600 dark:text-gray-400 mb-4">
-                          {project.description}
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          {project.tech.map((tech) => (
-                            <span
-                              key={tech}
-                              className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  </Link>
+  <div className="flex space-x-8 px-4">
+    {selectedProjects.map((project, index) => (
+      <motion.div
+        key={project.id}
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.1, type: "spring", stiffness: 50 }}
+        className="min-w-[250px] sm:min-w-[300px] relative group flex-shrink-0"
+      >
+        <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
+        <div className="relative bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
+          <Link href={project.url}>
+            <motion.div whileHover={{ scale: 1.05 }}>
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={600}
+                height={400}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-6">
+                <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-200">
+                  {project.title}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full"
+                    >
+                      {tech}
+                    </span>
+                  ))}
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.div>
+          </Link>
         </div>
+      </motion.div>
+    ))}
+  </div>
+</div>
+
       </section>
 
       {/* GitHub Repositories Section */}
