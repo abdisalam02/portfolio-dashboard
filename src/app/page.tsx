@@ -77,15 +77,23 @@ export default function Overview() {
         animate="visible"
         variants={profileVariant}
       >
-        <Image
-          src="/profile.png"
-          alt="Your Name"
-          width={200}
-          height={200}
-          className="rounded-full border-4 border-gray-300 shadow-lg"
-        />
-        <h1 className="text-4xl font-bold">Abdisalam Gure</h1>
-        <p className="text-gray-600 max-w-xl">
+        {/* Add a decorative background element */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-400/20 to-purple-500/20 rounded-full blur-3xl -z-10 transform translate-x-1/3 -translate-y-1/3"></div>
+        
+        {/* Enhance profile image with gradient border */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-sm"></div>
+          <Image
+            src="/profile.png"
+            alt="Your Name"
+            width={200}
+            height={200}
+            className="rounded-full border-4 border-white dark:border-gray-800 shadow-lg relative z-10"
+          />
+        </div>
+        
+        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">Abdisalam Gure</h1>
+        <p className="text-gray-600 dark:text-gray-300 max-w-xl">
           I am a 22-year-old 3rd-year student pursuing a bachelor's degree in Information Technology.
           Passionate about creating dynamic and interactive web applications using modern technologies.
         </p>
@@ -100,15 +108,18 @@ export default function Overview() {
         {[
           {
             icon: <FaLinkedin className="text-blue-600 text-3xl" />,
-            href: "https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/"
+            href: "https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/",
+            color: "bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/40"
           },
           {
-            icon: <FaGithub className="text-gray-800 text-3xl" />,
-            href: "https://github.com/abdisalam02"
+            icon: <FaGithub className="text-gray-800 dark:text-gray-200 text-3xl" />,
+            href: "https://github.com/abdisalam02",
+            color: "bg-gray-100 dark:bg-gray-800/30 hover:bg-gray-200 dark:hover:bg-gray-700/40"
           },
           {
             icon: <FaTwitter className="text-blue-400 text-3xl" />,
-            href: "https://x.com/aqaghsww"
+            href: "https://x.com/aqaghsww",
+            color: "bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/40"
           }
         ].map((social, index) => (
           <motion.a
@@ -116,9 +127,9 @@ export default function Overview() {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors duration-200"
+            className={`p-4 rounded-full ${social.color} transition-all duration-300 shadow-sm hover:shadow-md`}
             variants={socialIconVariant}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
           >
             {social.icon}
@@ -132,27 +143,42 @@ export default function Overview() {
         animate="visible"
         variants={metricsVariant}
       >
-        <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md text-center hover:shadow-xl transition-shadow">
-          <h2 className="text-3xl font-bold">3rd Year</h2>
-          <p className="text-lg">Bachelors in IT</p>
+        {/* Add glass morphism effect to cards */}
+        <div className="relative group overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl transform transition-transform group-hover:scale-105 duration-300"></div>
+          <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-md text-center border border-white/20 text-white z-10">
+            <h2 className="text-3xl font-bold">3rd Year</h2>
+            <p className="text-lg">Bachelors in IT</p>
+          </div>
         </div>
+        
         <Link href="/projects">
-          <div className="bg-green-500 text-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:bg-green-600 hover:shadow-xl transition">
-            <h2 className="text-3xl font-bold">20+</h2>
-            <p className="text-lg">Projects</p>
+          <div className="relative group overflow-hidden cursor-pointer">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-green-400 rounded-xl transform transition-transform group-hover:scale-105 duration-300"></div>
+            <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-md text-center border border-white/20 text-white z-10">
+              <h2 className="text-3xl font-bold">20+</h2>
+              <p className="text-lg">Projects</p>
+            </div>
           </div>
         </Link>
+        
         <Link href="/skills">
-          <div className="bg-yellow-500 text-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:bg-yellow-600 hover:shadow-xl transition">
-            <h2 className="text-3xl font-bold">8+</h2>
-            <p className="text-lg">Technologies Learnt</p>
+          <div className="relative group overflow-hidden cursor-pointer">
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-600 to-yellow-400 rounded-xl transform transition-transform group-hover:scale-105 duration-300"></div>
+            <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-md text-center border border-white/20 text-white z-10">
+              <h2 className="text-3xl font-bold">8+</h2>
+              <p className="text-lg">Technologies Learnt</p>
+            </div>
           </div>
         </Link>
       </motion.div>
 
-      {/* Spotify Now Playing Card */}
+      {/* Spotify Now Playing Card with enhanced design */}
       <div className="mt-8">
-        <SpotifyNowPlaying />
+        <div className="relative overflow-hidden rounded-xl">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 animate-gradient-x"></div>
+          <SpotifyNowPlaying />
+        </div>
       </div>
     </div>
   );

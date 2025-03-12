@@ -108,20 +108,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         >
           <FiMenu className="text-2xl" />
         </motion.button>
-        <span className="text-2xl font-bold">My Dashboard</span>
+        <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">My Dashboard</span>
         <ThemeToggle />
       </motion.div>
 
-      {/* Desktop Sidebar */}
+      {/* Desktop Sidebar with glass morphism */}
       <motion.aside
         initial="collapsed"
         animate={expanded ? "expanded" : "collapsed"}
         variants={sidebarVariants}
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
-        className="hidden md:flex flex-col bg-gray-800 text-white dark:bg-gray-900 overflow-hidden"
+        className="hidden md:flex flex-col bg-gradient-to-b from-gray-800 to-gray-900 text-white dark:from-gray-900 dark:to-black overflow-hidden backdrop-blur-sm border-r border-white/10"
       >
-        <motion.div className="h-16 border-b border-gray-700 flex items-center justify-center overflow-hidden">
+        <motion.div className="h-16 border-b border-gray-700/50 flex items-center justify-center overflow-hidden">
           <AnimatePresence mode="wait">
             {expanded ? (
               <motion.span
@@ -130,7 +130,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="text-2xl font-bold"
+                className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400"
               >
                 My Dashboard
               </motion.span>
@@ -141,7 +141,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="text-xl font-bold"
+                className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400"
               >
                 MD
               </motion.span>
@@ -153,16 +153,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {navItems.map((item, index) => (
             <Link key={item.href} href={item.href}>
               <motion.div
-                className="flex items-center px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+                className="flex items-center px-4 py-3 rounded-lg hover:bg-white/10 transition-colors relative overflow-hidden group"
                 whileHover={{ x: 5 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <div className="flex items-center justify-center w-8">
+                {/* Add hover effect */}
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all duration-300"
+                  layoutId={`nav-bg-${index}`}
+                ></motion.div>
+                
+                <div className="flex items-center justify-center w-8 relative z-10">
                   <item.icon className="text-lg" />
                 </div>
                 <motion.span
                   variants={navTextVariants}
-                  className="ml-3"
+                  className="ml-3 relative z-10"
                 >
                   {item.text}
                 </motion.span>
@@ -176,7 +182,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </motion.aside>
 
-      {/* Mobile Sidebar */}
+      {/* Mobile Sidebar with glass morphism */}
       <AnimatePresence>
         {sidebarOpen && (
           <>
@@ -185,18 +191,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"
               onClick={() => setSidebarOpen(false)}
             />
             <motion.div
-              className="fixed inset-y-0 left-0 w-64 bg-gray-800 text-white dark:bg-gray-900 z-50"
+              className="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-gray-800 to-gray-900 text-white dark:from-gray-900 dark:to-black z-50 border-r border-white/10"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-              <div className="flex items-center justify-between p-4">
-                <span className="text-2xl font-bold">My Dashboard</span>
+              <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
+                <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">My Dashboard</span>
                 <motion.button
                   onClick={() => setSidebarOpen(false)}
                   whileHover={{ scale: 1.1 }}
@@ -207,15 +213,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </div>
               
               <nav className="flex-1 mt-4 space-y-4 p-4">
-                {navItems.map((item) => (
+                {navItems.map((item, index) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setSidebarOpen(false)}
-                    className="flex items-center space-x-3 px-4 py-2 rounded hover:bg-gray-700 transition-colors"
                   >
-                    <item.icon className="text-lg" />
-                    <span>{item.text}</span>
+                    <motion.div 
+                      className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors relative overflow-hidden group"
+                      whileHover={{ x: 5 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {/* Add hover effect */}
+                      <motion.div 
+                        className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all duration-300"
+                      ></motion.div>
+                      
+                      <item.icon className="text-lg relative z-10" />
+                      <span className="relative z-10">{item.text}</span>
+                    </motion.div>
                   </Link>
                 ))}
               </nav>
