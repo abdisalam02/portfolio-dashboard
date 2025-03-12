@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
-
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -7,9 +5,9 @@ import Link from "next/link";
 import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Loading from "./Loading";
-import SpotifyNowPlaying from "../app/components/SpotifyNowPlaying"; // Import the Spotify component
+import SpotifyNowPlaying from "../app/components/SpotifyNowPlaying";
 
-// Profile section animation
+// Animation Variants
 const profileVariant = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
@@ -19,7 +17,6 @@ const profileVariant = {
   }
 };
 
-// Container variant for social icons with stagger effect
 const containerVariant = {
   hidden: { opacity: 0 },
   visible: { 
@@ -31,7 +28,6 @@ const containerVariant = {
   }
 };
 
-// Individual social icon animation
 const socialIconVariant = {
   hidden: { opacity: 0, x: -20 },
   visible: { 
@@ -45,7 +41,6 @@ const socialIconVariant = {
   }
 };
 
-// Metrics section animation
 const metricsVariant = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
@@ -69,55 +64,60 @@ export default function Overview() {
   if (loading) return <Loading />;
 
   return (
-    // Added pb-24 to avoid content being hidden behind the fixed nav
-    <div className="p-6 pb-24 space-y-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-24 max-w-6xl">
+      {/* Background Gradient */}
+      <div className="fixed top-0 left-0 right-0 h-64 bg-gradient-to-br from-blue-100/20 to-purple-100/20 dark:from-blue-900/20 dark:to-purple-900/20 -z-10"></div>
+
+      {/* Profile Section */}
       <motion.div
-        className="flex flex-col items-center text-center space-y-4"
+        className="flex flex-col items-center text-center space-y-6 pt-12"
         initial="hidden"
         animate="visible"
         variants={profileVariant}
       >
-        {/* Add a decorative background element */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-400/20 to-purple-500/20 rounded-full blur-3xl -z-10 transform translate-x-1/3 -translate-y-1/3"></div>
-        
-        {/* Enhance profile image with gradient border */}
+        {/* Profile Image */}
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-sm"></div>
           <Image
             src="/profile.png"
-            alt="Your Name"
+            alt="Abdisalam Gure"
             width={200}
             height={200}
-            className="rounded-full border-4 border-white dark:border-gray-800 shadow-lg relative z-10"
+            className="relative z-10 rounded-full border-4 border-white dark:border-gray-800 shadow-xl w-40 h-40 sm:w-56 sm:h-56 object-cover"
           />
         </div>
-        
-        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">Abdisalam Gure</h1>
-        <p className="text-gray-600 dark:text-gray-300 max-w-xl">
-          I am a 22-year-old 3rd-year student pursuing a bachelor's degree in Information Technology.
-          Passionate about creating dynamic and interactive web applications using modern technologies.
-        </p>
+
+        {/* Name and Description */}
+        <div className="space-y-3">
+          <h1 className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+            Abdisalam Gure
+          </h1>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-xl mx-auto px-4">
+            22-year-old 3rd-year Information Technology student passionate about creating dynamic web applications using modern technologies.
+          </p>
+        </div>
       </motion.div>
 
+      {/* Social Icons */}
       <motion.div 
-        className="flex justify-center space-x-6"
+        className="flex flex-wrap justify-center gap-4 mt-8"
         initial="hidden"
         animate="visible"
         variants={containerVariant}
       >
         {[
           {
-            icon: <FaLinkedin className="text-blue-600 text-3xl" />,
+            icon: <FaLinkedin className="text-blue-600 text-2xl sm:text-3xl" />,
             href: "https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/",
             color: "bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/40"
           },
           {
-            icon: <FaGithub className="text-gray-800 dark:text-gray-200 text-3xl" />,
+            icon: <FaGithub className="text-gray-800 dark:text-gray-200 text-2xl sm:text-3xl" />,
             href: "https://github.com/abdisalam02",
             color: "bg-gray-100 dark:bg-gray-800/30 hover:bg-gray-200 dark:hover:bg-gray-700/40"
           },
           {
-            icon: <FaTwitter className="text-blue-400 text-3xl" />,
+            icon: <FaTwitter className="text-blue-400 text-2xl sm:text-3xl" />,
             href: "https://x.com/aqaghsww",
             color: "bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/40"
           }
@@ -127,7 +127,7 @@ export default function Overview() {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`p-4 rounded-full ${social.color} transition-all duration-300 shadow-sm hover:shadow-md`}
+            className={`p-3 sm:p-4 rounded-full ${social.color} transition-all duration-300 shadow-sm hover:shadow-md`}
             variants={socialIconVariant}
             whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
@@ -137,44 +137,59 @@ export default function Overview() {
         ))}
       </motion.div>
 
+      {/* Metrics Section */}
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-10"
         initial="hidden"
         animate="visible"
         variants={metricsVariant}
       >
-        {/* Add glass morphism effect to cards */}
-        <div className="relative group overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl transform transition-transform group-hover:scale-105 duration-300"></div>
-          <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-md text-center border border-white/20 text-white z-10">
-            <h2 className="text-3xl font-bold">3rd Year</h2>
-            <p className="text-lg">Bachelors in IT</p>
-          </div>
-        </div>
-        
-        <Link href="/projects">
-          <div className="relative group overflow-hidden cursor-pointer">
-            <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-green-400 rounded-xl transform transition-transform group-hover:scale-105 duration-300"></div>
-            <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-md text-center border border-white/20 text-white z-10">
-              <h2 className="text-3xl font-bold">20+</h2>
-              <p className="text-lg">Projects</p>
+        {/* Metrics Cards with Glassmorphism */}
+        {[
+          {
+            title: "3rd Year",
+            subtitle: "Bachelors in IT",
+            gradient: "from-blue-600 to-blue-400"
+          },
+          {
+            title: "20+",
+            subtitle: "Projects",
+            gradient: "from-green-600 to-green-400",
+            link: "/projects"
+          },
+          {
+            title: "8+",
+            subtitle: "Technologies",
+            gradient: "from-yellow-600 to-yellow-400",
+            link: "/skills"
+          }
+        ].map((metric, index) => {
+          const CardContent = () => (
+            <div className="relative group overflow-hidden">
+              <div className={`absolute inset-0 bg-gradient-to-br ${metric.gradient} rounded-xl transform transition-transform group-hover:scale-105 duration-300`}></div>
+              <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-md text-center border border-white/20 text-white z-10">
+                <h2 className="text-3xl font-bold">{metric.title}</h2>
+                <p className="text-lg">{metric.subtitle}</p>
+              </div>
             </div>
-          </div>
-        </Link>
-        
-        <Link href="/skills">
-          <div className="relative group overflow-hidden cursor-pointer">
-            <div className="absolute inset-0 bg-gradient-to-br from-yellow-600 to-yellow-400 rounded-xl transform transition-transform group-hover:scale-105 duration-300"></div>
-            <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-md text-center border border-white/20 text-white z-10">
-              <h2 className="text-3xl font-bold">8+</h2>
-              <p className="text-lg">Technologies Learnt</p>
+          );
+
+          return metric.link ? (
+            <Link key={index} href={metric.link}>
+              <div className="cursor-pointer">
+                <CardContent />
+              </div>
+            </Link>
+          ) : (
+            <div key={index}>
+              <CardContent />
             </div>
-          </div>
-        </Link>
+          );
+        })}
       </motion.div>
 
-      {/* Spotify Now Playing Card with enhanced design */}
-      <div className="mt-8">
+      {/* Spotify Now Playing */}
+      <div className="mt-10">
         <div className="relative overflow-hidden rounded-xl">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 animate-gradient-x"></div>
           <SpotifyNowPlaying />
