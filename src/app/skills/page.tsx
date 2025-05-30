@@ -15,6 +15,9 @@ import {
 } from "react-icons/fa";
 import { SiNextdotjs, SiMysql, SiTypescript } from "react-icons/si";
 import Loading from "../Loading";
+import Skill3D from "../components/Skill3D";
+import TextReveal from "../components/TextReveal";
+import MagneticButton from "../components/MagneticButton";
 
 interface Skill {
   name: string;
@@ -183,6 +186,20 @@ const itemVariants = {
   }
 };
 
+// Helper function to convert Tailwind color classes to hex
+function getSkillColor(colorClass: string): string {
+  const colorMap: Record<string, string> = {
+    'bg-orange-500': '#f97316',
+    'bg-blue-500': '#3b82f6',
+    'bg-yellow-500': '#eab308',
+    'bg-blue-600': '#2563eb',
+    'bg-blue-400': '#60a5fa',
+    'bg-indigo-600': '#4f46e5',
+    'bg-gray-800': '#1f2937'
+  };
+  return colorMap[colorClass] || '#3b82f6';
+}
+
 export default function Skills() {
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const [loading, setLoading] = useState(true);
@@ -225,14 +242,16 @@ export default function Skills() {
             className="space-y-8"
           >
             {/* Back button */}
-            <motion.button
-              onClick={handleBack}
-              className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              variants={itemVariants}
-            >
-              <FaArrowLeft />
-              <span>Back to all skills</span>
-            </motion.button>
+            <motion.div variants={itemVariants}>
+              <MagneticButton
+                onClick={handleBack}
+                className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-4 py-2 rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
+                magneticStrength={0.2}
+              >
+                <FaArrowLeft />
+                <span>Back to all skills</span>
+              </MagneticButton>
+            </motion.div>
             
             {/* Skill Detail Card */}
             <motion.div
@@ -317,57 +336,28 @@ export default function Skills() {
             exit="exit"
             className="space-y-8"
           >
-            <motion.h1
-              variants={skillCardVariants}
-              className="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
-            >
-              My Skills & Expertise
-            </motion.h1>
+            <motion.div variants={skillCardVariants}>
+              <TextReveal
+                text="My Skills & Expertise"
+                type="fadeUp"
+                className="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
+              />
+            </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {skillsData.map((skill, index) => (
                 <motion.div
                   key={skill.name}
                   variants={skillCardVariants}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 group cursor-pointer"
-                  onClick={() => handleSkillClick(skill)}
+                  className="group"
                 >
-                  <div className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className={`mr-4 p-3 rounded-lg bg-gradient-to-r ${skill.gradient} group-hover:scale-110 transition-transform duration-300`}>
-                        {skill.icon}
-                      </div>
-                      <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {skill.name}
-                      </h2>
-                    </div>
-                    
-                    <div className="mt-6">
-                      <div className="flex justify-between mb-2">
-                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Proficiency</span>
-                        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">{skill.level}%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${skill.level}%` }}
-                          transition={{ duration: 1, delay: index * 0.1 }}
-                          className={`h-2.5 rounded-full bg-gradient-to-r ${skill.gradient}`}
-                        ></motion.div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700/30 flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">View details</span>
-                    <motion.div
-                      whileHover={{ x: 5 }}
-                      className="text-blue-600 dark:text-blue-400"
-                    >
-                      →
-                    </motion.div>
-                  </div>
+                  <Skill3D
+                    skillName={skill.name}
+                    color={getSkillColor(skill.color)}
+                    level={skill.level}
+                    onClick={() => handleSkillClick(skill)}
+                    className="p-4"
+                  />
                 </motion.div>
               ))}
             </div>

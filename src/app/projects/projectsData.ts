@@ -25,7 +25,7 @@ export const selectedProjects = [
       title: "Recipes App",
       description:
         "An innovative recipe platform that allows users to add recipes via an input form or JSON upload, view and favourite recipes, fetch nutritional information via NutriAPI, store data using Supabase, and even integrate AI prompts for creative recipe suggestions.",
-      url: "https://recipes-app-qnwl-git-databseforbuild-abdisalam02s-projects.vercel.app/",
+      url: "https://recipes-app-git-databseforbuild-abdisalam02s-projects.vercel.app/",
       image: "/images/Recipe.png", // Updated path
       tech: ["React", "NutriAPI", "Supabase", "AI Integration"],
       features: [

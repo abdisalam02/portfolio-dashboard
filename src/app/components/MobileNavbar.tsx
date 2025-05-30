@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import LoadingLink from "./LoadingLink";
 import { FaHome, FaProjectDiagram, FaTools, FaEnvelope } from "react-icons/fa";
 import ThemeToggle from "./ThemeToggle";
 import { motion } from "framer-motion";
@@ -21,7 +21,7 @@ export default function MobileBottomNav() {
         const isActive = pathname === item.href;
         
         return (
-          <Link href={item.href} key={item.href} className="flex flex-col items-center relative">
+          <LoadingLink href={item.href} key={item.href} className="flex flex-col items-center relative">
             <motion.div 
               whileTap={{ scale: 0.9 }}
               className="flex flex-col items-center"
@@ -39,8 +39,8 @@ export default function MobileBottomNav() {
               <span className={`text-xs mt-1 ${isActive ? 'font-medium text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'}`}>
                 {item.label}
               </span>
-            </motion.div>
-          </Link>
+        </motion.div>
+      </LoadingLink>
         );
       })}
       

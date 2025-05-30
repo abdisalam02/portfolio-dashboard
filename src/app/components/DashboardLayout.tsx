@@ -2,13 +2,15 @@
 
 "use client";
 import { useState, Suspense } from "react";
-import Link from "next/link";
+import LoadingLink from "./LoadingLink";
+import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 import PageTransition from "./PageTransition";
 import Loading from "../Loading";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaHome, FaProjectDiagram, FaTools, FaEnvelope } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import MagneticButton from "./MagneticButton";
 
 // Sidebar animation variants
 const sidebarVariants = {
@@ -62,27 +64,33 @@ const navTextVariants = {
 
 function HoverThemeToggle() {
   return (
-    <motion.div 
-      className="relative group p-2 inline-block" 
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+    <MagneticButton
+      className="relative group p-2 inline-block"
+      magneticStrength={0.3}
     >
-      <ThemeToggle />
-      <motion.div
-        initial={{ opacity: 0, x: -10 }}
-        whileHover={{ opacity: 1, x: 0 }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-3 py-1 bg-gray-200 text-gray-800 rounded shadow text-xs pointer-events-none"
+      <motion.div 
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="relative"
       >
-        Theme
+        <ThemeToggle />
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          whileHover={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded shadow text-xs pointer-events-none whitespace-nowrap"
+        >
+          Toggle Theme
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </MagneticButton>
   );
 }
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const pathname = usePathname();
 
   const navItems = [
     { href: "/", icon: FaHome, text: "Overview" },
@@ -149,32 +157,77 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </AnimatePresence>
         </motion.div>
 
-        <nav className="flex-1 p-2 space-y-2">
-          {navItems.map((item, index) => (
-            <Link key={item.href} href={item.href}>
-              <motion.div
-                className="flex items-center px-4 py-3 rounded-lg hover:bg-white/10 transition-colors relative overflow-hidden group"
-                whileHover={{ x: 5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {/* Add hover effect */}
-                <motion.div 
-                  className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all duration-300"
-                  layoutId={`nav-bg-${index}`}
-                ></motion.div>
-                
-                <div className="flex items-center justify-center w-8 relative z-10">
-                  <item.icon className="text-lg" />
-                </div>
-                <motion.span
-                  variants={navTextVariants}
-                  className="ml-3 relative z-10"
+        <nav className="flex-1 p-2 space-y-2 relative">
+          {/* Liquid background indicator */}
+          <motion.div
+            className="absolute inset-x-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl h-12"
+            initial={false}
+            animate={{
+              y: navItems.findIndex(item => item.href === pathname) * 52,
+              opacity: navItems.findIndex(item => item.href === pathname) >= 0 ? 1 : 0
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 30
+            }}
+          />
+          
+          {navItems.map((item, index) => {
+            const isActive = pathname === item.href;
+            return (
+              <LoadingLink key={item.href} href={item.href}>
+                <motion.div
+                  className={`flex items-center px-4 py-3 rounded-lg transition-colors relative overflow-hidden group ${
+                    isActive ? 'text-blue-400' : 'hover:text-blue-300'
+                  }`}
+                  whileHover={{ x: 5, scale: 1.02 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  {item.text}
-                </motion.span>
-              </motion.div>
-            </Link>
-          ))}
+                  {/* Enhanced hover effect */}
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-300 rounded-lg"
+                    whileHover={{ scale: 1.05 }}
+                  ></motion.div>
+                  
+                  {/* Active indicator line */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNavIndicator"
+                      className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full"
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30
+                      }}
+                    />
+                  )}
+                  
+                  <motion.div 
+                    className="flex items-center justify-center w-8 relative z-10"
+                    animate={{
+                      scale: isActive ? 1.2 : 1,
+                      rotate: 0
+                    }}
+                    whileHover={{ rotate: 5 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 25
+                    }}
+                  >
+                    <item.icon className="text-lg" />
+                  </motion.div>
+                  <motion.span
+                    variants={navTextVariants}
+                    className="ml-3 relative z-10"
+                  >
+                    {item.text}
+                  </motion.span>
+                </motion.div>
+              </LoadingLink>
+            );
+          })}
         </nav>
         
         <div className="p-4 flex justify-center">
@@ -214,7 +267,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               
               <nav className="flex-1 mt-4 space-y-4 p-4">
                 {navItems.map((item, index) => (
-                  <Link
+                  <LoadingLink
                     key={item.href}
                     href={item.href}
                     onClick={() => setSidebarOpen(false)}
@@ -232,7 +285,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       <item.icon className="text-lg relative z-10" />
                       <span className="relative z-10">{item.text}</span>
                     </motion.div>
-                  </Link>
+                  </LoadingLink>
                 ))}
               </nav>
               

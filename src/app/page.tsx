@@ -6,6 +6,8 @@ import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Loading from "./Loading";
 import SpotifyNowPlaying from "../app/components/SpotifyNowPlaying";
+import MagneticButton from "./components/MagneticButton";
+import TextReveal from "./components/TextReveal";
 
 // Animation Variants
 const profileVariant = {
@@ -89,12 +91,17 @@ export default function Overview() {
 
         {/* Name and Description */}
         <div className="space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-            Abdisalam Gure
-          </h1>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-xl mx-auto px-4">
-            22-year-old 3rd-year Information Technology student passionate about creating dynamic web applications using modern technologies.
-          </p>
+          <TextReveal
+            text="Abdisalam Gure"
+            type="scramble"
+            className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
+          />
+          <TextReveal
+            text="22-year-old 3rd-year Information Technology student passionate about creating dynamic web applications using modern technologies."
+            type="fadeUp"
+            delay={1}
+            className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-xl mx-auto px-4"
+          />
         </div>
       </motion.div>
 
@@ -122,18 +129,20 @@ export default function Overview() {
             color: "bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/40"
           }
         ].map((social, index) => (
-          <motion.a
+          <motion.div
             key={index}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`p-3 sm:p-4 rounded-full ${social.color} transition-all duration-300 shadow-sm hover:shadow-md`}
             variants={socialIconVariant}
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            whileTap={{ scale: 0.95 }}
           >
-            {social.icon}
-          </motion.a>
+            <MagneticButton
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-3 sm:p-4 rounded-full ${social.color} transition-all duration-300 shadow-sm hover:shadow-md inline-block`}
+              magneticStrength={0.3}
+            >
+              {social.icon}
+            </MagneticButton>
+          </motion.div>
         ))}
       </motion.div>
 
@@ -175,11 +184,14 @@ export default function Overview() {
           );
 
           return metric.link ? (
-            <Link key={index} href={metric.link}>
-              <div className="cursor-pointer">
-                <CardContent />
-              </div>
-            </Link>
+            <MagneticButton
+              key={index}
+              href={metric.link}
+              magneticStrength={0.2}
+              className="block"
+            >
+              <CardContent />
+            </MagneticButton>
           ) : (
             <div key={index}>
               <CardContent />

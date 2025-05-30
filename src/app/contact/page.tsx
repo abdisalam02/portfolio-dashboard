@@ -72,11 +72,11 @@ export default function Contact() {
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         {/* Contact Info Section */}
-        <motion.div
+      <motion.div
           className="lg:col-span-2 space-y-8"
           variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+        initial="hidden"
+        animate="visible"
         >
           {/* Contact Card */}
           <motion.div 
@@ -121,27 +121,27 @@ export default function Contact() {
             
             <div className="grid grid-cols-3 gap-4">
               <a
-                href="https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/"
-                target="_blank"
-                rel="noopener noreferrer"
+          href="https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/"
+          target="_blank"
+          rel="noopener noreferrer"
                 className="flex flex-col items-center p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
-              >
+        >
                 <FaLinkedin className="text-blue-600 text-3xl mb-2" />
                 <span className="text-sm text-gray-600 dark:text-gray-300">LinkedIn</span>
               </a>
               <a
                 href="https://github.com/abdisalam02"
-                target="_blank"
-                rel="noopener noreferrer"
+          target="_blank"
+          rel="noopener noreferrer"
                 className="flex flex-col items-center p-4 rounded-lg bg-gray-50 dark:bg-gray-700/20 hover:bg-gray-100 dark:hover:bg-gray-700/30 transition-colors"
-              >
+        >
                 <FaGithub className="text-gray-800 dark:text-gray-200 text-3xl mb-2" />
                 <span className="text-sm text-gray-600 dark:text-gray-300">GitHub</span>
               </a>
               <a
-                href="https://x.com/aqaghsww"
-                target="_blank"
-                rel="noopener noreferrer"
+          href="https://x.com/aqaghsww"
+          target="_blank"
+          rel="noopener noreferrer"
                 className="flex flex-col items-center p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
               >
                 <FaTwitter className="text-blue-400 text-3xl mb-2" />
@@ -163,9 +163,9 @@ export default function Contact() {
               Open to work
             </div>
           </motion.div>
-        </motion.div>
+      </motion.div>
 
-        {/* Contact Form */}
+      {/* Contact Form */}
         <motion.div 
           className="lg:col-span-3"
           initial={{ opacity: 0, x: 20 }}
@@ -174,7 +174,7 @@ export default function Contact() {
         >
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Send Me a Message</h2>
-            <ContactForm />
+      <ContactForm />
           </div>
         </motion.div>
       </div>
@@ -225,24 +225,24 @@ function ContactForm() {
       className="space-y-6"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <motion.div variants={dropIn(0)}>
-          <label
-            htmlFor="name"
+      <motion.div variants={dropIn(0)}>
+        <label
+          htmlFor="name"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-            Name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
+        >
+          Name
+        </label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          required
             className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all"
             placeholder="Your name"
-          />
-        </motion.div>
+        />
+      </motion.div>
 
-        <motion.div variants={dropIn(1)}>
+      <motion.div variants={dropIn(1)}>
           <label
             htmlFor="email"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
