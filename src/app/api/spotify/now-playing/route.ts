@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
-
 import { NextResponse } from 'next/server';
 
 // Disable all API route caching

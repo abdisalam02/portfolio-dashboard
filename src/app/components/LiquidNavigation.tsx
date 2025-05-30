@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { IconType } from "react-icons";
 
 interface LiquidNavProps {
   items: Array<{
     href: string;
-    icon: React.ComponentType<any>;
+    icon: IconType;
     text: string;
   }>;
   activeIndex: number;

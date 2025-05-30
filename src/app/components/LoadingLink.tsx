@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { useLoading } from "./LoadingProvider";
-import { ReactNode, MouseEvent } from "react";
+import { ReactNode, MouseEvent, ComponentProps } from "react";
 
-interface LoadingLinkProps {
+interface LoadingLinkProps extends Omit<ComponentProps<typeof Link>, 'href' | 'children' | 'onClick'> {
   href: string;
   children: ReactNode;
   className?: string;
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
-  [key: string]: any; // Allow other props to be passed through
 }
 
 export default function LoadingLink({ 
