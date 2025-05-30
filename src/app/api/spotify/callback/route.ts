@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const state = searchParams.get('state');
 
   // Validate 'state' if needed
