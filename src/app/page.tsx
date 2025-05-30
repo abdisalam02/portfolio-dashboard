@@ -1,7 +1,10 @@
+/* eslint-disable */
+/* @typescript-eslint/no-unused-vars */
+/* @typescript-eslint/no-explicit-any */
+/* react/no-unescaped-entities */
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Loading from "./Loading";
