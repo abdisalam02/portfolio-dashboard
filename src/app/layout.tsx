@@ -8,9 +8,13 @@ import { Suspense } from "react";
 import Loading from "./Loading";
 import { useIsMobile } from "./hooks/useIsMobile";
 import LoadingProvider from "./components/LoadingProvider";
+import useOverlayCleanup from "./hooks/useOverlayCleanup";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile(); // returns true when window.innerWidth < 768 (for example)
+  
+  // Ensure overlays are properly cleaned up
+  useOverlayCleanup();
 
   return (
     <html lang="en">

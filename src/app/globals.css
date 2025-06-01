@@ -18,6 +18,8 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+  position: relative;
+  overflow-x: hidden;
 }
 
 .loading-overlay {
@@ -104,6 +106,54 @@ html {
 /* Prevent content shift when scrollbar appears */
 html {
   scrollbar-gutter: stable;
+}
+
+/* Prevent loading overlay from interfering with responsiveness */
+[data-loading-overlay] {
+  transition: pointer-events 0.1s ease;
+}
+
+/* Ensure overlays don't interfere when hidden */
+[data-loading-overlay][style*="opacity: 0"] {
+  pointer-events: none !important;
+}
+
+/* Additional safety for any stuck overlays */
+.loading-overlay-exit {
+  pointer-events: none !important;
+}
+
+/* Ensure body remains responsive */
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Prevent viewport issues on mobile */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Ensure loading overlays are properly sized on mobile */
+  [data-loading-overlay] {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh; /* Use dynamic viewport height for better mobile support */
+  }
+}
+
+/* Animation performance optimizations */
+@media (prefers-reduced-motion: no-preference) {
+  .loading-animation {
+    will-change: transform, opacity;
+  }
+}
+
+/* Ensure z-index stacking doesn't interfere */
+.main-content {
+  position: relative;
+  z-index: 1;
 }
 
 

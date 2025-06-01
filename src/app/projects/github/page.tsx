@@ -5,6 +5,7 @@ import Loading from "../../Loading";
 import { motion } from "framer-motion";
 import { FaGithub, FaCode, FaStar, FaCodeBranch, FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
+import LoadingLink from "../../components/LoadingLink";
 
 interface Repo {
   id: number;
@@ -119,14 +120,14 @@ export default function GitHubProjects() {
       
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <Link href="/projects">
+          <LoadingLink href="/projects">
             <motion.div 
               className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 mb-4"
               whileHover={{ x: -5 }}
             >
               <FaArrowLeft className="mr-2" /> Back to Projects
             </motion.div>
-          </Link>
+          </LoadingLink>
           <motion.h1 
             className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
             initial={{ opacity: 0, y: -20 }}

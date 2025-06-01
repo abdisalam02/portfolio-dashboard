@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 "use client";
-import { useState, Suspense } from "react";
-import LoadingLink from "./LoadingLink";
+import React, { useState, useEffect, Suspense } from "react";
 import { usePathname } from "next/navigation";
+import LoadingLink from "./LoadingLink";
 import ThemeToggle from "./ThemeToggle";
 import PageTransition from "./PageTransition";
 import Loading from "../Loading";

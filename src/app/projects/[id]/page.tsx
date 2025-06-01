@@ -17,6 +17,7 @@ import {
 } from "react-icons/si";
 import { GiFruitBowl } from "react-icons/gi";
 import { FaArrowLeft, FaTimes, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import LoadingLink from "../../components/LoadingLink";
 
 // Updated mapping of technology names to icons
 const techIcons: Record<string, JSX.Element> = {
@@ -283,30 +284,30 @@ export default function ProjectDetail() {
         {/* Next project navigation */}
         <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <Link href={`/projects/${Math.max(1, Number(id) - 1)}`} className={Number(id) <= 1 ? 'opacity-50 pointer-events-none' : ''}>
+            <LoadingLink href={`/projects/${Math.max(1, Number(id) - 1)}`} className={Number(id) <= 1 ? 'opacity-50 pointer-events-none' : ''}>
               <motion.div 
                 whileHover={{ x: -5 }}
                 className="flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
               >
                 <FaArrowLeft className="mr-2" /> Previous Project
               </motion.div>
-            </Link>
-            <Link href="/projects" className="my-4 sm:my-0">
+            </LoadingLink>
+            <LoadingLink href="/projects" className="my-4 sm:my-0">
               <motion.div 
                 whileHover={{ y: -2 }}
                 className="text-blue-600 dark:text-blue-400 font-medium"
               >
                 All Projects
               </motion.div>
-            </Link>
-            <Link href={`/projects/${Math.min(selectedProjects.length, Number(id) + 1)}`} className={Number(id) >= selectedProjects.length ? 'opacity-50 pointer-events-none' : ''}>
+            </LoadingLink>
+            <LoadingLink href={`/projects/${Math.min(selectedProjects.length, Number(id) + 1)}`} className={Number(id) >= selectedProjects.length ? 'opacity-50 pointer-events-none' : ''}>
               <motion.div 
                 whileHover={{ x: 5 }}
                 className="flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
               >
                 Next Project <FaArrowLeft className="ml-2 transform rotate-180" />
               </motion.div>
-            </Link>
+            </LoadingLink>
           </div>
         </div>
       </motion.div>
