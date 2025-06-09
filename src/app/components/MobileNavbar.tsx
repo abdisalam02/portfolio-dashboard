@@ -1,8 +1,7 @@
 "use client";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 import LoadingLink from "./LoadingLink";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { FaHome, FaProjectDiagram, FaTools, FaEnvelope } from "react-icons/fa";
 import ThemeToggle from "./ThemeToggle";
 

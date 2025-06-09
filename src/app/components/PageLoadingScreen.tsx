@@ -1,7 +1,3 @@
-/* eslint-disable */
-/* @typescript-eslint/no-unused-vars */
-/* @typescript-eslint/no-explicit-any */
-/* react/jsx-no-duplicate-props */
 "use client";
 
 import React from "react";

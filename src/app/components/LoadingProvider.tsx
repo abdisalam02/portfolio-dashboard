@@ -55,7 +55,7 @@ export default function LoadingProvider({ children }: LoadingProviderProps) {
     // Also cleanup on window focus (in case user switches tabs during loading)
     window.addEventListener('focus', cleanup);
     return () => window.removeEventListener('focus', cleanup);
-  }, []);
+  }, [isLoading]);
 
   // Safety cleanup - force stop loading after max time
   useEffect(() => {

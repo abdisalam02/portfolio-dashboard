@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Loading from "../../Loading";
 import { motion } from "framer-motion";
 import { FaGithub, FaCode, FaStar, FaCodeBranch, FaArrowLeft } from "react-icons/fa";
-import Link from "next/link";
 import LoadingLink from "../../components/LoadingLink";
 
 interface Repo {
