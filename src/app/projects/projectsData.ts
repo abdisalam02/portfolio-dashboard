@@ -66,24 +66,28 @@ export const selectedProjects = [
     },
     {
       id: 4,
-      title: "Music App",
+      title: "MusicBoxd",
       description:
-        "A dynamic music app that leverages Spotify and Deezer APIs to fetch playlist data and song previews. The app offers engaging games such as rating playlists, guessing songs and lyrics, and even hosts tournaments featuring your favorite tracks.",
-      url: "https://rate-playlist-git-main-abdisalam02s-projects.vercel.app/",
+        "A modern music discovery and social platform inspired by Letterboxd, but for music enthusiasts. MusicBoxd allows users to discover, rate, review, and share their favorite tracks and albums while building a community around music appreciation. Features Spotify integration for discovery, 5-star rating system, social activity feeds, and 30-second track previews.",
+      url: "https://rate-playlist-3cw5-git-musicboxd-abdisalam02s-projects.vercel.app/",
       image: "/images/Music.png", // Updated path for Music App
-      tech: ["React", "Spotify API", "Deezer API", "Supabase", "AI Integration"],
+      tech: ["Next.js 15", "React 19", "TypeScript", "Spotify API", "Deezer API", "Supabase", "NextAuth.js", "Tailwind CSS", "Framer Motion"],
       features: [
-        "Fetches playlist data and song previews",
-        "Playlist rating game",
-        "Guess the song and lyric games",
-        "Competitive song tournaments",
+        "Spotify & Deezer API integration for music discovery",
+        "5-star rating system with detailed reviews",
+        "Social activity feeds and user profiles",
+        "30-second track previews with mini player",
+        "Community rankings and recommendations",
+        "Spotify OAuth authentication",
+        "Real-time activity subscriptions",
+        "Responsive design with dark theme"
       ],
-      year: 2023,
+      year: 2024,
       gallery: [
-        "/images/Music1.png",
-        "/images/Music2.png",
-        "/images/Music3.png",
-        "/images/Music4.png",
+        "/images/musicboxd1.png",
+        "/images/musicboxd2.png",
+        "/images/musicboxd3.png",
+        "/images/musicboxd4.png",
       ],
     },
   ];

@@ -57,11 +57,11 @@ const selectedProjects = [
   },
   {
     id: 4,
-    title: "Music App",
-    description: "A dynamic music app that leverages Spotify and Deezer APIs.",
+    title: "MusicBoxd ",
+    description: "A modern music discovery and social platform",
     url: "/projects/4",
     image: "/images/Music.png",
-    tech: ["React", "Spotify API", "Deezer API", "Supabase"],
+    tech: ["Next.js 15", "Spotify API", "Deezer API", "Supabase",],
     status: "Live",
     featured: true
   },
