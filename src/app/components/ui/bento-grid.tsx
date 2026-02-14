@@ -50,8 +50,8 @@ export const BentoGridItem = ({
     <motion.div
       className={cn(
         "row-span-1 cursor-pointer group/bento relative overflow-hidden rounded-3xl",
-        "bg-white/5 border border-white/10 backdrop-blur-sm",
-        "flex flex-col justify-between space-y-4 p-6 hover:bg-white/10 transition-colors duration-300",
+        "bg-foreground/[0.03] border border-foreground/[0.06] backdrop-blur-sm",
+        "flex flex-col justify-between space-y-4 p-6 hover:bg-foreground/[0.05] transition-colors duration-300",
         className
       )}
       onMouseMove={handleMouseMove}
@@ -65,7 +65,7 @@ export const BentoGridItem = ({
           background: useMotionTemplate`
             radial-gradient(
               650px circle at ${mouseX}px ${mouseY}px,
-              rgba(255,255,255,0.1),
+              hsla(var(--foreground) / 0.1),
               transparent 80%
             )
           `,
@@ -77,11 +77,11 @@ export const BentoGridItem = ({
       <div className="relative z-10 group-hover/bento:translate-x-2 transition duration-200">
         <div className="flex items-center gap-2 mb-2">
            {icon}
-           <div className="font-sans font-semibold text-white text-lg tracking-tight">
+           <div className="font-sans font-semibold text-foreground text-lg tracking-tight">
              {title}
            </div>
         </div>
-        <div className="font-sans text-white/60 text-sm">
+        <div className="font-sans text-foreground/60 text-sm">
           {description}
         </div>
       </div>

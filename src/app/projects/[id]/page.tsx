@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { selectedProjects } from "../projectsData";
 import {
@@ -23,7 +23,7 @@ import LoadingLink from "../../components/LoadingLink";
 import ScrollReveal from "../../components/ScrollReveal";
 
 // Updated mapping of technology names to icons
-const techIcons: Record<string, JSX.Element> = {
+const techIcons: Record<string, React.ReactNode> = {
   "Next.js": <SiNextdotjs size={20} className="inline-block mr-1" />,
   Tailwind: <SiTailwindcss size={20} className="inline-block mr-1" />,
   "Tailwind CSS": <SiTailwindcss size={20} className="inline-block mr-1" />,
@@ -43,10 +43,6 @@ const techIcons: Record<string, JSX.Element> = {
 export default function ProjectDetail() {
   const { id } = useParams() as { id: string };
   const project = selectedProjects.find((p) => p.id === Number(id));
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
 
   // Modal state for gallery image
   const [modalImage, setModalImage] = useState<string | null>(null);
@@ -146,7 +142,7 @@ export default function ProjectDetail() {
       </section>
 
       {/* Main Content */}
-      <div ref={ref} className="px-4 py-16 sm:py-24 space-y-16 sm:space-y-24 max-w-6xl mx-auto">
+      <div className="px-4 py-16 sm:py-24 space-y-16 sm:space-y-24 max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="grid md:grid-cols-3 gap-8 md:gap-12">
             {/* Sidebar - Tech & Features */}

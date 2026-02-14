@@ -64,7 +64,7 @@ export default function Contact() {
              animate={{ opacity: 1 }}
              transition={{ duration: 0.5, delay: 0.2 }}
            >
-             Have a project in mind or just want to chat? I'd love to hear from you.
+             Have a project in mind or just want to chat? I&apos;d love to hear from you.
            </motion.p>
         </div>
 
@@ -218,7 +218,7 @@ function ContactForm() {
         </div>
         <h3 className="text-3xl font-bold text-white mb-4">Message Sent!</h3>
         <p className="text-white/60 text-lg">
-          Thanks for reaching out! I'll get back to you as soon as possible.
+           Thanks for reaching out! I&apos;ll get back to you as soon as possible.
         </p>
       </motion.div>
     );

@@ -38,7 +38,7 @@ export default function LoadingProvider({ children }: LoadingProviderProps) {
       setIsLoading(false);
       setTargetPage("");
     }
-  }, [pathname]);
+  }, [pathname, isLoading]);
 
   // Cleanup any stuck overlays on mount
   useEffect(() => {

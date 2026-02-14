@@ -9,22 +9,13 @@ import Link from "next/link";
 import { cn } from "@/utils/cn";
 
 export default function FloatingNavbar({ children }: { children: React.ReactNode }) {
-  const [scrolled, setScrolled] = useState(false);
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const menuContentRef = useRef<HTMLDivElement>(null);
   const [menuHeight, setMenuHeight] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Don't update scroll state while menu is open — prevents layout shifts
-      if (!mobileMenuOpen) {
-        setScrolled(window.scrollY > 20);
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [mobileMenuOpen]);
+
 
   // Measure the menu content height for smooth CSS transition
   useEffect(() => {

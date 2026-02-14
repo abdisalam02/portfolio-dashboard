@@ -64,7 +64,7 @@ export default function LiquidNavigation({ items, activeIndex, onItemClick, expa
             {hoveredIndex === index && (
               <motion.div
                 layoutId="hoverBlob"
-                className="absolute inset-0 bg-white/10 rounded-lg"
+                className="absolute inset-0 bg-foreground/[0.05] rounded-lg"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}

@@ -26,7 +26,7 @@ export default function Hero() {
              
              {/* 1. Name Section */}
              <div className="flex flex-col mb-6">
-                <span className="text-cyan-600 dark:text-cyan-400 font-medium tracking-wide text-lg mb-2">Hi, I'm</span>
+                <span className="text-cyan-600 dark:text-cyan-400 font-medium tracking-wide text-lg mb-2">Hi, I&apos;m</span>
                 <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight text-foreground leading-tight">
                   Abdisalam Gure
                 </h1>
@@ -47,11 +47,11 @@ export default function Hero() {
 
             {/* 3. Bio & Buttons */}
             <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-foreground/90">
-              Bachelor's in <span className="font-semibold text-cyan-500 dark:text-cyan-300">Information Systems</span>
+              Bachelor&apos;s in <span className="font-semibold text-cyan-500 dark:text-cyan-300">Information Systems</span>
             </h2>
             
             <p className="text-base sm:text-lg md:text-xl text-foreground/70 max-w-lg leading-relaxed mt-4">
-              I'm a developer who genuinely enjoys building software. I love turning complex problems into simple, beautiful, and functional applications.
+              I&apos;m a developer who genuinely enjoys building software. I love turning complex problems into simple, beautiful, and functional applications.
             </p>
             
             <div className="flex flex-wrap gap-4 pt-8">
