@@ -2,7 +2,7 @@
 import { usePathname } from "next/navigation";
 import LoadingLink from "./LoadingLink";
 import { motion } from "framer-motion";
-import { FaHome, FaProjectDiagram, FaTools, FaEnvelope } from "react-icons/fa";
+import { FaHome, FaProjectDiagram, FaTools, FaEnvelope, FaFilePdf } from "react-icons/fa";
 import ThemeToggle from "./ThemeToggle";
 
 export default function MobileBottomNav() {
@@ -12,6 +12,7 @@ export default function MobileBottomNav() {
     { href: "/", icon: FaHome, label: "Overview" },
     { href: "/projects", icon: FaProjectDiagram, label: "Projects" },
     { href: "/skills", icon: FaTools, label: "Skills" },
+    { href: "/resume", icon: FaFilePdf, label: "Resume" },
     { href: "/contact", icon: FaEnvelope, label: "Contact" }
   ];
 

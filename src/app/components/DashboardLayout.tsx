@@ -2,15 +2,16 @@
 
 "use client";
 import React, { useState, useEffect, Suspense } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import LoadingLink from "./LoadingLink";
 import ThemeToggle from "./ThemeToggle";
 import PageTransition from "./PageTransition";
 import Loading from "../Loading";
 import { FiMenu, FiX } from "react-icons/fi";
-import { FaHome, FaProjectDiagram, FaTools, FaEnvelope } from "react-icons/fa";
+import { FaHome, FaProjectDiagram, FaTools, FaEnvelope, FaFilePdf } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import MagneticButton from "./MagneticButton";
+import LiquidNavigation from "./LiquidNavigation";
 
 // Sidebar animation variants
 const sidebarVariants = {
@@ -91,11 +92,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const navItems = [
     { href: "/", icon: FaHome, text: "Overview" },
     { href: "/projects", icon: FaProjectDiagram, text: "Projects" },
     { href: "/skills", icon: FaTools, text: "Skills" },
+    { href: "/resume", icon: FaFilePdf, text: "Resume" },
     { href: "/contact", icon: FaEnvelope, text: "Contact" }
   ];
 
@@ -129,7 +132,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         onMouseLeave={() => setExpanded(false)}
         className="hidden md:flex flex-col bg-gradient-to-b from-gray-800 to-gray-900 text-white dark:from-gray-900 dark:to-black overflow-hidden backdrop-blur-sm border-r border-white/10"
       >
-        <motion.div className="h-16 border-b border-gray-700/50 flex items-center justify-center overflow-hidden">
+        <motion.div className="h-16 border-b border-gray-700/50 flex items-center justify-center overflow-hidden px-2">
           <AnimatePresence mode="wait">
             {expanded ? (
               <motion.span
@@ -157,78 +160,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </AnimatePresence>
         </motion.div>
 
-        <nav className="flex-1 p-2 space-y-2 relative">
-          {/* Liquid background indicator */}
-          <motion.div
-            className="absolute inset-x-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl h-12"
-            initial={false}
-            animate={{
-              y: navItems.findIndex(item => item.href === pathname) * 52,
-              opacity: navItems.findIndex(item => item.href === pathname) >= 0 ? 1 : 0
+        <div className="flex-1 p-3">
+          <LiquidNavigation
+            items={navItems}
+            activeIndex={navItems.findIndex(item => item.href === pathname)}
+            onItemClick={(index) => {
+              const target = navItems[index];
+              if (target) {
+                router.push(target.href);
+              }
             }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 30
-            }}
+            expanded={expanded}
           />
-          
-          {navItems.map((item, index) => {
-            const isActive = pathname === item.href;
-            return (
-              <LoadingLink key={item.href} href={item.href}>
-                <motion.div
-                  className={`flex items-center px-4 py-3 rounded-lg transition-colors relative overflow-hidden group ${
-                    isActive ? 'text-blue-400' : 'hover:text-blue-300'
-                  }`}
-                  whileHover={{ x: 5, scale: 1.02 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {/* Enhanced hover effect */}
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-300 rounded-lg"
-                    whileHover={{ scale: 1.05 }}
-                  ></motion.div>
-                  
-                  {/* Active indicator line */}
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeNavIndicator"
-                      className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full"
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 30
-                      }}
-                    />
-                  )}
-                  
-                  <motion.div 
-                    className="flex items-center justify-center w-8 relative z-10"
-                    animate={{
-                      scale: isActive ? 1.2 : 1,
-                      rotate: 0
-                    }}
-                    whileHover={{ rotate: 5 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 25
-                    }}
-                  >
-                    <item.icon className="text-lg" />
-                  </motion.div>
-                  <motion.span
-                    variants={navTextVariants}
-                    className="ml-3 relative z-10"
-                  >
-                    {item.text}
-                  </motion.span>
-                </motion.div>
-              </LoadingLink>
-            );
-          })}
-        </nav>
+        </div>
         
         <div className="p-4 flex justify-center">
           <HoverThemeToggle />

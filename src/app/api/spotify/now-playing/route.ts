@@ -10,6 +10,18 @@ async function getAccessToken(): Promise<string> {
   const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
   const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
 
+  // Basic env validation (without leaking secrets)
+  if (!client_id || !client_secret || !refresh_token) {
+    console.error("[Spotify] Missing env vars:", {
+      hasClientId: !!client_id,
+      hasClientSecret: !!client_secret,
+      hasRefreshToken: !!refresh_token,
+    });
+    throw new Error("Missing Spotify environment variables");
+  }
+
+  console.log("[Spotify] Requesting access token with refresh token...");
+
   const response = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {
@@ -23,7 +35,25 @@ async function getAccessToken(): Promise<string> {
     }),
     cache: 'no-store'
   });
-  const data = await response.json();
+  const text = await response.text();
+
+  if (!response.ok) {
+    console.error("[Spotify] Token endpoint failed:", {
+      status: response.status,
+      bodySnippet: text.slice(0, 300),
+    });
+    throw new Error(`Spotify token error: ${response.status}`);
+  }
+
+  let data: any;
+  try {
+    data = JSON.parse(text);
+  } catch (e) {
+    console.error("[Spotify] Failed to parse token JSON:", { bodySnippet: text.slice(0, 300) });
+    throw e;
+  }
+
+  console.log("[Spotify] Successfully obtained access token (expires_in):", data.expires_in);
   return data.access_token;
 }
 
@@ -97,7 +127,7 @@ export async function GET() {
       message: "No track data available" 
     });
   } catch (error) {
-    console.error("Spotify API error:", error);
+    console.error("Spotify API error in now-playing route:", error);
     return NextResponse.json({ 
       error: "Internal server error",
       timestamp: timestamp 

@@ -14,15 +14,19 @@ import {
   SiNodedotjs,
   SiSupabase,
   SiOpenai,
+  SiTypescript,
+  SiSpotify,
 } from "react-icons/si";
 import { GiFruitBowl } from "react-icons/gi";
 import { FaArrowLeft, FaTimes, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import LoadingLink from "../../components/LoadingLink";
+import ScrollReveal from "../../components/ScrollReveal";
 
 // Updated mapping of technology names to icons
 const techIcons: Record<string, JSX.Element> = {
   "Next.js": <SiNextdotjs size={20} className="inline-block mr-1" />,
   Tailwind: <SiTailwindcss size={20} className="inline-block mr-1" />,
+  "Tailwind CSS": <SiTailwindcss size={20} className="inline-block mr-1" />,
   "Framer Motion": <SiFramer size={20} className="inline-block mr-1" />,
   React: <SiReact size={20} className="inline-block mr-1" />,
   NutriAPI: <GiFruitBowl size={20} className="inline-block mr-1" />,
@@ -30,6 +34,10 @@ const techIcons: Record<string, JSX.Element> = {
   "Node.js": <SiNodedotjs size={20} className="inline-block mr-1" />,
   Supabase: <SiSupabase size={20} className="inline-block mr-1" />,
   "AI Integration": <SiOpenai size={20} className="inline-block mr-1" />,
+  "Next.js 15": <SiNextdotjs size={20} className="inline-block mr-1" />,
+  "React 19": <SiReact size={20} className="inline-block mr-1" />,
+  TypeScript: <SiTypescript size={20} className="inline-block mr-1" />,
+  "Spotify API": <SiSpotify size={20} className="inline-block mr-1" />,
 };
 
 export default function ProjectDetail() {
@@ -45,302 +53,241 @@ export default function ProjectDetail() {
 
   if (!project)
     return (
-      <div className="min-h-screen flex items-center justify-center text-xl">
+      <div className="min-h-screen flex items-center justify-center text-xl text-foreground">
         Project not found
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 relative">
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl -z-10"></div>
-      <div className="absolute bottom-20 left-20 w-64 h-64 bg-gradient-to-tr from-green-500/10 to-yellow-500/10 rounded-full blur-3xl -z-10"></div>
+    <div className="min-h-screen text-foreground relative">
       
-      {/* Header Section with Parallax Image */}
-      <section className="relative h-[60vh] overflow-hidden">
-        {/* Back Button at Top Left */}
-        <div className="absolute top-4 left-4 z-20">
-          <Link
-            href="/projects"
-            className="flex items-center justify-center p-2 border border-white/50 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition"
-          >
-            <FaArrowLeft size={24} className="text-white" />
-          </Link>
-        </div>
-        <motion.div style={{ y, opacity }} className="absolute inset-0 z-0">
+      {/* Hero — Full-bleed image with frosted glass island */}
+      <section className="relative h-[85vh] sm:h-[80vh] overflow-hidden">
+        {/* Full Background Image — stays vivid */}
+        <div className="absolute inset-0 z-0">
           <Image
             src={project.image}
             alt={project.title}
             fill
             className="object-cover"
+            priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+          {/* Very subtle vignette — just enough to add depth, not darken */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.3)_100%)]" />
+        </div>
+
+        {/* Back Button — floats top-left */}
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="absolute top-4 left-4 z-30"
+        >
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 py-2 px-4 bg-white/20 dark:bg-black/30 backdrop-blur-xl border border-white/30 dark:border-white/10 rounded-full hover:bg-white/30 dark:hover:bg-black/40 transition group shadow-lg"
+          >
+            <FaArrowLeft size={12} className="text-white group-hover:-translate-x-1 transition-transform" />
+            <span className="text-sm font-medium text-white">Back</span>
+          </Link>
         </motion.div>
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center space-y-4 px-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+
+        {/* Decorative elements */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-white/10 pointer-events-none z-[1]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-white/5 pointer-events-none z-[1]" />
+
+        {/* Frosted Glass Island — the text card */}
+        <div className="absolute inset-x-4 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 bottom-8 sm:bottom-12 z-20 sm:w-[90%] sm:max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-5xl font-bold text-white drop-shadow-lg bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
+            transition={{ delay: 0.2, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+            className="bg-white/70 dark:bg-black/60 backdrop-blur-2xl border border-white/40 dark:border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl"
           >
-            {project.title}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.8 }}
-            transition={{ delay: 0.3 }}
-            className="text-white/80 max-w-2xl"
-          >
-            {project.description}
-          </motion.p>
-          <div className="flex space-x-4 mt-4">
-            <Link href={project.url}>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transition-all duration-300"
-              >
-                <FaExternalLinkAlt className="mr-2" /> Live Demo
-              </motion.div>
-            </Link>
-            {project.github && (
-              <Link href={project.github}>
+            {/* Year + Title Row */}
+            <div className="flex items-center gap-3 mb-3">
+              <span className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-bold uppercase tracking-wider">
+                {project.year}
+              </span>
+            </div>
+            
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-[1.1]">
+              {project.title}
+            </h1>
+            
+            <p className="text-sm sm:text-base text-gray-600 dark:text-white/70 leading-relaxed mt-3 line-clamp-3 sm:line-clamp-none">
+              {project.description}
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-3 mt-5">
+              <Link href={project.url} target="_blank">
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-all duration-300"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-gray-900 dark:bg-white text-white dark:text-black font-semibold rounded-full shadow-md hover:shadow-lg transition-shadow text-sm"
                 >
-                  <FaGithub className="mr-2" /> View Code
+                  <FaExternalLinkAlt className="mr-2" size={11} /> Live Demo
                 </motion.div>
               </Link>
-            )}
-          </div>
+              {project.github && (
+                <a href={project.github} target="_blank" rel="noopener noreferrer">
+                  <motion.div
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-gray-900/10 dark:bg-white/10 border border-gray-900/10 dark:border-white/20 text-gray-900 dark:text-white font-semibold rounded-full hover:bg-gray-900/20 dark:hover:bg-white/20 transition-all text-sm"
+                  >
+                    <FaGithub className="mr-2" size={14} /> View Code
+                  </motion.div>
+                </a>
+              )}
+            </div>
+          </motion.div>
         </div>
-        
-        {/* Scroll indicator */}
-        <motion.div 
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-1">
-            <motion.div 
-              className="w-1.5 h-1.5 bg-white rounded-full"
-              animate={{ y: [0, 6, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-            />
-          </div>
-        </motion.div>
       </section>
 
-      {/* Main Content Section */}
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        className="container mx-auto px-6 py-16 space-y-12"
-      >
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Project Overview, Year & Technologies */}
-          <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 50 }}
-            className="space-y-6"
-          >
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                Project Overview
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-lg">
-                {project.description}
-              </p>
-              <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold">Year:</span> {project.year}
-              </p>
-            </div>
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
-                Technologies Used
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {project.tech.map((tech) => (
-                  <motion.span
-                    key={tech}
-                    whileHover={{ scale: 1.1 }}
-                    className="flex items-center px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-blue-800 dark:text-blue-200 rounded-full shadow-sm border border-blue-200 dark:border-blue-800/30"
-                  >
-                    {techIcons[tech] || null}
-                    <span>{tech}</span>
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Features & Gallery */}
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 50 }}
-            className="space-y-8"
-          >
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
-                Key Features
-              </h3>
-              <ul className="space-y-3 text-gray-600 dark:text-gray-400">
-                {project.features.map((feature, index) => (
-                  <motion.li 
-                    key={index}
-                    className="flex items-start"
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mt-1 mr-3"></div>
-                    <span>{feature}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
-                Project Gallery
-              </h3>
-              <div className="grid grid-cols-2 gap-4">
-                {project.gallery.map((imgPath, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.05 }}
-                    className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group"
-                    onClick={() => setModalImage(imgPath)}
-                  >
-                    <Image
-                      src={imgPath}
-                      alt={`Screenshot ${index + 1}`}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                      <span className="text-white text-sm font-medium">View larger</span>
+      {/* Main Content */}
+      <div ref={ref} className="px-4 py-16 sm:py-24 space-y-16 sm:space-y-24 max-w-6xl mx-auto">
+        <ScrollReveal>
+          <div className="grid md:grid-cols-3 gap-8 md:gap-12">
+            {/* Sidebar - Tech & Features */}
+            <div className="md:col-span-1 space-y-6">
+              <div className="bg-foreground/[0.03] border border-foreground/[0.06] backdrop-blur-sm p-6 sm:p-8 rounded-2xl sm:rounded-3xl sticky top-24">
+                {/* Tech Stack */}
+                <h3 className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">
+                  Tech Stack
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((tech) => (
+                    <div
+                      key={tech}
+                      className="flex items-center px-3 py-1.5 bg-foreground/[0.04] border border-foreground/[0.06] text-foreground/80 rounded-lg text-sm"
+                    >
+                      {techIcons[tech] || null}
+                      <span className="ml-1">{tech}</span>
                     </div>
-                  </motion.div>
-                ))}
+                  ))}
+                </div>
+                
+                {/* Features */}
+                <div className="mt-8 pt-8 border-t border-foreground/[0.06]">
+                  <h3 className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">
+                    Key Features
+                  </h3>
+                  <ul className="space-y-3">
+                    {project.features.map((feature, index) => (
+                      <li key={index} className="flex items-start text-sm text-foreground/70">
+                        <span className="block w-1.5 h-1.5 mt-1.5 rounded-full bg-cyan-500 mr-3 flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
-          </motion.div>
-        </div>
-        
-        {/* Project challenges and solutions section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 mt-12"
-        >
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-            Development Journey
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">Challenges</h3>
-              <ul className="space-y-3 text-gray-600 dark:text-gray-400">
-                <li className="flex items-start">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-red-500 to-orange-500 mt-1 mr-3"></div>
-                  <span>Implementing responsive design across all device sizes</span>
-                </li>
-                <li className="flex items-start">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-red-500 to-orange-500 mt-1 mr-3"></div>
-                  <span>Optimizing performance for image-heavy content</span>
-                </li>
-                <li className="flex items-start">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-red-500 to-orange-500 mt-1 mr-3"></div>
-                  <span>Managing complex state across multiple components</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">Solutions</h3>
-              <ul className="space-y-3 text-gray-600 dark:text-gray-400">
-                <li className="flex items-start">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-green-500 to-teal-500 mt-1 mr-3"></div>
-                  <span>Utilized Tailwind CSS for consistent responsive layouts</span>
-                </li>
-                <li className="flex items-start">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-green-500 to-teal-500 mt-1 mr-3"></div>
-                  <span>Implemented Next.js Image component with proper optimization</span>
-                </li>
-                <li className="flex items-start">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-green-500 to-teal-500 mt-1 mr-3"></div>
-                  <span>Created custom hooks for state management and reusability</span>
-                </li>
-              </ul>
+
+            {/* Main Content - Overview & Gallery */}
+            <div className="md:col-span-2 space-y-16">
+              {/* Overview */}
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-5">Overview</h2>
+                <div className="space-y-4 text-foreground/70 text-base sm:text-lg leading-relaxed">
+                  <p>{project.description}</p>
+                  <p>
+                    This project represents a significant milestone in my development journey, pushing the boundaries of what I could build with {project.tech[0]} and {project.tech[1]}.
+                  </p>
+                </div>
+              </div>
+
+              {/* Gallery */}
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">Gallery</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  {project.gallery.map((imgPath, index) => (
+                    <motion.div
+                      key={index}
+                      whileHover={{ scale: 1.02 }}
+                      className="relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group border border-foreground/[0.06]"
+                      onClick={() => setModalImage(imgPath)}
+                    >
+                      <Image
+                        src={imgPath}
+                        alt={`Screenshot ${index + 1}`}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span className="px-4 py-2 bg-background/60 backdrop-blur-md rounded-full text-foreground text-sm font-medium">View Full</span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </ScrollReveal>
         
-        {/* Next project navigation */}
-        <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex flex-col sm:flex-row justify-between items-center">
-            <LoadingLink href={`/projects/${Math.max(1, Number(id) - 1)}`} className={Number(id) <= 1 ? 'opacity-50 pointer-events-none' : ''}>
-              <motion.div 
-                whileHover={{ x: -5 }}
-                className="flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                <FaArrowLeft className="mr-2" /> Previous Project
-              </motion.div>
-            </LoadingLink>
-            <LoadingLink href="/projects" className="my-4 sm:my-0">
-              <motion.div 
-                whileHover={{ y: -2 }}
-                className="text-blue-600 dark:text-blue-400 font-medium"
-              >
-                All Projects
-              </motion.div>
-            </LoadingLink>
-            <LoadingLink href={`/projects/${Math.min(selectedProjects.length, Number(id) + 1)}`} className={Number(id) >= selectedProjects.length ? 'opacity-50 pointer-events-none' : ''}>
-              <motion.div 
-                whileHover={{ x: 5 }}
-                className="flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                Next Project <FaArrowLeft className="ml-2 transform rotate-180" />
-              </motion.div>
-            </LoadingLink>
+        {/* Project Navigation */}
+        <ScrollReveal>
+          <div className="border-t border-foreground/[0.06] pt-12 sm:pt-16">
+            <div className="flex justify-between items-center">
+              <LoadingLink href={`/projects/${Math.max(1, Number(id) - 1)}`} className={Number(id) <= 1 ? 'opacity-30 pointer-events-none' : ''}>
+                <div className="group flex flex-col items-start gap-1">
+                  <span className="text-xs text-foreground/40 uppercase tracking-widest group-hover:text-cyan-500 transition-colors">Previous</span>
+                  <div className="flex items-center text-foreground/70 group-hover:text-foreground transition-colors font-medium">
+                    <FaArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={12} /> Back
+                  </div>
+                </div>
+              </LoadingLink>
+              
+              <Link href="/projects" className="hidden sm:block">
+                <div className="px-5 py-2.5 rounded-full bg-foreground/[0.04] border border-foreground/[0.06] hover:bg-foreground/[0.08] transition-colors">
+                  <span className="font-semibold text-foreground/60 text-sm">All Projects</span>
+                </div>
+              </Link>
+              
+              <LoadingLink href={`/projects/${Math.min(selectedProjects.length, Number(id) + 1)}`} className={Number(id) >= selectedProjects.length ? 'opacity-30 pointer-events-none' : ''}>
+                <div className="group flex flex-col items-end gap-1">
+                  <span className="text-xs text-foreground/40 uppercase tracking-widest group-hover:text-cyan-500 transition-colors">Next</span>
+                  <div className="flex items-center text-foreground/70 group-hover:text-foreground transition-colors font-medium">
+                    Forward <FaArrowLeft className="ml-2 transform rotate-180 group-hover:translate-x-1 transition-transform" size={12} />
+                  </div>
+                </div>
+              </LoadingLink>
+            </div>
           </div>
-        </div>
-      </motion.div>
+        </ScrollReveal>
+      </div>
 
       {/* Modal for Full View of Gallery Image */}
       <AnimatePresence>
         {modalImage && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-background/90 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setModalImage(null)}
           >
             <motion.div
-              className="relative max-w-4xl max-h-[90vh] w-[90vw] bg-white/10 p-2 rounded-lg"
-              initial={{ scale: 0.8, opacity: 0 }}
+              className="relative max-w-7xl max-h-[90vh] w-full p-4"
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking on image
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <Image
-                src={modalImage}
-                alt="Full view"
-                width={1200}
-                height={800}
-                className="rounded-lg object-contain max-h-[85vh]"
-              />
+              <div className="relative aspect-video w-full h-full rounded-2xl overflow-hidden border border-foreground/10 shadow-2xl">
+                <Image
+                  src={modalImage}
+                  alt="Full view"
+                  fill
+                  className="object-contain bg-background"
+                />
+              </div>
               <button
                 onClick={() => setModalImage(null)}
-                className="absolute top-4 right-4 p-3 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+                className="absolute top-8 right-8 p-3 bg-background/50 border border-foreground/10 hover:bg-foreground/10 rounded-full transition-colors text-foreground"
               >
-                <FaTimes size={20} className="text-white" />
+                <FaTimes size={20} />
               </button>
             </motion.div>
           </motion.div>

@@ -9,393 +9,25 @@ import {
   FaHtml5,
   FaCss3Alt,
   FaPhp,
+  FaArrowLeft,
   FaGithub,
-  FaArrowLeft
+  FaStar,
+  FaCodeBranch,
+  FaExternalLinkAlt,
 } from "react-icons/fa";
 import { SiNextdotjs, SiMysql, SiTypescript } from "react-icons/si";
 import Loading from "../Loading";
-import Skill3D from "../components/Skill3D";
 import TextReveal from "../components/TextReveal";
 import MagneticButton from "../components/MagneticButton";
+import ScrollReveal from "../components/ScrollReveal";
 
 interface Skill {
   name: string;
   route: string;
   level: number;
-  color: string;
-  gradient: string;
   icon: React.ReactElement;
   description: string;
-}
-
-const skillsData: Skill[] = [
-  {
-    name: "HTML",
-    route: "html",
-    level: 95,
-    color: "bg-orange-500",
-    gradient: "from-orange-500 to-orange-600",
-    icon: <FaHtml5 className="text-white text-5xl" />,
-    description: "Semantic markup, accessibility best practices, and modern HTML5 features."
-  },
-  {
-    name: "CSS",
-    route: "css",
-    level: 90,
-    color: "bg-blue-500",
-    gradient: "from-blue-500 to-blue-600",
-    icon: <FaCss3Alt className="text-white text-5xl" />,
-    description: "Responsive design, animations, CSS Grid, Flexbox, and CSS preprocessors."
-  },
-  {
-    name: "JavaScript",
-    route: "javascript",
-    level: 90,
-    color: "bg-yellow-500",
-    gradient: "from-yellow-500 to-yellow-600",
-    icon: <FaJsSquare className="text-white text-5xl" />,
-    description: "ES6+, async/await, DOM manipulation, and modern JavaScript patterns."
-  },
-  {
-    name: "TypeScript",
-    route: "typescript",
-    level: 85,
-    color: "bg-blue-600",
-    gradient: "from-blue-600 to-blue-700",
-    icon: <SiTypescript className="text-white text-5xl" />,
-    description: "Type safety, interfaces, generics, and advanced TypeScript features."
-  },
-  {
-    name: "React",
-    route: "react",
-    level: 85,
-    color: "bg-blue-400",
-    gradient: "from-blue-400 to-blue-500",
-    icon: <FaReact className="text-white text-5xl" />,
-    description: "Hooks, context API, custom hooks, and state management solutions."
-  },
-  {
-    name: "SQL",
-    route: "sql",
-    level: 80,
-    color: "bg-blue-600",
-    gradient: "from-blue-600 to-blue-700",
-    icon: <SiMysql className="text-white text-5xl" />,
-    description: "Database design, complex queries, and performance optimization."
-  },
-  {
-    name: "Python",
-    route: "python",
-    level: 40,
-    color: "bg-blue-400",
-    gradient: "from-blue-400 to-blue-500",
-    icon: <FaPython className="text-white text-5xl" />,
-    description: "Data analysis, automation scripts, and backend development."
-  },
-  {
-    name: "PHP",
-    route: "php",
-    level: 40,
-    color: "bg-indigo-600",
-    gradient: "from-indigo-600 to-indigo-700",
-    icon: <FaPhp className="text-white text-5xl" />,
-    description: "Server-side scripting, CMS development, and web applications."
-  },
-  {
-    name: "Next.js",
-    route: "next-js",
-    level: 80,
-    color: "bg-gray-800",
-    gradient: "from-gray-800 to-gray-900",
-    icon: <SiNextdotjs className="text-white text-5xl" />,
-    description: "Server-side rendering, static site generation, and API routes."
-  }
-];
-
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  },
-  exit: {
-    opacity: 0,
-    transition: {
-      staggerChildren: 0.05,
-      staggerDirection: -1
-    }
-  }
-};
-
-const skillCardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 25
-    }
-  },
-  exit: { 
-    opacity: 0, 
-    y: -20,
-    transition: {
-      duration: 0.2
-    }
-  }
-};
-
-const detailVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 25,
-      when: "beforeChildren",
-      staggerChildren: 0.1
-    }
-  },
-  exit: { 
-    opacity: 0, 
-    y: 50,
-    transition: {
-      duration: 0.3
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 25
-    }
-  }
-};
-
-// Helper function to convert Tailwind color classes to hex
-function getSkillColor(colorClass: string): string {
-  const colorMap: Record<string, string> = {
-    'bg-orange-500': '#f97316',
-    'bg-blue-500': '#3b82f6',
-    'bg-yellow-500': '#eab308',
-    'bg-blue-600': '#2563eb',
-    'bg-blue-400': '#60a5fa',
-    'bg-indigo-600': '#4f46e5',
-    'bg-gray-800': '#1f2937'
-  };
-  return colorMap[colorClass] || '#3b82f6';
-}
-
-export default function Skills() {
-  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 100);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  const handleSkillClick = (skill: Skill) => {
-    setSelectedSkill(skill);
-    // Scroll to top smoothly when a skill is selected (mobile-friendly)
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  const handleBack = () => {
-    setSelectedSkill(null);
-  };
-
-  return (
-    <div className="p-6 pb-24 relative">
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl -z-10"></div>
-      <div className="absolute bottom-20 left-20 w-64 h-64 bg-gradient-to-tr from-green-500/10 to-yellow-500/10 rounded-full blur-3xl -z-10"></div>
-      
-      <AnimatePresence mode="wait">
-        {selectedSkill ? (
-          <motion.div
-            key="skill-detail"
-            variants={detailVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="space-y-8"
-          >
-            {/* Back button */}
-            <motion.div variants={itemVariants}>
-              <MagneticButton
-                onClick={handleBack}
-                className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-4 py-2 rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
-                magneticStrength={0.2}
-              >
-                <FaArrowLeft />
-                <span>Back to all skills</span>
-              </MagneticButton>
-            </motion.div>
-            
-            {/* Skill Detail Card */}
-            <motion.div
-              variants={itemVariants}
-              className="relative overflow-hidden rounded-xl shadow-lg"
-            >
-              <div className={`absolute inset-0 bg-gradient-to-r ${selectedSkill.gradient} opacity-90`}></div>
-              <div className="relative p-8 flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 z-10">
-                <div className="p-6 bg-white/20 backdrop-blur-sm rounded-full">
-                  {selectedSkill.icon}
-                </div>
-                <div className="text-center md:text-left">
-                  <h1 className="text-4xl font-bold text-white mb-2">{selectedSkill.name}</h1>
-                  <p className="text-white/90 text-lg max-w-2xl mb-6">{selectedSkill.description}</p>
-                  
-                  {/* Progress Bar */}
-                  <div className="w-full max-w-md">
-                    <div className="flex justify-between mb-2">
-                      <span className="text-white/90">Proficiency</span>
-                      <span className="text-white font-bold">{selectedSkill.level}%</span>
-                    </div>
-                    <div className="w-full bg-white/30 rounded-full h-3">
-                      <motion.div
-                        className="h-3 rounded-full bg-white"
-                        initial={{ width: "0%" }}
-                        animate={{ width: `${selectedSkill.level}%` }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                      ></motion.div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* GitHub Projects Section */}
-            <motion.div
-              variants={itemVariants}
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700"
-            >
-              <h2 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                Projects using {selectedSkill.name}
-              </h2>
-              <GitHubProjectsBySkill skillName={selectedSkill.name} />
-            </motion.div>
-            
-            {/* Experience section */}
-            <motion.div
-              variants={itemVariants}
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700"
-            >
-              <h2 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                Experience with {selectedSkill.name}
-              </h2>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-green-500 to-teal-500 mt-1"></div>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    Used {selectedSkill.name} in multiple projects, both personal and professional.
-                  </p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-green-500 to-teal-500 mt-1"></div>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    Continuously learning new techniques and best practices.
-                  </p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-green-500 to-teal-500 mt-1"></div>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    Implemented complex features and solved challenging problems.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="skills-grid"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="space-y-8"
-          >
-            <motion.div variants={skillCardVariants}>
-              <TextReveal
-                text="My Skills & Expertise"
-                type="fadeUp"
-                className="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
-              />
-            </motion.div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {skillsData.map((skill) => (
-                <motion.div
-                  key={skill.name}
-                  variants={skillCardVariants}
-                  className="group"
-                >
-                  <Skill3D
-                    skillName={skill.name}
-                    color={getSkillColor(skill.color)}
-                    level={skill.level}
-                    onClick={() => handleSkillClick(skill)}
-                    className="p-4"
-                  />
-                </motion.div>
-              ))}
-            </div>
-            
-            {/* Learning Journey Timeline */}
-            <motion.div
-              variants={skillCardVariants}
-              className="mt-16 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700"
-            >
-              <h2 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                My Learning Journey
-              </h2>
-              <div className="space-y-6">
-                <div className="relative pl-8 border-l-2 border-blue-500">
-                  <div className="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-blue-500"></div>
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">2024 - 2025</h3>
-                  <p className="text-gray-600 dark:text-gray-400">Advanced web development with React, Next.js, and TypeScript</p>
-                </div>
-                <div className="relative pl-8 border-l-2 border-green-500">
-                  <div className="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-green-500"></div>
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">2023 - 2024</h3>
-                  <p className="text-gray-600 dark:text-gray-400">Frontend frameworks and modern JavaScript</p>
-                </div>
-                <div className="relative pl-8 border-l-2 border-purple-500">
-                  <div className="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-purple-500"></div>
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">2022 - 2023</h3>
-                  <p className="text-gray-600 dark:text-gray-400">Fundamentals of web development and programming</p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-interface GitHubProjectsBySkillProps {
-  skillName: string;
+  githubLanguages: string[];
 }
 
 interface Repo {
@@ -404,253 +36,392 @@ interface Repo {
   description: string | null;
   html_url: string;
   language: string | null;
-  topics?: string[];
+  stargazers_count: number;
+  forks_count: number;
+  topics: string[];
+  updated_at: string;
 }
 
-function GitHubProjectsBySkill({ skillName }: GitHubProjectsBySkillProps) {
+const skillsData: Skill[] = [
+  {
+    name: "HTML",
+    route: "html",
+    level: 95,
+    icon: <FaHtml5 className="text-orange-500 text-5xl" />,
+    description: "Semantic markup, accessibility best practices, and modern HTML5 features.",
+    githubLanguages: ["HTML"],
+  },
+  {
+    name: "CSS",
+    route: "css",
+    level: 90,
+    icon: <FaCss3Alt className="text-blue-500 text-5xl" />,
+    description: "Responsive design, animations, CSS Grid, Flexbox, and CSS preprocessors.",
+    githubLanguages: ["CSS", "SCSS"],
+  },
+  {
+    name: "JavaScript",
+    route: "javascript",
+    level: 90,
+    icon: <FaJsSquare className="text-yellow-400 text-5xl" />,
+    description: "ES6+, async/await, DOM manipulation, and modern JavaScript patterns.",
+    githubLanguages: ["JavaScript"],
+  },
+  {
+    name: "TypeScript",
+    route: "typescript",
+    level: 85,
+    icon: <SiTypescript className="text-blue-600 text-5xl" />,
+    description: "Type safety, interfaces, generics, and advanced TypeScript features.",
+    githubLanguages: ["TypeScript"],
+  },
+  {
+    name: "React",
+    route: "react",
+    level: 85,
+    icon: <FaReact className="text-cyan-400 text-5xl" />,
+    description: "Hooks, context API, custom hooks, and state management solutions.",
+    githubLanguages: ["JavaScript", "TypeScript"],
+  },
+  {
+    name: "SQL",
+    route: "sql",
+    level: 80,
+    icon: <SiMysql className="text-blue-600 text-5xl" />,
+    description: "Database design, complex queries, and performance optimization.",
+    githubLanguages: ["SQL", "PLpgSQL"],
+  },
+  {
+    name: "Python",
+    route: "python",
+    level: 40,
+    icon: <FaPython className="text-yellow-500 text-5xl" />,
+    description: "Data analysis, automation scripts, and backend development.",
+    githubLanguages: ["Python"],
+  },
+  {
+    name: "PHP",
+    route: "php",
+    level: 40,
+    icon: <FaPhp className="text-indigo-400 text-5xl" />,
+    description: "Server-side scripting, CMS development, and web applications.",
+    githubLanguages: ["PHP"],
+  },
+  {
+    name: "Next.js",
+    route: "next-js",
+    level: 80,
+    icon: <SiNextdotjs className="text-foreground text-5xl" />,
+    description: "Server-side rendering, static site generation, and API routes.",
+    githubLanguages: ["TypeScript", "JavaScript"],
+  },
+];
+
+const languageColors: Record<string, string> = {
+  JavaScript: "bg-yellow-400",
+  TypeScript: "bg-blue-500",
+  HTML: "bg-orange-500",
+  CSS: "bg-blue-400",
+  Python: "bg-blue-600",
+  PHP: "bg-indigo-600",
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  exit: { opacity: 0, transition: { staggerChildren: 0.05, staggerDirection: -1 } },
+};
+
+const skillCardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 25 } },
+  exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
+};
+
+const detailVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1, y: 0,
+    transition: { type: "spring", stiffness: 300, damping: 25, when: "beforeChildren", staggerChildren: 0.1 },
+  },
+  exit: { opacity: 0, y: 50, transition: { duration: 0.3 } },
+};
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+};
+
+export default function Skills() {
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
+  const [loading, setLoading] = useState(true);
   const [repos, setRepos] = useState<Repo[]>([]);
-  const [reposLoading, setReposLoading] = useState(true);
+  const [reposLoading, setReposLoading] = useState(false);
 
   useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Fetch GitHub repos when a skill is selected
+  useEffect(() => {
+    if (!selectedSkill) {
+      setRepos([]);
+      return;
+    }
+
     const fetchRepos = async () => {
+      setReposLoading(true);
       try {
-        const response = await fetch("https://api.github.com/users/abdisalam02/repos");
-        if (!response.ok) {
-          throw new Error("Failed to fetch repositories");
-        }
+        const response = await fetch("https://api.github.com/users/abdisalam02/repos?per_page=100");
+        if (!response.ok) throw new Error("Failed to fetch");
         const data: Repo[] = await response.json();
-        setRepos(data);
+
+        const skillName = selectedSkill.name.toLowerCase();
+        const matchingLangs = selectedSkill.githubLanguages.map((l) => l.toLowerCase());
+
+        const filtered = data.filter((repo) => {
+          const langMatch = repo.language && matchingLangs.includes(repo.language.toLowerCase());
+          const topicMatch = repo.topics && repo.topics.some(
+            (t) => t.toLowerCase().includes(skillName) || matchingLangs.some((ml) => t.toLowerCase().includes(ml))
+          );
+          return langMatch || topicMatch;
+        });
+
+        filtered.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+        setRepos(filtered);
       } catch (error) {
-        console.error("Error fetching repositories:", error);
+        console.error("Error fetching repos:", error);
+        setRepos([]);
       } finally {
         setReposLoading(false);
       }
     };
-    fetchRepos();
-  }, []);
 
-  const getFilteredRepos = (): Repo[] => {
-    const lowerSkill = skillName.toLowerCase();
-    
-    // Enhanced matching logic for different skills
-    switch(lowerSkill) {
-      case "react":
-        return repos.filter(repo => 
-          (repo.name && repo.name.toLowerCase().includes("react")) ||
-          (repo.description && repo.description.toLowerCase().includes("react")) ||
-          (repo.topics && repo.topics.some(topic => topic.toLowerCase().includes("react")))
-        );
-        
-      case "next.js":
-        return repos.filter(repo => 
-          (repo.name && repo.name.toLowerCase().includes("next")) ||
-          (repo.description && repo.description.toLowerCase().includes("next")) ||
-          (repo.topics && repo.topics.some(topic => 
-            topic.toLowerCase().includes("next") || 
-            topic.toLowerCase().includes("nextjs")
-          ))
-        );
-        
-      case "sql":
-        // For SQL, look for repos that might use databases
-        return repos.filter(repo => 
-          (repo.name && (
-            repo.name.toLowerCase().includes("sql") ||
-            repo.name.toLowerCase().includes("database") ||
-            repo.name.toLowerCase().includes("db") ||
-            repo.name.toLowerCase().includes("mysql") ||
-            repo.name.toLowerCase().includes("postgres")
-          )) ||
-          (repo.description && (
-            repo.description.toLowerCase().includes("sql") ||
-            repo.description.toLowerCase().includes("database") ||
-            repo.description.toLowerCase().includes("mysql") ||
-            repo.description.toLowerCase().includes("postgres") ||
-            repo.description.toLowerCase().includes("supabase")
-          )) ||
-          // PHP projects often use SQL
-          (repo.language && repo.language.toLowerCase() === "php") ||
-          // Check for database-related topics
-          (repo.topics && repo.topics.some(topic => 
-            topic.toLowerCase().includes("database") ||
-            topic.toLowerCase().includes("sql") ||
-            topic.toLowerCase().includes("mysql") ||
-            topic.toLowerCase().includes("postgres") ||
-            topic.toLowerCase().includes("supabase")
-          ))
-        );
-        
-      case "javascript":
-        return repos.filter(repo => 
-          (repo.language && repo.language.toLowerCase() === "javascript") ||
-          (repo.name && repo.name.toLowerCase().includes("js")) ||
-          (repo.description && repo.description.toLowerCase().includes("javascript")) ||
-          (repo.topics && repo.topics.some(topic => 
-            topic.toLowerCase().includes("javascript") || 
-            topic.toLowerCase() === "js"
-          ))
-        );
-        
-      case "typescript":
-        return repos.filter(repo => 
-          (repo.language && repo.language.toLowerCase() === "typescript") ||
-          (repo.name && repo.name.toLowerCase().includes("ts")) ||
-          (repo.description && repo.description.toLowerCase().includes("typescript")) ||
-          (repo.topics && repo.topics.some(topic => 
-            topic.toLowerCase().includes("typescript") || 
-            topic.toLowerCase() === "ts"
-          ))
-        );
-        
-      case "html":
-        return repos.filter(repo => 
-          (repo.language && repo.language.toLowerCase() === "html") ||
-          // Most web projects use HTML, so include frontend projects
-          (repo.description && (
-            repo.description.toLowerCase().includes("frontend") ||
-            repo.description.toLowerCase().includes("website") ||
-            repo.description.toLowerCase().includes("web app")
-          )) ||
-          (repo.topics && repo.topics.some(topic => 
-            topic.toLowerCase().includes("html") || 
-            topic.toLowerCase().includes("frontend") ||
-            topic.toLowerCase().includes("website")
-          ))
-        );
-        
-      case "css":
-        return repos.filter(repo => 
-          (repo.language && repo.language.toLowerCase() === "css") ||
-          (repo.name && repo.name.toLowerCase().includes("css")) ||
-          (repo.description && (
-            repo.description.toLowerCase().includes("css") ||
-            repo.description.toLowerCase().includes("style") ||
-            repo.description.toLowerCase().includes("tailwind") ||
-            repo.description.toLowerCase().includes("bootstrap")
-          )) ||
-          (repo.topics && repo.topics.some(topic => 
-            topic.toLowerCase().includes("css") || 
-            topic.toLowerCase().includes("tailwind") ||
-            topic.toLowerCase().includes("bootstrap") ||
-            topic.toLowerCase().includes("styled")
-          ))
-        );
-        
-      case "python":
-        return repos.filter(repo => 
-          (repo.language && repo.language.toLowerCase() === "python") ||
-          (repo.name && repo.name.toLowerCase().includes("py")) ||
-          (repo.description && repo.description.toLowerCase().includes("python")) ||
-          (repo.topics && repo.topics.some(topic => 
-            topic.toLowerCase().includes("python") || 
-            topic.toLowerCase() === "py"
-          ))
-        );
-        
-      case "php":
-        return repos.filter(repo => 
-          (repo.language && repo.language.toLowerCase() === "php") ||
-          (repo.name && repo.name.toLowerCase().includes("php")) ||
-          (repo.description && repo.description.toLowerCase().includes("php")) ||
-          (repo.topics && repo.topics.some(topic => 
-            topic.toLowerCase().includes("php") || 
-            topic.toLowerCase().includes("wordpress") ||
-            topic.toLowerCase().includes("laravel")
-          ))
-        );
-        
-      default:
-        // Default case for any other skill
-        return repos.filter(repo => 
-          (repo.language && repo.language.toLowerCase() === lowerSkill) ||
-          (repo.name && repo.name.toLowerCase().includes(lowerSkill)) ||
-          (repo.description && repo.description.toLowerCase().includes(lowerSkill)) ||
-          (repo.topics && repo.topics.some(topic => topic.toLowerCase().includes(lowerSkill)))
-        );
-    }
+    fetchRepos();
+  }, [selectedSkill]);
+
+  if (loading) return <Loading />;
+
+  const handleSkillClick = (skill: Skill) => {
+    setSelectedSkill(skill);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const filteredRepos = getFilteredRepos();
-  const lowerSkill = skillName.toLowerCase();
-
-  // If no repos found for SQL, show a fallback message with more context
-  const noReposMessage = lowerSkill === "sql" 
-    ? "No SQL-specific projects found. SQL is used in many of my backend projects with database integration."
-    : `No projects found for ${skillName}. Check back later as I continue to add more projects!`;
-
-  if (reposLoading) {
-    return <div className="flex justify-center py-8">
-      <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-    </div>;
-  }
-
   return (
-    <motion.div 
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-    >
-      {filteredRepos.length > 0 ? (
-        filteredRepos.map((repo) => (
+    <div className="min-h-screen pt-20 pb-24 px-4 max-w-7xl mx-auto">
+      <AnimatePresence mode="wait">
+        {selectedSkill ? (
           <motion.div
-            key={repo.id}
-            variants={skillCardVariants}
-            whileHover={{ scale: 1.03, y: -5 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-500 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group"
+            key="skill-detail"
+            variants={detailVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="space-y-8 max-w-5xl mx-auto"
           >
-            {/* Decorative corner accent */}
-            <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-blue-500/20 to-transparent"></div>
-            
-            <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-md group-hover:blur-lg transition-all duration-300"></div>
-                  <FaGithub size={32} className="text-gray-800 dark:text-gray-200 relative z-10" />
+            {/* Back button */}
+            <motion.div>
+              <MagneticButton
+                onClick={() => setSelectedSkill(null)}
+                className="inline-flex items-center space-x-2 text-foreground/60 hover:text-foreground transition-colors px-4 py-2 rounded-full bg-foreground/[0.03] border border-foreground/[0.06] backdrop-blur-md"
+                magneticStrength={0.2}
+              >
+                <FaArrowLeft />
+                <span>Back to Skills</span>
+              </MagneticButton>
+            </motion.div>
+
+            {/* Skill Detail Card */}
+            <div className="relative overflow-hidden rounded-3xl bg-foreground/[0.03] border border-foreground/[0.06] backdrop-blur-xl p-8 md:p-12">
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-8 relative z-10">
+                <div className="p-6 rounded-2xl bg-foreground/[0.04] border border-foreground/[0.06]">
+                  {selectedSkill.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  {repo.name}
-                </h3>
+                <div className="space-y-4 flex-grow">
+                  <h1 className="text-4xl md:text-5xl font-bold text-foreground">{selectedSkill.name}</h1>
+                  <p className="text-xl text-foreground/60 leading-relaxed">{selectedSkill.description}</p>
+
+                  {/* Progress Bar */}
+                  <div className="space-y-2 pt-4">
+                    <div className="flex justify-between text-sm font-medium">
+                      <span className="text-foreground/50">Proficiency</span>
+                      <span className="text-cyan-600 dark:text-cyan-400">{selectedSkill.level}%</span>
+                    </div>
+                    <div className="h-2 w-full bg-foreground/10 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-cyan-500 shadow-[0_0_10px_rgba(34,211,238,0.5)]"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${selectedSkill.level}%` }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                {repo.description || "No description available."}
-              </p>
-              {repo.language && (
-                <div className="mb-3">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-                    {repo.language}
+            </div>
+
+            {/* GitHub Projects Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <FaGithub className="text-foreground/50" size={22} />
+                <h2 className="text-2xl font-bold text-foreground">
+                  Projects using {selectedSkill.name}
+                </h2>
+                {!reposLoading && repos.length > 0 && (
+                  <span className="px-2.5 py-0.5 rounded-full bg-foreground/[0.06] text-foreground/50 text-xs font-semibold">
+                    {repos.length}
                   </span>
+                )}
+              </div>
+
+              {reposLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="rounded-2xl bg-foreground/[0.03] border border-foreground/[0.06] p-6 animate-pulse">
+                      <div className="h-5 bg-foreground/10 rounded w-2/3 mb-3" />
+                      <div className="h-4 bg-foreground/10 rounded w-full mb-2" />
+                      <div className="h-4 bg-foreground/10 rounded w-1/2" />
+                    </div>
+                  ))}
+                </div>
+              ) : repos.length > 0 ? (
+                <motion.div
+                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {repos.map((repo) => (
+                    <motion.a
+                      key={repo.id}
+                      href={repo.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variants={skillCardVariants}
+                      whileHover={{ y: -3 }}
+                      className="block rounded-2xl bg-foreground/[0.03] border border-foreground/[0.06] p-6 hover:bg-foreground/[0.06] transition-all group"
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <FaGithub className="text-foreground/40 flex-shrink-0" size={20} />
+                          <h3 className="font-bold text-foreground group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors truncate">
+                            {repo.name}
+                          </h3>
+                        </div>
+                        <FaExternalLinkAlt className="text-foreground/20 group-hover:text-foreground/50 transition-colors flex-shrink-0 ml-2" size={12} />
+                      </div>
+
+                      <p className="text-sm text-foreground/50 line-clamp-2 mb-4">
+                        {repo.description || "No description available."}
+                      </p>
+
+                      <div className="flex items-center justify-between text-xs text-foreground/40">
+                        <div className="flex items-center gap-4">
+                          {repo.language && (
+                            <span className="flex items-center gap-1.5">
+                              <span className={`w-2.5 h-2.5 rounded-full ${languageColors[repo.language] || "bg-gray-400"}`} />
+                              {repo.language}
+                            </span>
+                          )}
+                          <span className="flex items-center gap-1">
+                            <FaStar size={11} /> {repo.stargazers_count}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <FaCodeBranch size={11} /> {repo.forks_count}
+                          </span>
+                        </div>
+                        <span>{formatDate(repo.updated_at)}</span>
+                      </div>
+                    </motion.a>
+                  ))}
+                </motion.div>
+              ) : (
+                <div className="text-center py-12 rounded-2xl bg-foreground/[0.02] border border-foreground/[0.06]">
+                  <FaGithub className="mx-auto text-foreground/20 mb-4" size={40} />
+                  <p className="text-foreground/50 text-lg font-medium">
+                    No public repositories found using {selectedSkill.name}
+                  </p>
+                  <p className="text-foreground/30 text-sm mt-1">
+                    Projects using this skill may be private or not yet published.
+                  </p>
                 </div>
               )}
             </div>
-            <a
-              href={repo.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-block text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 px-4 py-2 rounded-lg shadow transition-all duration-300"
-            >
-              View Repository
-            </a>
           </motion.div>
-        ))
-      ) : (
-        <motion.div 
-          variants={skillCardVariants}
-          className="col-span-full text-center py-8 px-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
-        >
-          <div className="mb-4">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-              <FaGithub size={32} />
+        ) : (
+          <motion.div
+            key="skills-grid"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="space-y-16"
+          >
+            <div className="text-center space-y-6">
+              <TextReveal
+                text="Skills & Expertise"
+                type="fadeUp"
+                className="text-5xl md:text-7xl font-bold tracking-tighter text-foreground"
+              />
+              <p className="text-xl text-foreground/60 max-w-2xl mx-auto">
+                A comprehensive look at my technical toolkit and proficiency levels.
+              </p>
             </div>
-          </div>
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
-            No Matching Projects
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400">
-            {noReposMessage}
-          </p>
-        </motion.div>
-      )}
-    </motion.div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {skillsData.map((skill) => (
+                <ScrollReveal key={skill.name}>
+                  <motion.div
+                    variants={skillCardVariants}
+                    className="group cursor-pointer h-full"
+                    onClick={() => handleSkillClick(skill)}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div className="h-full p-8 rounded-3xl bg-foreground/[0.03] border border-foreground/[0.06] backdrop-blur-sm hover:bg-foreground/[0.06] transition-all duration-300 flex flex-col items-center text-center space-y-6 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="relative z-10 p-4 rounded-2xl bg-foreground/[0.04] transition-transform duration-300">
+                        {skill.icon}
+                      </div>
+                      <div className="relative z-10 space-y-2">
+                        <h3 className="text-2xl font-bold text-foreground group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                          {skill.name}
+                        </h3>
+                        <p className="text-sm text-foreground/50 line-clamp-2">
+                          {skill.description}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </ScrollReveal>
+              ))}
+            </div>
+
+            {/* Learning Journey Timeline */}
+            <ScrollReveal direction="up" delay={0.2}>
+              <div className="rounded-3xl bg-foreground/[0.03] border border-foreground/[0.06] backdrop-blur-sm p-8 md:p-12">
+                <h2 className="text-3xl font-bold text-foreground mb-8">Learning Journey</h2>
+                <div className="space-y-8 border-l border-foreground/10 ml-4 pl-8">
+                  <div className="relative">
+                    <span className="absolute -left-[37px] top-1 h-4 w-4 rounded-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
+                    <h3 className="text-xl font-bold text-foreground">2024 - Present</h3>
+                    <p className="text-foreground/50 mt-2">Mastering Next.js, Advanced React Patterns, and Full-Stack Architecture.</p>
+                  </div>
+                  <div className="relative">
+                    <span className="absolute -left-[37px] top-1 h-4 w-4 rounded-full bg-purple-500/50" />
+                    <h3 className="text-xl font-bold text-foreground">2023 - 2024</h3>
+                    <p className="text-foreground/50 mt-2">Deep dive into Frontend Frameworks, State Management, and API Integration.</p>
+                  </div>
+                  <div className="relative">
+                    <span className="absolute -left-[37px] top-1 h-4 w-4 rounded-full bg-foreground/20" />
+                    <h3 className="text-xl font-bold text-foreground">2022 - 2023</h3>
+                    <p className="text-foreground/50 mt-2">Foundations of Web Development: HTML, CSS, JavaScript, and Algorithms.</p>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

@@ -13,6 +13,13 @@ export async function GET(request: Request) {
   const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
   const redirect_uri = process.env.SPOTIFY_REDIRECT_URI; // "http://localhost:3001/api/spotify/callback"
 
+  console.log("[Spotify] Callback hit with code:", !!code);
+  console.log("[Spotify] Env presence in callback:", {
+    hasClientId: !!client_id,
+    hasClientSecret: !!client_secret,
+    hasRedirectUri: !!redirect_uri,
+  });
+
   const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {
@@ -27,9 +34,20 @@ export async function GET(request: Request) {
     }),
   });
 
-  const data = await tokenResponse.json();
+  const text = await tokenResponse.text();
+
+  if (!tokenResponse.ok) {
+    console.error("[Spotify] Callback token exchange failed:", {
+      status: tokenResponse.status,
+      bodySnippet: text.slice(0, 300),
+    });
+    return NextResponse.json({ error: "Token exchange failed" }, { status: 500 });
+  }
+
+  const data = JSON.parse(text);
 
   if (data.error) {
+    console.error("[Spotify] Callback response contained error:", data.error);
     return NextResponse.json({ error: data.error }, { status: 500 });
   }
 

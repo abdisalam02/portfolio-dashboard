@@ -1,212 +1,125 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { Suspense } from "react";
+import Hero from "./components/Hero";
+import { BentoGrid, BentoGridItem } from "./components/ui/bento-grid";
+import { FaLaptopCode, FaTools, FaArrowRight, FaGithub } from "react-icons/fa";
 import Loading from "./Loading";
-import SpotifyNowPlaying from "./components/SpotifyNowPlaying";
-import MagneticButton from "./components/MagneticButton";
-import TextReveal from "./components/TextReveal";
-
-// Animation Variants
-const profileVariant = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.5 }
-  }
-};
-
-const containerVariant = {
-  hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1,
-    transition: { 
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const socialIconVariant = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    transition: { 
-      type: "spring",
-      stiffness: 100,
-      damping: 15
-    }
-  }
-};
-
-const metricsVariant = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1,
-    y: 0,
-    transition: { 
-      duration: 0.5,
-      delay: 0.4
-    }
-  }
-};
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { selectedProjects } from "./projects/projectsData";
+import ScrollReveal from "./components/ScrollReveal";
 
 export default function Overview() {
-  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 100);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) return <Loading />;
+  // Get first 2 projects
+  const featuredProjects = selectedProjects.slice(0, 2);
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-24 max-w-6xl">
-      {/* Background Gradient */}
-      <div className="fixed top-0 left-0 right-0 h-64 bg-gradient-to-br from-blue-100/20 to-purple-100/20 dark:from-blue-900/20 dark:to-purple-900/20 -z-10"></div>
-
-      {/* Profile Section */}
-      <motion.div
-        className="flex flex-col items-center text-center space-y-6 pt-12"
-        initial="hidden"
-        animate="visible"
-        variants={profileVariant}
-      >
-        {/* Profile Image */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-sm"></div>
-          <Image
-            src="/profile.png"
-            alt="Abdisalam Gure"
-            width={200}
-            height={200}
-            className="relative z-10 rounded-full border-4 border-white dark:border-gray-800 shadow-xl w-40 h-40 sm:w-56 sm:h-56 object-cover"
-          />
-        </div>
-
-        {/* Name and Description */}
-        <div className="space-y-3">
-          <TextReveal
-            text="Abdisalam Gure"
-            type="scramble"
-            className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
-          />
-          <TextReveal
-            text="22-year-old 3rd-year Information Technology student passionate about creating dynamic web applications using modern technologies."
-            type="fadeUp"
-            delay={1}
-            className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-xl mx-auto px-4"
-          />
-        </div>
-      </motion.div>
-
-      {/* Social Icons */}
-      <motion.div 
-        className="flex flex-wrap justify-center gap-4 mt-8"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariant}
-      >
-        {[
-          {
-            icon: <FaLinkedin className="text-blue-600 text-2xl sm:text-3xl" />,
-            href: "https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/",
-            color: "bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/40"
-          },
-          {
-            icon: <FaGithub className="text-gray-800 dark:text-gray-200 text-2xl sm:text-3xl" />,
-            href: "https://github.com/abdisalam02",
-            color: "bg-gray-100 dark:bg-gray-800/30 hover:bg-gray-200 dark:hover:bg-gray-700/40"
-          },
-          {
-            icon: <FaTwitter className="text-blue-400 text-2xl sm:text-3xl" />,
-            href: "https://x.com/aqaghsww",
-            color: "bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/40"
-          }
-        ].map((social, index) => (
-          <motion.div
-            key={index}
-            variants={socialIconVariant}
+    <Suspense fallback={<Loading />}>
+      <main className="min-h-screen pb-20 overflow-x-hidden">
+        <Hero />
+        
+        <section className="px-4 py-16" id="explore">
+          <ScrollReveal
+            className="max-w-6xl mx-auto space-y-12"
           >
-            <MagneticButton
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`p-3 sm:p-4 rounded-full ${social.color} transition-all duration-300 shadow-sm hover:shadow-md inline-block`}
-              magneticStrength={0.3}
-            >
-              {social.icon}
-            </MagneticButton>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Metrics Section */}
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-10"
-        initial="hidden"
-        animate="visible"
-        variants={metricsVariant}
-      >
-        {/* Metrics Cards with Glassmorphism */}
-        {[
-          {
-            title: "3rd Year",
-            subtitle: "Bachelors in IT",
-            gradient: "from-blue-600 to-blue-400"
-          },
-          {
-            title: "20+",
-            subtitle: "Projects",
-            gradient: "from-green-600 to-green-400",
-            link: "/projects"
-          },
-          {
-            title: "8+",
-            subtitle: "Technologies",
-            gradient: "from-yellow-600 to-yellow-400",
-            link: "/skills"
-          }
-        ].map((metric, index) => {
-          const CardContent = () => (
-            <div className="relative group overflow-hidden">
-              <div className={`absolute inset-0 bg-gradient-to-br ${metric.gradient} rounded-xl transform transition-transform group-hover:scale-105 duration-300`}></div>
-              <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-md text-center border border-white/20 text-white z-10">
-                <h2 className="text-3xl font-bold">{metric.title}</h2>
-                <p className="text-lg">{metric.subtitle}</p>
-              </div>
+            <div className="text-center space-y-4">
+              <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-neutral-600 dark:from-neutral-100 dark:to-neutral-400">
+                Explore My Work
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                A glimpse into my recent projects and technical expertise.
+              </p>
             </div>
-          );
 
-          return metric.link ? (
-            <MagneticButton
-              key={index}
-              href={metric.link}
-              magneticStrength={0.2}
-              className="block"
-            >
-              <CardContent />
-            </MagneticButton>
-          ) : (
-            <div key={index}>
-              <CardContent />
-            </div>
-          );
-        })}
-      </motion.div>
+            <BentoGrid className="max-w-6xl mx-auto">
+              {/* Project 1 */}
+              <BentoGridItem
+                 className="md:col-span-2 md:row-span-2 min-h-[400px]"
+                 header={
+                   <div className="relative w-full h-full min-h-[200px] rounded-2xl overflow-hidden group">
+                      <Image 
+                        src={featuredProjects[0].image} 
+                        alt={featuredProjects[0].title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                        <span className="px-6 py-2 rounded-full bg-white/10 border border-white/20 text-white font-medium backdrop-blur-md hover:bg-white/20 transition-colors shadow-glow">
+                          View Project
+                        </span>
+                      </div>
+                   </div>
+                 }
+                 title={
+                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 font-bold">
+                     {featuredProjects[0].title}
+                   </span>
+                 }
+                 description={featuredProjects[0].description.slice(0, 100) + "..."}
+                 icon={<FaLaptopCode className="text-cyan-400 text-xl" />}
+                 onClick={() => router.push("/projects")}
+              />
 
-      {/* Spotify Now Playing */}
-      <div className="mt-10">
-        <div className="relative overflow-hidden rounded-xl">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 animate-gradient-x"></div>
-          <SpotifyNowPlaying />
-        </div>
-      </div>
-    </div>
+              {/* Skills / Tech Stack */}
+              <BentoGridItem
+                className="md:col-span-1 md:row-span-1"
+                header={
+                  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-white/5 to-white/0 border border-white/5 items-center justify-center p-4">
+                    <div className="grid grid-cols-3 gap-3">
+                       <div className="h-2 w-12 bg-cyan-500/50 rounded-full animate-pulse shadow-glow" />
+                       <div className="h-2 w-8 bg-purple-500/50 rounded-full animate-pulse delay-75 shadow-glow" />
+                       <div className="h-2 w-10 bg-blue-500/50 rounded-full animate-pulse delay-100 shadow-glow" />
+                       <div className="h-2 w-10 bg-indigo-500/50 rounded-full animate-pulse delay-150 shadow-glow" />
+                       <div className="h-2 w-12 bg-pink-500/50 rounded-full animate-pulse delay-200 shadow-glow" />
+                       <div className="h-2 w-8 bg-cyan-400/50 rounded-full animate-pulse delay-300 shadow-glow" />
+                    </div>
+                  </div>
+                }
+                title="Tech Stack"
+                description="Next.js • React • Tailwind • Supabase"
+                icon={<FaTools className="h-4 w-4 text-purple-400" />}
+                onClick={() => router.push("/skills")}
+              />
+
+              {/* Project 2 */}
+              <BentoGridItem
+                 className="md:col-span-1 md:row-span-1"
+                 header={
+                   <div className="relative w-full h-full min-h-[6rem] rounded-2xl overflow-hidden group">
+                      <Image 
+                        src={featuredProjects[1].image} 
+                        alt={featuredProjects[1].title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                         <FaArrowRight className="text-white text-3xl -rotate-45" />
+                      </div>
+                   </div>
+                 }
+                 title={featuredProjects[1].title}
+                 description="Click to explore details."
+                 icon={<FaGithub className="h-4 w-4 text-white/80" />}
+                 onClick={() => router.push("/projects")}
+              />
+
+              {/* More Projects Link */}
+               <div
+                 onClick={() => router.push("/projects")}
+                 className="md:col-span-3 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 p-6 flex items-center justify-center gap-4 cursor-pointer transition-all duration-500 group relative overflow-hidden"
+               >
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <span className="font-medium text-lg relative z-10">Explore all projects</span>
+                  <FaArrowRight className="group-hover:translate-x-2 transition-transform text-cyan-400 relative z-10" />
+               </div>
+
+            </BentoGrid>
+          </ScrollReveal>
+        </section>
+      </main>
+    </Suspense>
   );
 }
