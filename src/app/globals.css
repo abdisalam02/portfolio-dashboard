@@ -4,57 +4,39 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.75rem;
+    --background: #E8E4DE;
+    --foreground: #111111;
+    --accent: #C8FF00;
+    --border-color: #111111;
+    --radius: 0px;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --background: #111111;
+    --foreground: #E8E4DE;
+    --accent: #C8FF00;
+    --border-color: #E8E4DE;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border-color);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-mono), monospace;
+  }
+  /* Only hide cursor on devices with a mouse */
+  @media (hover: hover) and (pointer: fine) {
+    body {
+      cursor: none;
+    }
+  }
+  ::selection {
+    background-color: var(--accent);
+    color: #111111;
   }
 }
 
@@ -63,85 +45,26 @@ html {
   scroll-behavior: smooth;
 }
 
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  z-index: 9999;
-}
-
-.spinner {
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #3498db;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-}
-
-
-/* Spinner Animation */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Add this to your globals.css */
-@layer utilities {
-  .bg-grid-pattern {
-    background-image: 
-      linear-gradient(to right, rgba(100, 100, 100, 0.1) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(100, 100, 100, 0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-  
-  .animate-gradient-x {
-    animation: gradient-x 15s ease infinite;
-  }
-  
-  @keyframes gradient-x {
-    0%, 100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-}
-
-/* Custom scrollbar for webkit browsers */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: rgba(100, 100, 100, 0.1);
-  border-radius: 4px;
+  background: var(--background);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 100, 100, 0.3);
-  border-radius: 4px;
+  background: var(--foreground);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 100, 100, 0.5);
-}
-
-/* Smooth scrolling for the entire page */
-html {
-  scroll-behavior: smooth;
+/* Grid overlay utility */
+@layer utilities {
+  .brutalist-grid {
+    background-image:
+      linear-gradient(to right, var(--border-color) 0.5px, transparent 0.5px),
+      linear-gradient(to bottom, var(--border-color) 0.5px, transparent 0.5px);
+    background-size: 80px 80px;
+    opacity: 0.06;
+  }
 }
 
 /* Prevent content shift when scrollbar appears */
@@ -149,52 +72,7 @@ html {
   scrollbar-gutter: stable;
 }
 
-/* Prevent loading overlay from interfering with responsiveness */
-[data-loading-overlay] {
-  transition: pointer-events 0.1s ease;
-}
-
-/* Ensure overlays don't interfere when hidden */
-[data-loading-overlay][style*="opacity: 0"] {
-  pointer-events: none !important;
-}
-
-/* Additional safety for any stuck overlays */
-.loading-overlay-exit {
-  pointer-events: none !important;
-}
-
-/* Ensure body remains responsive */
 body {
   position: relative;
   overflow-x: hidden;
 }
-
-/* Prevent viewport issues on mobile */
-@media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
-  }
-  
-  /* Ensure loading overlays are properly sized on mobile */
-  [data-loading-overlay] {
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh; /* Use dynamic viewport height for better mobile support */
-  }
-}
-
-/* Animation performance optimizations */
-@media (prefers-reduced-motion: no-preference) {
-  .loading-animation {
-    will-change: transform, opacity;
-  }
-}
-
-/* Ensure z-index stacking doesn't interfere */
-.main-content {
-  position: relative;
-  z-index: 1;
-}
-
-

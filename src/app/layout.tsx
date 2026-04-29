@@ -1,18 +1,26 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { JetBrains_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./utils/providers";
-import FloatingNavbar from "./components/NavbarLayout";
+import BrutalistNavbar from "./components/NavbarLayout";
+import CustomCursor from "./components/CustomCursor";
+import AccentPicker from "./components/AccentPicker";
 
-const outfit = Outfit({ 
+const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: '--font-outfit',
-  weight: ['300', '400', '500', '600', '700'],
+  variable: "--font-mono",
+  weight: ["400", "500", "700", "800"],
+});
+
+const sans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Abdisalam Gure - Full Stack Developer",
-  description: "Portfolio of Abdisalam Gure, a Full Stack Developer specializing in Next.js, React, and modern web technologies.",
+  title: "AG — Designer & Developer",
+  description: "Portfolio of Abdisalam Gure. Precision interfaces. Brutal functionality.",
 };
 
 export default function RootLayout({
@@ -22,15 +30,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${outfit.variable} font-sans antialiased bg-background text-foreground selection:bg-cyan-500/30 transition-colors duration-300`}>
+      <body className={`${mono.variable} ${sans.variable} font-mono antialiased`}>
         <Providers>
-           {/* Optimized Ambient Background - Static for performance */}
-           <div className="fixed inset-0 -z-20 h-full w-full bg-background transition-colors duration-300">
-              <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-              <div className="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)] opacity-20 blur-[100px] pointer-events-none" />
-           </div>
-           
-          <FloatingNavbar>{children}</FloatingNavbar>
+          {/* Grid Overlay */}
+          <div className="fixed inset-0 -z-10 brutalist-grid pointer-events-none" />
+          <CustomCursor />
+          <AccentPicker />
+          <BrutalistNavbar>{children}</BrutalistNavbar>
         </Providers>
       </body>
     </html>

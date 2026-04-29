@@ -1,125 +1,191 @@
 "use client";
 
-import { Suspense } from "react";
-import Hero from "./components/Hero";
-import { BentoGrid, BentoGridItem } from "./components/ui/bento-grid";
-import { FaLaptopCode, FaTools, FaArrowRight, FaGithub } from "react-icons/fa";
-import Loading from "./Loading";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { selectedProjects } from "./projects/projectsData";
-import ScrollReveal from "./components/ScrollReveal";
+import Link from "next/link";
+import Image from "next/image";
 
-export default function Overview() {
-  const router = useRouter();
+export default function Home() {
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const previewX = useTransform(mouseX, (v) => v + 20);
+  const previewY = useTransform(mouseY, (v) => v - 80);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
-  // Get first 2 projects
-  const featuredProjects = selectedProjects.slice(0, 2);
+  const handleMouseMove = (e: React.MouseEvent) => {
+    mouseX.set(e.clientX);
+    mouseY.set(e.clientY);
+  };
+
+  const heroWords = ["DESIGN.", "DEVELOP.", "DEPLOY."];
 
   return (
-    <Suspense fallback={<Loading />}>
-      <main className="min-h-screen pb-20 overflow-x-hidden">
-        <Hero />
-        
-        <section className="px-4 py-16" id="explore">
-          <ScrollReveal
-            className="max-w-6xl mx-auto space-y-12"
-          >
-            <div className="text-center space-y-4">
-              <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-neutral-600 dark:from-neutral-100 dark:to-neutral-400">
-                Explore My Work
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                A glimpse into my recent projects and technical expertise.
-              </p>
+    <div className="min-h-screen" onMouseMove={handleMouseMove}>
+      {/* === HERO SECTION === */}
+      <section className="min-h-[90vh] flex flex-col justify-center px-4 md:px-12 max-w-7xl mx-auto relative">
+        {/* Status Badge */}
+        <motion.div
+          className="flex items-center gap-3 mb-8"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+          </span>
+          <span className="text-xs font-bold tracking-widest uppercase text-foreground/60">
+            AVAILABLE FOR WORK
+          </span>
+        </motion.div>
+
+        {/* Main Headline */}
+        <div className="space-y-0">
+          {heroWords.map((word, index) => (
+            <div key={index} className="overflow-hidden">
+              <motion.h1
+                className="text-7xl sm:text-8xl md:text-[10vw] lg:text-[9vw] font-black uppercase leading-[0.85] tracking-tighter transition-colors duration-500"
+                initial={{ y: "110%" }}
+                animate={{ y: 0 }}
+                whileInView={isMobile ? { color: "var(--accent)" } : {}}
+                viewport={{ margin: "-30% 0px -30% 0px" }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0.33, 1, 0.68, 1],
+                  delay: index * 0.1,
+                }}
+                whileHover={!isMobile ? {
+                  x: 30,
+                  color: "var(--accent)",
+                  transition: { duration: 0.2, ease: "easeOut" },
+                } : {}}
+              >
+                {word}
+              </motion.h1>
             </div>
+          ))}
+        </div>
 
-            <BentoGrid className="max-w-6xl mx-auto">
-              {/* Project 1 */}
-              <BentoGridItem
-                 className="md:col-span-2 md:row-span-2 min-h-[400px]"
-                 header={
-                   <div className="relative w-full h-full min-h-[200px] rounded-2xl overflow-hidden group">
-                      <Image 
-                        src={featuredProjects[0].image} 
-                        alt={featuredProjects[0].title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-                        <span className="px-6 py-2 rounded-full bg-white/10 border border-white/20 text-white font-medium backdrop-blur-md hover:bg-white/20 transition-colors shadow-glow">
-                          View Project
-                        </span>
-                      </div>
-                   </div>
-                 }
-                 title={
-                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 font-bold">
-                     {featuredProjects[0].title}
-                   </span>
-                 }
-                 description={featuredProjects[0].description.slice(0, 100) + "..."}
-                 icon={<FaLaptopCode className="text-cyan-400 text-xl" />}
-                 onClick={() => router.push("/projects")}
-              />
+        {/* Sub Copy */}
+        <motion.div
+          className="mt-8 md:mt-16 flex flex-col items-start border-t-2 border-foreground pt-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+        >
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center">
+            <div className="relative w-20 h-24 md:w-28 md:h-32 border-2 border-foreground grayscale hover:grayscale-0 transition-all duration-500 bg-foreground/5 flex-shrink-0">
+              <Image src="/images/profile.png" alt="Abdisalam" fill className="object-cover" />
+            </div>
+            <div className="max-w-md">
+              <motion.p 
+                className="text-lg md:text-xl font-sans leading-relaxed transition-colors duration-500"
+                whileInView={isMobile ? { color: "var(--accent)" } : {}}
+                viewport={{ margin: "-30% 0px -30% 0px" }}
+              >
+                Freelancer who brings ideas to life through elegant code and purposeful design.
+              </motion.p>
+              <motion.p 
+                className="text-sm mt-2 font-sans transition-colors duration-500"
+                whileInView={isMobile ? { color: "var(--accent)", opacity: 1 } : { color: "var(--foreground)", opacity: 0.5 }}
+                viewport={{ margin: "-30% 0px -30% 0px" }}
+              >
+                Bachelor&apos;s in Information Systems — Oslo, Norway
+              </motion.p>
+            </div>
+          </div>
+        </motion.div>
+      </section>
 
-              {/* Skills / Tech Stack */}
-              <BentoGridItem
-                className="md:col-span-1 md:row-span-1"
-                header={
-                  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-white/5 to-white/0 border border-white/5 items-center justify-center p-4">
-                    <div className="grid grid-cols-3 gap-3">
-                       <div className="h-2 w-12 bg-cyan-500/50 rounded-full animate-pulse shadow-glow" />
-                       <div className="h-2 w-8 bg-purple-500/50 rounded-full animate-pulse delay-75 shadow-glow" />
-                       <div className="h-2 w-10 bg-blue-500/50 rounded-full animate-pulse delay-100 shadow-glow" />
-                       <div className="h-2 w-10 bg-indigo-500/50 rounded-full animate-pulse delay-150 shadow-glow" />
-                       <div className="h-2 w-12 bg-pink-500/50 rounded-full animate-pulse delay-200 shadow-glow" />
-                       <div className="h-2 w-8 bg-cyan-400/50 rounded-full animate-pulse delay-300 shadow-glow" />
-                    </div>
+      {/* === FEATURED PROJECTS === */}
+      <section className="border-t-2 border-foreground" ref={containerRef}>
+        <div className="max-w-7xl mx-auto px-4 md:px-12 py-16">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-xs font-bold tracking-widest uppercase text-foreground/50">
+              SELECTED WORK
+            </h2>
+            <span className="text-xs font-bold tracking-widest text-foreground/50">
+              ({selectedProjects.length.toString().padStart(2, "0")})
+            </span>
+          </div>
+
+          {/* Project Rows with Cursor Image Reveal */}
+          <div className="divide-y-2 divide-foreground border-y-2 border-foreground">
+            {selectedProjects.map((project, index) => (
+              <Link
+                href={`/projects/${project.id}`}
+                key={project.id}
+                className="group block"
+                onMouseEnter={() => setHoveredProject(index)}
+                onMouseLeave={() => setHoveredProject(null)}
+                data-cursor="link"
+              >
+                <motion.div 
+                  className="flex items-center justify-between py-6 md:py-8 px-2 md:px-4 transition-colors group-hover:bg-accent group-hover:text-[#111] active:bg-accent active:text-[#111]"
+                  whileInView={isMobile ? { backgroundColor: "var(--accent)", color: "#111" } : {}}
+                  viewport={{ margin: "-40% 0px -40% 0px" }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className="flex items-center gap-4 md:gap-12">
+                    <span className="text-xs font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60 w-8">
+                      {(index + 1).toString().padStart(2, "0")}
+                    </span>
+                    <h3 className="text-xl md:text-4xl font-bold uppercase tracking-tight">
+                      {project.title}
+                    </h3>
                   </div>
-                }
-                title="Tech Stack"
-                description="Next.js • React • Tailwind • Supabase"
-                icon={<FaTools className="h-4 w-4 text-purple-400" />}
-                onClick={() => router.push("/skills")}
+                  <div className="flex items-center gap-4 md:gap-6">
+                    <div className="hidden md:flex items-center gap-6">
+                      {project.tech.slice(0, 2).map((t) => (
+                        <span key={t} className="text-xs font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60">
+                          {t.toUpperCase()}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="text-xl md:text-2xl transition-transform group-hover:translate-x-2">→</span>
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Floating cursor-follow image preview — desktop only */}
+          {hoveredProject !== null && (
+            <motion.div
+              className="hidden md:block fixed pointer-events-none z-30 w-64 h-40 overflow-hidden border-2 border-foreground"
+              style={{ x: previewX, y: previewY }}
+            >
+              <Image
+                src={selectedProjects[hoveredProject].image}
+                alt={selectedProjects[hoveredProject].title}
+                fill
+                className="object-cover"
               />
+            </motion.div>
+          )}
+        </div>
+      </section>
 
-              {/* Project 2 */}
-              <BentoGridItem
-                 className="md:col-span-1 md:row-span-1"
-                 header={
-                   <div className="relative w-full h-full min-h-[6rem] rounded-2xl overflow-hidden group">
-                      <Image 
-                        src={featuredProjects[1].image} 
-                        alt={featuredProjects[1].title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-                         <FaArrowRight className="text-white text-3xl -rotate-45" />
-                      </div>
-                   </div>
-                 }
-                 title={featuredProjects[1].title}
-                 description="Click to explore details."
-                 icon={<FaGithub className="h-4 w-4 text-white/80" />}
-                 onClick={() => router.push("/projects")}
-              />
-
-              {/* More Projects Link */}
-               <div
-                 onClick={() => router.push("/projects")}
-                 className="md:col-span-3 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 p-6 flex items-center justify-center gap-4 cursor-pointer transition-all duration-500 group relative overflow-hidden"
-               >
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <span className="font-medium text-lg relative z-10">Explore all projects</span>
-                  <FaArrowRight className="group-hover:translate-x-2 transition-transform text-cyan-400 relative z-10" />
-               </div>
-
-            </BentoGrid>
-          </ScrollReveal>
-        </section>
-      </main>
-    </Suspense>
+      {/* === MARQUEE === */}
+      <section className="border-t-2 border-foreground py-6 pb-[40vh] md:pb-6 overflow-hidden">
+        <div className="flex whitespace-nowrap animate-marquee">
+          {[...Array(8)].map((_, i) => (
+            <span key={i} className="text-6xl md:text-8xl font-black uppercase tracking-tighter mx-8 text-foreground/10">
+              DESIGN • DEVELOP • DEPLOY •
+            </span>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }

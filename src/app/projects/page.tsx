@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
-import Loading from "../Loading";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import Image from "next/image";
-import { FaGithub, FaExternalLinkAlt, FaStar, FaCodeBranch } from "react-icons/fa";
-import TextReveal from "../components/TextReveal";
-import MagneticButton from "../components/MagneticButton";
+import Link from "next/link";
+import { FaGithub } from "react-icons/fa";
 
 interface Repo {
   id: number;
@@ -19,8 +17,6 @@ interface Repo {
   topics?: string[];
 }
 
-const MAX_REPOS = 6;
-
 const selectedProjects = [
   {
     id: 1,
@@ -29,8 +25,7 @@ const selectedProjects = [
     url: "/projects/1",
     image: "/images/portfolio.png",
     tech: ["Next.js", "Tailwind", "Framer Motion"],
-    status: "Live",
-    featured: true
+    year: 2023,
   },
   {
     id: 2,
@@ -39,8 +34,7 @@ const selectedProjects = [
     url: "/projects/2",
     image: "/images/Recipe.png",
     tech: ["React", "Firebase", "Spoonacular API"],
-    status: "Live",
-    featured: true
+    year: 2023,
   },
   {
     id: 3,
@@ -49,283 +43,191 @@ const selectedProjects = [
     url: "/projects/3",
     image: "/images/Taks.png",
     tech: ["Next.js", "MongoDB", "NextAuth"],
-    status: "In Development",
-    featured: false
+    year: 2024,
   },
   {
     id: 4,
-    title: "MusicBoxd ",
-    description: "A modern music discovery and social platform",
+    title: "MusicBoxd",
+    description: "A modern music discovery and social platform.",
     url: "/projects/4",
     image: "/images/Music.png",
-    tech: ["Next.js 15", "Spotify API", "Deezer API", "Supabase",],
-    status: "Live",
-    featured: true
+    tech: ["Next.js 15", "Spotify API", "Supabase"],
+    year: 2024,
   },
 ];
-
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const projectCardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 25
-    }
-  }
-};
-
-const repoCardVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
-    scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 200,
-      damping: 20
-    }
-  }
-};
 
 export default function Projects() {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const previewX = useTransform(mouseX, (v) => v + 20);
+  const previewY = useTransform(mouseY, (v) => v - 100);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    mouseX.set(e.clientX);
+    mouseY.set(e.clientY);
+  };
 
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        const response = await fetch("https://api.github.com/users/abdisalam02/repos");
-        if (!response.ok) throw new Error("Failed to fetch repositories");
+        const response = await fetch("https://api.github.com/users/abdisalam02/repos?per_page=100&sort=updated");
+        if (!response.ok) throw new Error("Failed");
         const data = await response.json();
-        const sortedRepos = data
-          .sort((a: Repo, b: Repo) => (b.stargazers_count || 0) - (a.stargazers_count || 0))
-          .slice(0, MAX_REPOS);
-        setRepos(sortedRepos);
-        setLoading(false);
+        setRepos(data.slice(0, 8));
       } catch (error) {
-        console.error("Error fetching repositories:", error);
+        console.error(error);
+      } finally {
         setLoading(false);
       }
     };
-
     fetchRepos();
   }, []);
 
-  if (loading) return <Loading />;
-
   return (
-    <div className="min-h-screen pt-20">
-      <div className="p-4 md:p-6 space-y-24 pb-24 max-w-7xl mx-auto">
-        
-        {/* Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center space-y-6"
-        >
-          <TextReveal
-            text="Featured Projects"
-            type="fadeUp"
-            className="text-5xl md:text-7xl font-bold tracking-tighter text-white"
-          />
-          <p className="text-xl text-white/60 max-w-2xl mx-auto leading-relaxed">
-            A selection of my recent work, featuring web applications built with modern technologies.
-          </p>
-        </motion.div>
-
-        {/* Featured Projects Grid */}
-        <section>
+    <div className="min-h-screen" onMouseMove={handleMouseMove}>
+      {/* Header */}
+      <section className="border-b-2 border-foreground">
+        <div className="max-w-7xl mx-auto px-4 md:px-12 py-16 md:py-24">
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            {selectedProjects.map((project) => (
-              <motion.div key={project.id} variants={projectCardVariants}>
-                <ProjectCard project={project} />
-              </motion.div>
-            ))}
+            <span className="text-xs font-bold tracking-widest text-foreground/50 mb-4 block">
+              ARCHIVE / WORK
+            </span>
+            <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
+              PROJECTS
+            </h1>
           </motion.div>
-        </section>
+        </div>
+      </section>
 
-        {/* GitHub Repositories Section */}
-        <section className="space-y-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center space-y-4"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
-              Open Source
-            </h2>
-            <p className="text-white/60 max-w-xl mx-auto">
-              Explore my latest code contributions and experiments on GitHub.
-            </p>
-          </motion.div>
-
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {repos.map((repo) => (
-              <motion.div key={repo.id} variants={repoCardVariants}>
-                <RepoCard repo={repo} />
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <MagneticButton
-              href="https://github.com/abdisalam02"
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors backdrop-blur-md shadow-glow"
-              magneticStrength={0.3}
-            >
-              <FaGithub className="text-xl" />
-              <span>View GitHub Profile</span>
-            </MagneticButton>
-          </motion.div>
-        </section>
-      </div>
-    </div>
-  );
-}
-
-// Project Card Component
-function ProjectCard({ project }: { project: { 
-  id: number;
-  title: string; 
-  description: string; 
-  url: string; 
-  image: string; 
-  tech: string[];
-  status: string;
-  featured: boolean;
-} }) {
-  return (
-    <div className="group relative h-full rounded-3xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 transition-all duration-500 shadow-glass">
-      <MagneticButton href={project.url} className="block h-full" magneticStrength={0.1}>
-        <div className="flex flex-col h-full">
-          {/* Image Container */}
-          <div className="relative h-64 overflow-hidden">
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-            
-            {/* Status Badge */}
-            <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-medium text-white flex items-center gap-2">
-              <span className={`w-2 h-2 rounded-full ${project.status === 'Live' ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'}`} />
-              {project.status}
-            </div>
+      {/* Featured Projects - Table View */}
+      <section className="border-b-2 border-foreground">
+        <div className="max-w-7xl mx-auto px-4 md:px-12">
+          {/* Table Header */}
+          <div className="hidden md:grid grid-cols-12 gap-4 py-4 text-xs font-bold tracking-widest text-foreground/40 border-b border-foreground/20">
+            <span className="col-span-1">NO.</span>
+            <span className="col-span-4">PROJECT</span>
+            <span className="col-span-3">STACK</span>
+            <span className="col-span-2">YEAR</span>
+            <span className="col-span-2 text-right">LINK</span>
           </div>
-          
-          {/* Content */}
-          <div className="p-8 flex-grow flex flex-col space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
-                {project.title}
-              </h3>
-              <FaExternalLinkAlt className="text-white/40 group-hover:text-cyan-400 transition-colors" />
-            </div>
-            
-            <p className="text-white/70 leading-relaxed">
-              {project.description}
-            </p>
-            
-            <div className="flex flex-wrap gap-2 mt-auto pt-4">
-              {project.tech.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1 text-xs font-medium text-white/80 bg-white/5 border border-white/10 rounded-full"
-                >
-                  {tech}
+
+          {/* Project Rows */}
+          {selectedProjects.map((project, index) => (
+            <Link
+              href={project.url}
+              key={project.id}
+              className="group block border-b border-foreground/20 last:border-b-0"
+              onMouseEnter={() => setHoveredProject(index)}
+              onMouseLeave={() => setHoveredProject(null)}
+              data-cursor="link"
+            >
+              <div className="flex items-center justify-between md:grid md:grid-cols-12 gap-2 md:gap-4 py-6 md:py-8 transition-colors group-hover:bg-accent group-hover:text-[#111] active:bg-accent active:text-[#111] px-2">
+                <span className="hidden md:block col-span-1 text-xs font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60">
+                  {(index + 1).toString().padStart(2, "0")}
                 </span>
+                <h3 className="md:col-span-4 text-lg md:text-2xl font-bold uppercase tracking-tight">
+                  {project.title}
+                </h3>
+                <div className="col-span-3 hidden md:flex gap-2 flex-wrap">
+                  {project.tech.map((t) => (
+                    <span key={t} className="text-[10px] font-bold tracking-widest px-2 py-1 border border-foreground/20 group-hover:border-[#111]/30">
+                      {t.toUpperCase()}
+                    </span>
+                  ))}
+                </div>
+                <span className="hidden md:block col-span-2 text-sm font-bold text-foreground/50 group-hover:text-[#111]/60">
+                  {project.year}
+                </span>
+                <span className="md:col-span-2 text-xl md:text-2xl md:text-right transition-transform group-hover:translate-x-2">
+                  →
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Floating cursor-follow image preview — desktop only */}
+        {hoveredProject !== null && (
+          <motion.div
+            className="hidden md:block fixed pointer-events-none z-30 w-72 h-44 overflow-hidden border-2 border-foreground shadow-lg"
+            style={{ x: previewX, y: previewY }}
+          >
+            <Image
+              src={selectedProjects[hoveredProject].image}
+              alt={selectedProjects[hoveredProject].title}
+              fill
+              className="object-cover"
+            />
+          </motion.div>
+        )}
+      </section>
+
+      {/* Open Source Section */}
+      <section>
+        <div className="max-w-7xl mx-auto px-4 md:px-12 py-16">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-xs font-bold tracking-widest uppercase text-foreground/50">
+              OPEN SOURCE
+            </h2>
+            <a
+              href="https://github.com/abdisalam02"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold tracking-widest border-2 border-foreground px-4 py-2 hover:bg-foreground hover:text-background transition-colors flex items-center gap-2"
+              data-cursor="link"
+            >
+              <FaGithub /> GITHUB
+            </a>
+          </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border-2 border-foreground">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="border border-foreground/20 p-6 animate-pulse">
+                  <div className="h-4 bg-foreground/10 w-2/3 mb-3" />
+                  <div className="h-3 bg-foreground/10 w-full mb-2" />
+                  <div className="h-3 bg-foreground/10 w-1/2" />
+                </div>
               ))}
             </div>
-          </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border-2 border-foreground">
+              {repos.map((repo) => (
+                <a
+                  key={repo.id}
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block border border-foreground/20 p-6 hover:bg-accent hover:text-[#111] transition-colors"
+                  data-cursor="link"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <FaGithub className="text-foreground/30 group-hover:text-[#111]/50" />
+                    {repo.language && (
+                      <span className="text-[10px] font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60">
+                        {repo.language.toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-bold text-sm uppercase tracking-tight mb-2 line-clamp-1">
+                    {repo.name}
+                  </h3>
+                  <p className="text-xs text-foreground/50 group-hover:text-[#111]/60 line-clamp-2 font-sans">
+                    {repo.description || "No description."}
+                  </p>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
-      </MagneticButton>
+      </section>
     </div>
-  );
-}
-
-// Repository Card Component
-function RepoCard({ repo }: { repo: Repo }) {
-  return (
-    <a
-      href={repo.html_url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block h-full group"
-    >
-      <div className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 relative overflow-hidden flex flex-col space-y-4">
-        {/* Holographic Hover Effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
-        <div className="flex items-start justify-between relative z-10">
-          <div className="p-2 rounded-lg bg-white/5 text-white/80 group-hover:text-cyan-400 transition-colors">
-            <FaCodeBranch size={20} />
-          </div>
-          <div className="flex items-center gap-3 text-sm text-white/50">
-             {repo.language && (
-                <span className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400/50" />
-                  {repo.language}
-                </span>
-             )}
-             {repo.stargazers_count !== undefined && (
-                <span className="flex items-center gap-1">
-                   <FaStar className="text-yellow-500/70" /> {repo.stargazers_count}
-                </span>
-             )}
-          </div>
-        </div>
-
-        <div className="relative z-10 space-y-2 flex-grow">
-          <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
-            {repo.name}
-          </h3>
-          <p className="text-sm text-white/60 line-clamp-2 leading-relaxed">
-            {repo.description || "No description available."}
-          </p>
-        </div>
-
-        <div className="relative z-10 pt-2 flex flex-wrap gap-2">
-           {repo.topics?.slice(0, 3).map(topic => (
-             <span key={topic} className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-md bg-white/5 text-white/40">
-               {topic}
-             </span>
-           ))}
-        </div>
-      </div>
-    </a>
   );
 }
