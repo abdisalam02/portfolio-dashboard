@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const accentPresets = [
-  { name: "Lime", value: "#C8FF00" },
+  { name: "Indigo", value: "#8B5CF6" },
   { name: "Coral", value: "#FF6B6B" },
   { name: "Cyan", value: "#00D4FF" },
   { name: "Violet", value: "#A855F7" },
@@ -16,7 +16,7 @@ const accentPresets = [
 
 export default function AccentPicker() {
   const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState("#C8FF00");
+  const [current, setCurrent] = useState("#8B5CF6");
   const ref = useRef<HTMLDivElement>(null);
 
   // Close when clicking outside

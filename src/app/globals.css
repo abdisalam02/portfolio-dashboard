@@ -6,7 +6,7 @@
   :root {
     --background: #E8E4DE;
     --foreground: #111111;
-    --accent: #C8FF00;
+    --accent: #8B5CF6;
     --border-color: #111111;
     --radius: 0px;
   }
@@ -14,7 +14,7 @@
   .dark {
     --background: #111111;
     --foreground: #E8E4DE;
-    --accent: #C8FF00;
+    --accent: #8B5CF6;
     --border-color: #E8E4DE;
   }
 }

@@ -5,6 +5,7 @@ import { Providers } from "./utils/providers";
 import BrutalistNavbar from "./components/NavbarLayout";
 import CustomCursor from "./components/CustomCursor";
 import AccentPicker from "./components/AccentPicker";
+import Footer from "./components/Footer";
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
@@ -36,7 +37,10 @@ export default function RootLayout({
           <div className="fixed inset-0 -z-10 brutalist-grid pointer-events-none" />
           <CustomCursor />
           <AccentPicker />
-          <BrutalistNavbar>{children}</BrutalistNavbar>
+          <BrutalistNavbar>
+            {children}
+            <Footer />
+          </BrutalistNavbar>
         </Providers>
       </body>
     </html>

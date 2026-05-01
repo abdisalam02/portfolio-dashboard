@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { selectedProjects } from "./projects/projectsData";
 import Link from "next/link";
 import Image from "next/image";
+import TechBadge from "./components/TechBadge";
 
 export default function Home() {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
@@ -15,11 +16,22 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   
   const [isMobile, setIsMobile] = useState(false);
+  const [atBottom, setAtBottom] = useState(false);
+
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
+    const handleScroll = () => {
+      const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
+      setAtBottom(isBottom);
+    };
+    
     check();
     window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("resize", check);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -58,7 +70,7 @@ export default function Home() {
                 initial={{ y: "110%" }}
                 animate={{ y: 0 }}
                 whileInView={isMobile ? { color: "var(--accent)" } : {}}
-                viewport={{ margin: "-30% 0px -30% 0px" }}
+                viewport={{ margin: "-45% 0px -45% 0px" }}
                 transition={{
                   duration: 0.8,
                   ease: [0.33, 1, 0.68, 1],
@@ -91,14 +103,14 @@ export default function Home() {
               <motion.p 
                 className="text-lg md:text-xl font-sans leading-relaxed transition-colors duration-500"
                 whileInView={isMobile ? { color: "var(--accent)" } : {}}
-                viewport={{ margin: "-30% 0px -30% 0px" }}
+                viewport={{ margin: "-45% 0px -45% 0px" }}
               >
                 Freelancer who brings ideas to life through elegant code and purposeful design.
               </motion.p>
               <motion.p 
                 className="text-sm mt-2 font-sans transition-colors duration-500"
                 whileInView={isMobile ? { color: "var(--accent)", opacity: 1 } : { color: "var(--foreground)", opacity: 0.5 }}
-                viewport={{ margin: "-30% 0px -30% 0px" }}
+                viewport={{ margin: "-45% 0px -45% 0px" }}
               >
                 Bachelor&apos;s in Information Systems — Oslo, Norway
               </motion.p>
@@ -121,42 +133,44 @@ export default function Home() {
 
           {/* Project Rows with Cursor Image Reveal */}
           <div className="divide-y-2 divide-foreground border-y-2 border-foreground">
-            {selectedProjects.map((project, index) => (
-              <Link
-                href={`/projects/${project.id}`}
-                key={project.id}
-                className="group block"
-                onMouseEnter={() => setHoveredProject(index)}
-                onMouseLeave={() => setHoveredProject(null)}
-                data-cursor="link"
-              >
-                <motion.div 
-                  className="flex items-center justify-between py-6 md:py-8 px-2 md:px-4 transition-colors group-hover:bg-accent group-hover:text-[#111] active:bg-accent active:text-[#111]"
-                  whileInView={isMobile ? { backgroundColor: "var(--accent)", color: "#111" } : {}}
-                  viewport={{ margin: "-40% 0px -40% 0px" }}
-                  transition={{ duration: 0.4 }}
+            {selectedProjects.map((project, index) => {
+              const isLast = index === selectedProjects.length - 1;
+              return (
+                <Link
+                  href={`/projects/${project.id}`}
+                  key={project.id}
+                  className="group block"
+                  onMouseEnter={() => setHoveredProject(index)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                  data-cursor="link"
                 >
-                  <div className="flex items-center gap-4 md:gap-12">
-                    <span className="text-xs font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60 w-8">
-                      {(index + 1).toString().padStart(2, "0")}
-                    </span>
-                    <h3 className="text-xl md:text-4xl font-bold uppercase tracking-tight">
-                      {project.title}
-                    </h3>
-                  </div>
-                  <div className="flex items-center gap-4 md:gap-6">
-                    <div className="hidden md:flex items-center gap-6">
-                      {project.tech.slice(0, 2).map((t) => (
-                        <span key={t} className="text-xs font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60">
-                          {t.toUpperCase()}
-                        </span>
-                      ))}
+                  <motion.div 
+                    className="flex items-center justify-between py-6 md:py-8 px-2 md:px-4 transition-colors group-hover:bg-accent group-hover:text-[#111] active:bg-accent active:text-[#111]"
+                    whileInView={isMobile ? { backgroundColor: "var(--accent)", color: "#111" } : {}}
+                    animate={isMobile && isLast && atBottom ? { backgroundColor: "var(--accent)", color: "#111" } : {}}
+                    viewport={{ margin: "-45% 0px -45% 0px" }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <div className="flex items-center gap-4 md:gap-12">
+                      <span className="text-xs font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60 w-8">
+                        {(index + 1).toString().padStart(2, "0")}
+                      </span>
+                      <h3 className="text-xl md:text-4xl font-bold uppercase tracking-tight">
+                        {project.title}
+                      </h3>
                     </div>
-                    <span className="text-xl md:text-2xl transition-transform group-hover:translate-x-2">→</span>
-                  </div>
-                </motion.div>
-              </Link>
-            ))}
+                    <div className="flex items-center gap-4 md:gap-6">
+                      <div className="flex items-center gap-2 md:gap-6">
+                        {project.tech.slice(0, 2).map((t) => (
+                          <TechBadge key={t} name={t} isParentHovered={hoveredProject === index} />
+                        ))}
+                      </div>
+                      <span className="text-xl md:text-2xl transition-transform group-hover:translate-x-2">→</span>
+                    </div>
+                  </motion.div>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Floating cursor-follow image preview — desktop only */}
@@ -177,7 +191,7 @@ export default function Home() {
       </section>
 
       {/* === MARQUEE === */}
-      <section className="border-t-2 border-foreground py-6 pb-[40vh] md:pb-6 overflow-hidden">
+      <section className="border-t-2 border-foreground py-6 md:pb-6 overflow-hidden">
         <div className="flex whitespace-nowrap animate-marquee">
           {[...Array(8)].map((_, i) => (
             <span key={i} className="text-6xl md:text-8xl font-black uppercase tracking-tighter mx-8 text-foreground/10">

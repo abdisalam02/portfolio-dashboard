@@ -6,6 +6,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
+import TechBadge from "../components/TechBadge";
 
 interface Repo {
   id: number;
@@ -64,6 +65,25 @@ export default function Projects() {
   const mouseY = useMotionValue(0);
   const previewX = useTransform(mouseX, (v) => v + 20);
   const previewY = useTransform(mouseY, (v) => v - 100);
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [atBottom, setAtBottom] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    const handleScroll = () => {
+      const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
+      setAtBottom(isBottom);
+    };
+    
+    check();
+    window.addEventListener("resize", check);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("resize", check);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     mouseX.set(e.clientX);
@@ -128,18 +148,27 @@ export default function Projects() {
               onMouseLeave={() => setHoveredProject(null)}
               data-cursor="link"
             >
-              <div className="flex items-center justify-between md:grid md:grid-cols-12 gap-2 md:gap-4 py-6 md:py-8 transition-colors group-hover:bg-accent group-hover:text-[#111] active:bg-accent active:text-[#111] px-2">
+              <motion.div 
+                className="flex items-center justify-between md:grid md:grid-cols-12 gap-2 md:gap-4 py-6 md:py-8 transition-colors group-hover:bg-accent group-hover:text-[#111] active:bg-accent active:text-[#111] px-2"
+                whileInView={isMobile ? { backgroundColor: "var(--accent)", color: "#111" } : {}}
+                viewport={{ margin: "-45% 0px -45% 0px" }}
+              >
                 <span className="hidden md:block col-span-1 text-xs font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60">
                   {(index + 1).toString().padStart(2, "0")}
                 </span>
-                <h3 className="md:col-span-4 text-lg md:text-2xl font-bold uppercase tracking-tight">
-                  {project.title}
-                </h3>
+                <div className="flex flex-col md:col-span-4">
+                  <h3 className="text-lg md:text-2xl font-bold uppercase tracking-tight">
+                    {project.title}
+                  </h3>
+                  <div className="flex md:hidden gap-1 mt-2">
+                    {project.tech.slice(0, 3).map((t) => (
+                      <TechBadge key={t} name={t} />
+                    ))}
+                  </div>
+                </div>
                 <div className="col-span-3 hidden md:flex gap-2 flex-wrap">
                   {project.tech.map((t) => (
-                    <span key={t} className="text-[10px] font-bold tracking-widest px-2 py-1 border border-foreground/20 group-hover:border-[#111]/30">
-                      {t.toUpperCase()}
-                    </span>
+                    <TechBadge key={t} name={t} isParentHovered={hoveredProject === index} />
                   ))}
                 </div>
                 <span className="hidden md:block col-span-2 text-sm font-bold text-foreground/50 group-hover:text-[#111]/60">
@@ -148,7 +177,7 @@ export default function Projects() {
                 <span className="md:col-span-2 text-xl md:text-2xl md:text-right transition-transform group-hover:translate-x-2">
                   →
                 </span>
-              </div>
+              </motion.div>
             </Link>
           ))}
         </div>
@@ -199,31 +228,37 @@ export default function Projects() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border-2 border-foreground">
-              {repos.map((repo) => (
-                <a
-                  key={repo.id}
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block border border-foreground/20 p-6 hover:bg-accent hover:text-[#111] transition-colors"
-                  data-cursor="link"
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <FaGithub className="text-foreground/30 group-hover:text-[#111]/50" />
-                    {repo.language && (
-                      <span className="text-[10px] font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60">
-                        {repo.language.toUpperCase()}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="font-bold text-sm uppercase tracking-tight mb-2 line-clamp-1">
-                    {repo.name}
-                  </h3>
-                  <p className="text-xs text-foreground/50 group-hover:text-[#111]/60 line-clamp-2 font-sans">
-                    {repo.description || "No description."}
-                  </p>
-                </a>
-              ))}
+              {repos.map((repo, index) => {
+                const isLastRow = index >= repos.length - 4; // Assuming 4 cols on lg
+                return (
+                  <motion.a
+                    key={repo.id}
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block border border-foreground/20 p-6 hover:bg-accent hover:text-[#111] transition-colors"
+                    data-cursor="link"
+                    whileInView={isMobile ? { backgroundColor: "var(--accent)", color: "#111" } : {}}
+                    animate={isMobile && isLastRow && atBottom ? { backgroundColor: "var(--accent)", color: "#111" } : {}}
+                    viewport={{ margin: "-45% 0px -45% 0px" }}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <FaGithub className="text-foreground/30 group-hover:text-[#111]/50" />
+                      {repo.language && (
+                        <span className="text-[10px] font-bold tracking-widest text-foreground/40 group-hover:text-[#111]/60">
+                          {repo.language.toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="font-bold text-sm uppercase tracking-tight mb-2 line-clamp-1">
+                      {repo.name}
+                    </h3>
+                    <p className="text-xs text-foreground/50 group-hover:text-[#111]/60 line-clamp-2 font-sans">
+                      {repo.description || "No description."}
+                    </p>
+                  </motion.a>
+                );
+              })}
             </div>
           )}
         </div>

@@ -7,11 +7,13 @@ import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { selectedProjects } from "../projectsData";
 import { FaArrowLeft, FaTimes, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import TechBadge from "../../components/TechBadge";
 
 export default function ProjectDetail() {
   const { id } = useParams() as { id: string };
   const project = selectedProjects.find((p) => p.id === Number(id));
   const [modalImage, setModalImage] = useState<string | null>(null);
+  const [hoveredStack, setHoveredStack] = useState(false);
 
   if (!project)
     return (
@@ -88,7 +90,11 @@ export default function ProjectDetail() {
           </div>
 
           {/* Sidebar */}
-          <div className="md:col-span-4 p-8 md:p-10 space-y-8">
+          <div 
+            className="md:col-span-4 p-8 md:p-10 space-y-8"
+            onMouseEnter={() => setHoveredStack(true)}
+            onMouseLeave={() => setHoveredStack(false)}
+          >
             <div>
               <span className="text-[10px] font-bold tracking-widest text-foreground/40 block mb-2">YEAR</span>
               <span className="text-2xl font-black">{project.year}</span>
@@ -96,11 +102,9 @@ export default function ProjectDetail() {
 
             <div>
               <span className="text-[10px] font-bold tracking-widest text-foreground/40 block mb-4">STACK</span>
-              <div className="space-y-2">
+              <div className="flex flex-wrap gap-2">
                 {project.tech.map((t) => (
-                  <div key={t} className="text-xs font-bold tracking-widest border border-foreground/20 px-3 py-2">
-                    {t.toUpperCase()}
-                  </div>
+                  <TechBadge key={t} name={t} isParentHovered={hoveredStack} />
                 ))}
               </div>
             </div>
