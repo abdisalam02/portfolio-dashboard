@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 
 interface GenerateRequest {
   brandName: string;
-  niche: string;
-  angle: "pricing" | "dms" | "aesthetic" | "freelancer" | "custom";
+  niche?: string;
+  angle?: "pricing" | "dms" | "aesthetic" | "freelancer" | "custom";
   notes?: string;
+  personName?: string;
 }
 
 const TEMPLATE_PRESETS = {
@@ -13,13 +14,13 @@ const TEMPLATE_PRESETS = {
     headlineTemplate: (brand: string) => `Websites can be crazy expensive. A direct site for ${brand} doesn't have to be.`,
     descTemplate: (_brand: string, niche: string) =>
       `I recently started building clean mobile sites for small ${niche || "businesses"} in Oslo. Honest rates, direct work, and zero 40k agency markup.`,
-    dmTemplate: (brand: string, niche: string) =>
-      `Hey! I'm A.Gure, an independent junior dev in Oslo. I recently started making clean mobile sites for small ${niche || "spots"} because agencies charge crazy 40k+ kr fees. Check 2 client sites I'm working on at abdisalam.space (tooth gem studio & custom grillz maker). Loved your work with ${brand} — I'd love to make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
-    smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. I build clean mobile sites for small spots (no 40k agency fees). Check 2 client sites: abdisalam.space`,
+    dmTemplate: (brand: string, _niche: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ""}! I'm A.Gure, an independent junior dev in Oslo. I recently started making clean mobile sites for small spots because agencies charge crazy 40k+ kr fees. Check 2 client sites I'm working on at abdisalam.space (tooth gem studio & custom grillz maker). Loved your work with ${brand} — I'd love to make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
+    smsTemplate: (brand: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ` ${brand}`}! I'm A.Gure, local Oslo dev. I build clean mobile sites for small spots (no 40k agency fees). Check 2 client sites: abdisalam.space`,
     emailSubject: (brand: string) => `Quick intro & website idea for ${brand}`,
-    emailBodyTemplate: (brand: string, niche: string) =>
-      `Hey ${brand} team,
+    emailBodyTemplate: (brand: string, niche: string, person?: string) =>
+      `Hey ${person ? person : `${brand} team`},
 
 I'm A.Gure, an independent junior dev in Oslo. I recently started building clean mobile sites for small businesses because big agencies charge crazy 40,000+ kr fees.
 
@@ -38,13 +39,13 @@ abdisalam.space`
     headlineTemplate: (brand: string) => `Still handling ${brand}'s bookings through messy DMs & emails?`,
     descTemplate: (brand: string, _niche: string) =>
       `I recently started building clean booking sites for independent spots in Oslo. Replace lost messages with a direct 1-tap menu so clients can book ${brand} in 30 seconds.`,
-    dmTemplate: (brand: string, _niche: string) =>
-      `Hey! I'm A.Gure, a local junior dev in Oslo. Started making clean mobile booking sites because agencies charge crazy 40k+ prices. Check 2 client sites I'm working on at abdisalam.space. Noticed ${brand}'s bookings run through DMs/emails — I can make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
-    smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. I build 1-tap booking sites so you stop losing clients in DMs. Check 2 client sites: abdisalam.space`,
+    dmTemplate: (brand: string, _niche: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ""}! I'm A.Gure, a local junior dev in Oslo. Started making clean mobile booking sites because agencies charge crazy 40k+ prices. Check 2 client sites I'm working on at abdisalam.space. Noticed ${brand}'s bookings run through DMs/emails — I can make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
+    smsTemplate: (brand: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ` ${brand}`}! I'm A.Gure, local Oslo dev. I build 1-tap booking sites so you stop losing clients in DMs. Check 2 client sites: abdisalam.space`,
     emailSubject: (brand: string) => `Idea to automate bookings for ${brand} (no agency markup)`,
-    emailBodyTemplate: (brand: string, _niche: string) =>
-      `Hey ${brand} team,
+    emailBodyTemplate: (brand: string, _niche: string, person?: string) =>
+      `Hey ${person ? person : `${brand} team`},
 
 I'm A.Gure, a local junior dev in Oslo. I recently started making simple mobile booking sites because agencies charge crazy 40,000+ kr prices.
 
@@ -63,13 +64,13 @@ abdisalam.space`
     headlineTemplate: (brand: string) => `Your work looks great on Instagram. Does ${brand}'s website match it?`,
     descTemplate: (brand: string, _niche: string) =>
       `I recently started building clean mobile sites for local spots in Oslo. Custom design that matches your aesthetic with zero agency markup.`,
-    dmTemplate: (brand: string) =>
-      `Hey! I'm A.Gure, a junior web dev in Oslo. Agencies charge 40k+ kr for sites, so I build clean mobile pages for local spots directly at honest rates. Check 2 client sites I'm working on at abdisalam.space. Your aesthetic with ${brand} is unreal — I can make a quick demo website matching your vibe to see if you like it. Down to see a 15-sec preview? No pressure!`,
-    smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. I build mobile sites matching your Instagram aesthetic. See 2 client sites: abdisalam.space`,
+    dmTemplate: (brand: string, _niche: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ""}! I'm A.Gure, a junior web dev in Oslo. Agencies charge 40k+ kr for sites, so I build clean mobile pages for local spots directly at honest rates. Check 2 client sites I'm working on at abdisalam.space. Your aesthetic with ${brand} is unreal — I can make a quick demo website matching your vibe to see if you like it. Down to see a 15-sec preview? No pressure!`,
+    smsTemplate: (brand: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ` ${brand}`}! I'm A.Gure, local Oslo dev. I build mobile sites matching your Instagram aesthetic. See 2 client sites: abdisalam.space`,
     emailSubject: (brand: string) => `Mobile web makeover idea for ${brand}`,
-    emailBodyTemplate: (brand: string, _niche: string) =>
-      `Hey ${brand} team,
+    emailBodyTemplate: (brand: string, _niche: string, person?: string) =>
+      `Hey ${person ? person : `${brand} team`},
 
 I'm A.Gure, a junior web designer in Oslo. Big agencies charge 40,000+ kr for websites, so I build clean mobile sites for local spots directly at honest rates.
 
@@ -88,13 +89,13 @@ abdisalam.space`
     headlineTemplate: (brand: string) => `I build & redesign clean websites for spots like ${brand}.`,
     descTemplate: (_brand: string, _niche: string) =>
       `I recently started building clean websites for small businesses in Oslo. Direct 1-on-1 collaboration, fair rates, and zero corporate fluff.`,
-    dmTemplate: (brand: string) =>
-      `Hey! I'm A.Gure, an independent junior dev in Oslo. I build clean mobile sites for small spots (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. Loved what you're doing with ${brand} — I can make a quick demo website for you to see if you like it. Down to check it out? No pressure!`,
-    smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. Recently started building clean websites for small spots (no agency fees). Check 2 client sites: abdisalam.space`,
+    dmTemplate: (brand: string, _niche: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ""}! I'm A.Gure, an independent junior dev in Oslo. I build clean mobile sites for small spots (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. Loved what you're doing with ${brand} — I can make a quick demo website for you to see if you like it. Down to check it out? No pressure!`,
+    smsTemplate: (brand: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ` ${brand}`}! I'm A.Gure, local Oslo dev. Recently started building clean websites for small spots (no agency fees). Check 2 client sites: abdisalam.space`,
     emailSubject: (brand: string) => `Quick intro & website idea for ${brand}`,
-    emailBodyTemplate: (brand: string, _niche: string) =>
-      `Hey ${brand} team,
+    emailBodyTemplate: (brand: string, _niche: string, person?: string) =>
+      `Hey ${person ? person : `${brand} team`},
 
 I'm A.Gure, an independent junior dev in Oslo. I build clean mobile websites directly 1-on-1 for small local spots (zero 40,000+ kr agency fees or corporate fluff).
 
@@ -113,13 +114,13 @@ abdisalam.space`
     headlineTemplate: (brand: string) => `A clean mobile website custom-crafted for ${brand}.`,
     descTemplate: (brand: string, _niche: string) =>
       `I recently started building clean websites for small spots in Oslo. Tailored specifically for ${brand} with fair rates and zero agency markup.`,
-    dmTemplate: (brand: string) =>
-      `Hey! I'm A.Gure, a local junior dev in Oslo. Started building clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. I can make a quick demo website for ${brand} to see if you like it. Down to see a 15-sec preview? No pressure!`,
-    smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. Can build a quick demo site: abdisalam.space`,
+    dmTemplate: (brand: string, _niche: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ""}! I'm A.Gure, a local junior dev in Oslo. Started building clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. I can make a quick demo website for ${brand} to see if you like it. Down to see a 15-sec preview? No pressure!`,
+    smsTemplate: (brand: string, person?: string) =>
+      `Hey${person ? ` ${person}` : ` ${brand}`}! I'm A.Gure, local Oslo dev. Can build a quick demo site: abdisalam.space`,
     emailSubject: (brand: string) => `Custom website idea for ${brand}`,
-    emailBodyTemplate: (brand: string, _niche: string) =>
-      `Hey ${brand} team,
+    emailBodyTemplate: (brand: string, _niche: string, person?: string) =>
+      `Hey ${person ? person : `${brand} team`},
 
 I'm A.Gure, an independent junior dev in Oslo. I make clean mobile sites for small businesses without the 40,000+ kr agency markup.
 
@@ -136,10 +137,11 @@ abdisalam.space`
 export async function POST(req: Request) {
   try {
     const body: GenerateRequest = await req.json();
-    const { brandName, niche, angle = "pricing", notes = "" } = body;
+    const { brandName, niche, angle = "pricing", notes = "", personName = "" } = body;
 
     const brand = brandName?.trim() || "Your Brand";
     const cleanNiche = niche?.trim() || "studio";
+    const cleanPerson = personName?.trim();
     const apiKey = process.env.GEMINI_API_KEY?.trim();
 
     // Default preset fallback prepared upfront (lean, punchy, offers demo website)
@@ -148,10 +150,10 @@ export async function POST(req: Request) {
       cardHeadline: preset.headlineTemplate(brand),
       cardDesc: preset.descTemplate(brand, cleanNiche),
       cardTag: preset.tag,
-      dmMessage: preset.dmTemplate(brand, cleanNiche),
-      smsMessage: preset.smsTemplate(brand),
+      dmMessage: preset.dmTemplate(brand, cleanNiche, cleanPerson),
+      smsMessage: preset.smsTemplate(brand, cleanPerson),
       emailSubject: preset.emailSubject(brand),
-      emailBody: preset.emailBodyTemplate(brand, cleanNiche)
+      emailBody: preset.emailBodyTemplate(brand, cleanNiche, cleanPerson)
     };
 
     // If a valid Google AI Studio Gemini API Key is present, attempt live AI generation with strict 3.5s timeout
@@ -161,6 +163,7 @@ You write ultra-short, punchy, radically honest outreach pitches to local small 
 
 CRITICAL LENGTH & CONTENT RULES:
 - KEEP IT SHORT (~75 words max).
+- Greeting: ${cleanPerson ? `Address directly as "Hey ${cleanPerson},"` : `Use "Hey ${brand} team,"`}.
 - Email Body: Exactly 4 short paragraphs:
   1. Intro as junior dev in Oslo + 40,000+ kr agency fee contrast (1 sentence).
   2. Mention 2 client sites live at abdisalam.space (Oslo tooth gem studio & custom grillz maker) (1 sentence).
@@ -177,6 +180,7 @@ STRICT CONSTRAINTS:
 
 PROSPECT:
 - Brand Name: "${brand}"
+- Person Name: "${cleanPerson || "N/A"}"
 - Niche: "${cleanNiche}"
 - Angle: "${angle}"
 - Context: "${notes}"
