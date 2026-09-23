@@ -14,7 +14,7 @@ const navLinks = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isLightMode, setIsLightMode] = useState(false);
+  const [isLightMode, setIsLightMode] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,14 +26,15 @@ export default function Header() {
 
   useEffect(() => {
     const saved = localStorage.getItem("ag_theme");
-    if (saved === "light") {
-      setIsLightMode(true);
-      document.documentElement.classList.remove("theme-obsidian");
-      document.documentElement.classList.add("theme-paper");
-    } else {
+    if (saved === "dark") {
       setIsLightMode(false);
       document.documentElement.classList.remove("theme-paper");
       document.documentElement.classList.add("theme-obsidian");
+    } else {
+      // Default to Warm Paper Light Mode
+      setIsLightMode(true);
+      document.documentElement.classList.remove("theme-obsidian");
+      document.documentElement.classList.add("theme-paper");
     }
   }, []);
 

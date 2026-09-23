@@ -82,7 +82,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${syne.variable} ${cinzel.variable} font-pair-1 theme-obsidian`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${syne.variable} ${cinzel.variable} font-pair-1 theme-paper`}
     >
       <body className="antialiased min-h-screen selection:bg-white selection:text-black">
         <SmoothScroll>

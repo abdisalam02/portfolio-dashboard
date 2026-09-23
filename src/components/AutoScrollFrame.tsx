@@ -114,35 +114,38 @@ export default function AutoScrollFrame({
           </div>
         </div>
 
-        {/* Scrollable Viewport Canvas:
-            On mobile, when auto-scrolling, pointer-events are disabled so user swiping smoothly scrolls the page.
-            When paused via the button, manual scrolling inside the frame is unlocked! */}
-        <div
-          ref={containerRef}
-          className={`relative w-full h-[460px] sm:h-[500px] bg-black/60 select-none ${
-            isManualPaused
-              ? "overflow-y-auto pointer-events-auto touch-pan-y cursor-grab active:cursor-grabbing"
-              : "overflow-hidden sm:overflow-y-auto pointer-events-none sm:pointer-events-auto touch-none sm:touch-auto"
-          }`}
-          style={{ scrollbarWidth: "thin" }}
-        >
-          <div className="w-full relative">
-            <Image
-              src={imgSrc}
-              alt={alt}
-              width={1440}
-              height={4800}
-              className="w-full h-auto object-top pointer-events-auto"
-              priority
-            />
+        {/* Viewport Canvas Frame (Fixed outer window) */}
+        <div className="relative w-full h-[460px] sm:h-[500px] overflow-hidden bg-black/60 select-none">
+          {/* Inner Scrolling Container:
+              When auto-scrolling, pointer-events are disabled so touch swipes on mobile pass through directly to the page.
+              When paused via the button, manual scrolling inside the frame is unlocked! */}
+          <div
+            ref={containerRef}
+            className={`w-full h-full ${
+              isManualPaused
+                ? "overflow-y-auto pointer-events-auto touch-pan-y cursor-grab active:cursor-grabbing"
+                : "overflow-y-auto pointer-events-none select-none"
+            }`}
+            style={{ scrollbarWidth: isManualPaused ? "thin" : "none" }}
+          >
+            <div className="w-full relative pointer-events-none">
+              <Image
+                src={imgSrc}
+                alt={alt}
+                width={1440}
+                height={4800}
+                className="w-full h-auto object-top pointer-events-none"
+                priority
+              />
+            </div>
           </div>
 
-          {/* Persistent Status Cue */}
-          <div className="absolute bottom-3 left-3 pointer-events-none px-2.5 py-1 rounded-md bg-background/90 backdrop-blur-md border border-card-border text-[10px] font-mono text-muted flex items-center gap-1.5 shadow-md">
+          {/* Persistent Status Cue - Fixed to the outer frame, so it NEVER scrolls with the image! */}
+          <div className="absolute bottom-3 left-3 pointer-events-none px-2.5 py-1 rounded-md bg-black/85 backdrop-blur-md border border-white/15 text-[10px] font-mono text-zinc-300 flex items-center gap-1.5 shadow-lg z-10">
             {isManualPaused ? (
               <>
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                <span className="text-foreground font-semibold">Paused • Scroll freely to explore</span>
+                <span className="text-white font-semibold">Paused • Scroll freely to explore</span>
               </>
             ) : (
               <>

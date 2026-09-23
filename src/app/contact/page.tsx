@@ -210,25 +210,25 @@ function ContactForm() {
               )}
 
               {/* TO Field */}
-              <div className="px-5 py-3.5 flex items-center gap-4 text-xs font-mono">
+              <div className="px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs font-mono">
                 <span className="text-muted w-14 flex-shrink-0">To:</span>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-background border border-card-border text-foreground font-medium">
-                  <FiMail size={12} className="text-muted" />
-                  <span>A.Gure</span>
-                  <span className="text-muted text-[11px]">&lt;{recipientEmail}&gt;</span>
+                <div className="inline-flex max-w-full flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-full bg-background border border-card-border text-foreground font-medium">
+                  <FiMail size={12} className="text-muted flex-shrink-0" />
+                  <span className="whitespace-nowrap">A.Gure</span>
+                  <span className="text-muted text-[10px] sm:text-[11px] truncate">&lt;{recipientEmail}&gt;</span>
                 </div>
               </div>
 
               {/* FROM Field */}
-              <div className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs font-mono">
+              <div className="px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs font-mono">
                 <span className="text-muted w-14 flex-shrink-0">From:</span>
-                <div className="flex-1 flex flex-col sm:flex-row gap-2">
+                <div className="flex-1 flex flex-col sm:flex-row gap-2 w-full min-w-0">
                   <input
                     type="text"
                     placeholder="Your Name / Company"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
-                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-all flex-1"
+                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-all flex-1 min-w-0 w-full"
                     required
                   />
                   <input
@@ -236,16 +236,16 @@ function ContactForm() {
                     placeholder="your.email@example.com"
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
-                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-all flex-1"
+                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-all flex-1 min-w-0 w-full"
                     required
                   />
                 </div>
               </div>
 
               {/* PROJECT TYPE Field */}
-              <div className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4 text-xs font-mono">
+              <div className="px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4 text-xs font-mono">
                 <span className="text-muted w-14 flex-shrink-0 pt-1.5">Type:</span>
-                <div className="flex-1 flex flex-wrap gap-2">
+                <div className="flex-1 flex flex-wrap gap-2 w-full min-w-0">
                   {projectTypes.map((type) => (
                     <button
                       key={type}
@@ -264,14 +264,14 @@ function ContactForm() {
               </div>
 
               {/* SUBJECT Field */}
-              <div className="px-5 py-3.5 flex items-center gap-4 text-xs font-mono">
+              <div className="px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs font-mono">
                 <span className="text-muted w-14 flex-shrink-0">Subject:</span>
                 <input
                   type="text"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="What are we building?"
-                  className="flex-1 bg-transparent text-xs text-foreground placeholder:text-muted/60 focus:outline-none"
+                  className="flex-1 bg-transparent text-xs text-foreground placeholder:text-muted/60 focus:outline-none min-w-0 w-full"
                 />
               </div>
 
