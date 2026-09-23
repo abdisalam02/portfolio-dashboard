@@ -207,6 +207,8 @@ export default function StudioPage() {
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [isSendingEmail, setIsSendingEmail] = useState<boolean>(false);
   const [isSendingPreview, setIsSendingPreview] = useState<boolean>(false);
+  const isSendingPreviewRef = useRef<boolean>(false);
+  const isSendingEmailRef = useRef<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [leads, setLeads] = useState<LeadRecord[]>([]);
   const [showHistory, setShowHistory] = useState<boolean>(false);
@@ -462,33 +464,71 @@ export default function StudioPage() {
           loadImage("/showcase/noire_mobile.png")
         ]);
 
-        // Draw Left Phone (Monochrome - Back)
-        ctx.save();
-        ctx.translate(1180, 480);
-        ctx.rotate((-6 * Math.PI) / 180);
-        ctx.translate(-146, -284);
-        ctx.beginPath();
-        ctx.roundRect(0, 0, 292, 568, 44);
-        ctx.clip();
-        ctx.drawImage(grillzImg, 0, 0, 292, 568);
-        ctx.strokeStyle = "#1c1c22";
-        ctx.lineWidth = 6;
-        ctx.stroke();
-        ctx.restore();
+        // Helper to draw realistic phone mockup with aspect ratio preservation (object-cover object-top)
+        const drawPhoneMockup = (
+          img: HTMLImageElement,
+          x: number,
+          y: number,
+          angleDeg: number,
+          borderColor: string,
+          shadowBlur: number
+        ) => {
+          const destW = 292;
+          const destH = 568;
+          const radius = 40;
 
-        // Draw Right Phone (Gangina - Front)
-        ctx.save();
-        ctx.translate(1350, 450);
-        ctx.rotate((5.5 * Math.PI) / 180);
-        ctx.translate(-146, -284);
-        ctx.beginPath();
-        ctx.roundRect(0, 0, 292, 568, 44);
-        ctx.clip();
-        ctx.drawImage(noireImg, 0, 0, 292, 568);
-        ctx.strokeStyle = "#25252c";
-        ctx.lineWidth = 6;
-        ctx.stroke();
-        ctx.restore();
+          // Preserve exact aspect ratio: crop top portion of tall screenshot, zero distortion
+          const sWidth = img.naturalWidth || img.width;
+          const sHeight = Math.min(img.naturalHeight || img.height, Math.round(sWidth * (destH / destW)));
+
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate((angleDeg * Math.PI) / 180);
+          ctx.translate(-destW / 2, -destH / 2);
+
+          // 1. Drop shadow behind chassis
+          ctx.save();
+          ctx.shadowColor = "rgba(0, 0, 0, 0.85)";
+          ctx.shadowBlur = shadowBlur;
+          ctx.shadowOffsetY = 22;
+          ctx.fillStyle = "#0c0c10";
+          ctx.beginPath();
+          ctx.roundRect(0, 0, destW, destH, radius);
+          ctx.fill();
+          ctx.restore();
+
+          // 2. Screen background & image content (clipped to rounded display)
+          ctx.save();
+          ctx.beginPath();
+          ctx.roundRect(0, 0, destW, destH, radius);
+          ctx.clip();
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(0, 0, destW, destH);
+          ctx.drawImage(img, 0, 0, sWidth, sHeight, 0, 0, destW, destH);
+          ctx.restore();
+
+          // 3. Chassis outer bezel
+          ctx.beginPath();
+          ctx.roundRect(0, 0, destW, destH, radius);
+          ctx.strokeStyle = borderColor;
+          ctx.lineWidth = 6;
+          ctx.stroke();
+
+          // 4. Subtle inner screen border shine
+          ctx.beginPath();
+          ctx.roundRect(3, 3, destW - 6, destH - 6, radius - 3);
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          ctx.restore();
+        };
+
+        // Draw Left Phone (Monochrome - Back, slight angle -6deg)
+        drawPhoneMockup(grillzImg, 1180, 480, -6, "#22222a", 40);
+
+        // Draw Right Phone (By Gangina - Front, slight angle +5.5deg)
+        drawPhoneMockup(noireImg, 1350, 450, 5.5, "#2a2a34", 55);
       } catch (imgErr) {
         console.warn("Could not render phone images to canvas:", imgErr);
       }
@@ -580,6 +620,8 @@ export default function StudioPage() {
 
   // Action: Send Preview to My Email
   const handleSendTestPreview = async () => {
+    if (isSendingPreviewRef.current) return;
+    isSendingPreviewRef.current = true;
     setIsSendingPreview(true);
     try {
       let cardBase64: string | undefined = undefined;
@@ -611,6 +653,7 @@ export default function StudioPage() {
       showToast(message);
     } finally {
       setIsSendingPreview(false);
+      isSendingPreviewRef.current = false;
     }
   };
 
@@ -621,7 +664,8 @@ export default function StudioPage() {
       showToast("Please enter a valid recipient email.");
       return;
     }
-
+    if (isSendingEmailRef.current) return;
+    isSendingEmailRef.current = true;
     setIsSendingEmail(true);
     try {
       let cardBase64: string | undefined = undefined;
@@ -654,6 +698,7 @@ export default function StudioPage() {
       showToast(message);
     } finally {
       setIsSendingEmail(false);
+      isSendingEmailRef.current = false;
     }
   };
 
