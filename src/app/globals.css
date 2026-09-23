@@ -48,12 +48,18 @@
     box-sizing: border-box;
   }
 
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     background-color: var(--bg);
     color: var(--fg);
     font-family: var(--font-body), sans-serif;
-    overflow-x: hidden;
+    overflow-x: clip;
     transition: background-color 0.4s ease, color 0.4s ease;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* Typography mode mappings */

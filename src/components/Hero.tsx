@@ -14,7 +14,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col justify-between pt-28 pb-8 sm:pt-36 sm:pb-10 md:pt-40 md:pb-12 px-4 sm:px-8 max-w-7xl mx-auto">
+    <section className="relative min-h-[100svh] lg:min-h-screen flex flex-col justify-between pt-28 pb-8 sm:pt-36 sm:pb-10 md:pt-40 md:pb-12 px-4 sm:px-8 max-w-7xl mx-auto">
       {/* Top Main Typographic Core */}
       <div className="flex flex-col space-y-8 md:space-y-12 my-auto">
         <motion.div
