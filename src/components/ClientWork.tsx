@@ -51,10 +51,13 @@ export default function ClientWork() {
     <section id="work" className="py-20 md:py-32 px-4 sm:px-8 max-w-7xl mx-auto">
       {/* Section Header - Clean, No AI Eyebrows */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16 pb-6 border-b border-card-border gap-4">
-        <div>
+        <div className="space-y-1.5">
           <h2 className="text-3xl sm:text-5xl font-black font-heading tracking-tight uppercase">
             Live Projects
           </h2>
+          <p className="text-xs text-muted/70 font-mono">
+            These websites are currently under design and use placeholder images.
+          </p>
         </div>
         <p className="text-xs sm:text-sm text-muted font-body max-w-xs sm:text-right">
           Recent websites I&apos;ve designed and built.
