@@ -1,27 +1,46 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Inter } from "next/font/google";
+import { Space_Grotesk, Inter, JetBrains_Mono, Syne, Cinzel } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./utils/providers";
-import BrutalistNavbar from "./components/NavbarLayout";
-import CustomCursor from "./components/CustomCursor";
-import AccentPicker from "./components/AccentPicker";
-import Footer from "./components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
 
-const mono = JetBrains_Mono({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-mono",
-  weight: ["400", "500", "700", "800"],
+  variable: "--font-space",
+  display: "swap",
 });
 
-const sans = Inter({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+  display: "swap",
+});
+
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "AG — Designer & Developer",
-  description: "Portfolio of Abdisalam Gure. Precision interfaces. Brutal functionality.",
+  title: "A.Gure — Independent Web Designer & Developer",
+  description: "Bespoke web platforms, creative UI engineering, and high-converting digital flagships for ambitious businesses and brands. Based in Oslo.",
+  openGraph: {
+    title: "A.Gure — Independent Web Designer & Developer",
+    description: "Bespoke digital platforms & creative web design. Oslo, Norway.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -30,18 +49,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${mono.variable} ${sans.variable} font-mono antialiased`}>
-        <Providers>
-          {/* Grid Overlay */}
-          <div className="fixed inset-0 -z-10 brutalist-grid pointer-events-none" />
-          <CustomCursor />
-          <AccentPicker />
-          <BrutalistNavbar>
-            {children}
-            <Footer />
-          </BrutalistNavbar>
-        </Providers>
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${syne.variable} ${cinzel.variable} font-pair-1 theme-obsidian`}
+    >
+      <body className="antialiased min-h-screen selection:bg-white selection:text-black">
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );
