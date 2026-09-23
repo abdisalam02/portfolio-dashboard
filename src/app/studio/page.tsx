@@ -546,7 +546,7 @@ export default function StudioPage() {
 
       ctx.fillStyle = "#6c6c76";
       ctx.textAlign = "right";
-      ctx.fillText("niwache12@gmail.com", 1524, 888);
+      ctx.fillText("hello@abdisalam.space", 1524, 888);
 
       return canvas;
     } catch (err) {
@@ -634,7 +634,7 @@ export default function StudioPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: "niwache12@gmail.com",
+          to: "hello@abdisalam.space",
           subject: emailSubject,
           htmlBody: emailBody,
           brandName,
@@ -644,7 +644,7 @@ export default function StudioPage() {
       });
       const data = await res.json();
       if (data.success) {
-        showToast("✓ Preview sent to your Gmail (niwache12@gmail.com)!");
+        showToast("✓ Preview sent to your inbox (hello@abdisalam.space)!");
       } else {
         showToast(`Preview error: ${data.error}`);
       }
@@ -1404,7 +1404,7 @@ export default function StudioPage() {
                       abdisalam.space ↗
                     </span>
                     <span className="font-mono text-[11.5px] text-[#6c6c76]">
-                      niwache12@gmail.com
+                      hello@abdisalam.space
                     </span>
                   </div>
                 </div>

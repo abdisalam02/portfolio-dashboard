@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     const resendApiKey = process.env.RESEND_API_KEY?.trim();
     const senderEmail = process.env.SENDER_EMAIL || "hello@abdisalam.space";
     const senderName = process.env.SENDER_NAME || "A.Gure";
-    const replyTo = process.env.REPLY_TO_EMAIL || "niwache12@gmail.com";
+    const replyTo = process.env.REPLY_TO_EMAIL || "hello@abdisalam.space";
 
     // If Resend API Key is configured, send the real email
     if (resendApiKey) {
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
         .map((paragraph) => `<p class="email-text" style="margin: 0 0 16px 0; line-height: 1.65; font-size: 15.5px; color: #27272a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">${paragraph.replace(/\n/g, "<br/>")}</p>`)
         .join("");
 
-      // Automatically BCC niwache12@gmail.com as a precaution so Abdisalam receives a copy
+      // Automatically BCC hello@abdisalam.space as a precaution so Abdisalam receives a copy
       const bccList = to.trim().toLowerCase() === replyTo.toLowerCase() ? undefined : [replyTo];
       const timeTag = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
       const cleanSubject = subject.replace(/^\[PREVIEW(?:\s+[\d:]+)?\]\s*/i, "").trim();

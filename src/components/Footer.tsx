@@ -27,6 +27,9 @@ export default function Footer() {
           <Link href="/#work" className="hover:text-foreground transition-colors">
             Work
           </Link>
+          <Link href="/pricing" className="hover:text-foreground transition-colors">
+            Pricing
+          </Link>
           <Link href="/contact" className="hover:text-foreground transition-colors">
             Contact
           </Link>
@@ -47,10 +50,10 @@ export default function Footer() {
             <FaLinkedin /> LinkedIn
           </a>
           <a
-            href="mailto:niwache12@gmail.com"
+            href="mailto:hello@abdisalam.space"
             className="hover:text-foreground transition-colors font-mono"
           >
-            niwache12@gmail.com
+            hello@abdisalam.space
           </a>
           <button
             onClick={scrollToTop}

@@ -21,7 +21,6 @@ export default function AutoScrollFrame({
 }: AutoScrollFrameProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isManualPaused, setIsManualPaused] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     let animId: number;
@@ -36,7 +35,7 @@ export default function AutoScrollFrame({
       const delta = (now - lastTime) / 1000;
       lastTime = now;
 
-      if (!isManualPaused && !isHovered && !isResetting && container) {
+      if (!isManualPaused && !isResetting && container) {
         if (container.scrollTop + container.clientHeight >= container.scrollHeight - 3) {
           isResetting = true;
           setTimeout(() => {
@@ -60,37 +59,54 @@ export default function AutoScrollFrame({
     return () => {
       cancelAnimationFrame(animId);
     };
-  }, [isManualPaused, isHovered]);
+  }, [isManualPaused]);
 
   return (
     <div className="relative group">
       {/* Main Desktop Frame */}
       <div className="rounded-2xl bg-card border border-card-border shadow-2xl overflow-hidden">
-        {/* Subtle Clean Header Bar (No Faux Mac Dots) */}
-        <div className="px-4 py-2.5 bg-background/85 border-b border-card-border/60 flex items-center justify-between text-xs font-mono text-muted">
-          <div className="flex items-center gap-2">
-            <span className="truncate">{domain}</span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-muted hidden sm:inline">
-              {isHovered ? "PAUSED" : "AUTO-SCROLL"}
+        {/* Clean Header Bar with Explicit Pause Controls */}
+        <div className="px-3 sm:px-4 py-2.5 bg-background/85 border-b border-card-border/60 flex items-center justify-between text-xs font-mono text-muted gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="truncate font-semibold text-foreground/90">{domain}</span>
+            <span
+              className={`text-[10px] px-2 py-0.5 rounded-full border hidden sm:inline-flex items-center gap-1 ${
+                isManualPaused
+                  ? "bg-amber-500/10 border-amber-500/30 text-amber-400 font-bold"
+                  : "bg-white/5 border-white/10 text-muted"
+              }`}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  isManualPaused ? "bg-amber-400" : "bg-emerald-400 animate-pulse"
+                }`}
+              />
+              <span>{isManualPaused ? "PAUSED — SCROLL MANUALLY" : "AUTO-SCROLLING"}</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Prominent Pause to Scroll Button */}
             <button
               type="button"
               onClick={() => setIsManualPaused(!isManualPaused)}
-              className="hover:text-foreground transition-colors flex items-center gap-1 text-[11px]"
-              title={isManualPaused ? "Resume Auto-scroll" : "Pause Auto-scroll"}
+              className={`px-2.5 py-1 rounded-md text-[11px] font-mono flex items-center gap-1.5 transition-all shadow-sm ${
+                isManualPaused
+                  ? "bg-foreground text-background font-bold"
+                  : "bg-card border border-card-border text-foreground hover:border-foreground"
+              }`}
+              title={isManualPaused ? "Resume auto-scroll" : "Pause auto-scroll to inspect manually"}
+              aria-label={isManualPaused ? "Resume auto-scroll" : "Pause to scroll manually"}
             >
-              {isManualPaused ? <FiPlay size={10} /> : <FiPause size={10} />}
-              <span>{isManualPaused ? "PLAY" : "PAUSE"}</span>
+              {isManualPaused ? <FiPlay size={11} /> : <FiPause size={11} />}
+              <span>{isManualPaused ? "RESUME" : "PAUSE TO SCROLL"}</span>
             </button>
 
             <a
               href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors flex items-center gap-1 text-[11px]"
+              className="px-2.5 py-1 rounded-md bg-card border border-card-border text-foreground hover:border-foreground transition-colors flex items-center gap-1 text-[11px] font-mono"
             >
               <span>OPEN</span>
               <FiExternalLink size={11} />
@@ -98,12 +114,16 @@ export default function AutoScrollFrame({
           </div>
         </div>
 
-        {/* Scrollable Viewport Canvas */}
+        {/* Scrollable Viewport Canvas:
+            On mobile, when auto-scrolling, pointer-events are disabled so user swiping smoothly scrolls the page.
+            When paused via the button, manual scrolling inside the frame is unlocked! */}
         <div
           ref={containerRef}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className="relative w-full h-[460px] sm:h-[500px] overflow-y-auto bg-black/60 select-none"
+          className={`relative w-full h-[460px] sm:h-[500px] bg-black/60 select-none ${
+            isManualPaused
+              ? "overflow-y-auto pointer-events-auto touch-pan-y cursor-grab active:cursor-grabbing"
+              : "overflow-hidden sm:overflow-y-auto pointer-events-none sm:pointer-events-auto touch-none sm:touch-auto"
+          }`}
           style={{ scrollbarWidth: "thin" }}
         >
           <div className="w-full relative">
@@ -117,9 +137,19 @@ export default function AutoScrollFrame({
             />
           </div>
 
-          {/* Hover Status Cue */}
-          <div className="absolute bottom-3 left-3 pointer-events-none px-2.5 py-1 rounded-md bg-background/80 backdrop-blur-md border border-card-border text-[10px] font-mono text-muted transition-opacity duration-300 opacity-70 group-hover:opacity-100">
-            {isHovered ? "Scroll freely to explore" : "Hover to pause"}
+          {/* Persistent Status Cue */}
+          <div className="absolute bottom-3 left-3 pointer-events-none px-2.5 py-1 rounded-md bg-background/90 backdrop-blur-md border border-card-border text-[10px] font-mono text-muted flex items-center gap-1.5 shadow-md">
+            {isManualPaused ? (
+              <>
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                <span className="text-foreground font-semibold">Paused • Scroll freely to explore</span>
+              </>
+            ) : (
+              <>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Auto-scrolling • Tap &apos;PAUSE TO SCROLL&apos; to explore</span>
+              </>
+            )}
           </div>
         </div>
       </div>

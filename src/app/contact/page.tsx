@@ -1,23 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { FiArrowLeft, FiSend, FiCopy, FiCheck, FiMail, FiPaperclip } from "react-icons/fi";
 
 const projectTypes = [
-  "Single-Page Portfolio",
-  "Brand Flagship",
-  "Custom Web App",
+  "The Booking Drop (4,000 kr)",
+  "The Studio (7,500 kr)",
+  "The Flagship (12,500 kr)",
   "Website Redesign",
   "General Inquiry",
 ];
 
-export default function ContactPage() {
+function ContactForm() {
+  const searchParams = useSearchParams();
+  const pkg = searchParams.get("package");
+
   const [senderEmail, setSenderEmail] = useState("");
   const [senderName, setSenderName] = useState("");
-  const [selectedType, setSelectedType] = useState("Brand Flagship");
+  const [selectedType, setSelectedType] = useState("The Booking Drop (4,000 kr)");
   const [subject, setSubject] = useState("Project Inquiry");
   const [message, setMessage] = useState("");
   const [copied, setCopied] = useState(false);
@@ -25,7 +29,20 @@ export default function ContactPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const recipientEmail = "niwache12@gmail.com";
+  useEffect(() => {
+    if (pkg === "booking-drop") {
+      setSelectedType("The Booking Drop (4,000 kr)");
+      setSubject("Inquiry: The Booking Drop (4,000 kr)");
+    } else if (pkg === "studio") {
+      setSelectedType("The Studio (7,500 kr)");
+      setSubject("Inquiry: The Studio (7,500 kr)");
+    } else if (pkg === "flagship") {
+      setSelectedType("The Flagship (12,500 kr)");
+      setSubject("Inquiry: The Flagship (12,500 kr)");
+    }
+  }, [pkg]);
+
+  const recipientEmail = "hello@abdisalam.space";
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(recipientEmail);
@@ -39,7 +56,21 @@ export default function ContactPage() {
     setErrorMessage(null);
 
     try {
-      const response = await fetch("https://formspree.io/f/xvgzbbqa", {
+      // 1. Send directly via Resend to hello@abdisalam.space
+      const apiResponse = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: recipientEmail,
+          subject: `Inquiry: ${selectedType} - ${senderName}`,
+          htmlBody: `Name: ${senderName}\nEmail: ${senderEmail}\nPackage / Type: ${selectedType}\nSubject: ${subject}\n\nMessage:\n${message}`,
+        }),
+      });
+
+      // 2. Also send to Formspree as backup
+      fetch("https://formspree.io/f/xvgzbbqa", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,17 +82,40 @@ export default function ContactPage() {
           projectType: selectedType,
           subject: subject,
           message: message,
+          targetEmail: recipientEmail,
         }),
-      });
+      }).catch(() => {});
 
-      if (response.ok) {
+      if (apiResponse.ok) {
         setIsSuccess(true);
         setSenderName("");
         setSenderEmail("");
         setMessage("");
       } else {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || "Failed to send message");
+        // Fallback to Formspree check if direct API returned non-ok
+        const formspreeRes = await fetch("https://formspree.io/f/xvgzbbqa", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: senderName,
+            email: senderEmail,
+            projectType: selectedType,
+            subject: subject,
+            message: message,
+          }),
+        });
+
+        if (formspreeRes.ok) {
+          setIsSuccess(true);
+          setSenderName("");
+          setSenderEmail("");
+          setMessage("");
+        } else {
+          throw new Error("Could not send email automatically");
+        }
       }
     } catch (err: any) {
       setErrorMessage(
@@ -174,7 +228,7 @@ export default function ContactPage() {
                     placeholder="Your Name / Company"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
-                    className="px-3.5 py-2 rounded-lg bg-[#0e0e12] border border-white/15 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-white focus:bg-[#141419] transition-all flex-1"
+                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-all flex-1"
                     required
                   />
                   <input
@@ -182,7 +236,7 @@ export default function ContactPage() {
                     placeholder="your.email@example.com"
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
-                    className="px-3.5 py-2 rounded-lg bg-[#0e0e12] border border-white/15 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-white focus:bg-[#141419] transition-all flex-1"
+                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-all flex-1"
                     required
                   />
                 </div>
@@ -199,8 +253,8 @@ export default function ContactPage() {
                       onClick={() => setSelectedType(type)}
                       className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
                         selectedType === type
-                          ? "bg-white text-black font-bold shadow-sm"
-                          : "bg-[#0e0e12] border border-white/10 text-zinc-400 hover:text-white"
+                          ? "bg-foreground text-background font-bold shadow-sm"
+                          : "bg-background border border-card-border text-muted hover:text-foreground hover:border-foreground"
                       }`}
                     >
                       {type}
@@ -217,7 +271,7 @@ export default function ContactPage() {
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="What are we building?"
-                  className="flex-1 bg-transparent text-xs text-white placeholder:text-zinc-500 focus:outline-none"
+                  className="flex-1 bg-transparent text-xs text-foreground placeholder:text-muted/60 focus:outline-none"
                 />
               </div>
 
@@ -230,7 +284,7 @@ export default function ContactPage() {
                   placeholder="Hi A.Gure,
 
 I'm looking to build/redesign a website. Here are a few details about what I have in mind..."
-                  className="w-full bg-transparent text-sm text-white font-body placeholder:text-zinc-500 focus:outline-none resize-none leading-relaxed"
+                  className="w-full bg-transparent text-sm text-foreground font-body placeholder:text-muted/60 focus:outline-none resize-none leading-relaxed"
                   required
                 />
               </div>
@@ -277,5 +331,13 @@ I'm looking to build/redesign a website. Here are a few details about what I hav
 
       <Footer />
     </main>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+      <ContactForm />
+    </Suspense>
   );
 }

@@ -22,7 +22,7 @@ const projects: Project[] = [
     id: "noire",
     name: "by Gangina",
     category: "Tooth Gems & Custom Jewelry · Oslo",
-    year: "2024 / 2025",
+    year: "2026",
     logoSrc: "/showcase/noire/double-layer-star.png",
     description:
       "I designed and built an automated mobile booking site for an Oslo tooth gem studio, replacing messy Instagram DMs with a direct calendar and transparent service menu.",
@@ -35,7 +35,7 @@ const projects: Project[] = [
     id: "grillz",
     name: "MNO.CRM",
     category: "Custom Grillz Atelier · Oslo",
-    year: "2024",
+    year: "2026",
     logoSrc: "/showcase/grillz/LOGO_CHROME_2.png",
     description:
       "A custom showcase for an independent grillz maker in Oslo, featuring interactive 3D pieces and a direct custom order pipeline.",
