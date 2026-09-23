@@ -141,10 +141,15 @@ export async function POST(req: Request) {
     const cleanNiche = niche?.trim() || "studio";
     const apiKey = process.env.GEMINI_API_KEY?.trim();
 
-    // If Gemini API Key is present, attempt live AI generation
+    // If Gemini API Key is present, attempt live AI generation with multi-model failover
     if (apiKey) {
-      try {
-        const prompt = `You are A.Gure, an independent junior freelance web developer and designer based in Oslo, Norway (portfolio: abdisalam.space).
+      const candidateModels = [
+        "gemini-3.5-flash-lite",
+        "gemini-3-flash-preview",
+        "gemini-3.6-flash"
+      ];
+
+      const prompt = `You are A.Gure, an independent junior freelance web developer and designer based in Oslo, Norway (portfolio: abdisalam.space).
 You are writing a hyper-personalized, casual outreach message and visual card copy for a prospect:
 - Business/Brand Name: "${brand}"
 - Niche/Industry: "${cleanNiche}"
@@ -173,31 +178,41 @@ Return ONLY a valid JSON object with these exact keys:
   "emailBody": "..."
 }`;
 
-        const res = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: {
-                responseMimeType: "application/json",
-                temperature: 0.7
-              }
-            })
-          }
-        );
+      for (const model of candidateModels) {
+        try {
+          const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: {
+                  responseMimeType: "application/json",
+                  temperature: 0.7
+                }
+              })
+            }
+          );
 
-        if (res.ok) {
-          const data = await res.json();
-          const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (rawText) {
-            const parsed = JSON.parse(rawText);
-            return NextResponse.json({ success: true, source: "gemini", data: parsed });
+          if (res.ok) {
+            const data = await res.json();
+            const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (rawText) {
+              const parsed = JSON.parse(rawText);
+              return NextResponse.json({
+                success: true,
+                source: "gemini",
+                model,
+                data: parsed
+              });
+            }
+          } else {
+            console.warn(`Gemini model ${model} returned status ${res.status}`);
           }
+        } catch (modelErr) {
+          console.warn(`Error trying model ${model}:`, modelErr);
         }
-      } catch (geminiErr) {
-        console.warn("Gemini API call failed, falling back to smart presets:", geminiErr);
       }
     }
 
