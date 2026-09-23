@@ -34,12 +34,43 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
-  title: "A.Gure — Independent Web Designer & Developer",
-  description: "Bespoke web platforms, creative UI engineering, and high-converting digital flagships for ambitious businesses and brands. Based in Oslo.",
+  metadataBase: new URL("https://abdisalam.space"),
+  title: {
+    default: "A.GURE — Web Developer & Designer",
+    template: "%s | A.GURE",
+  },
+  description: "I build and redesign websites. Portfolio of Abdisalam Gure (A.Gure), based in Oslo.",
+  authors: [{ name: "A.Gure", url: "https://abdisalam.space" }],
+  creator: "A.Gure",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: "/apple-icon.png",
+    shortcut: "/favicon.ico",
+  },
   openGraph: {
-    title: "A.Gure — Independent Web Designer & Developer",
-    description: "Bespoke digital platforms & creative web design. Oslo, Norway.",
     type: "website",
+    locale: "en_US",
+    url: "https://abdisalam.space",
+    siteName: "A.GURE",
+    title: "A.GURE — Web Developer & Designer",
+    description: "I build and redesign websites. Based in Oslo.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "A.GURE — Web Developer & Designer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "A.GURE — Web Developer & Designer",
+    description: "I build and redesign websites. Based in Oslo.",
+    images: ["/og-image.png"],
   },
 };
 
