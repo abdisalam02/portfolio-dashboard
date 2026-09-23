@@ -103,3 +103,18 @@
   background-color: var(--bg);
 }
 
+/* Dark mode input & autofill styling */
+input, textarea {
+  color: var(--fg);
+  background-color: transparent;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: #f4f4f5 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #0e0e12 inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+

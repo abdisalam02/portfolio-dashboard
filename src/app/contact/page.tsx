@@ -174,7 +174,7 @@ export default function ContactPage() {
                     placeholder="Your Name / Company"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
-                    className="px-3 py-1.5 rounded-lg bg-background/50 border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground flex-1"
+                    className="px-3.5 py-2 rounded-lg bg-[#0e0e12] border border-white/15 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-white focus:bg-[#141419] transition-all flex-1"
                     required
                   />
                   <input
@@ -182,7 +182,7 @@ export default function ContactPage() {
                     placeholder="your.email@example.com"
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
-                    className="px-3 py-1.5 rounded-lg bg-background/50 border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground flex-1"
+                    className="px-3.5 py-2 rounded-lg bg-[#0e0e12] border border-white/15 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-white focus:bg-[#141419] transition-all flex-1"
                     required
                   />
                 </div>
@@ -199,8 +199,8 @@ export default function ContactPage() {
                       onClick={() => setSelectedType(type)}
                       className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
                         selectedType === type
-                          ? "bg-foreground text-background font-bold shadow-sm"
-                          : "bg-background/60 border border-card-border text-muted hover:text-foreground"
+                          ? "bg-white text-black font-bold shadow-sm"
+                          : "bg-[#0e0e12] border border-white/10 text-zinc-400 hover:text-white"
                       }`}
                     >
                       {type}
@@ -217,7 +217,7 @@ export default function ContactPage() {
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="What are we building?"
-                  className="flex-1 bg-transparent text-xs text-foreground placeholder:text-muted/60 focus:outline-none"
+                  className="flex-1 bg-transparent text-xs text-white placeholder:text-zinc-500 focus:outline-none"
                 />
               </div>
 
@@ -230,7 +230,7 @@ export default function ContactPage() {
                   placeholder="Hi A.Gure,
 
 I'm looking to build/redesign a website. Here are a few details about what I have in mind..."
-                  className="w-full bg-transparent text-sm text-foreground font-body placeholder:text-muted/50 focus:outline-none resize-none leading-relaxed"
+                  className="w-full bg-transparent text-sm text-white font-body placeholder:text-zinc-500 focus:outline-none resize-none leading-relaxed"
                   required
                 />
               </div>
