@@ -14,56 +14,49 @@ const TEMPLATE_PRESETS = {
     descTemplate: (_brand: string, niche: string) =>
       `I recently started building clean mobile sites for small ${niche || "businesses"} in Oslo. Honest rates, direct work, and zero 40k agency markup.`,
     dmTemplate: (brand: string, niche: string) =>
-      `Hey! I'll be straight with you — I'm A.Gure, an independent junior web dev here in Oslo. I recently started making clean mobile websites for small ${niche || "businesses"} because agencies charge crazy 40,000+ kr prices. You can check out 2 client sites I'm currently working on right now at abdisalam.space (one is for an Oslo tooth gem studio, and the other is an interactive grillz maker). Loved your work with ${brand} and put together a quick preview of how a direct 1-tap mobile booking site could look for you without the agency markup. Down to see a 15-second preview? No pressure at all!`,
+      `Hey! I'm A.Gure, an independent junior dev in Oslo. I recently started making clean mobile sites for small ${niche || "spots"} because agencies charge crazy 40k+ kr fees. Check 2 client sites I'm working on at abdisalam.space (tooth gem studio & custom grillz maker). Loved your work with ${brand} — put together a quick 1-tap mobile booking preview for you guys (attached). Down to see a 15-sec demo? No pressure!`,
     smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. Recently started building clean mobile sites for small spots (no 40k agency fees). Check 2 client sites I'm working on: abdisalam.space`,
+      `Hey ${brand}! I'm A.Gure, local Oslo dev. Recently started building clean mobile sites for small spots (no 40k agency fees). Check 2 client sites: abdisalam.space`,
     emailSubject: (brand: string) => `Quick intro & website idea for ${brand}`,
     emailBodyTemplate: (brand: string, niche: string) =>
       `Hey ${brand} team,
 
-I'll be straight up with you: I'm A.Gure, an independent junior web designer here in Oslo. I recently started designing and building clean, mobile-first websites specifically for small local businesses and independent creators.
+I'm A.Gure, an independent junior dev in Oslo. I recently started building clean mobile sites for small businesses because big agencies charge crazy 40,000+ kr fees.
 
-Websites from big design agencies can be crazy expensive — they easily quote 40,000+ kr and weeks of meetings for basic templates that small businesses don't need. Because I just started out and I'm actively building up my portfolio and client roster, I do fast, custom work directly with you at honest, fair rates with zero agency markup.
+You can see 2 client sites I'm currently working on at abdisalam.space (an Oslo tooth gem studio and a custom grillz maker).
 
-You can see 2 client websites I'm currently working on right now on my portfolio: https://abdisalam.space (one is an automated mobile booking site for an Oslo tooth gem studio, and the other is an interactive showcase for a custom grillz maker).
+I saw your work in the ${niche || "local"} scene and noticed bookings still run through email/DMs. I put together a quick visual concept showing how a clean 1-tap mobile booking page could look (concept card attached below).
 
-I love what you're doing with ${brand} in the ${niche || "local"} scene, but noticed your bookings still run through email / DMs. I put together a quick visual concept showing how a clean 1-tap mobile booking page for ${brand} could look so clients stop asking back-and-forth questions and book directly in 30 seconds.
-
-No pressure at all! Let me know if you'd be open to checking out a quick 15-second demo.
+Open to seeing a quick 15-second demo? No pressure at all!
 
 Best,
-Abdisalam Gure (A.Gure)
-Web Developer & Designer
-https://abdisalam.space
-niwache12@gmail.com`
+A.Gure
+abdisalam.space`
   },
   dms: {
     tag: "DIRECT BOOKINGS",
     headlineTemplate: (brand: string) => `Still handling ${brand}'s bookings through messy DMs & emails?`,
     descTemplate: (brand: string, _niche: string) =>
       `I recently started building clean booking sites for independent spots in Oslo. Replace lost messages with a direct 1-tap menu so clients can book ${brand} in 30 seconds.`,
-    dmTemplate: (brand: string, niche: string) =>
-      `Hey! I'll be straight with you — I'm A.Gure, an independent junior web dev in Oslo. I recently started building clean mobile sites for small ${niche || "spots"} because big agencies charge 40,000+ kr for basic stuff. You can see 2 client sites I'm currently working on at abdisalam.space (one for a tooth gem studio, one for a custom grillz shop). Loved your page with ${brand} — noticed bookings still run through messy DMs and emails, so I put together a quick preview of how a direct 1-tap booking page could save you hours of back-and-forth. Open to checking it out? No pressure!`,
+    dmTemplate: (brand: string, _niche: string) =>
+      `Hey! I'm A.Gure, a local junior dev in Oslo. Started making clean mobile booking sites because agencies charge crazy 40k+ prices. Check 2 client sites I'm working on at abdisalam.space. Noticed ${brand}'s bookings run through messy DMs/emails, so I put together a quick 1-tap booking concept (attached). Down to see a 15-sec demo? No pressure!`,
     smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. Built a 1-tap booking concept so you don't lose clients in DMs/emails. Check 2 client sites I'm working on: abdisalam.space`,
+      `Hey ${brand}! I'm A.Gure, local Oslo dev. Built a 1-tap booking concept so you don't lose clients in DMs/emails. Check 2 client sites: abdisalam.space`,
     emailSubject: (brand: string) => `Idea to automate bookings for ${brand} (no agency markup)`,
     emailBodyTemplate: (brand: string, niche: string) =>
       `Hey ${brand} team,
 
-I'll be straight up with you: I'm A.Gure, an independent junior web designer based here in Oslo. I recently started building clean, mobile-first websites specifically for local businesses and creators.
+I'm A.Gure, a local junior dev in Oslo. I recently started making simple mobile booking sites because agencies charge crazy 40,000+ kr prices.
 
-I noticed you're currently handling a lot of inquiries and bookings through DMs or email. A lot of ${niche || "independent"} businesses lose clients simply because people hate asking "price?" and waiting hours for a reply.
+You can check out 2 client sites I'm currently designing right now at abdisalam.space (an Oslo tooth gem studio and a custom grillz maker).
 
-Big agencies charge 40,000+ kr to set up a basic website. Because I just started doing this independently and am building my portfolio, I build clean, fast booking pages at fair, honest rates with zero agency nonsense. You can see 2 client websites I'm currently designing right on my site: https://abdisalam.space (one for an Oslo tooth gem studio, and one for a custom grillz maker).
+I noticed ${brand}'s bookings still run through email and DMs. A lot of ${niche || "local"} spots lose clients from back-and-forth messages, so I put together a quick visual concept showing how a 1-tap booking page could work (card attached below).
 
-I put together a quick visual concept card showing how a 1-tap booking menu for ${brand} could work.
-
-Would love to send over a 15-second preview if you're curious. No pressure at all!
+Would love to send over a 15-second preview if you're curious. No pressure either way!
 
 Best,
-Abdisalam Gure (A.Gure)
-https://abdisalam.space
-niwache12@gmail.com`
+A.Gure
+abdisalam.space`
   },
   aesthetic: {
     tag: "MOBILE FIRST",
@@ -71,26 +64,24 @@ niwache12@gmail.com`
     descTemplate: (brand: string, _niche: string) =>
       `I recently started building clean mobile sites for local spots in Oslo. Custom design that matches your aesthetic with zero agency markup.`,
     dmTemplate: (brand: string) =>
-      `Hey! I'll be straight with you — I'm A.Gure, a local junior web dev in Oslo. I recently started making clean mobile sites for independent spots because agencies charge crazy 40,000+ kr fees. Check out 2 client sites I'm working on right now at abdisalam.space. Your visual aesthetic with ${brand} is incredible — put together a quick concept of what a modern mobile site matching your exact vibe could look like. Down to check out a 15-second demo? No pressure!`,
+      `Hey! I'm A.Gure, a junior web dev in Oslo. Agencies charge 40k+ kr for sites, so I build clean mobile pages for local spots directly at honest rates. Check 2 client sites I'm working on at abdisalam.space. Your aesthetic with ${brand} is unreal — put together a quick mobile concept matching your vibe (attached). Down to see a 15-sec preview? No pressure!`,
     smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. Put together a mobile site concept matching your Instagram aesthetic. See 2 client sites I'm working on: abdisalam.space`,
+      `Hey ${brand}! I'm A.Gure, local Oslo dev. Put together a mobile site concept matching your Instagram aesthetic. See 2 client sites: abdisalam.space`,
     emailSubject: (brand: string) => `Mobile web makeover idea for ${brand}`,
-    emailBodyTemplate: (brand: string, niche: string) =>
+    emailBodyTemplate: (brand: string, _niche: string) =>
       `Hey ${brand} team,
 
-I'll be straight up with you: I'm A.Gure, an independent junior web designer here in Oslo. I recently started designing and building clean mobile websites specifically for independent businesses and creators.
+I'm A.Gure, a junior web designer in Oslo. Big agencies charge 40,000+ kr for websites, so I build clean mobile sites for local spots directly at honest rates.
 
-Your visual aesthetic on Instagram is top tier — you clearly care about presentation. But when clients tap a link or ask for info, having a slow template or messy email thread hurts that impression. Big agencies charge 40,000+ kr for custom sites. Because I'm building up my portfolio, I work directly with you at honest, fair rates with zero agency markup.
+You can see 2 client sites I'm currently working on right now at abdisalam.space (an Oslo tooth gem studio and a custom grillz shop).
 
-You can check out 2 websites I'm currently designing for clients right now on my site: https://abdisalam.space (one is for an Oslo tooth gem studio, and the other is an interactive grillz shop).
+Your aesthetic on Instagram is top tier, so I put together a quick visual concept for ${brand} that matches your exact visual vibe (attached below).
 
-I put together a visual concept card for ${brand} that matches your exact visual aesthetic.
-
-Let me know if you'd be down to see a 15-second demo! No pressure at all.
+Down to check out a 15-second demo? No pressure at all!
 
 Best,
-Abdisalam Gure (A.Gure)
-https://abdisalam.space`
+A.Gure
+abdisalam.space`
   },
   freelancer: {
     tag: "1-ON-1 FREELANCER",
@@ -98,26 +89,24 @@ https://abdisalam.space`
     descTemplate: (_brand: string, niche: string) =>
       `I recently started building clean websites for small businesses in Oslo. Direct 1-on-1 collaboration, fair rates, and zero corporate fluff.`,
     dmTemplate: (brand: string) =>
-      `Hey! I'll be straight with you — I'm A.Gure, an independent junior web developer in Oslo. I recently started building clean mobile websites for small businesses because agencies charge crazy 40k+ prices. You can see 2 client sites I'm working on right now at abdisalam.space. Loved what you're doing with ${brand} and put together a quick preview of how a custom mobile site could look. Want to check it out? No pressure at all!`,
+      `Hey! I'm A.Gure, an independent junior dev in Oslo. I build clean mobile sites for small spots (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. Loved what you're doing with ${brand} and put together a quick mobile preview (attached). Want to check it out? No pressure at all!`,
     smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. Recently started building clean websites for small spots (no agency fees). Check 2 client sites I'm working on: abdisalam.space`,
+      `Hey ${brand}! I'm A.Gure, local Oslo dev. Recently started building clean websites for small spots (no agency fees). Check 2 client sites: abdisalam.space`,
     emailSubject: (brand: string) => `Quick intro & website idea for ${brand}`,
-    emailBodyTemplate: (brand: string, niche: string) =>
+    emailBodyTemplate: (brand: string, _niche: string) =>
       `Hey ${brand} team,
 
-I'll be straight with you: I'm A.Gure, an independent junior web designer based in Oslo. I recently started designing and building clean, mobile-first websites specifically for small local businesses and creators.
+I'm A.Gure, an independent junior dev in Oslo. I build clean mobile websites directly 1-on-1 for small local spots (zero 40,000+ kr agency fees or corporate fluff).
 
-Websites from big agencies can be crazy expensive — they charge 40,000+ kr and take months for basic templates. Because I'm building up my client roster, I do fast, custom work directly with you at honest, fair rates with zero agency markup or monthly retainers.
+You can see 2 client websites I'm currently working on at abdisalam.space (a tooth gem studio and a custom grillz maker).
 
-You can see 2 websites I'm currently working on for clients right now on my portfolio: https://abdisalam.space (one is an automated mobile booking site for an Oslo tooth gem studio, and the other is an interactive 3D showcase for a custom grillz maker).
+I love what you're doing with ${brand} and put together a quick visual concept for you (attached below).
 
-I love what you're doing with ${brand} in the ${niche || "local"} scene, and put together a quick visual concept showing how a direct mobile site could streamline your business.
-
-No pressure at all! Let me know if you'd be open to checking out a quick 15-second demo.
+Let me know if you'd be open to seeing a 15-second preview. No pressure!
 
 Best,
-Abdisalam Gure (A.Gure)
-https://abdisalam.space`
+A.Gure
+abdisalam.space`
   },
   custom: {
     tag: "CUSTOM CONCEPT",
@@ -125,21 +114,22 @@ https://abdisalam.space`
     descTemplate: (brand: string, niche: string) =>
       `I recently started building clean websites for small spots in Oslo. Tailored specifically for ${brand} with fair rates and zero agency markup.`,
     dmTemplate: (brand: string) =>
-      `Hey! I'll be straight with you: I'm A.Gure, a local junior web dev in Oslo. Recently started building clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. Put together a quick concept for ${brand} — want to check it out? No pressure!`,
+      `Hey! I'm A.Gure, a local junior dev in Oslo. Started building clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. Put together a quick concept for ${brand} — want to check it out? No pressure!`,
     smsTemplate: (brand: string) =>
-      `Hey ${brand}! I'm A.Gure, local Oslo dev. Check out 2 client sites I'm working on at abdisalam.space`,
+      `Hey ${brand}! I'm A.Gure, local Oslo dev. Check out 2 client sites: abdisalam.space`,
     emailSubject: (brand: string) => `Custom website concept for ${brand}`,
     emailBodyTemplate: (brand: string, _niche: string) =>
       `Hey ${brand} team,
 
-I'll be straight with you: I'm A.Gure, an independent junior web designer in Oslo. I recently started making clean mobile sites for small businesses because big agencies charge 40,000+ kr.
+I'm A.Gure, an independent junior dev in Oslo. I make clean mobile sites for small businesses without the 40,000+ kr agency markup.
 
-You can check out 2 client sites I'm currently working on at https://abdisalam.space (one for a tooth gem studio, one for a custom grillz maker).
+You can check out 2 client sites I'm currently working on at abdisalam.space.
 
-I put together a quick mobile concept for ${brand}. Let me know if you'd like to see a 15-second demo!
+I put together a quick mobile concept for ${brand} (attached below). Let me know if you'd like to see a 15-second demo!
 
 Best,
-Abdisalam Gure`
+A.Gure
+abdisalam.space`
   }
 };
 
@@ -152,7 +142,7 @@ export async function POST(req: Request) {
     const cleanNiche = niche?.trim() || "studio";
     const apiKey = process.env.GEMINI_API_KEY?.trim();
 
-    // Default preset fallback prepared upfront
+    // Default preset fallback prepared upfront (lean and punchy)
     const preset = TEMPLATE_PRESETS[angle] || TEMPLATE_PRESETS.pricing;
     const fallbackData = {
       cardHeadline: preset.headlineTemplate(brand),
@@ -164,7 +154,7 @@ export async function POST(req: Request) {
       emailBody: preset.emailBodyTemplate(brand, cleanNiche)
     };
 
-    // If Gemini API Key is present, attempt live AI generation with strict human-honesty constraints
+    // If Gemini API Key is present, attempt live AI generation with strict brevity and honesty constraints
     if (apiKey) {
       const candidateModels = [
         "gemini-3.5-flash-lite",
@@ -173,29 +163,25 @@ export async function POST(req: Request) {
       ];
 
       const prompt = `You are A.Gure, an independent junior freelance web developer and designer based in Oslo, Norway (portfolio: abdisalam.space).
-You write radically honest, authentic, and human outreach pitches to local small businesses (e.g. makeup artists, tattoo artists, independent studios).
+You write ultra-short, punchy, radically honest outreach pitches to local small businesses (e.g. makeup artists, tattoo artists, studios).
 
-ABSOLUTE MANDATORY NARRATIVE (YOU MUST FOLLOW THIS STORY):
-1. RADICAL HONESTY: Start by stating honestly that you are A.Gure, an independent junior developer in Oslo who RECENTLY STARTED making websites specifically for small local businesses.
-2. THE PRICING TRUTH: Call out the elephant in the room: websites from big agencies are crazy expensive (they easily quote 40,000+ kr and weeks of meetings for basic templates that small businesses don't need).
-3. VALUE PROPOSITION: Because you just started and are building up your portfolio and client roster, you build fast, clean, custom mobile sites directly 1-on-1 at fair, honest rates with zero agency markup.
-4. PROOF OF WORK: Explicitly mention that you are currently working on 2 client websites right now in Oslo that they can see live on your site (abdisalam.space) — one is an automated mobile booking site for an Oslo tooth gem studio (By Gangina), and the other is an interactive showcase for a custom grillz maker (Monochrome).
-5. THE CLIENT'S HEADACHE: Address ${brand} and how their current booking/contact method (${notes || "email or Instagram DMs"}) causes lost clients and tedious back-and-forth messages, and how a clean 1-tap mobile booking page simplifies it.
-6. CASUAL CLOSE: "No pressure at all! Let me know if you'd be open to seeing a quick 15-second demo."
+CRITICAL LENGTH RULE:
+- KEEP IT SHORT. Nobody reads long cold emails.
+- Email Body: MUST BE UNDER 85 WORDS TOTAL. Exactly 4 short paragraphs:
+  1. Intro as junior dev in Oslo + 40,000+ kr agency fee contrast (1 sentence).
+  2. Mention 2 client sites live at abdisalam.space (Oslo tooth gem studio & custom grillz maker) (1 sentence).
+  3. Mention ${brand}, their booking headache (${notes || "email/DMs"}), and that you attached a visual concept card (1-2 sentences).
+  4. Casual 15-second demo question with "No pressure at all!" (1 sentence).
+- DM Message: Under 45 words max.
+- SMS Message: Under 140 characters.
 
-STRICT RULES:
-- NEVER say "I stumbled across your page", "I've been following your work for a bit", "Hope you're having a good week", "Hope this email finds you well".
-- NEVER use corporate or agency jargon: "digital atelier", "bespoke solutions", "streamlined synergy", "cutting-edge", "unparalleled", "elevate".
-- Sound humble, skilled, hungry, polite, and 100% human.
-- Card Headline: Under 10 words, punchy and honest.
-- Card Description: Exactly 2 short sentences highlighting honest rates and zero agency markup.
-- Card Tag: 2-3 words uppercase category (e.g. "NO AGENCY MARKUP", "DIRECT BOOKINGS").
-- DM Message: 3-4 sentences max, casual and direct for Instagram/WhatsApp, mentioning you just started, the 40k agency contrast, the 2 client sites on abdisalam.space, and the 15-sec demo question.
-- SMS Message: Under 160 characters.
-- Email Subject: Short, natural subject line.
-- Email Body: 3-4 short paragraphs strictly following the narrative above.
+STRICT CONSTRAINTS:
+- NEVER write long paragraphs or corporate essays.
+- NEVER use fake flattery ("stumbled across", "following your page", "hope you're having a good week").
+- NEVER use buzzwords ("digital atelier", "bespoke solutions", "streamlined synergy", "cutting-edge").
+- Sound humble, skilled, hungry, polite, and direct.
 
-PROSPECT DETAILS:
+PROSPECT:
 - Brand Name: "${brand}"
 - Niche: "${cleanNiche}"
 - Angle: "${angle}"
@@ -235,13 +221,15 @@ Return ONLY a valid JSON object with these exact keys:
             if (rawText) {
               const parsed = JSON.parse(rawText);
 
-              // Quality gate: ensure AI included honesty anchors and avoided corporate fluff
+              // Quality gate: ensure AI was short, included honesty anchors, and avoided corporate fluff
               const dm = parsed.dmMessage || "";
               const email = parsed.emailBody || "";
+              const wordCount = email.split(/\s+/).length;
               const hasFluff = /stumbled across|following your page|having a good week|finds you well|digital atelier|bespoke/i.test(dm + email);
               const hasProof = /abdisalam\.space/i.test(dm + email);
 
-              if (!hasFluff && hasProof) {
+              // Accept only if under 120 words, has proof, and has no corporate fluff
+              if (!hasFluff && hasProof && wordCount <= 120) {
                 return NextResponse.json({
                   success: true,
                   source: "gemini",
@@ -249,7 +237,7 @@ Return ONLY a valid JSON object with these exact keys:
                   data: parsed
                 });
               } else {
-                console.warn(`Gemini output failed quality gate (fluff=${hasFluff}, proof=${hasProof}). Falling back to preset.`);
+                console.warn(`Gemini output failed quality/brevity gate (words=${wordCount}, fluff=${hasFluff}, proof=${hasProof}). Falling back to preset.`);
               }
             }
           }
@@ -259,7 +247,7 @@ Return ONLY a valid JSON object with these exact keys:
       }
     }
 
-    // Smart Local Fallback (Always 100% compliant with the honest, human story)
+    // Smart Local Fallback (Guaranteed punchy & compliant)
     return NextResponse.json({
       success: true,
       source: "preset",

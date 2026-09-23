@@ -74,21 +74,17 @@ export default function StudioPage() {
   const [emailBody, setEmailBody] = useState<string>(
     `Hey Glow by Sarah team,
 
-I'll be straight up with you: I'm A.Gure, an independent junior web designer here in Oslo. I recently started designing and building clean, mobile-first websites specifically for small local businesses and independent creators.
+I'm A.Gure, an independent junior dev in Oslo. I recently started building clean mobile sites for small businesses because big agencies charge crazy 40,000+ kr fees.
 
-Websites from big design agencies can be crazy expensive — they easily quote 40,000+ kr and weeks of meetings for basic templates that small businesses don't need. Because I just started out and I'm actively building up my portfolio and client roster, I do fast, custom work directly with you at honest, fair rates with zero agency markup.
+You can see 2 client sites I'm currently working on at abdisalam.space (an Oslo tooth gem studio and a custom grillz maker).
 
-You can see 2 client websites I'm currently working on right now on my portfolio: https://abdisalam.space (one is an automated mobile booking site for an Oslo tooth gem studio, and the other is an interactive showcase for a custom grillz maker).
+I saw your work and noticed bookings still run through email/DMs. I put together a quick visual concept showing how a clean 1-tap mobile booking page could look (concept card attached below).
 
-I love what you're doing with Glow by Sarah in the local scene, but noticed your bookings still run through email / DMs. I put together a quick visual concept showing how a clean 1-tap mobile booking page could look so clients can see your services and book directly in 30 seconds without the back-and-forth messages.
-
-No pressure at all! Let me know if you'd be open to checking out a quick 15-second demo.
+Open to seeing a quick 15-second demo? No pressure at all!
 
 Best,
-Abdisalam Gure (A.Gure)
-Web Developer & Designer
-https://abdisalam.space
-niwache12@gmail.com`
+A.Gure
+abdisalam.space`
   );
 
   const [smsMsg, setSmsMsg] = useState<string>(
@@ -224,15 +220,14 @@ niwache12@gmail.com`
     });
   };
 
-  // Download Card as PNG using HTML5 Canvas
-  const handleDownloadCard = async () => {
-    showToast("Generating high-DPI card image...");
+  // Render High-DPI Canvas for Download and Email Attachment
+  const renderCardCanvas = async (): Promise<HTMLCanvasElement | null> => {
     try {
       const canvas = document.createElement("canvas");
       canvas.width = 1600;
       canvas.height = 960;
       const ctx = canvas.getContext("2d");
-      if (!ctx) return;
+      if (!ctx) return null;
 
       // Draw dark background
       ctx.fillStyle = "#08080a";
@@ -357,7 +352,22 @@ niwache12@gmail.com`
       ctx.textAlign = "right";
       ctx.fillText("niwache12@gmail.com", 1524, 888);
 
-      // Trigger download
+      return canvas;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  };
+
+  // Download Card as PNG using HTML5 Canvas
+  const handleDownloadCard = async () => {
+    showToast("Generating high-DPI card image...");
+    try {
+      const canvas = await renderCardCanvas();
+      if (!canvas) {
+        showToast("Could not render card canvas.");
+        return;
+      }
       const dataUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
       a.href = dataUrl;
@@ -420,6 +430,13 @@ niwache12@gmail.com`
     }
     setIsSendingEmail(true);
     try {
+      // Generate the custom visual card as Base64 to attach and embed in email
+      let cardBase64: string | undefined = undefined;
+      const canvas = await renderCardCanvas();
+      if (canvas) {
+        cardBase64 = canvas.toDataURL("image/png");
+      }
+
       const res = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -427,15 +444,14 @@ niwache12@gmail.com`
           to: recipientEmail,
           subject: emailSubject,
           htmlBody: emailBody,
-          brandName
+          brandName,
+          cardBase64
         })
       });
       const data = await res.json();
       if (data.success) {
         showToast(
-          data.sent
-            ? `✓ Email sent from hello@abdisalam.space to ${recipientEmail}!`
-            : `✓ Draft ready! (Verify domain in Resend to send live)`
+          `✓ Visual Email sent to ${recipientEmail}! (Copy sent to your Gmail)`
         );
         recordLead("email", recipientEmail);
       } else {
@@ -865,6 +881,15 @@ niwache12@gmail.com`
                     onChange={(e) => setEmailBody(e.target.value)}
                     className="w-full bg-[#141418] border border-white/10 rounded-lg p-3 text-xs text-zinc-300 focus:outline-none focus:border-white transition-colors font-sans leading-relaxed"
                   />
+                </div>
+
+                <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 bg-white/5 border border-white/10 px-3 py-2 rounded-lg">
+                  <span className="flex items-center gap-1.5 text-zinc-300">
+                    <span>🎴</span> <span>Visual card attached</span>
+                  </span>
+                  <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded">
+                    BCC copy to you
+                  </span>
                 </div>
 
                 <button
