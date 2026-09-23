@@ -6,12 +6,13 @@ interface SendEmailRequest {
   htmlBody: string;
   cardBase64?: string;
   brandName?: string;
+  isPreview?: boolean;
 }
 
 export async function POST(req: Request) {
   try {
     const body: SendEmailRequest = await req.json();
-    const { to, subject, htmlBody, cardBase64, brandName } = body;
+    const { to, subject, htmlBody, cardBase64, brandName, isPreview = false } = body;
 
     if (!to || !to.includes("@")) {
       return NextResponse.json(
@@ -49,6 +50,7 @@ export async function POST(req: Request) {
 
       // Automatically BCC niwache12@gmail.com as a precaution so Abdisalam receives a copy
       const bccList = to.trim().toLowerCase() === replyTo.toLowerCase() ? undefined : [replyTo];
+      const finalSubject = isPreview && !subject.startsWith("[PREVIEW]") ? `[PREVIEW] ${subject.trim()}` : subject.trim();
 
       const emailPayload: {
         from: string;
@@ -62,7 +64,7 @@ export async function POST(req: Request) {
         from: `${senderName} <${senderEmail}>`,
         to: [to.trim()],
         reply_to: replyTo,
-        subject: subject.trim(),
+        subject: finalSubject,
         html: `
           <!DOCTYPE html>
           <html>
@@ -75,6 +77,16 @@ export async function POST(req: Request) {
               <!-- Container Card -->
               <div style="background-color: #0a0a0e; border: 1px solid #1f1f24; border-radius: 16px; padding: 28px 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
                 
+                ${
+                  isPreview
+                    ? `
+                <div style="background-color: #18181f; border: 1px dashed #3f3f46; border-radius: 10px; padding: 12px 16px; margin-bottom: 22px; font-size: 11.5px; color: #a1a1aa; font-family: ui-monospace, Menlo, Monaco, Consolas, monospace; line-height: 1.5;">
+                  ⚡ <strong style="color: #ffffff;">TEST PREVIEW COPY:</strong> This is an exact preview sent to your email. Check copy, visual layout, and attached card before sending live to businesses.
+                </div>
+                `
+                    : ""
+                }
+
                 <!-- Header Branding -->
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 22px; border-bottom: 1px solid #1a1a20; padding-bottom: 16px;">
                   <tr>

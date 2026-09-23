@@ -94,6 +94,7 @@ abdisalam.space`
   // Status & Feedback
   const [isGenerating, startGenerating] = useTransition();
   const [isSendingEmail, setIsSendingEmail] = useState<boolean>(false);
+  const [isSendingPreview, setIsSendingPreview] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [leads, setLeads] = useState<LeadRecord[]>([]);
   const [showHistory, setShowHistory] = useState<boolean>(false);
@@ -109,10 +110,15 @@ abdisalam.space`
       const searchParams = new URLSearchParams(window.location.search);
       const urlPin = searchParams.get("pin");
       const urlView = searchParams.get("view");
+      const urlChannel = searchParams.get("channel");
       const savedPin = localStorage.getItem("ag_studio_auth");
 
       if (urlView === "card" || urlView === "composer") {
         setMobileView(urlView);
+      }
+
+      if (urlChannel && ["instagram", "whatsapp", "email", "sms"].includes(urlChannel)) {
+        setChannel(urlChannel as DeliveryChannel);
       }
 
       if (urlPin === "2026") {
@@ -421,6 +427,41 @@ abdisalam.space`
     const url = `https://wa.me/${cleanNumber.replace("+", "")}?text=${encodeURIComponent(whatsappMsg)}`;
     window.open(url, "_blank");
     showToast("Opening WhatsApp with pre-filled pitch!");
+  };
+
+  const handleSendTestPreview = async () => {
+    setIsSendingPreview(true);
+    try {
+      let cardBase64: string | undefined = undefined;
+      const canvas = await renderCardCanvas();
+      if (canvas) {
+        cardBase64 = canvas.toDataURL("image/png");
+      }
+
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: "niwache12@gmail.com",
+          subject: emailSubject,
+          htmlBody: emailBody,
+          brandName,
+          cardBase64,
+          isPreview: true
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast("✓ Preview sent to your Gmail (niwache12@gmail.com)! Check your inbox.");
+      } else {
+        showToast(`Preview error: ${data.error}`);
+      }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Error sending preview";
+      showToast(message);
+    } finally {
+      setIsSendingPreview(false);
+    }
   };
 
   const handleSendEmail = async () => {
@@ -885,29 +926,50 @@ abdisalam.space`
 
                 <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 bg-white/5 border border-white/10 px-3 py-2 rounded-lg">
                   <span className="flex items-center gap-1.5 text-zinc-300">
-                    <span>🎴</span> <span>Visual card attached</span>
+                    <span>🎴</span> <span>Concept Card PNG attached</span>
                   </span>
                   <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded">
-                    BCC copy to you
+                    Auto-BCC to Gmail
                   </span>
                 </div>
 
-                <button
-                  onClick={handleSendEmail}
-                  disabled={isSendingEmail}
-                  className="w-full bg-white hover:bg-zinc-200 active:scale-[0.98] text-black font-semibold py-3 rounded-xl transition-all font-mono text-xs flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg"
-                >
-                  {isSendingEmail ? (
-                    <>
-                      <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
-                      Sending via hello@abdisalam.space...
-                    </>
-                  ) : (
-                    <>
-                      <span>✉️</span> Send Email Directly ↗
-                    </>
-                  )}
-                </button>
+                <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={handleSendTestPreview}
+                    disabled={isSendingPreview || isSendingEmail}
+                    className="flex-1 bg-[#181820] hover:bg-[#22222c] active:scale-[0.98] border border-white/15 text-zinc-200 hover:text-white font-mono text-xs py-3 px-3 rounded-xl transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                  >
+                    {isSendingPreview ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        Sending Preview...
+                      </>
+                    ) : (
+                      <>
+                        <span>👁️</span> Send Preview to My Email
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSendEmail}
+                    disabled={isSendingEmail || isSendingPreview}
+                    className="flex-1 bg-white hover:bg-zinc-200 active:scale-[0.98] text-black font-semibold py-3 px-3 rounded-xl transition-all font-mono text-xs flex items-center justify-center gap-1.5 disabled:opacity-50 shadow-lg"
+                  >
+                    {isSendingEmail ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
+                        Sending Live...
+                      </>
+                    ) : (
+                      <>
+                        <span>🚀</span> Send Live to Business ↗
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             )}
 
