@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useTransition } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -27,6 +27,129 @@ const COMMON_NICHES = [
   { label: "Creative Studio", icon: "📸" }
 ];
 
+function generateCuratedPitch(brand: string, niche: string, angle: AngleType, notes?: string) {
+  const b = brand.trim() || "Your Business";
+  const n = niche.trim() || "studio";
+  const slug = b.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+  const presets = {
+    pricing: {
+      cardTag: "NO AGENCY MARKUP",
+      cardHeadline: `Websites can be crazy expensive. A direct site for ${b} doesn't have to be.`,
+      cardDesc: `I recently started building clean mobile sites for small ${n} spots in Oslo. Honest rates, direct work, and zero 40k agency markup.`,
+      emailSubject: `Quick intro & website idea for ${b}`,
+      emailBody: `Hey ${b} team,
+
+I'm A.Gure, an independent junior dev in Oslo. I recently started building clean mobile sites for small businesses because big agencies charge crazy 40,000+ kr fees.
+
+You can see 2 client sites I'm currently working on at abdisalam.space (an Oslo tooth gem studio and a custom grillz maker).
+
+I saw your work and noticed bookings still run through email/DMs. I'd love to make a quick demo website for you to see if you like it, with a clean 1-tap mobile booking flow.
+
+Open to seeing a quick 15-second demo? No pressure at all!
+
+Best,
+A.Gure
+abdisalam.space`,
+      igDmMsg: `Hey! I'm A.Gure, an independent junior dev in Oslo. I recently started making clean mobile sites for small spots because agencies charge crazy 40k+ kr fees. Check 2 client sites I'm working on at abdisalam.space (tooth gem studio & custom grillz maker). Loved your work with ${b} — I'd love to make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      whatsappMsg: `Hey! I'm A.Gure, an independent junior web dev in Oslo. Recently started making clean mobile sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space (tooth gem studio & custom grillz maker). Loved your work with ${b} and would love to build a quick demo site for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      smsMsg: `Hey ${b}! I'm A.Gure, local Oslo dev. I build clean mobile sites for small spots (no 40k agency fees). Can build a quick demo site: abdisalam.space`
+    },
+    dms: {
+      cardTag: "DIRECT BOOKINGS",
+      cardHeadline: `Still handling ${b}'s bookings through messy DMs & emails?`,
+      cardDesc: `I recently started building clean booking sites for independent spots in Oslo. Replace lost messages with a direct 1-tap menu so clients can book ${b} in 30 seconds.`,
+      emailSubject: `Idea to automate bookings for ${b} (no agency markup)`,
+      emailBody: `Hey ${b} team,
+
+I'm A.Gure, a local junior dev in Oslo. I recently started making simple mobile booking sites because agencies charge crazy 40,000+ kr prices.
+
+You can check out 2 client sites I'm currently designing right now at abdisalam.space (an Oslo tooth gem studio and a custom grillz maker).
+
+I noticed ${b}'s bookings still run through email and DMs. I'd love to make a quick demo website for you to see if you like it, showing how a clean 1-tap booking flow can save you hours of back-and-forth.
+
+Would love to send over a 15-second preview if you're curious. No pressure either way!
+
+Best,
+A.Gure
+abdisalam.space`,
+      igDmMsg: `Hey! I'm A.Gure, a local junior dev in Oslo. Started making clean mobile booking sites because agencies charge crazy 40k+ prices. Check 2 client sites I'm working on at abdisalam.space. Noticed ${b}'s bookings run through DMs/emails — I can make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      whatsappMsg: `Hey! I'm A.Gure, a local dev in Oslo. Built mobile booking sites for local spots so they don't lose clients in DMs. Check 2 client sites at abdisalam.space. I'd love to make a quick demo website for ${b} to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      smsMsg: `Hey ${b}! I'm A.Gure, local Oslo dev. I build 1-tap booking sites so you stop losing clients in DMs. Check 2 client sites: abdisalam.space`
+    },
+    aesthetic: {
+      cardTag: "MOBILE FIRST",
+      cardHeadline: `Your work looks great on Instagram. Does ${b}'s website match it?`,
+      cardDesc: `I recently started building clean mobile sites for local spots in Oslo. Custom design that matches your aesthetic with zero agency markup.`,
+      emailSubject: `Mobile web makeover idea for ${b}`,
+      emailBody: `Hey ${b} team,
+
+I'm A.Gure, a junior web designer in Oslo. Big agencies charge 40,000+ kr for websites, so I build clean mobile sites for local spots directly at honest rates.
+
+You can see 2 client sites I'm currently working on right now at abdisalam.space (an Oslo tooth gem studio and a custom grillz shop).
+
+Your aesthetic on Instagram is top tier, and I'd love to make a quick demo website for ${b} that matches your exact visual vibe so you can see if you like it.
+
+Down to check out a 15-second demo? No pressure at all!
+
+Best,
+A.Gure
+abdisalam.space`,
+      igDmMsg: `Hey! I'm A.Gure, a junior web dev in Oslo. Agencies charge 40k+ kr for sites, so I build clean mobile pages for local spots directly at honest rates. Check 2 client sites I'm working on at abdisalam.space. Your aesthetic with ${b} is unreal — I can make a quick demo website matching your vibe to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      whatsappMsg: `Hey! I'm A.Gure, a junior web designer in Oslo. I make clean mobile sites matching local creatives' aesthetics (no 40k agency fees). Check 2 client sites at abdisalam.space. Love ${b}'s vibe — I can put together a quick demo website for you to see if you like it. Down to check it out? No pressure!`,
+      smsMsg: `Hey ${b}! I'm A.Gure, local Oslo dev. I build mobile sites matching your Instagram aesthetic. See 2 client sites: abdisalam.space`
+    },
+    freelancer: {
+      cardTag: "1-ON-1 FREELANCER",
+      cardHeadline: `I build & redesign clean websites for spots like ${b}.`,
+      cardDesc: `I recently started building clean websites for small businesses in Oslo. Direct 1-on-1 collaboration, fair rates, and zero corporate fluff.`,
+      emailSubject: `Quick intro & website idea for ${b}`,
+      emailBody: `Hey ${b} team,
+
+I'm A.Gure, an independent junior dev in Oslo. I build clean mobile websites directly 1-on-1 for small local spots (zero 40,000+ kr agency fees or corporate fluff).
+
+You can see 2 client websites I'm currently working on at abdisalam.space (a tooth gem studio and a custom grillz maker).
+
+I love what you're doing with ${b}, and I can make a quick demo website for you to see if you like it.
+
+Let me know if you'd be open to seeing a 15-second preview. No pressure!
+
+Best,
+A.Gure
+abdisalam.space`,
+      igDmMsg: `Hey! I'm A.Gure, an independent junior dev in Oslo. I build clean mobile sites for small spots (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. Loved what you're doing with ${b} — I can make a quick demo website for you to see if you like it. Down to check it out? No pressure!`,
+      whatsappMsg: `Hey! I'm A.Gure, local junior dev in Oslo. I build clean mobile sites 1-on-1 for small spots (no 40k agency fees). Check 2 client sites at abdisalam.space. Love ${b}'s work — I can put together a quick demo site for you to see if you like it. Down to see a 15-sec preview?`,
+      smsMsg: `Hey ${b}! I'm A.Gure, local Oslo dev. Recently started building clean websites for small spots (no agency fees). Check 2 client sites: abdisalam.space`
+    },
+    custom: {
+      cardTag: "CUSTOM CONCEPT",
+      cardHeadline: `A clean mobile website custom-crafted for ${b}.`,
+      cardDesc: `I recently started building clean websites for small spots in Oslo. Tailored specifically for ${b} with fair rates and zero agency markup.`,
+      emailSubject: `Custom website idea for ${b}`,
+      emailBody: `Hey ${b} team,
+
+I'm A.Gure, an independent junior dev in Oslo. I make clean mobile sites for small businesses without the 40,000+ kr agency markup.
+
+You can check out 2 client sites I'm currently working on at abdisalam.space.
+
+I'd love to make a quick demo website for ${b} to see if you like it. Let me know if you'd like to see a 15-second demo!
+
+Best,
+A.Gure
+abdisalam.space`,
+      igDmMsg: `Hey! I'm A.Gure, a local junior dev in Oslo. Started building clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. I can make a quick demo website for ${b} to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      whatsappMsg: `Hey! I'm A.Gure, a local junior dev in Oslo. I build clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. I can make a quick demo website for ${b} to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      smsMsg: `Hey ${b}! I'm A.Gure, local Oslo dev. Can build a quick demo site: abdisalam.space`
+    }
+  };
+
+  const selected = presets[angle] || presets.pricing;
+  return {
+    ...selected,
+    instagramHandle: slug ? `@${slug}` : ""
+  };
+}
+
 export default function StudioPage() {
   // Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -37,62 +160,36 @@ export default function StudioPage() {
   // Mobile View Switcher (Composer vs Card Preview)
   const [mobileView, setMobileView] = useState<MobileViewMode>("composer");
 
+  // Initial default curation
+  const initial = generateCuratedPitch("By Lieencie", "Makeup Artist", "pricing");
+
   // Profiler Inputs
-  const [brandName, setBrandName] = useState<string>("Glow by Sarah");
+  const [brandName, setBrandName] = useState<string>("By Lieencie");
   const [niche, setNiche] = useState<string>("Makeup Artist");
   const [angle, setAngle] = useState<AngleType>("pricing");
   const [extraNotes, setExtraNotes] = useState<string>("Takes bookings via DMs and email");
 
   // Visual Card Content
-  const [cardHeadline, setCardHeadline] = useState<string>(
-    "Websites can be crazy expensive. A direct site for Glow by Sarah doesn't have to be."
-  );
-  const [cardDesc, setCardDesc] = useState<string>(
-    "I recently started building clean mobile sites for small spots in Oslo. Honest rates, direct work, and zero 40k agency markup."
-  );
-  const [cardTag, setCardTag] = useState<string>("NO AGENCY MARKUP");
+  const [cardHeadline, setCardHeadline] = useState<string>(initial.cardHeadline);
+  const [cardDesc, setCardDesc] = useState<string>(initial.cardDesc);
+  const [cardTag, setCardTag] = useState<string>(initial.cardTag);
   const [showCardEdit, setShowCardEdit] = useState<boolean>(false);
 
   // Active Delivery Channel
   const [channel, setChannel] = useState<DeliveryChannel>("instagram");
 
   // Channel Specific Fields
-  const [instagramHandle, setInstagramHandle] = useState<string>("glowbysarah");
-  const [igDmMsg, setIgDmMsg] = useState<string>(
-    `Hey! I'll be straight with you — I'm A.Gure, an independent junior web dev here in Oslo. I recently started making clean mobile sites for small spots because agencies charge crazy 40,000+ kr prices. You can check out 2 client sites I'm currently working on right now at abdisalam.space (one is for an Oslo tooth gem studio, and the other is an interactive grillz shop). Loved your makeup work with Glow by Sarah and noticed bookings run through email/DMs, so I put together a quick preview of how a direct 1-tap mobile booking site could look for you without the agency markup. Down to see a 15-second preview? No pressure at all!`
-  );
-
+  const [instagramHandle, setInstagramHandle] = useState<string>(initial.instagramHandle);
+  const [igDmMsg, setIgDmMsg] = useState<string>(initial.igDmMsg);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [whatsappMsg, setWhatsappMsg] = useState<string>(
-    `Hey! I'll be straight with you — I'm A.Gure, an independent junior web dev in Oslo. Recently started making clean mobile sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on right now at abdisalam.space (tooth gem studio & custom grillz maker). Loved your work with Glow by Sarah and put together a quick 1-tap booking concept. Down to see a 15-sec preview? No pressure!`
-  );
-
+  const [whatsappMsg, setWhatsappMsg] = useState<string>(initial.whatsappMsg);
   const [recipientEmail, setRecipientEmail] = useState<string>("");
-  const [emailSubject, setEmailSubject] = useState<string>(
-    "Quick intro & website idea for Glow by Sarah"
-  );
-  const [emailBody, setEmailBody] = useState<string>(
-    `Hey Glow by Sarah team,
-
-I'm A.Gure, an independent junior dev in Oslo. I recently started building clean mobile sites for small businesses because big agencies charge crazy 40,000+ kr fees.
-
-You can see 2 client sites I'm currently working on at abdisalam.space (an Oslo tooth gem studio and a custom grillz maker).
-
-I saw your work and noticed bookings still run through email/DMs. I put together a quick visual concept showing how a clean 1-tap mobile booking page could look (concept card attached below).
-
-Open to seeing a quick 15-second demo? No pressure at all!
-
-Best,
-A.Gure
-abdisalam.space`
-  );
-
-  const [smsMsg, setSmsMsg] = useState<string>(
-    "Hey Glow by Sarah! I'm A.Gure, local Oslo dev. Recently started building clean mobile sites for small spots (no 40k agency fees). Check 2 client sites I'm working on: abdisalam.space"
-  );
+  const [emailSubject, setEmailSubject] = useState<string>(initial.emailSubject);
+  const [emailBody, setEmailBody] = useState<string>(initial.emailBody);
+  const [smsMsg, setSmsMsg] = useState<string>(initial.smsMsg);
 
   // Status & Feedback
-  const [isGenerating, startGenerating] = useTransition();
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [isSendingEmail, setIsSendingEmail] = useState<boolean>(false);
   const [isSendingPreview, setIsSendingPreview] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -190,22 +287,63 @@ abdisalam.space`
     setPinInput("");
   };
 
-  // Generate Pitch via API
+  // Curate pitch when angle or niche is switched
+  const handleSelectAngle = (newAngle: AngleType) => {
+    setAngle(newAngle);
+    const curated = generateCuratedPitch(brandName, niche, newAngle, extraNotes);
+    setCardHeadline(curated.cardHeadline);
+    setCardDesc(curated.cardDesc);
+    setCardTag(curated.cardTag);
+    setEmailSubject(curated.emailSubject);
+    setEmailBody(curated.emailBody);
+    setIgDmMsg(curated.igDmMsg);
+    setWhatsappMsg(curated.whatsappMsg);
+    setSmsMsg(curated.smsMsg);
+  };
+
+  const handleSelectNiche = (newNiche: string) => {
+    setNiche(newNiche);
+    const curated = generateCuratedPitch(brandName, newNiche, angle, extraNotes);
+    setCardHeadline(curated.cardHeadline);
+    setCardDesc(curated.cardDesc);
+    setEmailBody(curated.emailBody);
+    setIgDmMsg(curated.igDmMsg);
+    setWhatsappMsg(curated.whatsappMsg);
+  };
+
+  // Generate / Curate Pitch Package (Instant 0ms synchronous + AI background refinement)
   const handleGeneratePitch = () => {
-    startGenerating(async () => {
-      try {
-        const res = await fetch("/api/generate-pitch", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            brandName,
-            niche,
-            angle,
-            notes: extraNotes
-          })
-        });
-        const json = await res.json();
-        if (json.success && json.data) {
+    setIsGenerating(true);
+
+    // 1. Instant local curation right now (0 ms latency, 100% deterministic)
+    const curated = generateCuratedPitch(brandName, niche, angle, extraNotes);
+    setCardHeadline(curated.cardHeadline);
+    setCardDesc(curated.cardDesc);
+    setCardTag(curated.cardTag);
+    setEmailSubject(curated.emailSubject);
+    setEmailBody(curated.emailBody);
+    setIgDmMsg(curated.igDmMsg);
+    setWhatsappMsg(curated.whatsappMsg);
+    setSmsMsg(curated.smsMsg);
+    if (curated.instagramHandle) {
+      setInstagramHandle(curated.instagramHandle);
+    }
+    showToast(`✓ Curated pitch package & card for ${brandName || "your business"}!`);
+
+    // 2. Background check if Gemini AI can enrich further
+    fetch("/api/generate-pitch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        brandName,
+        niche,
+        angle,
+        notes: extraNotes
+      })
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success && json.source === "gemini" && json.data) {
           const d = json.data;
           if (d.cardHeadline) setCardHeadline(d.cardHeadline);
           if (d.cardDesc) setCardDesc(d.cardDesc);
@@ -217,13 +355,15 @@ abdisalam.space`
             setWhatsappMsg(d.dmMessage);
           }
           if (d.smsMessage) setSmsMsg(d.smsMessage);
-          showToast(`✓ Generated honest pitch (${json.source === "gemini" ? "✦ Gemini AI" : "Honest Preset"})`);
+          showToast(`✦ Refined pitch with Gemini AI!`);
         }
-      } catch (err) {
-        console.error(err);
-        showToast("Generation failed. Please try again.");
-      }
-    });
+      })
+      .catch((err) => {
+        console.warn("Background AI enrichment notice:", err);
+      })
+      .finally(() => {
+        setIsGenerating(false);
+      });
   };
 
   // Render High-DPI Canvas for Download and Email Attachment
@@ -687,7 +827,7 @@ abdisalam.space`
                   type="text"
                   value={brandName}
                   onChange={(e) => setBrandName(e.target.value)}
-                  placeholder="e.g. Glow by Sarah"
+                  placeholder="e.g. By Lieencie"
                   className="w-full bg-[#141418] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-white transition-colors"
                 />
               </div>
@@ -711,7 +851,7 @@ abdisalam.space`
                   <button
                     key={item.label}
                     type="button"
-                    onClick={() => setNiche(item.label)}
+                    onClick={() => handleSelectNiche(item.label)}
                     className={`text-[11px] font-mono px-2.5 py-1 rounded-full whitespace-nowrap border transition-all flex items-center gap-1 ${
                       niche.toLowerCase() === item.label.toLowerCase()
                         ? "bg-white text-black border-white"
@@ -738,7 +878,7 @@ abdisalam.space`
                   <button
                     key={item.key}
                     type="button"
-                    onClick={() => setAngle(item.key as AngleType)}
+                    onClick={() => handleSelectAngle(item.key as AngleType)}
                     className={`p-2.5 rounded-xl border text-left transition-all ${
                       angle === item.key
                         ? "bg-white text-black border-white shadow-md"
@@ -926,7 +1066,7 @@ abdisalam.space`
 
                 <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 bg-white/5 border border-white/10 px-3 py-2 rounded-lg">
                   <span className="flex items-center gap-1.5 text-zinc-300">
-                    <span>🎴</span> <span>Concept Card PNG attached</span>
+                    <span>🎴</span> <span>Portfolio Card PNG attached</span>
                   </span>
                   <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded">
                     Auto-BCC to Gmail

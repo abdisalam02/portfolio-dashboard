@@ -107,12 +107,12 @@ export async function POST(req: Request) {
                 <!-- Visual Pitch Card Container -->
                 <div style="margin: 22px 0 20px 0; border: 1px solid #22222a; border-radius: 12px; overflow: hidden; background-color: #08080a;">
                   <a href="https://abdisalam.space" target="_blank" style="display: block; text-decoration: none;">
-                    <img src="https://abdisalam.space/outreach_pitch_card.png" alt="Concept Preview Card" style="width: 100%; max-width: 540px; height: auto; display: block; border-bottom: 1px solid #1a1a22;" />
+                    <img src="https://abdisalam.space/outreach_pitch_card.png" alt="A.GURE Portfolio Overview" style="width: 100%; max-width: 540px; height: auto; display: block; border-bottom: 1px solid #1a1a22;" />
                   </a>
                   <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 10px 14px; background-color: #0e0e13;">
                     <tr>
                       <td align="left" style="font-family: ui-monospace, Menlo, Monaco, Consolas, monospace; font-size: 11px; color: #8a8a93;">
-                        🎴 Concept Card (${attachmentFilename})
+                        🎴 Portfolio Overview (${attachmentFilename})
                       </td>
                       <td align="right">
                         <a href="https://abdisalam.space" style="font-family: ui-monospace, Menlo, Monaco, Consolas, monospace; font-size: 11px; color: #ffffff; text-decoration: none; font-weight: 600;">
