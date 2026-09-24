@@ -8,10 +8,10 @@ import Footer from "@/components/Footer";
 import { FiArrowLeft, FiSend, FiCopy, FiCheck, FiMail, FiPaperclip } from "react-icons/fi";
 
 const projectTypes = [
-  "The Booking Drop (4,000 kr)",
-  "The Studio (7,500 kr)",
-  "The Flagship (12,500 kr)",
+  "The Instagram Booking Drop (2,000 kr)",
+  "The Bespoke Studio (5,500 – 12,500 kr)",
   "Website Redesign",
+  "Add-ons / Custom Upgrades",
   "General Inquiry",
 ];
 
@@ -21,7 +21,7 @@ function ContactForm() {
 
   const [senderEmail, setSenderEmail] = useState("");
   const [senderName, setSenderName] = useState("");
-  const [selectedType, setSelectedType] = useState("The Booking Drop (4,000 kr)");
+  const [selectedType, setSelectedType] = useState("The Instagram Booking Drop (2,000 kr)");
   const [subject, setSubject] = useState("Project Inquiry");
   const [message, setMessage] = useState("");
   const [copied, setCopied] = useState(false);
@@ -31,14 +31,11 @@ function ContactForm() {
 
   useEffect(() => {
     if (pkg === "booking-drop") {
-      setSelectedType("The Booking Drop (4,000 kr)");
-      setSubject("Inquiry: The Booking Drop (4,000 kr)");
-    } else if (pkg === "studio") {
-      setSelectedType("The Studio (7,500 kr)");
-      setSubject("Inquiry: The Studio (7,500 kr)");
-    } else if (pkg === "flagship") {
-      setSelectedType("The Flagship (12,500 kr)");
-      setSubject("Inquiry: The Flagship (12,500 kr)");
+      setSelectedType("The Instagram Booking Drop (2,000 kr)");
+      setSubject("Inquiry: The Instagram Booking Drop (2,000 kr)");
+    } else if (pkg === "studio" || pkg === "flagship") {
+      setSelectedType("The Bespoke Studio (5,500 – 12,500 kr)");
+      setSubject("Inquiry: The Bespoke Studio (5,500 – 12,500 kr)");
     }
   }, [pkg]);
 
