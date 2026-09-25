@@ -50,7 +50,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
   // Active Theme / Palette - Synchronizes immediately when route / niche changes
   const [activePalette, setActivePalette] = useState<PaletteTheme>(config.palettes[0]);
 
-  const [isDockCollapsed, setIsDockCollapsed] = useState(false);
+  const [isDockCollapsed, setIsDockCollapsed] = useState(true);
 
   const demoList = [
     { id: "cakes", label: "Bakery", brand: "Maison Sucre", icon: "🎂", href: "/demo" },
@@ -73,6 +73,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
     setWeddingVenue("");
     setWeddingColorVision("");
     setBookingConfirmed(false);
+    setIsDockCollapsed(true);
   }, [config.id]);
 
   useEffect(() => {

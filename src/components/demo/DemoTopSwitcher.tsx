@@ -18,12 +18,6 @@ export default function DemoTopSwitcher({
   textColor,
   cardBg,
 }: DemoTopSwitcherProps) {
-  const demos = [
-    { id: "cakes", label: "Bakery", icon: "🎂", href: "/demo" },
-    { id: "nails", label: "Nail Studio", icon: "💅", href: "/demo/nails" },
-    { id: "wedding", label: "Wedding Florals", icon: "💍", href: "/demo/wedding" },
-  ] as const;
-
   return (
     <nav
       aria-label="Demo suite navigation"
@@ -37,62 +31,46 @@ export default function DemoTopSwitcher({
         {/* Back Link */}
         <Link
           href="/pricing"
-          className="inline-flex items-center gap-1.5 opacity-60 hover:opacity-100 transition-opacity flex-shrink-0 text-[11px] sm:text-xs"
+          className="inline-flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0 text-[11px] sm:text-xs"
           style={{ color: textColor || "#141416" }}
           title="Back to A.Gure pricing"
         >
           <FiArrowLeft size={13} />
-          <span className="hidden sm:inline">Pricing</span>
+          <span>Back to Pricing</span>
         </Link>
 
-        {/* Demo Switcher Pills */}
-        <div
-          className="inline-flex items-center p-0.5 rounded-full border shadow-sm transition-all"
-          style={{
-            backgroundColor: cardBg || "#FFFFFF",
-            borderColor: borderColor || "rgba(0, 0, 0, 0.12)",
-          }}
-        >
-          {demos.map((d) => {
-            const isActive = currentDemo === d.id;
-            return (
-              <Link
-                key={d.id}
-                href={d.href}
-                className={`inline-flex items-center gap-1 px-2 sm:px-3.5 py-1 rounded-full text-[10px] sm:text-xs font-medium transition-all ${
-                  isActive
-                    ? "shadow-sm font-semibold scale-[1.02]"
-                    : "opacity-60 hover:opacity-100 hover:scale-[1.01]"
-                }`}
-                style={{
-                  backgroundColor: isActive
-                    ? accentColor || "#141416"
-                    : "transparent",
-                  color: isActive
-                    ? "#FFFFFF"
-                    : textColor || "#141416",
-                }}
-              >
-                <span className="text-[11px] sm:text-[12px] leading-none">{d.icon}</span>
-                <span className="inline font-mono">
-                  {d.label}
-                </span>
-              </Link>
-            );
-          })}
+        {/* Center Breadcrumb Pill */}
+        <div className="hidden sm:flex items-center gap-2">
+          <span
+            className="text-[10px] uppercase tracking-widest font-mono opacity-60"
+            style={{ color: textColor || "#141416" }}
+          >
+            Tier 1 Client Showcase
+          </span>
+          <span className="opacity-30">/</span>
+          <span
+            className="text-[10px] uppercase tracking-wider font-mono font-bold"
+            style={{ color: accentColor || "#141416" }}
+          >
+            {currentDemo === "cakes"
+              ? "Maison Sucre (Bakery)"
+              : currentDemo === "nails"
+              ? "Studio Klō (Nails)"
+              : "Astrid Bridal (Wedding)"}
+          </span>
         </div>
 
         {/* Tier Indicator Pill */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 flex items-center gap-2">
           <span
-            className="text-[9px] sm:text-[10px] uppercase tracking-wider px-2 py-0.5 rounded font-bold border"
+            className="text-[9px] sm:text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full font-bold border shadow-xs"
             style={{
-              borderColor: borderColor || "rgba(0, 0, 0, 0.1)",
+              borderColor: borderColor || "rgba(0, 0, 0, 0.12)",
               color: accentColor || "#141416",
               backgroundColor: cardBg || "#FFFFFF",
             }}
           >
-            2,000 kr
+            2,000 kr · One-Time
           </span>
         </div>
       </div>
