@@ -13,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function CakesDemoPage() {
-  return <BookingDropTemplate niche="cakes" />;
+  return <BookingDropTemplate key="cakes" niche="cakes" />;
 }

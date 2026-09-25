@@ -13,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function NailsDemoPage() {
-  return <BookingDropTemplate niche="nails" />;
+  return <BookingDropTemplate key="nails" niche="nails" />;
 }

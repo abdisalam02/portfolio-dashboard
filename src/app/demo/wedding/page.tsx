@@ -13,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function WeddingDemoPage() {
-  return <BookingDropTemplate niche="wedding" />;
+  return <BookingDropTemplate key="wedding" niche="wedding" />;
 }
