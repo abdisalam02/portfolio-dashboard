@@ -15,6 +15,8 @@ import {
   FiChevronDown,
   FiChevronUp,
 } from "react-icons/fi";
+import { LuCroissant } from "react-icons/lu";
+import { GiDiamondRing } from "react-icons/gi";
 
 export default function PricingPage() {
   const [expandedTier, setExpandedTier] = useState<string | null>(null);
@@ -167,39 +169,125 @@ export default function PricingPage() {
                 </div>
               </div>
 
-              {/* Demo Box — ALWAYS VISIBLE OUTSIDE THE DETAILS TOGGLE */}
-              <div className="bg-card/30 border border-card-border rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-5 hover:border-foreground/30 transition-colors">
-                <div className="relative w-full sm:w-28 h-28 rounded-lg bg-black border border-card-border overflow-hidden flex-shrink-0">
-                  <Image
-                    src="/demo/cakes/cake-1.jpg"
-                    alt="Maison Sucre Demo Preview"
-                    fill
-                    sizes="120px"
-                    className="object-cover object-center"
-                  />
-                  <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-md border border-white/20 text-[9px] font-mono text-white font-bold">
-                    LIVE DEMO
+              {/* 3 Live Demos Showcase — ALWAYS VISIBLE OUTSIDE THE DETAILS TOGGLE */}
+              <div className="space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                  <div className="text-xs font-mono text-muted uppercase tracking-wider font-bold">
+                    3 Live interactive demos (2,000 kr tier):
                   </div>
+                  <span className="text-[11px] font-mono text-muted/80">
+                    Custom palettes · Price menus · 1-tap booking
+                  </span>
                 </div>
-                <div className="flex-1 space-y-1.5 text-center sm:text-left">
-                  <div className="flex items-center justify-center sm:justify-start gap-2 text-xs font-mono">
-                    <span className="font-bold uppercase tracking-wider text-foreground">
-                      Maison Sucre · Cake Studio
-                    </span>
-                    <span className="text-muted/60">•</span>
-                    <span className="text-muted text-[11px]">2,000 kr Tier</span>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+                  {/* Demo 1: Bakery / Cakes */}
+                  <div className="bg-card/30 border border-card-border rounded-xl p-4 flex flex-col justify-between space-y-3 hover:border-foreground/30 transition-colors">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="w-12 h-12 rounded-full border border-[#A35C2E]/30 bg-[#A35C2E]/10 flex items-center justify-center text-[#A35C2E] flex-shrink-0 shadow-2xs">
+                          <LuCroissant size={22} />
+                        </div>
+                        <span className="px-2 py-0.5 rounded bg-background border border-card-border text-[9px] font-mono font-bold uppercase tracking-wider text-muted">
+                          01 · Bakery
+                        </span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-bold font-heading uppercase text-foreground">
+                          Maison Sucre
+                        </h4>
+                        <div className="text-[11px] font-mono text-muted">
+                          Atelier de Pâtisserie · Oslo
+                        </div>
+                        <p className="text-xs text-muted font-body leading-relaxed pt-1">
+                          Tactile French patisserie with weekly drop pre-orders, photo vitrine, and collection window selection.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-card-border/50">
+                      <Link
+                        href="/demo"
+                        className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-foreground hover:underline"
+                      >
+                        <span>TEST LIVE DEMO</span>
+                        <FiArrowUpRight size={12} />
+                      </Link>
+                    </div>
                   </div>
-                  <p className="text-xs text-muted font-body leading-relaxed">
-                    Test out the exact 1-page booking site I build for 2,000 kr. Try out the 4 live color themes, select a cake, tap past work photos to zoom, and test the ordering flow.
-                  </p>
-                  <div className="pt-1">
-                    <Link
-                      href="/tier-one-demo"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-foreground hover:underline"
-                    >
-                      <span>TEST LIVE DEMO</span>
-                      <FiArrowUpRight size={13} />
-                    </Link>
+
+                  {/* Demo 2: Nails Studio */}
+                  <div className="bg-card/30 border border-card-border rounded-xl p-4 flex flex-col justify-between space-y-3 hover:border-foreground/30 transition-colors">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="w-12 h-12 rounded-none border border-foreground/30 bg-foreground/5 flex flex-col items-center justify-center flex-shrink-0 shadow-2xs font-mono">
+                          <span className="text-xs font-black tracking-widest text-foreground">KLØ</span>
+                          <span className="text-[6px] tracking-wider uppercase text-muted font-bold">STUDIO</span>
+                        </div>
+                        <span className="px-2 py-0.5 rounded bg-background border border-card-border text-[9px] font-mono font-bold uppercase tracking-wider text-muted">
+                          02 · Nails
+                        </span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-bold font-heading uppercase text-foreground">
+                          Studio Klø
+                        </h4>
+                        <div className="text-[11px] font-mono text-muted">
+                          Bespoke Gel &amp; BIAB Atelier
+                        </div>
+                        <p className="text-xs text-muted font-body leading-relaxed pt-1">
+                          High-fashion monochrome studio with interactive shape selector, treatment price ledger, and booking pass.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-card-border/50">
+                      <Link
+                        href="/demo/nails"
+                        className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-foreground hover:underline"
+                      >
+                        <span>TEST LIVE DEMO</span>
+                        <FiArrowUpRight size={12} />
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Demo 3: Wedding Florals */}
+                  <div className="bg-card/30 border border-card-border rounded-xl p-4 flex flex-col justify-between space-y-3 hover:border-foreground/30 transition-colors">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="w-12 h-12 rounded-full border border-[#7D6F5E]/30 bg-[#7D6F5E]/10 flex items-center justify-center text-[#7D6F5E] flex-shrink-0 shadow-2xs">
+                          <GiDiamondRing size={20} />
+                        </div>
+                        <span className="px-2 py-0.5 rounded bg-background border border-card-border text-[9px] font-mono font-bold uppercase tracking-wider text-muted">
+                          03 · Wedding
+                        </span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-bold font-heading uppercase text-foreground">
+                          Astrid Bridal
+                        </h4>
+                        <div className="text-[11px] font-mono text-muted">
+                          Ceremony &amp; Reception Florals
+                        </div>
+                        <p className="text-xs text-muted font-body leading-relaxed pt-1">
+                          Vogue editorial layout with bridal floral suites, photography gallery, and custom venue consultation form.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-card-border/50">
+                      <Link
+                        href="/demo/wedding"
+                        className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-foreground hover:underline"
+                      >
+                        <span>TEST LIVE DEMO</span>
+                        <FiArrowUpRight size={12} />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

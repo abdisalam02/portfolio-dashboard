@@ -15,22 +15,22 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
   const navItems =
     currentDemo === "cakes"
       ? [
-          { id: "brand-hero", num: "00", label: "Atelier", icon: FiCompass },
-          { id: "lookbook-gallery", num: "01", label: "Vitrine", icon: FiImage },
-          { id: "services-menu", num: "02", label: "La Carte", icon: FiBookOpen },
-          { id: "booking-form-section", num: "03", label: "Commande", icon: FiShoppingBag },
+          { id: "brand-hero", label: "Atelier", icon: FiCompass },
+          { id: "lookbook-gallery", label: "Vitrine", icon: FiImage },
+          { id: "services-menu", label: "Menu", icon: FiBookOpen },
+          { id: "booking-form-section", label: "Order", icon: FiShoppingBag },
         ]
       : currentDemo === "nails"
       ? [
-          { id: "brand-hero", num: "00", label: "Studio 4B", icon: FiCompass },
-          { id: "services-menu", num: "01", label: "Rates & Sets", icon: FiBookOpen },
-          { id: "booking-form-section", num: "02", label: "Reserve Chair", icon: FiCalendar },
+          { id: "brand-hero", label: "Studio", icon: FiCompass },
+          { id: "services-menu", label: "Services", icon: FiBookOpen },
+          { id: "booking-form-section", label: "Reserve", icon: FiCalendar },
         ]
       : [
-          { id: "brand-hero", num: "00", label: "Exhibition", icon: FiCompass },
-          { id: "lookbook-gallery", num: "01", label: "Portfolio", icon: FiImage },
-          { id: "services-menu", num: "02", label: "Suites", icon: FiBookOpen },
-          { id: "booking-form-section", num: "03", label: "Inquire", icon: FiCalendar },
+          { id: "brand-hero", label: "Studio", icon: FiCompass },
+          { id: "lookbook-gallery", label: "Works", icon: FiImage },
+          { id: "services-menu", label: "Suites", icon: FiBookOpen },
+          { id: "booking-form-section", label: "Inquire", icon: FiCalendar },
         ];
 
   useEffect(() => {
@@ -69,8 +69,8 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
         }}
       >
         <div className="px-2 pt-1 pb-1 border-b w-full flex items-center justify-between gap-2" style={{ borderColor: palette.border }}>
-          <span className="text-[9px] font-mono uppercase tracking-widest font-bold" style={{ color: palette.accent }}>
-            Index
+          <span className="text-[9px] font-mono uppercase tracking-widest font-bold opacity-60" style={{ color: palette.accent }}>
+            Jump To
           </span>
           <button
             type="button"
@@ -93,28 +93,16 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
                 type="button"
                 onClick={() => scrollToSection(item.id)}
                 className={`group flex items-center justify-between gap-2.5 px-2.5 py-1.5 rounded-xl text-left transition-all cursor-pointer ${
-                  isActive ? "shadow-2xs" : "hover:bg-black/5"
+                  isActive ? "shadow-2xs font-bold" : "hover:bg-black/5 opacity-75 hover:opacity-100"
                 }`}
                 style={{
                   backgroundColor: isActive ? palette.accent : "transparent",
                   color: isActive ? palette.accentFg : palette.text,
                 }}
               >
-                <div className="flex items-center gap-1.5">
-                  <span
-                    className="text-[10px] font-mono font-bold"
-                    style={{ color: isActive ? palette.accentFg : palette.muted }}
-                  >
-                    {item.num}
-                  </span>
-                  <span
-                    className={`text-xs font-mono tracking-wide transition-all ${
-                      isActive ? "font-bold" : "opacity-75 group-hover:opacity-100"
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-                </div>
+                <span className="text-xs font-mono tracking-wide">
+                  {item.label}
+                </span>
                 <Icon size={11} className={isActive ? "opacity-100" : "opacity-40 group-hover:opacity-80"} />
               </button>
             );
@@ -122,12 +110,12 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
         </div>
       </nav>
 
-      {/* Mobile Floating Side Micro-Pill (Fixed to Right Edge) */}
+      {/* Mobile Floating Side Micro-Pill (Fixed to Right Edge with Small Titles) */}
       <nav
         aria-label="Mobile section navigation"
-        className="fixed right-1.5 top-1/2 -translate-y-1/2 z-30 flex sm:hidden flex-col items-center gap-1.5 p-1 rounded-full border backdrop-blur-md shadow-lg"
+        className="fixed right-1.5 top-1/2 -translate-y-1/2 z-30 flex sm:hidden flex-col items-end gap-1 p-1 rounded-xl border backdrop-blur-md shadow-lg"
         style={{
-          backgroundColor: `${palette.cardBg}F0`,
+          backgroundColor: `${palette.cardBg}F2`,
           borderColor: palette.border,
         }}
       >
@@ -138,15 +126,16 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
               key={item.id}
               type="button"
               onClick={() => scrollToSection(item.id)}
-              className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-mono font-bold transition-all shadow-2xs"
+              className="px-2 py-0.5 rounded-md text-[9px] font-mono uppercase tracking-wider transition-all shadow-2xs whitespace-nowrap"
               style={{
                 backgroundColor: isActive ? palette.accent : "transparent",
                 color: isActive ? palette.accentFg : palette.muted,
+                fontWeight: isActive ? 700 : 500,
                 border: isActive ? `1px solid ${palette.accent}` : "none",
               }}
               title={item.label}
             >
-              {item.num}
+              {item.label}
             </button>
           );
         })}
@@ -154,4 +143,5 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
     </>
   );
 }
+
 
