@@ -24,6 +24,7 @@ export interface ServiceItem {
   leadTime: string;
   description: string;
   included?: string[];
+  imageSrc?: string;
 }
 
 export interface LookbookItem {
@@ -79,34 +80,39 @@ export const cakesDemoConfig: DemoConfig = {
   instagramHandle: "@maisonsucre.oslo",
   instagramUrl: "https://instagram.com",
   metaNotes: "Pickup Fridays & Saturdays · Pre-orders close Thursdays at 20:00",
-  fontFamilyHeading: "var(--font-cinzel), serif",
+  fontFamilyHeading: "var(--font-playfair), serif",
   logoEmblem: (accent, muted, border) => (
     <div
-      className="w-full h-full rounded-full flex flex-col items-center justify-center p-2 text-center relative"
+      className="w-full h-full rounded-2xl flex flex-col items-center justify-center p-2 text-center relative"
       style={{ border: `1px solid ${border}` }}
     >
       <svg
-        width="44"
-        height="44"
-        viewBox="0 0 64 64"
+        width="38"
+        height="38"
+        viewBox="0 0 48 48"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="mb-0.5"
+        className="mb-1"
         style={{ color: accent }}
       >
-        <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="1" strokeDasharray="3 2" opacity="0.7" />
-        <circle cx="32" cy="32" r="27" stroke="currentColor" strokeWidth="0.75" opacity="0.4" />
-        <path d="M32 9L33.2 12.8L37 14L33.2 15.2L32 19L30.8 15.2L27 14L30.8 12.8L32 9Z" fill="currentColor" />
-        <rect x="26" y="21" width="12" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.25" fill="none" />
-        <path d="M26 23.5C28 24.5 30 24.5 32 23.5C34 22.5 36 22.5 38 23.5" stroke="currentColor" strokeWidth="0.75" />
-        <rect x="21" y="29" width="22" height="10" rx="2" stroke="currentColor" strokeWidth="1.25" fill="none" />
-        <path d="M21 32.5C24 34 28 34 32 32.5C36 31 40 31 43 32.5" stroke="currentColor" strokeWidth="0.75" />
-        <path d="M19 40H45M28 40L26 46H38L36 40" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M15 28C13 32 14 38 18 42" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.6" />
-        <path d="M49 28C51 32 50 38 46 42" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.6" />
+        {/* Architectural Atelier Arch */}
+        <path
+          d="M14 40V20C14 14.4772 18.4772 10 24 10C29.5228 10 34 14.4772 34 20V40"
+          stroke="currentColor"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+        />
+        {/* Elegant Wheat Stalk */}
+        <path d="M24 15V36" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+        <path d="M24 18C21.5 17 20 18.5 20 18.5C20 18.5 21.5 20.5 24 19.5" stroke="currentColor" strokeWidth="0.9" />
+        <path d="M24 18C26.5 17 28 18.5 28 18.5C28 18.5 26.5 20.5 24 19.5" stroke="currentColor" strokeWidth="0.9" />
+        <path d="M24 23C21.5 22 20 23.5 20 23.5C20 23.5 21.5 25.5 24 24.5" stroke="currentColor" strokeWidth="0.9" />
+        <path d="M24 23C26.5 22 28 23.5 28 23.5C28 23.5 26.5 25.5 24 24.5" stroke="currentColor" strokeWidth="0.9" />
+        {/* Base Pedestal Line */}
+        <line x1="10" y1="40" x2="38" y2="40" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
       </svg>
-      <span className="text-[8px] font-mono tracking-[0.25em] uppercase font-bold" style={{ color: muted }}>
-        EST. 2024
+      <span className="text-[7.5px] font-mono tracking-[0.22em] uppercase font-bold" style={{ color: muted }}>
+        MAISON SUCRE
       </span>
     </div>
   ),
@@ -216,6 +222,7 @@ export const cakesDemoConfig: DemoConfig = {
       price: 650,
       leadTime: "48h notice",
       description: "Retro multi-layered piped buttercream heart cake with maraschino cherries and personalized piped wording.",
+      imageSrc: "/demo/cakes/cake-1.jpg",
     },
     {
       id: "botanical-two-tier",
@@ -225,6 +232,7 @@ export const cakesDemoConfig: DemoConfig = {
       price: 1250,
       leadTime: "3 days notice",
       description: "Organic edible pressed florals, textured Swiss meringue buttercream, and delicate natural gold leaf touches.",
+      imageSrc: "/demo/cakes/cake-5.jpg",
     },
     {
       id: "dark-cherry-ganache",
@@ -234,6 +242,7 @@ export const cakesDemoConfig: DemoConfig = {
       price: 720,
       leadTime: "48h notice",
       description: "70% Valrhona dark chocolate sponge, wild Italian Amarena cherries, and silky bittersweet ganache glaze.",
+      imageSrc: "/demo/cakes/cake-2.jpg",
     },
     {
       id: "strawberry-naked",
@@ -243,6 +252,7 @@ export const cakesDemoConfig: DemoConfig = {
       price: 690,
       leadTime: "48h notice",
       description: "Madagascan vanilla bean chiffon, whipped mascarpone cream, and fresh seasonal Norwegian berries.",
+      imageSrc: "/demo/cakes/cake-6.jpg",
     },
     {
       id: "matcha-bento",
@@ -252,6 +262,7 @@ export const cakesDemoConfig: DemoConfig = {
       price: 420,
       leadTime: "24h notice",
       description: "Korean-style petite celebration cake packaged in an eco sugarcane box. Japanese Uji matcha & raspberry compote.",
+      imageSrc: "/demo/cakes/cake-3.jpg",
     },
     {
       id: "artisan-tart-box",
@@ -261,6 +272,7 @@ export const cakesDemoConfig: DemoConfig = {
       price: 380,
       leadTime: "24h notice",
       description: "Buttery sablé crusts filled with Tahitian vanilla pastry cream and topped with glazed fresh berries.",
+      imageSrc: "/demo/cakes/cake-4.jpg",
     },
   ],
   bookingConfig: {
@@ -298,45 +310,24 @@ export const nailsDemoConfig: DemoConfig = {
   instagramHandle: "@studioklo.oslo",
   instagramUrl: "https://instagram.com",
   metaNotes: "1-on-1 private appointments · 48h cancellation notice · Card & Vipps",
-  fontFamilyHeading: "var(--font-heading), sans-serif",
+  fontFamilyHeading: "var(--font-syne), sans-serif",
   logoEmblem: (accent, muted, border) => (
     <div
       className="w-full h-full rounded-2xl flex flex-col items-center justify-center p-2 text-center relative"
       style={{ border: `1px solid ${border}` }}
     >
-      <svg
-        width="44"
-        height="44"
-        viewBox="0 0 64 64"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="mb-0.5"
-        style={{ color: accent }}
-      >
-        {/* Modern Minimalist Arch Frame */}
-        <rect x="14" y="8" width="36" height="48" rx="18" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.8" />
-        <rect x="18" y="12" width="28" height="40" rx="14" stroke="currentColor" strokeWidth="0.75" opacity="0.35" />
-        {/* Clean Monogram K L Ø */}
-        <text
-          x="32"
-          y="35"
-          textAnchor="middle"
-          fill="currentColor"
-          fontFamily="monospace"
-          fontWeight="900"
-          fontSize="14"
-          letterSpacing="0.1em"
+      <div className="flex flex-col items-center justify-center">
+        <span
+          className="text-2xl font-black tracking-[0.14em] uppercase leading-none font-mono"
+          style={{ color: accent }}
         >
           KLØ
-        </text>
-        {/* Subtle Diamond Sparkle Top */}
-        <path d="M32 16L33 19L36 20L33 21L32 24L31 21L28 20L31 19L32 16Z" fill="currentColor" />
-        {/* Bottom studio mark */}
-        <circle cx="32" cy="46" r="1.5" fill="currentColor" />
-      </svg>
-      <span className="text-[8px] font-mono tracking-[0.25em] uppercase font-bold" style={{ color: muted }}>
-        NAILS · OSLO
-      </span>
+        </span>
+        <div className="w-8 h-px my-1.5 opacity-40" style={{ backgroundColor: accent }} />
+        <span className="text-[7.5px] font-mono tracking-[0.25em] uppercase font-bold" style={{ color: muted }}>
+          STUDIO · OSLO
+        </span>
+      </div>
     </div>
   ),
   palettes: [
@@ -444,6 +435,7 @@ export const nailsDemoConfig: DemoConfig = {
       price: 650,
       leadTime: "Natural nails",
       description: "Reinforced rubber-base builder gel applied over your natural nails with flawless apex architecture for maximum retention.",
+      imageSrc: "/demo/nails/nail-3.jpg",
     },
     {
       id: "chrome-glaze",
@@ -453,6 +445,7 @@ export const nailsDemoConfig: DemoConfig = {
       price: 850,
       leadTime: "Most popular",
       description: "Full BIAB overlay with your choice of pearl glaze, liquid mirror chrome, or hand-painted ultra-fine micro French tips.",
+      imageSrc: "/demo/nails/nail-2.jpg",
     },
     {
       id: "gelx-full",
@@ -462,6 +455,7 @@ export const nailsDemoConfig: DemoConfig = {
       price: 1100,
       leadTime: "Zero natural damage",
       description: "100% soft-gel full cover extensions tailored to your custom length (Short/Med/Long) and shape (Almond, Coffin, Square).",
+      imageSrc: "/demo/nails/nail-4.jpg",
     },
     {
       id: "editorial-3d",
@@ -471,6 +465,7 @@ export const nailsDemoConfig: DemoConfig = {
       price: 1350,
       leadTime: "Custom styling",
       description: "Full set featuring bespoke textured 3D gel droplets, hand-crafted chrome lines, and Japanese negative-space placement.",
+      imageSrc: "/demo/nails/nail-5.jpg",
     },
     {
       id: "russian-care",
@@ -480,6 +475,7 @@ export const nailsDemoConfig: DemoConfig = {
       price: 500,
       leadTime: "Nail health focus",
       description: "Detailed medical-grade diamond e-file cuticle clean, precision nail shaping, warm organic oil soak, and high-shine buff.",
+      imageSrc: "/demo/nails/nail-6.jpg",
     },
     {
       id: "soakoff-restore",
@@ -489,6 +485,7 @@ export const nailsDemoConfig: DemoConfig = {
       price: 350,
       leadTime: "Gentle removal",
       description: "Acetone-free gentle e-file removal of old extensions followed by an IBX deep repair keratin treatment.",
+      imageSrc: "/demo/nails/nail-1.jpg",
     },
   ],
   bookingConfig: {
@@ -526,35 +523,36 @@ export const weddingDemoConfig: DemoConfig = {
   instagramHandle: "@astridbridal.oslo",
   instagramUrl: "https://instagram.com",
   metaNotes: "Limited dates per season · Complimentary moodboard consultation · On-site styling",
-  fontFamilyHeading: "var(--font-cinzel), serif",
+  fontFamilyHeading: "var(--font-cormorant), serif",
   logoEmblem: (accent, muted, border) => (
     <div
-      className="w-full h-full rounded-full flex flex-col items-center justify-center p-2 text-center relative"
+      className="w-full h-full rounded-2xl flex flex-col items-center justify-center p-2 text-center relative"
       style={{ border: `1px solid ${border}` }}
     >
       <svg
-        width="44"
-        height="44"
-        viewBox="0 0 64 64"
+        width="36"
+        height="24"
+        viewBox="0 0 48 30"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="mb-0.5"
         style={{ color: accent }}
       >
-        <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="0.8" opacity="0.5" />
-        <circle cx="32" cy="32" r="27" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2" opacity="0.4" />
-        {/* Intertwined Bridal Rings */}
-        <circle cx="28" cy="22" r="6" stroke="currentColor" strokeWidth="1.2" fill="none" opacity="0.85" />
-        <circle cx="36" cy="22" r="6" stroke="currentColor" strokeWidth="1.2" fill="none" opacity="0.85" />
-        {/* Botanical Garden Rose & Olive Branch */}
-        <path d="M32 30V48" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M32 36C26 33 24 38 27 41C30 42 32 39 32 36Z" fill="currentColor" opacity="0.6" />
-        <path d="M32 40C38 37 40 42 37 45C34 46 32 43 32 40Z" fill="currentColor" opacity="0.6" />
-        {/* Petite Top Star */}
-        <path d="M32 9L32.8 11.5L35 12L32.8 12.5L32 15L31.2 12.5L29 12L31.2 11.5L32 9Z" fill="currentColor" />
+        {/* Handcrafted Botanical Olive & Floral Sprig */}
+        <path d="M10 18C15 17 20 13 24 6C28 13 33 17 38 18" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" opacity="0.8" />
+        <path d="M17 15C15 11 18 9 18 9C18 9 20 12 18 15" stroke="currentColor" strokeWidth="0.85" />
+        <path d="M31 15C33 11 30 9 30 9C30 9 28 12 30 15" stroke="currentColor" strokeWidth="0.85" />
+        <circle cx="24" cy="6" r="1.5" fill="currentColor" />
+        <line x1="14" y1="26" x2="34" y2="26" stroke="currentColor" strokeWidth="0.75" opacity="0.4" />
       </svg>
-      <span className="text-[8px] font-mono tracking-[0.25em] uppercase font-bold" style={{ color: muted }}>
-        BRUD · OSLO
+      <span
+        className="text-base font-serif font-light tracking-[0.22em] uppercase leading-none"
+        style={{ color: accent, fontFamily: "var(--font-cormorant), serif" }}
+      >
+        A · B
+      </span>
+      <span className="text-[7px] font-mono tracking-[0.25em] uppercase font-semibold mt-1" style={{ color: muted }}>
+        ASTRID BRIDAL
       </span>
     </div>
   ),

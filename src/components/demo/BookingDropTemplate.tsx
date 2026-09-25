@@ -347,7 +347,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                   <button
                     type="button"
                     onClick={() => {
-                      const el = document.getElementById("lookbook-gallery");
+                      const el = document.getElementById("services-menu");
                       if (el) el.scrollIntoView({ behavior: "smooth" });
                     }}
                     className="px-5 py-2.5 rounded-xl font-mono text-xs font-semibold tracking-wider transition-all border flex items-center gap-1.5 cursor-pointer"
@@ -356,7 +356,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                       color: activePalette.text,
                     }}
                   >
-                    <span>View Sets</span>
+                    <span>View Services</span>
                     <FiChevronRight size={13} />
                   </button>
                 </div>
@@ -481,48 +481,58 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
           </section>
         )}
 
-        {/* ================= 4. CURATED LOOKBOOK (NO ARTIFICIAL NUMBERING) ================= */}
+        {/* ================= 4. SPACE-SAVING IMAGE PRESENTATION (3 DISTINCT METHODS) ================= */}
 
         {/* -------------------------------------------------------------
-            LOOKBOOK A: CAKES - DAILY PÂTISSERIE SPREAD
+            METHOD B (CAKES): HORIZONTAL SNAP-SCROLL PASTRIES VITRINE
             ------------------------------------------------------------- */}
         {config.id === "cakes" && (
-          <section id="lookbook-gallery" className="space-y-4">
+          <section id="lookbook-gallery" className="space-y-3">
             <div
-              className="flex items-baseline justify-between border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
+              <h2
+                className="text-base sm:text-xl font-bold tracking-tight"
+                style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
+              >
                 Daily Pâtisserie Drops
               </h2>
-              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
-                Baked Fresh Daily
+              <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
+                Swipe creations →
               </span>
             </div>
 
-            {/* Editorial Photo Spread */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-5">
+            {/* Horizontal Snap-Scroll Strip (Takes only ~170px height) */}
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none">
               {config.lookbook.map((item, idx) => (
-                <div key={idx} className="space-y-2">
-                  <div
-                    className="relative aspect-[4/5] w-full rounded-lg overflow-hidden border bg-zinc-100"
-                    style={{ borderColor: activePalette.border }}
-                  >
+                <div
+                  key={idx}
+                  className="snap-start flex-shrink-0 w-36 sm:w-44 rounded-xl border p-2 space-y-1.5 transition-all shadow-xs"
+                  style={{
+                    backgroundColor: activePalette.cardBg,
+                    borderColor: activePalette.border,
+                  }}
+                >
+                  <div className="relative aspect-square w-full rounded-lg overflow-hidden bg-zinc-100">
                     <Image
                       src={item.src}
                       alt={item.title}
                       fill
-                      sizes="(max-width: 640px) 50vw, 300px"
-                      className="object-cover transition-transform duration-500 hover:scale-105"
-                      priority
+                      sizes="176px"
+                      className="object-cover"
+                      priority={idx < 2}
                       unoptimized
                     />
                   </div>
-                  <div className="space-y-0.5 px-0.5">
-                    <h3 className="text-xs sm:text-sm font-heading font-medium leading-snug truncate" style={{ color: activePalette.text }}>
+                  <div className="space-y-0.5">
+                    <h3
+                      className="text-xs font-medium leading-tight truncate"
+                      style={{ color: activePalette.text, fontFamily: config.fontFamilyHeading }}
+                    >
                       {item.title}
                     </h3>
-                    <p className="text-[10px] sm:text-xs font-mono truncate" style={{ color: activePalette.muted }}>
+                    <p className="text-[10px] font-mono truncate" style={{ color: activePalette.muted }}>
                       {item.tag.split("·")[0].trim()}
                     </p>
                   </div>
@@ -533,195 +543,56 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         )}
 
         {/* -------------------------------------------------------------
-            LOOKBOOK B: NAILS - HIGH-FASHION EDITORIAL GALLERY
-            ------------------------------------------------------------- */}
-        {config.id === "nails" && (
-          <section id="lookbook-gallery" className="space-y-4">
-            <div
-              className="flex items-baseline justify-between border-b pb-2.5"
-              style={{ borderColor: activePalette.border }}
-            >
-              <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
-                Studio Sets &amp; Gel Architecture
-              </h2>
-              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
-                100% Japanese Soft Gel
-              </span>
-            </div>
-
-            {/* Editorial Gallery Grid */}
-            <div className="space-y-4">
-              {/* Row 1: Featured Duo (2 images) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-5">
-                {config.lookbook.slice(0, 2).map((item, idx) => (
-                  <div key={idx} className="space-y-2">
-                    <div
-                      className="relative aspect-[16/11] sm:aspect-[4/3] w-full rounded-lg overflow-hidden border bg-zinc-900"
-                      style={{ borderColor: activePalette.border }}
-                    >
-                      <Image
-                        src={item.src}
-                        alt={item.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 450px"
-                        className="object-cover transition-transform duration-500 hover:scale-105"
-                        priority
-                        unoptimized
-                      />
-                    </div>
-                    <div className="space-y-0.5 px-0.5">
-                      <h3 className="text-xs sm:text-sm font-heading font-medium leading-snug truncate" style={{ color: activePalette.text }}>
-                        {item.title}
-                      </h3>
-                      <p className="text-[10px] sm:text-xs font-mono truncate" style={{ color: activePalette.muted }}>
-                        {item.tag}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Row 2: 4 Square Detail Vignettes */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                {config.lookbook.slice(2, 6).map((item, idx) => (
-                  <div key={idx} className="space-y-1.5">
-                    <div
-                      className="relative aspect-square w-full rounded-lg overflow-hidden border bg-zinc-900"
-                      style={{ borderColor: activePalette.border }}
-                    >
-                      <Image
-                        src={item.src}
-                        alt={item.title}
-                        fill
-                        sizes="(max-width: 640px) 50vw, 220px"
-                        className="object-cover transition-transform duration-500 hover:scale-105"
-                        priority
-                        unoptimized
-                      />
-                    </div>
-                    <div className="space-y-0.5 px-0.5">
-                      <h4 className="text-xs font-heading font-medium leading-snug truncate" style={{ color: activePalette.text }}>
-                        {item.title}
-                      </h4>
-                      <p className="text-[10px] font-mono truncate" style={{ color: activePalette.muted }}>
-                        {item.tag.split("·")[0].trim()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* -------------------------------------------------------------
-            LOOKBOOK C: WEDDING - BOTANICAL MONOGRAPH PORTFOLIO
+            METHOD C (WEDDING): COMPACT SIGNATURE WORKS DIPTYCH
             ------------------------------------------------------------- */}
         {config.id === "wedding" && (
           <section id="lookbook-gallery" className="space-y-4">
             <div
-              className="flex items-baseline justify-between border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <h2 className="text-lg sm:text-xl font-light font-heading tracking-wide">
-                Selected Works
+              <h2
+                className="text-base sm:text-xl font-light tracking-wide"
+                style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
+              >
+                Signature Floral Commissions
               </h2>
-              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+              <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
                 Oslo &amp; Surrounding Venues
               </span>
             </div>
 
-            {/* Monograph Spread */}
-            <div className="space-y-4 sm:space-y-5">
-              {/* Row 1: Diptych (2 Large Portraits) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                {config.lookbook.slice(0, 2).map((item, idx) => (
-                  <div key={idx} className="space-y-2">
-                    <div
-                      className="relative aspect-[4/5] w-full rounded-lg overflow-hidden border bg-zinc-100"
-                      style={{ borderColor: activePalette.border }}
-                    >
-                      <Image
-                        src={item.src}
-                        alt={item.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 450px"
-                        className="object-cover transition-transform duration-500 hover:scale-105"
-                        priority
-                        unoptimized
-                      />
-                    </div>
-                    <div className="space-y-0.5 px-0.5">
-                      <h3 className="text-xs sm:text-sm font-medium font-heading tracking-wide" style={{ color: activePalette.text }}>
-                        {item.title}
-                      </h3>
-                      <p className="text-[10px] sm:text-xs font-mono italic" style={{ color: activePalette.muted }}>
-                        {item.tag}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Row 2: Full-Width Ceremony Panorama Banner */}
-              {config.lookbook[3] && (
-                <div className="space-y-2">
+            {/* Compact Monograph Diptych (2 signature portraits taking ~260px) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {config.lookbook.slice(0, 2).map((item, idx) => (
+                <div key={idx} className="space-y-2">
                   <div
-                    className="relative aspect-[16/9] sm:aspect-[21/9] w-full rounded-lg overflow-hidden border bg-zinc-100"
+                    className="relative aspect-[16/10] sm:aspect-[4/3] w-full rounded-xl overflow-hidden border bg-zinc-100"
                     style={{ borderColor: activePalette.border }}
                   >
                     <Image
-                      src={config.lookbook[3].src}
-                      alt={config.lookbook[3].title}
+                      src={item.src}
+                      alt={item.title}
                       fill
-                      sizes="(max-width: 768px) 100vw, 900px"
+                      sizes="(max-width: 640px) 100vw, 450px"
                       className="object-cover transition-transform duration-500 hover:scale-105"
                       priority
                       unoptimized
                     />
                   </div>
-                  <div className="flex items-baseline justify-between gap-2 px-0.5">
-                    <h3 className="text-xs sm:text-sm font-medium font-heading tracking-wide" style={{ color: activePalette.text }}>
-                      {config.lookbook[3].title}
+                  <div className="space-y-0.5 px-0.5">
+                    <h3
+                      className="text-xs sm:text-sm font-medium tracking-wide"
+                      style={{ color: activePalette.text, fontFamily: config.fontFamilyHeading }}
+                    >
+                      {item.title}
                     </h3>
                     <p className="text-[10px] sm:text-xs font-mono italic" style={{ color: activePalette.muted }}>
-                      {config.lookbook[3].tag}
+                      {item.tag}
                     </p>
                   </div>
                 </div>
-              )}
-
-              {/* Row 3: 3 Detail Vignettes */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-5">
-                {[config.lookbook[2], config.lookbook[4], config.lookbook[5]]
-                  .filter(Boolean)
-                  .map((item, idx) => (
-                    <div key={idx} className="space-y-1.5">
-                      <div
-                        className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border bg-zinc-100"
-                        style={{ borderColor: activePalette.border }}
-                      >
-                        <Image
-                          src={item.src}
-                          alt={item.title}
-                          fill
-                          sizes="(max-width: 640px) 100vw, 300px"
-                          className="object-cover transition-transform duration-500 hover:scale-105"
-                          priority
-                          unoptimized
-                        />
-                      </div>
-                      <div className="space-y-0.5 px-0.5">
-                        <h4 className="text-xs font-medium font-heading truncate" style={{ color: activePalette.text }}>
-                          {item.title}
-                        </h4>
-                        <p className="text-[10px] font-mono truncate" style={{ color: activePalette.muted }}>
-                          {item.tag.split("·")[0].trim()}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-              </div>
+              ))}
             </div>
           </section>
         )}
@@ -734,13 +605,16 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         {config.id === "cakes" && (
           <section id="services-menu" className="space-y-6">
             <div
-              className="flex items-baseline justify-between border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
+              <h2
+                className="text-base sm:text-xl font-bold tracking-tight"
+                style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
+              >
                 Pâtisserie &amp; Cakes
               </h2>
-              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+              <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
                 Pre-orders · NOK
               </span>
             </div>
@@ -869,13 +743,16 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         {config.id === "nails" && (
           <section id="services-menu" className="space-y-6">
             <div
-              className="flex items-baseline justify-between border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
+              <h2
+                className="text-base sm:text-xl font-bold tracking-tight"
+                style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
+              >
                 Studio Services &amp; Rates
               </h2>
-              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+              <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
                 Cuticle prep included · NOK
               </span>
             </div>
@@ -901,7 +778,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               })}
             </div>
 
-            {/* Full-Bleed Treatment Ledger Table (David Mallett / Pear.no Style, Zero Box Cards) */}
+            {/* Full-Bleed Treatment Ledger Table with Integrated Photos */}
             <div
               className="border-t border-b divide-y transition-all"
               style={{ borderColor: activePalette.border }}
@@ -912,7 +789,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                   <div
                     key={service.id}
                     onClick={() => handleSelectService(service)}
-                    className={`py-4 sm:py-5 px-3 sm:px-4 transition-all cursor-pointer group flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 ${
+                    className={`py-3.5 sm:py-4 px-3 sm:px-4 transition-all cursor-pointer group flex items-center justify-between gap-3 sm:gap-4 ${
                       isChosen ? "border-l-4" : "hover:bg-black/[0.02]"
                     }`}
                     style={{
@@ -920,9 +797,26 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                       borderLeftColor: isChosen ? activePalette.accent : "transparent",
                     }}
                   >
-                    {/* Left: Duration Pill, Service Name, and Description */}
-                    <div className="space-y-1 flex-1 max-w-xl">
-                      <div className="flex items-center gap-2.5">
+                    {/* Integrated Photo Thumbnail */}
+                    {service.imageSrc && (
+                      <div
+                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden relative flex-shrink-0 border bg-zinc-900 shadow-xs"
+                        style={{ borderColor: isChosen ? activePalette.accent : activePalette.border }}
+                      >
+                        <Image
+                          src={service.imageSrc}
+                          alt={service.name}
+                          fill
+                          sizes="80px"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          unoptimized
+                        />
+                      </div>
+                    )}
+
+                    {/* Middle: Service Specs */}
+                    <div className="space-y-1 flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span
                           className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded"
                           style={{
@@ -935,31 +829,28 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                         </span>
 
                         <h3
-                          className="text-sm sm:text-base font-bold font-heading tracking-tight"
-                          style={{ color: isChosen ? activePalette.accent : activePalette.text }}
+                          className="text-sm sm:text-base font-bold tracking-tight"
+                          style={{
+                            fontFamily: config.fontFamilyHeading,
+                            color: isChosen ? activePalette.accent : activePalette.text,
+                          }}
                         >
                           {service.name}
                         </h3>
                       </div>
 
                       <p
-                        className="text-xs font-body leading-relaxed pt-0.5 line-clamp-2"
+                        className="text-xs font-body leading-relaxed line-clamp-2"
                         style={{ color: activePalette.muted }}
                       >
                         {service.description}
                       </p>
                     </div>
 
-                    {/* Desktop Continuous Dot-Leader Line */}
-                    <div
-                      className="hidden md:block flex-1 border-b border-dotted mx-4 opacity-25"
-                      style={{ borderColor: activePalette.text }}
-                    />
-
                     {/* Right: Monospace Rate & Selection State */}
-                    <div className="flex items-center justify-between sm:justify-end gap-4 flex-shrink-0 pt-1 sm:pt-0">
+                    <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
                       <div className="text-right">
-                        <span className="text-base sm:text-lg font-mono font-black block" style={{ color: activePalette.text }}>
+                        <span className="text-sm sm:text-lg font-mono font-black block" style={{ color: activePalette.text }}>
                           {service.price.toLocaleString("no-NO")} kr
                         </span>
                         <span className="text-[10px] font-mono block opacity-60" style={{ color: activePalette.muted }}>
@@ -1009,13 +900,16 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         {config.id === "wedding" && (
           <section id="services-menu" className="space-y-6">
             <div
-              className="flex items-baseline justify-between border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <h2 className="text-lg sm:text-xl font-light font-heading tracking-wide">
+              <h2
+                className="text-base sm:text-xl font-light tracking-wide"
+                style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
+              >
                 Packages &amp; Investment
               </h2>
-              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+              <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
                 Oslo &amp; Surrounding Venues
               </span>
             </div>
@@ -1209,13 +1103,16 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
         <section id="booking-form-section" className="space-y-6 pt-4">
           <div
-            className="flex items-baseline justify-between border-b pb-2.5"
+            className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
             style={{ borderColor: activePalette.border }}
           >
-            <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
+            <h2
+              className="text-base sm:text-xl font-bold tracking-tight"
+              style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
+            >
               {config.bookingConfig.sectionTitle}
             </h2>
-            <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+            <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
               {config.bookingConfig.sectionSubtitle}
             </span>
           </div>
@@ -1554,7 +1451,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
                       Chair Slot
                     </label>
-                    <div className="grid grid-cols-3 gap-1.5">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                       {config.bookingConfig.timeSlots.map((slot, i) => {
                         const isSelected = selectedTime === slot;
                         return (
@@ -1562,7 +1459,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                             key={i}
                             type="button"
                             onClick={() => setSelectedTime(slot)}
-                            className="py-2 px-2 rounded-lg text-center text-xs font-mono transition-all border font-semibold truncate"
+                            className="py-2.5 px-2 rounded-lg text-center text-xs font-mono transition-all border font-semibold whitespace-nowrap"
                             style={{
                               backgroundColor: isSelected ? activePalette.accent : "transparent",
                               color: isSelected ? activePalette.accentFg : activePalette.text,
