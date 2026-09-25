@@ -663,6 +663,11 @@ export const weddingDemoConfig: DemoConfig = {
       price: 2400,
       leadTime: "1 week notice",
       description: "Curated for civil weddings and intimate celebrations. Includes premium organic bridal bouquet and matching tailored boutonnière.",
+      included: [
+        "1x Statement Organic Bridal Bouquet with trailing silk ribbon",
+        "1x Tailored Groom Boutonnière with botanical detail",
+        "Protective glass travel vase & morning studio pickup/drop"
+      ],
     },
     {
       id: "signature-bridal-party",
@@ -672,6 +677,13 @@ export const weddingDemoConfig: DemoConfig = {
       price: 5200,
       leadTime: "Bespoke styling",
       description: "Statement organic bridal bouquet, 2 bridesmaid posies, 3 groom & groomsman boutonnieres, and delicate pinned hair blooms.",
+      included: [
+        "1x Deluxe Bridal Bouquet with seasonal Garden Roses & Sweet Peas",
+        "2x Petite Bridesmaid Bouquets tailored in complementary tones",
+        "3x Groom & Groomsmen Boutonnières with organic textures",
+        "Delicate fresh floral hair pins for the bride",
+        "On-site morning bridal delivery & floral care briefing"
+      ],
     },
     {
       id: "ceremony-meadow",
@@ -681,6 +693,12 @@ export const weddingDemoConfig: DemoConfig = {
       price: 8500,
       leadTime: "Full venue setup",
       description: "Organic curved meadow floral installation framing the couple during vows. Repurposed for the reception stage after ceremony.",
+      included: [
+        "Curved floral ground arch framing the ceremony vows",
+        "Aisle entrance floral markers or floral clusters",
+        "Repurposing & moving to bridal table after ceremony",
+        "Full installation, mechanics, water vessels & pack-down"
+      ],
     },
     {
       id: "tablescape-curated",
@@ -690,6 +708,12 @@ export const weddingDemoConfig: DemoConfig = {
       price: 7800,
       leadTime: "Complete styling",
       description: "Curated ceramic bud vase trios, taper candle pairings, and organic scattered greenery for up to 10 dining tables.",
+      included: [
+        "30x Handcrafted ceramic bud vases with seasonal blooms",
+        "10x Sets of Danish dinner taper candles & hurricane glass",
+        "Scattered Italian Ruscus & organic garden greenery runners",
+        "On-site afternoon placement & midnight teardown"
+      ],
     },
     {
       id: "full-bespoke-wedding",
@@ -699,6 +723,13 @@ export const weddingDemoConfig: DemoConfig = {
       price: 18500,
       leadTime: "Limited 12 per season",
       description: "Complete bridal party flowers, ceremony ground arch, aisle meadows, dining tablescapes, on-site setup, and midnight pack-down.",
+      included: [
+        "Complete Signature Bridal Party Floral Suite",
+        "Ceremony curved ground arch & entrance florals",
+        "Up to 12 guest dining tablescapes with bud vases & candles",
+        "Head table focal floral arrangement",
+        "Dedicated lead florist on-site for morning setup & late strike"
+      ],
     },
     {
       id: "consultation-moodboard",
@@ -708,6 +739,11 @@ export const weddingDemoConfig: DemoConfig = {
       price: 0,
       leadTime: "Online or Frogner studio",
       description: "Meet with Astrid to review your venue, dress style, color palette, and receive a customized floral proposal.",
+      included: [
+        "30-minute private vision session (Frogner studio or Video)",
+        "Curated digital moodboard & floral color palette palette",
+        "Detailed line-item proposal locked for 14 days"
+      ],
     },
   ],
   bookingConfig: {
