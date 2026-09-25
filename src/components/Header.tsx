@@ -179,7 +179,7 @@ export default function Header() {
               </Link>
 
               <div className="text-center text-xs font-mono text-muted pt-2">
-                hello@abdisalam.space
+                hello@agure.space
               </div>
             </div>
           </motion.div>

@@ -6,7 +6,7 @@ import { FiCopy, FiCheck, FiArrowUpRight, FiMail } from "react-icons/fi";
 
 export default function ContactSection() {
   const [copied, setCopied] = useState(false);
-  const email = "hello@abdisalam.space";
+  const email = "hello@agure.space";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(email);

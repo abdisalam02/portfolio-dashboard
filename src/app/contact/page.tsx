@@ -39,7 +39,7 @@ function ContactForm() {
     }
   }, [pkg]);
 
-  const recipientEmail = "hello@abdisalam.space";
+  const recipientEmail = "hello@agure.space";
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(recipientEmail);
@@ -53,7 +53,7 @@ function ContactForm() {
     setErrorMessage(null);
 
     try {
-      // 1. Send directly via Resend to hello@abdisalam.space
+      // 1. Send directly via Resend to hello@agure.space
       const apiResponse = await fetch("/api/send-email", {
         method: "POST",
         headers: {
@@ -61,6 +61,8 @@ function ContactForm() {
         },
         body: JSON.stringify({
           to: recipientEmail,
+          customerEmail: senderEmail,
+          customerName: senderName,
           subject: `Inquiry: ${selectedType} - ${senderName}`,
           htmlBody: `Name: ${senderName}\nEmail: ${senderEmail}\nPackage / Type: ${selectedType}\nSubject: ${subject}\n\nMessage:\n${message}`,
         }),

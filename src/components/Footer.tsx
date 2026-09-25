@@ -50,10 +50,10 @@ export default function Footer() {
             <FaLinkedin /> LinkedIn
           </a>
           <a
-            href="mailto:hello@abdisalam.space"
+            href="mailto:hello@agure.space"
             className="hover:text-foreground transition-colors font-mono"
           >
-            hello@abdisalam.space
+            hello@agure.space
           </a>
           <button
             onClick={scrollToTop}

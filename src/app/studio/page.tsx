@@ -52,7 +52,7 @@ function generateCuratedPitch(
 
 I'm A.Gure, an independent junior dev in Oslo. I recently started building clean mobile sites for small businesses because big agencies charge crazy 40,000+ kr fees.
 
-You can see 2 client sites I'm currently working on at abdisalam.space (an Oslo tooth gem studio and a custom grillz maker).
+You can see 2 client sites I'm currently working on at agure.space (an Oslo tooth gem studio and a custom grillz maker).
 
 I saw your work and noticed bookings still run through email/DMs. I'd love to make a quick demo website for you to see if you like it, with a clean 1-tap mobile booking flow.
 
@@ -60,10 +60,10 @@ Open to seeing a quick 15-second demo? No pressure at all!
 
 Best,
 A.Gure
-abdisalam.space`,
-      igDmMsg: `${dmGreeting} I'm A.Gure, an independent junior dev in Oslo. I recently started making clean mobile sites for small spots because agencies charge crazy 40k+ kr fees. Check 2 client sites I'm working on at abdisalam.space (tooth gem studio & custom grillz maker). Loved your work with ${b} — I'd love to make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
-      whatsappMsg: `${dmGreeting} I'm A.Gure, an independent junior web dev in Oslo. Recently started making clean mobile sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space (tooth gem studio & custom grillz maker). Loved your work with ${b} and would love to build a quick demo site for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
-      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. I build clean mobile sites for small spots (no 40k agency fees). Can build a quick demo site: abdisalam.space`
+agure.space`,
+      igDmMsg: `${dmGreeting} I'm A.Gure, an independent junior dev in Oslo. I recently started making clean mobile sites for small spots because agencies charge crazy 40k+ kr fees. Check 2 client sites I'm working on at agure.space (tooth gem studio & custom grillz maker). Loved your work with ${b} — I'd love to make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      whatsappMsg: `${dmGreeting} I'm A.Gure, an independent junior web dev in Oslo. Recently started making clean mobile sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at agure.space (tooth gem studio & custom grillz maker). Loved your work with ${b} and would love to build a quick demo site for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. I build clean mobile sites for small spots (no 40k agency fees). Can build a quick demo site: agure.space`
     },
     dms: {
       cardTag: "DIRECT BOOKINGS",
@@ -74,7 +74,7 @@ abdisalam.space`,
 
 I'm A.Gure, a local junior dev in Oslo. I recently started making simple mobile booking sites because agencies charge crazy 40,000+ kr prices.
 
-You can check out 2 client sites I'm currently designing right now at abdisalam.space (an Oslo tooth gem studio and a custom grillz maker).
+You can check out 2 client sites I'm currently designing right now at agure.space (an Oslo tooth gem studio and a custom grillz maker).
 
 I noticed ${b}'s bookings still run through email and DMs. I'd love to make a quick demo website for you to see if you like it, showing how a clean 1-tap booking flow can save you hours of back-and-forth.
 
@@ -82,10 +82,10 @@ Would love to send over a 15-second preview if you're curious. No pressure eithe
 
 Best,
 A.Gure
-abdisalam.space`,
-      igDmMsg: `${dmGreeting} I'm A.Gure, a local junior dev in Oslo. Started making clean mobile booking sites because agencies charge crazy 40k+ prices. Check 2 client sites I'm working on at abdisalam.space. Noticed ${b}'s bookings run through DMs/emails — I can make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
-      whatsappMsg: `${dmGreeting} I'm A.Gure, a local dev in Oslo. Built mobile booking sites for local spots so they don't lose clients in DMs. Check 2 client sites at abdisalam.space. I'd love to make a quick demo website for ${b} to see if you like it. Down to see a 15-sec preview? No pressure!`,
-      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. I build 1-tap booking sites so you stop losing clients in DMs. Check 2 client sites: abdisalam.space`
+agure.space`,
+      igDmMsg: `${dmGreeting} I'm A.Gure, a local junior dev in Oslo. Started making clean mobile booking sites because agencies charge crazy 40k+ prices. Check 2 client sites I'm working on at agure.space. Noticed ${b}'s bookings run through DMs/emails — I can make a quick demo website for you to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      whatsappMsg: `${dmGreeting} I'm A.Gure, a local dev in Oslo. Built mobile booking sites for local spots so they don't lose clients in DMs. Check 2 client sites at agure.space. I'd love to make a quick demo website for ${b} to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. I build 1-tap booking sites so you stop losing clients in DMs. Check 2 client sites: agure.space`
     },
     aesthetic: {
       cardTag: "MOBILE FIRST",
@@ -96,7 +96,7 @@ abdisalam.space`,
 
 I'm A.Gure, a junior web designer in Oslo. Big agencies charge 40,000+ kr for websites, so I build clean mobile sites for local spots directly at honest rates.
 
-You can see 2 client sites I'm currently working on right now at abdisalam.space (an Oslo tooth gem studio and a custom grillz shop).
+You can see 2 client sites I'm currently working on right now at agure.space (an Oslo tooth gem studio and a custom grillz shop).
 
 Your aesthetic on Instagram is top tier, and I'd love to make a quick demo website for ${b} that matches your exact visual vibe so you can see if you like it.
 
@@ -104,10 +104,10 @@ Down to check out a 15-second demo? No pressure at all!
 
 Best,
 A.Gure
-abdisalam.space`,
-      igDmMsg: `${dmGreeting} I'm A.Gure, a junior web dev in Oslo. Agencies charge 40k+ kr for sites, so I build clean mobile pages for local spots directly at honest rates. Check 2 client sites I'm working on at abdisalam.space. Your aesthetic with ${b} is unreal — I can make a quick demo website matching your vibe to see if you like it. Down to see a 15-sec preview? No pressure!`,
-      whatsappMsg: `${dmGreeting} I'm A.Gure, a junior web designer in Oslo. I make clean mobile sites matching local creatives' aesthetics (no 40k agency fees). Check 2 client sites at abdisalam.space. Love ${b}'s vibe — I can put together a quick demo website for you to see if you like it. Down to check it out? No pressure!`,
-      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. I build mobile sites matching your Instagram aesthetic. See 2 client sites: abdisalam.space`
+agure.space`,
+      igDmMsg: `${dmGreeting} I'm A.Gure, a junior web dev in Oslo. Agencies charge 40k+ kr for sites, so I build clean mobile pages for local spots directly at honest rates. Check 2 client sites I'm working on at agure.space. Your aesthetic with ${b} is unreal — I can make a quick demo website matching your vibe to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      whatsappMsg: `${dmGreeting} I'm A.Gure, a junior web designer in Oslo. I make clean mobile sites matching local creatives' aesthetics (no 40k agency fees). Check 2 client sites at agure.space. Love ${b}'s vibe — I can put together a quick demo website for you to see if you like it. Down to check it out? No pressure!`,
+      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. I build mobile sites matching your Instagram aesthetic. See 2 client sites: agure.space`
     },
     freelancer: {
       cardTag: "1-ON-1 FREELANCER",
@@ -118,7 +118,7 @@ abdisalam.space`,
 
 I'm A.Gure, an independent junior dev in Oslo. I build clean mobile websites directly 1-on-1 for small local spots (zero 40,000+ kr agency fees or corporate fluff).
 
-You can see 2 client websites I'm currently working on at abdisalam.space (a tooth gem studio and a custom grillz maker).
+You can see 2 client websites I'm currently working on at agure.space (a tooth gem studio and a custom grillz maker).
 
 I love what you're doing with ${b}, and I can make a quick demo website for you to see if you like it.
 
@@ -126,10 +126,10 @@ Let me know if you'd be open to seeing a 15-second preview. No pressure!
 
 Best,
 A.Gure
-abdisalam.space`,
-      igDmMsg: `${dmGreeting} I'm A.Gure, an independent junior dev in Oslo. I build clean mobile sites for small spots (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. Loved what you're doing with ${b} — I can make a quick demo website for you to see if you like it. Down to check it out? No pressure!`,
-      whatsappMsg: `${dmGreeting} I'm A.Gure, local junior dev in Oslo. I build clean mobile sites 1-on-1 for small spots (no 40k agency fees). Check 2 client sites at abdisalam.space. Love ${b}'s work — I can put together a quick demo site for you to see if you like it. Down to see a 15-sec preview?`,
-      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. Recently started building clean websites for small spots (no agency fees). Check 2 client sites: abdisalam.space`
+agure.space`,
+      igDmMsg: `${dmGreeting} I'm A.Gure, an independent junior dev in Oslo. I build clean mobile sites for small spots (no 40k agency fees). Check 2 client sites I'm working on at agure.space. Loved what you're doing with ${b} — I can make a quick demo website for you to see if you like it. Down to check it out? No pressure!`,
+      whatsappMsg: `${dmGreeting} I'm A.Gure, local junior dev in Oslo. I build clean mobile sites 1-on-1 for small spots (no 40k agency fees). Check 2 client sites at agure.space. Love ${b}'s work — I can put together a quick demo site for you to see if you like it. Down to see a 15-sec preview?`,
+      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. Recently started building clean websites for small spots (no agency fees). Check 2 client sites: agure.space`
     },
     custom: {
       cardTag: "CUSTOM CONCEPT",
@@ -140,16 +140,16 @@ abdisalam.space`,
 
 I'm A.Gure, an independent junior dev in Oslo. I make clean mobile sites for small businesses without the 40,000+ kr agency markup.
 
-You can check out 2 client sites I'm currently working on at abdisalam.space.
+You can check out 2 client sites I'm currently working on at agure.space.
 
 I'd love to make a quick demo website for ${b} to see if you like it. Let me know if you'd like to see a 15-second demo!
 
 Best,
 A.Gure
-abdisalam.space`,
-      igDmMsg: `${dmGreeting} I'm A.Gure, a local junior dev in Oslo. Started building clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. I can make a quick demo website for ${b} to see if you like it. Down to see a 15-sec preview? No pressure!`,
-      whatsappMsg: `${dmGreeting} I'm A.Gure, a local junior dev in Oslo. I build clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at abdisalam.space. I can make a quick demo website for ${b} to see if you like it. Down to see a 15-sec preview? No pressure!`,
-      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. Can build a quick demo site: abdisalam.space`
+agure.space`,
+      igDmMsg: `${dmGreeting} I'm A.Gure, a local junior dev in Oslo. Started building clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at agure.space. I can make a quick demo website for ${b} to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      whatsappMsg: `${dmGreeting} I'm A.Gure, a local junior dev in Oslo. I build clean sites for small businesses (no 40k agency fees). Check 2 client sites I'm working on at agure.space. I can make a quick demo website for ${b} to see if you like it. Down to see a 15-sec preview? No pressure!`,
+      smsMsg: `${smsGreeting} I'm A.Gure, local Oslo dev. Can build a quick demo site: agure.space`
     }
   };
 
@@ -542,11 +542,11 @@ export default function StudioPage() {
 
       ctx.fillStyle = "#ffffff";
       ctx.font = "600 24px 'JetBrains Mono', monospace";
-      ctx.fillText("abdisalam.space ↗", 76, 888);
+      ctx.fillText("agure.space ↗", 76, 888);
 
       ctx.fillStyle = "#6c6c76";
       ctx.textAlign = "right";
-      ctx.fillText("hello@abdisalam.space", 1524, 888);
+      ctx.fillText("hello@agure.space", 1524, 888);
 
       return canvas;
     } catch (err) {
@@ -634,7 +634,7 @@ export default function StudioPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: "hello@abdisalam.space",
+          to: "hello@agure.space",
           subject: emailSubject,
           htmlBody: emailBody,
           brandName,
@@ -644,7 +644,7 @@ export default function StudioPage() {
       });
       const data = await res.json();
       if (data.success) {
-        showToast("✓ Preview sent to your inbox (hello@abdisalam.space)!");
+        showToast("✓ Preview sent to your inbox (hello@agure.space)!");
       } else {
         showToast(`Preview error: ${data.error}`);
       }
@@ -759,7 +759,7 @@ export default function StudioPage() {
           </form>
 
           <Link href="/" className="text-xs text-zinc-500 hover:text-white transition-colors font-mono">
-            ← Return to abdisalam.space
+            ← Return to agure.space
           </Link>
         </div>
       </div>
@@ -1401,10 +1401,10 @@ export default function StudioPage() {
                   {/* Bottom Footer */}
                   <div className="flex items-center justify-between border-t border-white/[0.08] pt-3.5 z-10">
                     <span className="font-mono text-[12.5px] font-semibold text-white">
-                      abdisalam.space ↗
+                      agure.space ↗
                     </span>
                     <span className="font-mono text-[11.5px] text-[#6c6c76]">
-                      hello@abdisalam.space
+                      hello@agure.space
                     </span>
                   </div>
                 </div>

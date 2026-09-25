@@ -7,6 +7,9 @@ This document contains permanent preferences, design rules, tone-of-voice constr
 ## 1. Identity & Tone of Voice
 
 - **Persona:** 24-year-old independent freelance web developer & designer based in Oslo, Norway.
+- **Name:** Strictly use **A.Gure** (or **A.GURE**). Never use "Abdisalam" or "Abdisalam Gure".
+- **Domain & Email:** **agure.space** and **hello@agure.space**.
+- **Tier 1 Demo Route:** **agure.space/demo**.
 - **Target Audience:** Solo creatives, small Instagram businesses, studios, lash techs, tooth gem artists, barbers, nail artists, and independent brands.
 - **Voice & Tone:**
   - Casual, straight-talking, authentic, confident, and humble.
@@ -64,16 +67,16 @@ This document contains permanent preferences, design rules, tone-of-voice constr
 - **Contact Sync:**
   - Package links must synchronize directly to `/contact?package=...` and pre-select the appropriate tier pill.
 - **Professional Contact:**
-  - Always route inquiries to `hello@abdisalam.space`.
+  - Always route inquiries to `hello@agure.space`.
 
 ---
 
 ## 4. Workflow & Git Safety Rules
 
-- **NEVER Push Without Explicit Permission:**
-  - Always build, verify, and show screenshots to the user first.
-  - Do NOT run `git push` until the user explicitly reviews the changes and sends a command like `"push"` or confirms they are happy.
+- **Git Push Policy:**
+  - Standard updates, route additions, bug fixes, copy revisions, and visual refinements can be pushed automatically once verified with a clean `npm run build`.
+  - **Only ask for explicit permission before pushing** if the changes are **very critical, involve major architectural/database breaking changes, or touch a massive number of files**.
 - **Always Test Production Builds:**
-  - Run `npm run build` to confirm 0 TypeScript / lint errors before asking the user for confirmation.
+  - Always run `npm run build` to confirm 0 TypeScript / lint errors before pushing or declaring completion.
 - **Visual Verification:**
-  - Capture real browser screenshots (desktop light, desktop dark, mobile 375px) to verify styling integrity before declaring completion.
+  - Verify styling integrity (desktop light, desktop dark, mobile 375px) on all UI changes before declaring completion.

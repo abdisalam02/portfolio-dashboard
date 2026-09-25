@@ -608,7 +608,7 @@ export default function PricingPage() {
               Ready to get your website up?
             </h4>
             <p className="text-xs sm:text-sm text-muted font-body">
-              Drop a message with your Instagram handle or email <span className="font-mono text-foreground">hello@abdisalam.space</span> directly.
+              Drop a message with your Instagram handle or email <span className="font-mono text-foreground">hello@agure.space</span> directly.
             </p>
           </div>
 

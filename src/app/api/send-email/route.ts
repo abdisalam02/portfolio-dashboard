@@ -7,12 +7,14 @@ interface SendEmailRequest {
   cardBase64?: string;
   brandName?: string;
   isPreview?: boolean;
+  customerEmail?: string;
+  customerName?: string;
 }
 
 export async function POST(req: Request) {
   try {
     const body: SendEmailRequest = await req.json();
-    const { to, subject, htmlBody, cardBase64, brandName, isPreview = false } = body;
+    const { to, subject, htmlBody, cardBase64, brandName, isPreview = false, customerEmail, customerName } = body;
 
     if (!to || !to.includes("@")) {
       return NextResponse.json(
@@ -24,7 +26,17 @@ export async function POST(req: Request) {
     const resendApiKey = process.env.RESEND_API_KEY?.trim();
     const senderEmail = process.env.SENDER_EMAIL || "hello@abdisalam.space";
     const senderName = process.env.SENDER_NAME || "A.Gure";
-    const replyTo = process.env.REPLY_TO_EMAIL || "hello@abdisalam.space";
+    const notificationEmail = process.env.CONTACT_NOTIFICATION_EMAIL?.trim() || "niwache12@gmail.com";
+    const defaultReplyTo = process.env.REPLY_TO_EMAIL || "hello@abdisalam.space";
+
+    // If destination is hello@agure.space (or an internal lead inquiry), route it directly to active notification inbox
+    const isContactInquiry = to.trim().toLowerCase().includes("hello@agure.space");
+    const targetRecipient = isContactInquiry ? notificationEmail : to.trim();
+
+    // If a customer email is provided from the contact form, set reply-to directly to the customer so hitting Reply writes to them
+    const effectiveReplyTo = (customerEmail && customerEmail.includes("@"))
+      ? customerEmail.trim()
+      : defaultReplyTo;
 
     // If Resend API Key is configured, send the real email
     if (resendApiKey) {
@@ -48,8 +60,6 @@ export async function POST(req: Request) {
         .map((paragraph) => `<p class="email-text" style="margin: 0 0 16px 0; line-height: 1.65; font-size: 15.5px; color: #27272a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">${paragraph.replace(/\n/g, "<br/>")}</p>`)
         .join("");
 
-      // Automatically BCC hello@abdisalam.space as a precaution so Abdisalam receives a copy
-      const bccList = to.trim().toLowerCase() === replyTo.toLowerCase() ? undefined : [replyTo];
       const timeTag = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
       const cleanSubject = subject.replace(/^\[PREVIEW(?:\s+[\d:]+)?\]\s*/i, "").trim();
       const finalSubject = isPreview ? `[PREVIEW ${timeTag}] ${cleanSubject}` : cleanSubject;
@@ -64,8 +74,8 @@ export async function POST(req: Request) {
         bcc?: string[];
       } = {
         from: `${senderName} <${senderEmail}>`,
-        to: [to.trim()],
-        reply_to: replyTo,
+        to: [targetRecipient],
+        reply_to: effectiveReplyTo,
         subject: finalSubject,
         html: `
           <!DOCTYPE html>
@@ -211,8 +221,8 @@ export async function POST(req: Request) {
 
                         <!-- Visual Pitch Card Container -->
                         <div class="email-card-container" style="margin: 24px 0 24px 0; border: 1px solid #e4e4e7; border-radius: 12px; overflow: hidden; background-color: #09090b;">
-                          <a href="https://abdisalam.space" target="_blank" style="display: block; text-decoration: none;">
-                            <img src="https://abdisalam.space/outreach_pitch_card.png" alt="A.GURE Portfolio Overview" style="width: 100%; max-width: 100%; height: auto; display: block; border-bottom: 1px solid #1a1a22;" />
+                          <a href="https://agure.space" target="_blank" style="display: block; text-decoration: none;">
+                            <img src="https://agure.space/outreach_pitch_card.png" alt="A.GURE Portfolio Overview" style="width: 100%; max-width: 100%; height: auto; display: block; border-bottom: 1px solid #1a1a22;" />
                           </a>
                           <table width="100%" border="0" cellpadding="0" cellspacing="0" class="email-card-bar email-border" style="padding: 11px 16px; background-color: #f8f8fa; border-top: 1px solid #e4e4e7;">
                             <tr>
@@ -220,8 +230,8 @@ export async function POST(req: Request) {
                                 🎴 Portfolio Overview (${attachmentFilename})
                               </td>
                               <td align="right">
-                                <a href="https://abdisalam.space" class="email-card-bar-link" style="font-family: ui-monospace, Menlo, Monaco, Consolas, monospace; font-size: 11px; color: #09090b; text-decoration: none; font-weight: 600;">
-                                  abdisalam.space ↗
+                                <a href="https://agure.space" class="email-card-bar-link" style="font-family: ui-monospace, Menlo, Monaco, Consolas, monospace; font-size: 11px; color: #09090b; text-decoration: none; font-weight: 600;">
+                                  agure.space ↗
                                 </a>
                               </td>
                             </tr>
@@ -230,7 +240,7 @@ export async function POST(req: Request) {
 
                         <!-- Call to Action Button -->
                         <div style="margin: 24px 0 28px 0; text-align: left;">
-                          <a href="https://abdisalam.space" target="_blank" class="email-btn" style="display: inline-block; background-color: #09090b; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 8px; letter-spacing: -0.01em;">
+                          <a href="https://agure.space" target="_blank" class="email-btn" style="display: inline-block; background-color: #09090b; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 8px; letter-spacing: -0.01em;">
                             View Live Client Work ↗
                           </a>
                         </div>
@@ -238,11 +248,11 @@ export async function POST(req: Request) {
                         <!-- Signature & Footer -->
                         <div class="email-border" style="border-top: 1px solid #ebebee; padding-top: 20px; margin-top: 24px;">
                           <p class="email-author" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13.5px; color: #09090b; margin: 0 0 3px 0; font-weight: 600;">
-                            Abdisalam Gure (A.Gure)
+                            A.Gure
                           </p>
                           <p class="email-muted" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; color: #71717a; margin: 0; line-height: 1.45;">
                             Independent Web Developer &amp; Designer • Oslo, Norway<br/>
-                            Portfolio: <a href="https://abdisalam.space" class="email-subtle-link" style="color: #52525b; text-decoration: underline;">abdisalam.space</a> • Direct: <a href="mailto:${replyTo}" class="email-subtle-link" style="color: #52525b; text-decoration: none;">${replyTo}</a>
+                            Portfolio: <a href="https://agure.space" class="email-subtle-link" style="color: #52525b; text-decoration: underline;">agure.space</a> • Direct: <a href="mailto:${effectiveReplyTo}" class="email-subtle-link" style="color: #52525b; text-decoration: none;">${effectiveReplyTo}</a>
                           </p>
                         </div>
 
@@ -260,9 +270,6 @@ export async function POST(req: Request) {
 
       if (attachments.length > 0) {
         emailPayload.attachments = attachments;
-      }
-      if (bccList) {
-        emailPayload.bcc = bccList;
       }
 
       const res = await fetch("https://api.resend.com/emails", {
@@ -290,10 +297,9 @@ export async function POST(req: Request) {
         success: true,
         sent: true,
         id: resData.id,
-        recipient: to,
-        replyTo,
+        recipient: targetRecipient,
+        replyTo: effectiveReplyTo,
         attachedImage: attachments.length > 0,
-        bccCopy: bccList ? bccList[0] : null
       });
     }
 
@@ -303,8 +309,8 @@ export async function POST(req: Request) {
       sent: false,
       mocked: true,
       message: `Draft ready! Resend API key not configured yet.`,
-      recipient: to,
-      replyTo,
+      recipient: targetRecipient,
+      replyTo: effectiveReplyTo,
       subject
     });
   } catch (err: unknown) {

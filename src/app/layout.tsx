@@ -34,13 +34,13 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://abdisalam.space"),
+  metadataBase: new URL("https://agure.space"),
   title: {
     default: "A.GURE — Web Developer & Designer",
     template: "%s | A.GURE",
   },
-  description: "I build and redesign websites. Portfolio of Abdisalam Gure (A.Gure), based in Oslo.",
-  authors: [{ name: "A.Gure", url: "https://abdisalam.space" }],
+  description: "I build and redesign websites. Portfolio of A.Gure, based in Oslo.",
+  authors: [{ name: "A.Gure", url: "https://agure.space" }],
   creator: "A.Gure",
   icons: {
     icon: [
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://abdisalam.space",
+    url: "https://agure.space",
     siteName: "A.GURE",
     title: "A.GURE — Web Developer & Designer",
     description: "I build and redesign websites. Based in Oslo.",
