@@ -945,12 +945,10 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
             {/* Parisian Carte Sheet (Continuous Layout, Zero SaaS Cards) */}
             <div
-              className="p-6 sm:p-10 rounded-3xl border-2 transition-all space-y-8 shadow-sm"
+              className="p-4 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl border transition-all space-y-6 sm:space-y-8 shadow-sm overflow-hidden"
               style={{
                 backgroundColor: activePalette.cardBg,
                 borderColor: activePalette.border,
-                outline: `1px solid ${activePalette.border}`,
-                outlineOffset: "4px",
               }}
             >
               {/* Carte Top Title Ornament */}
@@ -967,7 +965,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               </div>
 
               {/* Items List - Continuous Dot-Leader Brasserie Lines */}
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {filteredServices.map((service) => {
                   const isChosen = selectedService.id === service.id;
                   return (
@@ -983,34 +981,34 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                       }}
                     >
                       {/* Top Line: Title + Dot Leader + Price */}
-                      <div className="flex items-baseline justify-between gap-3">
-                        <div className="flex items-baseline gap-2 flex-shrink-0">
+                      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5 sm:gap-3">
+                        <div className="flex items-baseline gap-2 min-w-0 flex-1">
                           <h4
-                            className="text-sm sm:text-base font-bold font-heading tracking-wide transition-colors"
+                            className="text-sm sm:text-base font-bold font-heading tracking-wide transition-colors leading-snug break-words"
                             style={{ color: isChosen ? activePalette.accent : activePalette.text }}
                           >
                             {service.name}
                           </h4>
-                          <span className="text-[11px] font-mono italic opacity-60 hidden sm:inline" style={{ color: activePalette.muted }}>
+                          <span className="text-[11px] font-mono italic opacity-60 hidden sm:inline flex-shrink-0" style={{ color: activePalette.muted }}>
                             ({service.servings || service.leadTime})
                           </span>
                         </div>
 
-                        {/* Dot Leader Bridge */}
+                        {/* Dot Leader Bridge (Desktop only) */}
                         <div
                           className="flex-1 border-b border-dotted mx-2 hidden sm:block opacity-30"
                           style={{ borderColor: activePalette.text }}
                         />
 
                         {/* Price & Action */}
-                        <div className="flex items-center gap-3 flex-shrink-0">
-                          <span className="text-sm sm:text-base font-bold font-mono" style={{ color: activePalette.text }}>
+                        <div className="flex items-center justify-between sm:justify-end gap-3 flex-shrink-0 pt-1 sm:pt-0">
+                          <span className="text-sm sm:text-base font-bold font-mono whitespace-nowrap" style={{ color: activePalette.text }}>
                             {service.price > 0 ? `${service.price},-` : "Offert"}
                           </span>
 
                           <button
                             type="button"
-                            className="px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider transition-all"
+                            className="px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider transition-all whitespace-nowrap"
                             style={{
                               backgroundColor: isChosen ? activePalette.accent : "transparent",
                               color: isChosen ? activePalette.accentFg : activePalette.accent,
@@ -1045,8 +1043,8 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 className="pt-4 border-t border-dashed flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono"
                 style={{ borderColor: activePalette.border, color: activePalette.muted }}
               >
-                <span>Commandes à retirer au 14 Bygdøy Allé, Frogner</span>
-                <span className="font-semibold" style={{ color: activePalette.accent }}>
+                <span className="truncate">Commandes à retirer au 14 Bygdøy Allé, Frogner</span>
+                <span className="font-semibold truncate max-w-full" style={{ color: activePalette.accent }}>
                   Sélection active: {selectedService.name} ({selectedService.price} kr)
                 </span>
               </div>
@@ -1442,7 +1440,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             config.id === "cakes" ? (
               <form
                 onSubmit={handleBookingSubmit}
-                className="rounded-3xl border-2 border-dashed p-6 sm:p-10 space-y-8 shadow-sm relative"
+                className="rounded-2xl sm:rounded-3xl border border-dashed p-4 sm:p-8 md:p-10 space-y-6 sm:space-y-8 shadow-sm relative overflow-hidden"
                 style={{
                   backgroundColor: activePalette.cardBg,
                   borderColor: activePalette.border,
@@ -1450,16 +1448,16 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               >
                 {/* Perforated Chit Top Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-dashed" style={{ borderColor: activePalette.border }}>
-                  <div>
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-widest block" style={{ color: activePalette.accent }}>
+                  <div className="min-w-0">
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-widest block truncate" style={{ color: activePalette.accent }}>
                       BON DE COMMANDE · TICKET N° MS-849
                     </span>
-                    <span className="text-[10px] font-mono" style={{ color: activePalette.muted }}>
+                    <span className="text-[10px] font-mono block truncate" style={{ color: activePalette.muted }}>
                       Fournil Maison Sucre · Bygdøy Allé 14, Frogner
                     </span>
                   </div>
-                  <div className="text-right">
-                    <span className="text-xs font-mono font-bold" style={{ color: activePalette.text }}>
+                  <div className="text-left sm:text-right min-w-0">
+                    <span className="text-xs font-mono font-bold block truncate" style={{ color: activePalette.text }}>
                       Article Sélectionné: {selectedService.name}
                     </span>
                     <span className="text-xs font-mono block font-black" style={{ color: activePalette.accent }}>
