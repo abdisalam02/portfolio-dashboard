@@ -201,7 +201,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             {/* Bakery Stamp Seal */}
             <div className="flex justify-center mb-1">
               <div
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-2 flex items-center justify-center transition-transform hover:rotate-6 shadow-sm border"
+                className="w-18 h-18 sm:w-22 sm:h-22 rounded-full p-2 flex items-center justify-center transition-transform hover:rotate-6 shadow-xs border"
                 style={{
                   backgroundColor: activePalette.cardBg,
                   borderColor: activePalette.accent,
@@ -427,10 +427,10 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             <div className="flex items-center justify-center gap-4 sm:gap-6 max-w-lg mx-auto">
               <div className="h-px flex-1" style={{ backgroundColor: activePalette.border }} />
               <div
-                className="w-16 h-16 rounded-full flex items-center justify-center p-2 shadow-sm border"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center p-2 shadow-xs border"
                 style={{
                   backgroundColor: activePalette.cardBg,
-                  borderColor: activePalette.border,
+                  borderColor: activePalette.accent,
                 }}
               >
                 {config.logoEmblem(activePalette.accent, activePalette.muted, activePalette.border)}
@@ -540,20 +540,20 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               </span>
             </div>
 
-            {/* Horizontal Snap-Scroll Vitrine (Borderless, large images with clean 1-line text) */}
-            <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none overscroll-x-contain scroll-smooth">
+            {/* Horizontal Snap-Scroll Vitrine (Borderless, large images with clean 1-line text, zero scrollbar) */}
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-5 pb-2 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden overscroll-x-contain scroll-smooth">
               {config.lookbook.map((item, idx) => (
                 <div
                   key={idx}
-                  className="snap-start flex-shrink-0 w-60 sm:w-72 space-y-2 group cursor-pointer"
+                  className="snap-start flex-shrink-0 w-72 sm:w-84 space-y-2 group cursor-pointer"
                 >
                   <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-stone-100 shadow-xs">
                     <Image
                       src={item.src}
                       alt={item.title}
                       fill
-                      sizes="(max-width: 640px) 240px, 288px"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 288px, 336px"
+                      className="object-cover scale-[1.02] transition-transform duration-500 group-hover:scale-108"
                       priority={idx < 2}
                       unoptimized
                     />
@@ -832,7 +832,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                           e.stopPropagation();
                           setPreviewNailService(service);
                         }}
-                        className="w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden relative flex-shrink-0 border bg-zinc-900 shadow-sm cursor-zoom-in group/thumb"
+                        className="w-24 h-24 sm:w-32 sm:h-32 rounded-xl overflow-hidden relative flex-shrink-0 border bg-zinc-900 shadow-xs cursor-zoom-in group/thumb"
                         style={{ borderColor: isChosen ? activePalette.accent : activePalette.border }}
                         title="Touch to view high-res photo & set details"
                       >
@@ -840,12 +840,12 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                           src={service.imageSrc}
                           alt={service.name}
                           fill
-                          sizes="(max-width: 640px) 80px, 112px"
-                          className="object-cover transition-transform duration-500 group-hover/thumb:scale-110"
+                          sizes="(max-width: 640px) 96px, 128px"
+                          className="object-cover scale-[1.02] transition-transform duration-500 group-hover/thumb:scale-110"
                           unoptimized
                         />
                         <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
-                          <span className="text-[10px] font-mono font-bold text-white bg-black/70 px-2 py-0.5 rounded-full backdrop-blur-xs flex items-center gap-1">
+                          <span className="text-[10px] font-mono font-bold text-white bg-black/75 px-2 py-0.5 rounded backdrop-blur-xs flex items-center gap-1">
                             <FiZoomIn size={11} /> Expand
                           </span>
                         </div>
@@ -2228,14 +2228,14 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         </div>
       </div>
 
-      {/* ================= 10. NAILS LIGHTBOX POPUP MODAL ================= */}
+      {/* ================= 10. NAILS LIGHTBOX POPUP MODAL (SHARP LUXURY ATELIER) ================= */}
       {previewNailService && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
           onClick={() => setPreviewNailService(null)}
         >
           <div
-            className="w-full max-w-sm sm:max-w-md rounded-3xl border p-4 sm:p-6 shadow-2xl relative space-y-4"
+            className="w-full max-w-sm sm:max-w-md rounded-none border-2 p-4 sm:p-6 shadow-2xl relative space-y-4"
             style={{
               backgroundColor: activePalette.cardBg,
               borderColor: activePalette.accent,
@@ -2243,11 +2243,11 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
+            {/* Close Button - Sharp Box */}
             <button
               type="button"
               onClick={() => setPreviewNailService(null)}
-              className="absolute top-3.5 right-3.5 w-8 h-8 rounded-full border flex items-center justify-center text-xs font-mono font-bold transition-all hover:opacity-75 cursor-pointer z-10 shadow-sm"
+              className="absolute top-3.5 right-3.5 w-8 h-8 rounded-none border flex items-center justify-center text-xs font-mono font-bold transition-all hover:opacity-75 cursor-pointer z-10 shadow-xs"
               style={{
                 backgroundColor: activePalette.bg,
                 borderColor: activePalette.border,
@@ -2257,8 +2257,11 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               <FiX size={15} />
             </button>
 
-            {/* High-Res Photo */}
-            <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden border bg-zinc-950 shadow-inner">
+            {/* High-Res Photo - Sharp Edges */}
+            <div
+              className="relative aspect-[4/3] w-full rounded-none overflow-hidden border bg-zinc-950 shadow-inner"
+              style={{ borderColor: activePalette.border }}
+            >
               {previewNailService.imageSrc && (
                 <Image
                   src={previewNailService.imageSrc}
@@ -2269,7 +2272,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                   unoptimized
                 />
               )}
-              <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-black/80 text-white backdrop-blur-xs">
+              <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-none text-[10px] font-mono font-bold uppercase tracking-wider bg-black/85 text-white backdrop-blur-xs border border-white/20">
                 {previewNailService.servings} · {previewNailService.leadTime}
               </div>
             </div>
@@ -2292,7 +2295,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               </p>
             </div>
 
-            {/* Select & Book Button */}
+            {/* Select & Book Button - Sharp Architectural Action Bar */}
             <div className="pt-2">
               <button
                 type="button"
@@ -2300,9 +2303,10 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                   handleSelectService(previewNailService);
                   setPreviewNailService(null);
                 }}
-                className="w-full py-3.5 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3.5 px-4 rounded-none font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer border"
                 style={{
                   backgroundColor: activePalette.accent,
+                  borderColor: activePalette.accent,
                   color: activePalette.accentFg,
                 }}
               >

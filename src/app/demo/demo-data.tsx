@@ -1,6 +1,6 @@
 import React from "react";
 import { LuCroissant } from "react-icons/lu";
-import { RiFlowerLine } from "react-icons/ri";
+import { GiDiamondRing } from "react-icons/gi";
 
 export interface PaletteTheme {
   id: string;
@@ -83,15 +83,9 @@ export const cakesDemoConfig: DemoConfig = {
   instagramUrl: "https://instagram.com",
   metaNotes: "Pickup Fridays & Saturdays · Pre-orders close Thursdays at 20:00",
   fontFamilyHeading: "var(--font-playfair), serif",
-  logoEmblem: (accent, muted, border) => (
-    <div
-      className="w-full h-full rounded-2xl flex flex-col items-center justify-center p-2 text-center relative"
-      style={{ border: `1px solid ${border}` }}
-    >
-      <LuCroissant size={28} style={{ color: accent }} className="mb-1" />
-      <span className="text-[7.5px] font-mono tracking-[0.22em] uppercase font-bold" style={{ color: muted }}>
-        MAISON SUCRE
-      </span>
+  logoEmblem: (accent) => (
+    <div className="flex flex-col items-center justify-center">
+      <LuCroissant size={36} style={{ color: accent }} />
     </div>
   ),
   palettes: [
@@ -289,23 +283,18 @@ export const nailsDemoConfig: DemoConfig = {
   instagramUrl: "https://instagram.com",
   metaNotes: "1-on-1 private appointments · 48h cancellation notice · Card & Vipps",
   fontFamilyHeading: "var(--font-syne), sans-serif",
-  logoEmblem: (accent, muted, border) => (
-    <div
-      className="w-full h-full rounded-2xl flex flex-col items-center justify-center p-2 text-center relative"
-      style={{ border: `1px solid ${border}` }}
-    >
-      <div className="flex flex-col items-center justify-center">
-        <span
-          className="text-2xl font-black tracking-[0.14em] uppercase leading-none font-mono"
-          style={{ color: accent }}
-        >
-          KLØ
-        </span>
-        <div className="w-8 h-px my-1.5 opacity-40" style={{ backgroundColor: accent }} />
-        <span className="text-[7.5px] font-mono tracking-[0.25em] uppercase font-bold" style={{ color: muted }}>
-          STUDIO · OSLO
-        </span>
-      </div>
+  logoEmblem: (accent, muted) => (
+    <div className="flex flex-col items-center justify-center">
+      <span
+        className="text-2xl sm:text-3xl font-black tracking-[0.14em] uppercase leading-none font-mono"
+        style={{ color: accent }}
+      >
+        KLØ
+      </span>
+      <div className="w-8 h-px my-1.5 opacity-40" style={{ backgroundColor: accent }} />
+      <span className="text-[7.5px] font-mono tracking-[0.25em] uppercase font-bold" style={{ color: muted }}>
+        STUDIO · OSLO
+      </span>
     </div>
   ),
   palettes: [
@@ -502,15 +491,9 @@ export const weddingDemoConfig: DemoConfig = {
   instagramUrl: "https://instagram.com",
   metaNotes: "Limited dates per season · Complimentary moodboard consultation · On-site styling",
   fontFamilyHeading: "var(--font-cormorant), serif",
-  logoEmblem: (accent, muted, border) => (
-    <div
-      className="w-full h-full rounded-2xl flex flex-col items-center justify-center p-2 text-center relative"
-      style={{ border: `1px solid ${border}` }}
-    >
-      <RiFlowerLine size={26} style={{ color: accent }} className="mb-1" />
-      <span className="text-[7.5px] font-mono tracking-[0.22em] uppercase font-bold" style={{ color: muted }}>
-        ASTRID BRIDAL
-      </span>
+  logoEmblem: (accent) => (
+    <div className="flex flex-col items-center justify-center">
+      <GiDiamondRing size={30} style={{ color: accent }} />
     </div>
   ),
   palettes: [
