@@ -115,12 +115,25 @@ input, textarea {
   background-color: transparent;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-textarea:-webkit-autofill {
+.theme-obsidian input:-webkit-autofill,
+.theme-obsidian input:-webkit-autofill:hover, 
+.theme-obsidian input:-webkit-autofill:focus, 
+.theme-obsidian textarea:-webkit-autofill,
+.theme-chrome input:-webkit-autofill,
+.theme-chrome input:-webkit-autofill:hover, 
+.theme-chrome input:-webkit-autofill:focus, 
+.theme-chrome textarea:-webkit-autofill {
   -webkit-text-fill-color: #f4f4f5 !important;
   -webkit-box-shadow: 0 0 0px 1000px #0e0e12 inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.theme-paper input:-webkit-autofill,
+.theme-paper input:-webkit-autofill:hover,
+.theme-paper input:-webkit-autofill:focus,
+.theme-paper textarea:-webkit-autofill {
+  -webkit-text-fill-color: #111113 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #f6f5f2 inset !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 

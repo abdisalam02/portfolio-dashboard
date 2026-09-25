@@ -81,7 +81,7 @@ export default function NailShapeSelector({
         </span>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-2.5">
+      <div className="flex overflow-x-auto snap-x snap-mandatory gap-2 pb-2 sm:grid sm:grid-cols-5 sm:gap-2.5 sm:overflow-visible sm:pb-0 sm:snap-none">
         {SHAPES.map((shape) => {
           const isSelected = selectedShape === shape.id;
           return (
@@ -89,7 +89,7 @@ export default function NailShapeSelector({
               key={shape.id}
               type="button"
               onClick={() => onSelectShape(shape.id)}
-              className="p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-between group hover:scale-[1.02] active:scale-[0.98]"
+              className="snap-start flex-shrink-0 min-w-[calc(50%-4px)] sm:min-w-0 p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-between group hover:scale-[1.02] active:scale-[0.98]"
               style={{
                 backgroundColor: isSelected ? tagBg : cardBg,
                 borderColor: isSelected ? accentColor : borderColor,

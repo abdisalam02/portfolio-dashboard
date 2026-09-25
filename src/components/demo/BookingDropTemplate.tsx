@@ -9,8 +9,6 @@ import {
   FiInstagram,
   FiMapPin,
   FiCheckCircle,
-  FiX,
-  FiMaximize2,
   FiCheck,
   FiArrowUpRight,
   FiSliders,
@@ -47,6 +45,8 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
       ? weddingDemoConfig
       : cakesDemoConfig;
 
+  const flagshipService = config.id === "wedding" ? config.services.find(s => s.id === "full-bespoke-wedding") : null;
+
   // Active Theme / Palette - Synchronizes immediately when route / niche changes
   const [activePalette, setActivePalette] = useState<PaletteTheme>(config.palettes[0]);
 
@@ -76,16 +76,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
     setIsDockCollapsed(true);
   }, [config.id]);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setLightboxImage(null);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
   // Common State
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedService, setSelectedService] = useState<ServiceItem>(config.services[0]);
@@ -95,7 +85,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
   const [clientPhone, setClientPhone] = useState("");
   const [clientInstagram, setClientInstagram] = useState("");
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
-  const [lightboxImage, setLightboxImage] = useState<LookbookItem | null>(null);
 
   // Cakes Niche Specific State
   const [cakeBakeWindow, setCakeBakeWindow] = useState<"morning" | "afternoon">("morning");
@@ -170,102 +159,100 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             ARCHETYPE A: CAKES - TACTILE FRENCH PATISSERIE & WAX SEAL
             ------------------------------------------------------------- */}
         {config.id === "cakes" && (
-          <section className="text-center space-y-6 pt-2 max-w-2xl mx-auto">
-            {/* Vintage Double-Line Cartouche Frame */}
-            <div
-              className="p-6 sm:p-8 rounded-3xl border-2 transition-all relative shadow-sm"
-              style={{
-                backgroundColor: activePalette.cardBg,
-                borderColor: activePalette.border,
-                outline: `1px solid ${activePalette.border}`,
-                outlineOffset: "4px",
-              }}
-            >
-              {/* Bakery Stamp Seal */}
-              <div className="flex justify-center -mt-12 sm:-mt-14 mb-3">
-                <div
-                  className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full p-2 flex flex-col items-center justify-center transition-transform hover:rotate-6 shadow-md"
-                  style={{
-                    backgroundColor: activePalette.bg,
-                    border: `2px solid ${activePalette.accent}`,
-                  }}
-                >
-                  {config.logoEmblem(activePalette.accent, activePalette.muted, activePalette.border)}
-                </div>
+          <section className="text-center space-y-4 pt-2 max-w-xl mx-auto">
+            {/* Bakery Stamp Seal */}
+            <div className="flex justify-center mb-1">
+              <div
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-2 flex items-center justify-center transition-transform hover:rotate-6 shadow-sm border"
+                style={{
+                  backgroundColor: activePalette.cardBg,
+                  borderColor: activePalette.accent,
+                }}
+              >
+                {config.logoEmblem(activePalette.accent, activePalette.muted, activePalette.border)}
               </div>
+            </div>
 
-              {/* Typography Heading */}
-              <div className="space-y-2">
-                <span
-                  className="text-[10px] font-mono tracking-[0.3em] uppercase block font-semibold"
-                  style={{ color: activePalette.accent }}
-                >
-                  Fournil Artisanal · Fait Maison
-                </span>
-                <h1
-                  className="text-3xl sm:text-5xl font-black tracking-[0.18em] uppercase"
-                  style={{
-                    fontFamily: config.fontFamilyHeading,
-                    color: activePalette.text,
-                  }}
-                >
-                  {config.brandName}
-                </h1>
-                <p
-                  className="text-xs sm:text-sm font-mono tracking-[0.15em] uppercase pt-0.5"
-                  style={{ color: activePalette.muted }}
-                >
-                  {config.brandSubtitle}
-                </p>
-              </div>
-
-              {/* French Bakery Badges */}
-              <div className="flex flex-wrap items-center justify-center gap-2 pt-4 text-[11px] font-mono">
-                <span
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border"
-                  style={{
-                    backgroundColor: activePalette.bg,
-                    borderColor: activePalette.border,
-                    color: activePalette.muted,
-                  }}
-                >
-                  <FiMapPin size={11} style={{ color: activePalette.accent }} />
-                  <span>{config.location}</span>
-                </span>
-
-                <span
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border font-bold"
-                  style={{
-                    backgroundColor: activePalette.tagBg,
-                    borderColor: activePalette.accent,
-                    color: activePalette.accent,
-                  }}
-                >
-                  <span>{config.statusPill}</span>
-                </span>
-
-                <a
-                  href={config.instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-3 py-1 rounded-full border hover:opacity-80 transition-opacity"
-                  style={{
-                    backgroundColor: activePalette.bg,
-                    borderColor: activePalette.border,
-                    color: activePalette.text,
-                  }}
-                >
-                  <FiInstagram size={11} />
-                  <span>{config.instagramHandle}</span>
-                </a>
-              </div>
-
+            {/* Typography Heading */}
+            <div className="space-y-1">
+              <h1
+                className="text-3xl sm:text-5xl font-black tracking-[0.16em] uppercase"
+                style={{
+                  fontFamily: config.fontFamilyHeading,
+                  color: activePalette.text,
+                }}
+              >
+                {config.brandName}
+              </h1>
               <p
-                className="text-xs sm:text-sm font-body leading-relaxed max-w-lg mx-auto pt-4 italic"
+                className="text-xs sm:text-sm font-mono tracking-wider uppercase"
                 style={{ color: activePalette.muted }}
               >
-                &ldquo;{config.brandDescription}&rdquo;
+                {config.brandSubtitle} · {config.location}
               </p>
+            </div>
+
+            {/* Status Pill & Instagram */}
+            <div className="flex items-center justify-center gap-2 pt-0.5 text-xs font-mono">
+              <span
+                className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border"
+                style={{
+                  backgroundColor: activePalette.tagBg,
+                  borderColor: activePalette.accent,
+                  color: activePalette.accent,
+                }}
+              >
+                {config.statusPill}
+              </span>
+
+              <a
+                href={config.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border hover:opacity-75 transition-opacity"
+                style={{
+                  backgroundColor: activePalette.cardBg,
+                  borderColor: activePalette.border,
+                  color: activePalette.muted,
+                }}
+              >
+                <FiInstagram size={11} />
+                <span>{config.instagramHandle}</span>
+              </a>
+            </div>
+
+            {/* Primary CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById("booking-form-section");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="px-6 py-2.5 rounded-xl font-mono text-xs font-bold tracking-wider uppercase transition-all shadow-sm active:scale-[0.97] flex items-center gap-1.5 cursor-pointer"
+                style={{
+                  backgroundColor: activePalette.accent,
+                  color: activePalette.accentFg,
+                }}
+              >
+                <FiShoppingBag size={14} />
+                <span>Order This Week</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById("lookbook-gallery");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="px-5 py-2.5 rounded-xl font-mono text-xs font-semibold tracking-wider transition-all border flex items-center gap-1.5 cursor-pointer"
+                style={{
+                  borderColor: activePalette.border,
+                  color: activePalette.text,
+                }}
+              >
+                <span>Browse Menu</span>
+                <FiChevronRight size={13} />
+              </button>
             </div>
           </section>
         )}
@@ -275,18 +262,18 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             ------------------------------------------------------------- */}
         {config.id === "nails" && (
           <section
-            className="pt-2 sm:pt-4 border-b pb-8 sm:pb-12"
+            className="pt-2 sm:pt-4 border-b pb-8 sm:pb-10"
             style={{ borderColor: activePalette.border }}
           >
             <div className="flex flex-col-reverse md:flex-row md:items-end justify-between gap-6 sm:gap-8">
-              {/* Left Column: Bold Typographic Headline & Specs */}
-              <div className="space-y-4 max-w-xl">
+              {/* Left Column: Typographic Headline & Specs */}
+              <div className="space-y-3.5 max-w-xl">
                 <div
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest font-bold shadow-sm"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest font-bold border"
                   style={{
                     backgroundColor: activePalette.tagBg,
                     color: activePalette.accent,
-                    border: `1px solid ${activePalette.border}`,
+                    borderColor: activePalette.border,
                   }}
                 >
                   <span>{config.statusPill}</span>
@@ -296,7 +283,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
                 <div className="space-y-1">
                   <h1
-                    className="text-5xl sm:text-7xl font-black tracking-tighter uppercase leading-none"
+                    className="text-4xl sm:text-6xl font-black tracking-tighter uppercase leading-none"
                     style={{
                       fontFamily: config.fontFamilyHeading,
                       color: activePalette.text,
@@ -305,7 +292,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     {config.brandName}
                   </h1>
                   <p
-                    className="text-xs sm:text-sm font-mono tracking-wider pt-1 uppercase font-semibold"
+                    className="text-xs sm:text-sm font-mono tracking-wider pt-0.5 uppercase font-semibold"
                     style={{ color: activePalette.muted }}
                   >
                     {config.brandSubtitle}
@@ -313,74 +300,77 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 </div>
 
                 <p
-                  className="text-xs sm:text-sm font-body leading-relaxed max-w-lg"
+                  className="text-xs sm:text-sm font-body leading-relaxed max-w-md"
                   style={{ color: activePalette.muted }}
                 >
                   {config.brandDescription}
                 </p>
 
-                {/* High-Fashion Studio Stamps */}
-                <div className="flex flex-wrap gap-2 pt-1 text-[10px] font-mono uppercase font-bold">
-                  {["100% Japanese Soft Gel", "Zero Damage Apex", "1-on-1 Sessions", "Private Studio 4B"].map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2.5 py-1 rounded-md border"
-                      style={{
-                        backgroundColor: activePalette.cardBg,
-                        borderColor: activePalette.border,
-                        color: activePalette.text,
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-3 pt-2 text-xs font-mono">
+                <div className="flex items-center gap-3 pt-1 text-xs font-mono">
                   <a
                     href={config.instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border hover:opacity-80 transition-opacity font-bold shadow-sm"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border hover:opacity-80 transition-opacity font-bold"
                     style={{
                       borderColor: activePalette.accent,
                       backgroundColor: activePalette.cardBg,
                       color: activePalette.text,
                     }}
                   >
-                    <FiInstagram size={13} style={{ color: activePalette.accent }} />
+                    <FiInstagram size={12} style={{ color: activePalette.accent }} />
                     <span>{config.instagramHandle}</span>
                   </a>
 
-                  <span
-                    className="px-3 py-2 rounded-xl border text-[11px]"
+                  <span className="text-[11px] font-mono" style={{ color: activePalette.muted }}>
+                    Studio 4B · 1-on-1 Sessions
+                  </span>
+                </div>
+
+                {/* Primary CTA */}
+                <div className="flex flex-wrap gap-2.5 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const el = document.getElementById("booking-form-section");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="px-5 py-2.5 rounded-xl font-mono text-xs font-bold tracking-wider uppercase transition-all shadow-sm active:scale-[0.97] flex items-center gap-1.5 cursor-pointer"
                     style={{
-                      borderColor: activePalette.border,
-                      backgroundColor: activePalette.cardBg,
-                      color: activePalette.muted,
+                      backgroundColor: activePalette.accent,
+                      color: activePalette.accentFg,
                     }}
                   >
-                    {config.metaNotes}
-                  </span>
+                    <span>Reserve Chair</span>
+                    <FiArrowUpRight size={13} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const el = document.getElementById("lookbook-gallery");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="px-5 py-2.5 rounded-xl font-mono text-xs font-semibold tracking-wider transition-all border flex items-center gap-1.5 cursor-pointer"
+                    style={{
+                      borderColor: activePalette.border,
+                      color: activePalette.text,
+                    }}
+                  >
+                    <span>View Sets</span>
+                    <FiChevronRight size={13} />
+                  </button>
                 </div>
               </div>
 
               {/* Right Column: Architectural Monogram Emblem Card */}
               <div className="flex-shrink-0 self-start md:self-end">
                 <div
-                  className="w-32 h-32 sm:w-44 sm:h-44 rounded-3xl p-3 flex flex-col items-center justify-center shadow-lg transition-all border-2 relative overflow-hidden group hover:scale-[1.02]"
+                  className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl p-3 flex flex-col items-center justify-center shadow-sm transition-all border"
                   style={{
                     backgroundColor: activePalette.cardBg,
                     borderColor: activePalette.accent,
                   }}
                 >
-                  {/* Subtle Corner Stamps */}
-                  <span className="absolute top-2 right-2 text-[8px] font-mono tracking-widest uppercase opacity-40">
-                    2024
-                  </span>
-                  <span className="absolute bottom-2 left-2 text-[8px] font-mono tracking-widest uppercase opacity-40">
-                    4B
-                  </span>
                   {config.logoEmblem(activePalette.accent, activePalette.muted, activePalette.border)}
                 </div>
               </div>
@@ -393,17 +383,17 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             ------------------------------------------------------------- */}
         {config.id === "wedding" && (
           <section
-            className="text-center space-y-6 pt-2 pb-6 border-b"
+            className="text-center space-y-5 pt-2 pb-6 border-b"
             style={{ borderColor: activePalette.border }}
           >
             {/* Top Delicate Seal with Hairline Divider Lines */}
-            <div className="flex items-center justify-center gap-3 sm:gap-6 max-w-xl mx-auto">
+            <div className="flex items-center justify-center gap-4 sm:gap-6 max-w-lg mx-auto">
               <div className="h-px flex-1" style={{ backgroundColor: activePalette.border }} />
               <div
-                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center p-2 shadow-sm"
+                className="w-16 h-16 rounded-full flex items-center justify-center p-2 shadow-sm border"
                 style={{
                   backgroundColor: activePalette.cardBg,
-                  border: `1px solid ${activePalette.border}`,
+                  borderColor: activePalette.border,
                 }}
               >
                 {config.logoEmblem(activePalette.accent, activePalette.muted, activePalette.border)}
@@ -412,15 +402,9 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             </div>
 
             {/* Centered Editorial Titles */}
-            <div className="space-y-3 max-w-xl mx-auto">
-              <span
-                className="text-[10px] font-mono tracking-[0.35em] uppercase block font-semibold"
-                style={{ color: activePalette.accent }}
-              >
-                Atelier Floral · Haute Cérémonie
-              </span>
+            <div className="space-y-2 max-w-md mx-auto">
               <h1
-                className="text-4xl sm:text-6xl font-light tracking-[0.2em] uppercase"
+                className="text-3xl sm:text-5xl font-light tracking-[0.2em] uppercase"
                 style={{
                   fontFamily: config.fontFamilyHeading,
                   color: activePalette.text,
@@ -429,27 +413,61 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 {config.brandName}
               </h1>
               <p
-                className="text-xs sm:text-sm font-body italic leading-relaxed max-w-md mx-auto"
+                className="text-xs sm:text-sm font-body italic leading-relaxed"
                 style={{ color: activePalette.muted }}
               >
                 {config.brandDescription}
               </p>
             </div>
 
+            {/* Primary CTA */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-1">
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById("booking-form-section");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="px-6 py-2.5 rounded-xl font-mono text-xs font-bold tracking-wider uppercase transition-all shadow-sm active:scale-[0.97] flex items-center gap-1.5 cursor-pointer"
+                style={{
+                  backgroundColor: activePalette.accent,
+                  color: activePalette.accentFg,
+                }}
+              >
+                <FiCalendar size={13} />
+                <span>Inquire for 2025</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById("lookbook-gallery");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="px-5 py-2.5 rounded-xl font-mono text-xs font-semibold tracking-wider transition-all border flex items-center gap-1.5 cursor-pointer"
+                style={{
+                  borderColor: activePalette.border,
+                  color: activePalette.text,
+                }}
+              >
+                <span>View Portfolio</span>
+                <FiChevronRight size={13} />
+              </button>
+            </div>
+
             {/* 3-Column Exhibition Bar */}
             <div
-              className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x border-y py-3.5 text-xs font-mono max-w-3xl mx-auto"
+              className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x border-y py-2.5 text-xs font-mono max-w-2xl mx-auto"
               style={{ borderColor: activePalette.border }}
             >
-              <div className="py-1.5 sm:py-0 px-3 flex items-center justify-center gap-1.5" style={{ color: activePalette.muted }}>
-                <FiMapPin size={12} style={{ color: activePalette.accent }} />
+              <div className="py-1 sm:py-0 px-3 flex items-center justify-center gap-1.5" style={{ color: activePalette.muted }}>
+                <FiMapPin size={11} style={{ color: activePalette.accent }} />
                 <span>{config.location}</span>
               </div>
-              <div className="py-1.5 sm:py-0 px-3 flex items-center justify-center gap-1.5 font-semibold" style={{ color: activePalette.text }}>
+              <div className="py-1 sm:py-0 px-3 flex items-center justify-center gap-1.5 font-medium" style={{ color: activePalette.text }}>
                 <span>{config.statusPill}</span>
               </div>
-              <div className="py-1.5 sm:py-0 px-3 flex items-center justify-center gap-1.5" style={{ color: activePalette.muted }}>
-                <FiInstagram size={12} />
+              <div className="py-1 sm:py-0 px-3 flex items-center justify-center gap-1.5" style={{ color: activePalette.muted }}>
+                <FiInstagram size={11} />
                 <a
                   href={config.instagramUrl}
                   target="_blank"
@@ -466,77 +484,46 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         {/* ================= 4. CURATED LOOKBOOK (NO ARTIFICIAL NUMBERING) ================= */}
 
         {/* -------------------------------------------------------------
-            LOOKBOOK A: CAKES - THE PASTRY DISPLAY CASE
+            LOOKBOOK A: CAKES - DAILY PÂTISSERIE SPREAD
             ------------------------------------------------------------- */}
         {config.id === "cakes" && (
-          <section id="lookbook-gallery" className="space-y-5">
+          <section id="lookbook-gallery" className="space-y-4">
             <div
-              className="flex flex-col sm:flex-row sm:items-end justify-between gap-1 border-b pb-3"
+              className="flex items-baseline justify-between border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <div>
-                <span
-                  className="text-[10px] font-mono uppercase tracking-[0.25em] font-semibold"
-                  style={{ color: activePalette.accent }}
-                >
-                  La Vitrine · Pastry Counter
-                </span>
-                <h2 className="text-xl sm:text-2xl font-bold font-heading tracking-tight">
-                  Fresh Daily Drops
-                </h2>
-              </div>
-              <p className="text-xs font-mono" style={{ color: activePalette.muted }}>
-                Boutique display · Tap to inspect details
-              </p>
+              <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
+                Daily Pâtisserie Drops
+              </h2>
+              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+                Baked Fresh Daily
+              </span>
             </div>
 
-            {/* 3x2 Grid styled like pastry counter display cards */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-5">
+            {/* Editorial Photo Spread */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-5">
               {config.lookbook.map((item, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => setLightboxImage(item)}
-                  className="group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border"
-                  style={{
-                    borderColor: activePalette.border,
-                    backgroundColor: activePalette.cardBg,
-                  }}
-                >
-                  {/* Photo with 4:5 Aspect Ratio */}
-                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinc-100">
+                <div key={idx} className="space-y-2">
+                  <div
+                    className="relative aspect-[4/5] w-full rounded-lg overflow-hidden border bg-zinc-100"
+                    style={{ borderColor: activePalette.border }}
+                  >
                     <Image
                       src={item.src}
                       alt={item.title}
                       fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 320px"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 640px) 50vw, 300px"
+                      className="object-cover transition-transform duration-500 hover:scale-105"
                       priority
                       unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                      <span className="text-[11px] text-white font-mono flex items-center gap-1">
-                        <FiMaximize2 size={11} /> Agrandir la vue
-                      </span>
-                    </div>
                   </div>
-
-                  {/* Tactile French Pastry Tag - Clean Editorial, zero artificial numbering */}
-                  <div className="p-3 sm:p-3.5 text-left border-t" style={{ borderColor: activePalette.border }}>
-                    <div className="flex items-center justify-between text-[9px] font-mono uppercase tracking-wider mb-1" style={{ color: activePalette.accent }}>
-                      <span>Édition Limitée</span>
-                      <span>Fait maison</span>
-                    </div>
-                    <h3
-                      className="text-xs sm:text-sm font-bold truncate leading-snug"
-                      style={{ color: activePalette.text }}
-                    >
+                  <div className="space-y-0.5 px-0.5">
+                    <h3 className="text-xs sm:text-sm font-heading font-medium leading-snug truncate" style={{ color: activePalette.text }}>
                       {item.title}
                     </h3>
-                    <p
-                      className="text-[10px] sm:text-[11px] font-mono truncate pt-0.5"
-                      style={{ color: activePalette.muted }}
-                    >
-                      {item.tag}
+                    <p className="text-[10px] sm:text-xs font-mono truncate" style={{ color: activePalette.muted }}>
+                      {item.tag.split("·")[0].trim()}
                     </p>
                   </div>
                 </div>
@@ -546,351 +533,195 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         )}
 
         {/* -------------------------------------------------------------
-            LOOKBOOK B: NAILS - HIGH-FASHION ASYMMETRIC MACRO GALLERY
+            LOOKBOOK B: NAILS - HIGH-FASHION EDITORIAL GALLERY
             ------------------------------------------------------------- */}
         {config.id === "nails" && (
-          <section id="lookbook-gallery" className="space-y-5">
+          <section id="lookbook-gallery" className="space-y-4">
             <div
-              className="flex flex-col sm:flex-row sm:items-end justify-between gap-1 border-b pb-3"
+              className="flex items-baseline justify-between border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <div>
-                <span
-                  className="text-[10px] font-mono uppercase tracking-[0.25em] font-semibold"
-                  style={{ color: activePalette.accent }}
-                >
-                  Macro Portfolio
-                </span>
-                <h2 className="text-xl sm:text-2xl font-bold font-heading tracking-tight">
-                  Studio Sets &amp; Gel Architecture
-                </h2>
-              </div>
-              <p className="text-xs font-mono" style={{ color: activePalette.muted }}>
-                Asymmetric macro gallery · Tap to inspect apex &amp; chrome
-              </p>
+              <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
+                Studio Sets &amp; Gel Architecture
+              </h2>
+              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+                100% Japanese Soft Gel
+              </span>
             </div>
 
-            {/* Asymmetric Magazine Collage Grid */}
-            <div className="space-y-3 sm:space-y-4">
-              {/* Row 1: 1 Featured Wide Hero Card (2 cols) + 1 Detail Portrait Card (1 col) */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-                {/* 2-Column Wide Hero Card */}
-                {config.lookbook[0] && (
-                  <div
-                    onClick={() => setLightboxImage(config.lookbook[0])}
-                    className="md:col-span-2 group relative rounded-2xl overflow-hidden cursor-pointer border-2 transition-all duration-300 hover:shadow-xl"
-                    style={{
-                      borderColor: activePalette.accent,
-                      backgroundColor: activePalette.cardBg,
-                    }}
-                  >
-                    <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-zinc-900">
+            {/* Editorial Gallery Grid */}
+            <div className="space-y-4">
+              {/* Row 1: Featured Duo (2 images) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-5">
+                {config.lookbook.slice(0, 2).map((item, idx) => (
+                  <div key={idx} className="space-y-2">
+                    <div
+                      className="relative aspect-[16/11] sm:aspect-[4/3] w-full rounded-lg overflow-hidden border bg-zinc-900"
+                      style={{ borderColor: activePalette.border }}
+                    >
                       <Image
-                        src={config.lookbook[0].src}
-                        alt={config.lookbook[0].title}
+                        src={item.src}
+                        alt={item.title}
                         fill
-                        sizes="(max-width: 768px) 100vw, 680px"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, 450px"
+                        className="object-cover transition-transform duration-500 hover:scale-105"
                         priority
                         unoptimized
                       />
-                      {/* Clean Studio Pill Tag */}
-                      <div className="absolute top-3 left-3">
-                        <span
-                          className="px-3 py-1 rounded-md text-[10px] font-mono uppercase font-bold tracking-wider shadow-md backdrop-blur-md"
-                          style={{
-                            backgroundColor: `${activePalette.cardBg}E6`,
-                            color: activePalette.accent,
-                            border: `1px solid ${activePalette.accent}`,
-                          }}
-                        >
-                          Natural Almond · French Micro-Tip
-                        </span>
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent flex items-end p-4 sm:p-5">
-                        <div className="text-left text-white space-y-0.5">
-                          <h3 className="text-base sm:text-lg font-bold font-heading">
-                            {config.lookbook[0].title}
-                          </h3>
-                          <p className="text-xs font-mono text-zinc-300">
-                            {config.lookbook[0].tag}
-                          </p>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                )}
-
-                {/* 1 Detail Card */}
-                {config.lookbook[1] && (
-                  <div
-                    onClick={() => setLightboxImage(config.lookbook[1])}
-                    className="group relative rounded-2xl overflow-hidden cursor-pointer border transition-all duration-300 hover:shadow-lg flex flex-col"
-                    style={{
-                      borderColor: activePalette.border,
-                      backgroundColor: activePalette.cardBg,
-                    }}
-                  >
-                    <div className="relative aspect-[4/5] md:aspect-auto md:flex-1 w-full overflow-hidden bg-zinc-900">
-                      <Image
-                        src={config.lookbook[1].src}
-                        alt={config.lookbook[1].title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 320px"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        priority
-                        unoptimized
-                      />
-                      <div className="absolute top-3 left-3">
-                        <span
-                          className="px-2.5 py-1 rounded text-[9px] font-mono uppercase font-bold tracking-wider shadow-sm"
-                          style={{
-                            backgroundColor: activePalette.cardBg,
-                            color: activePalette.text,
-                            border: `1px solid ${activePalette.border}`,
-                          }}
-                        >
-                          Titanium Liquid Chrome
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-3 text-left border-t" style={{ borderColor: activePalette.border }}>
-                      <h3 className="text-xs sm:text-sm font-bold truncate" style={{ color: activePalette.text }}>
-                        {config.lookbook[1].title}
+                    <div className="space-y-0.5 px-0.5">
+                      <h3 className="text-xs sm:text-sm font-heading font-medium leading-snug truncate" style={{ color: activePalette.text }}>
+                        {item.title}
                       </h3>
-                      <p className="text-[10px] font-mono truncate pt-0.5" style={{ color: activePalette.muted }}>
-                        {config.lookbook[1].tag}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Row 2: 4 Grid Cards Below (Items 2, 3, 4, 5) with genuine style tags */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                {config.lookbook.slice(2, 6).map((item, idx) => {
-                  const tagLabels = ["Negative Space", "Cuticle Care", "Apex BIAB", "3D Molten Gel"];
-                  return (
-                    <div
-                      key={idx}
-                      onClick={() => setLightboxImage(item)}
-                      className="group relative rounded-xl overflow-hidden cursor-pointer border transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
-                      style={{
-                        borderColor: activePalette.border,
-                        backgroundColor: activePalette.cardBg,
-                      }}
-                    >
-                      <div className="relative aspect-square w-full overflow-hidden bg-zinc-900">
-                        <Image
-                          src={item.src}
-                          alt={item.title}
-                          fill
-                          sizes="(max-width: 640px) 50vw, 220px"
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          priority
-                          unoptimized
-                        />
-                        <div className="absolute top-2 left-2">
-                          <span
-                            className="px-2 py-0.5 rounded text-[8px] font-mono font-bold tracking-wider uppercase"
-                            style={{
-                              backgroundColor: `${activePalette.cardBg}E6`,
-                              color: activePalette.text,
-                              border: `1px solid ${activePalette.border}`,
-                            }}
-                          >
-                            {tagLabels[idx] || "Studio Set"}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-2.5 text-left border-t" style={{ borderColor: activePalette.border }}>
-                        <h4 className="text-xs font-bold truncate" style={{ color: activePalette.text }}>
-                          {item.title}
-                        </h4>
-                        <p className="text-[9px] sm:text-[10px] font-mono truncate" style={{ color: activePalette.muted }}>
-                          {item.tag.split("·")[0]}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* -------------------------------------------------------------
-            LOOKBOOK C: WEDDING - BOTANICAL MONOGRAPH ARCHIVAL PORTFOLIO
-            ------------------------------------------------------------- */}
-        {config.id === "wedding" && (
-          <section id="lookbook-gallery" className="space-y-6">
-            <div
-              className="flex flex-col sm:flex-row sm:items-end justify-between gap-1 border-b pb-3"
-              style={{ borderColor: activePalette.border }}
-            >
-              <div>
-                <span
-                  className="text-[10px] font-mono uppercase tracking-[0.25em] font-semibold"
-                  style={{ color: activePalette.accent }}
-                >
-                  Archival Portfolio
-                </span>
-                <h2 className="text-xl sm:text-2xl font-light font-heading tracking-wide">
-                  Selected Floral Commissions
-                </h2>
-              </div>
-              <p className="text-xs font-mono" style={{ color: activePalette.muted }}>
-                Private Portfolio · Oslo &amp; Viken Weddings
-              </p>
-            </div>
-
-            {/* Row 1: Diptych (2 Large Side-by-Side Portrait Cards) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8">
-              {config.lookbook.slice(0, 2).map((item, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => setLightboxImage(item)}
-                  className="group cursor-pointer space-y-3"
-                >
-                  <div
-                    className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border shadow-sm transition-all duration-700 group-hover:shadow-xl"
-                    style={{
-                      borderColor: activePalette.border,
-                      backgroundColor: activePalette.cardBg,
-                    }}
-                  >
-                    <Image
-                      src={item.src}
-                      alt={item.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 450px"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      priority
-                      unoptimized
-                    />
-                    <div className="absolute top-3 left-3">
-                      <span
-                        className="px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest backdrop-blur-md"
-                        style={{
-                          backgroundColor: `${activePalette.cardBg}E6`,
-                          color: activePalette.text,
-                          border: `1px solid ${activePalette.border}`,
-                        }}
-                      >
-                        {idx === 0 ? "The Bridal Bouquet" : "Ceremony Ground Arch"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-center space-y-0.5 pt-1">
-                    <h3 className="text-sm sm:text-base font-medium font-heading tracking-wide" style={{ color: activePalette.text }}>
-                      {item.title}
-                    </h3>
-                    <p className="text-xs font-mono italic" style={{ color: activePalette.muted }}>
-                      {item.tag}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Row 2: Full-Width Ceremony Landscape Banner */}
-            {config.lookbook[3] && (
-              <div
-                onClick={() => setLightboxImage(config.lookbook[3])}
-                className="group cursor-pointer space-y-2 pt-2"
-              >
-                <div
-                  className="relative aspect-[16/9] sm:aspect-[21/9] w-full rounded-2xl overflow-hidden border shadow-sm transition-all duration-700 group-hover:shadow-xl"
-                  style={{
-                    borderColor: activePalette.border,
-                    backgroundColor: activePalette.cardBg,
-                  }}
-                >
-                  <Image
-                    src={config.lookbook[3].src}
-                    alt={config.lookbook[3].title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 900px"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    priority
-                    unoptimized
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span
-                      className="px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest backdrop-blur-md"
-                      style={{
-                        backgroundColor: `${activePalette.cardBg}E6`,
-                        color: activePalette.text,
-                        border: `1px solid ${activePalette.border}`,
-                      }}
-                    >
-                      Outdoor Ceremony Landscape
-                    </span>
-                  </div>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 px-1">
-                  <h3 className="text-xs sm:text-sm font-medium font-heading" style={{ color: activePalette.text }}>
-                    {config.lookbook[3].title}
-                  </h3>
-                  <p className="text-[11px] font-mono italic" style={{ color: activePalette.muted }}>
-                    {config.lookbook[3].tag}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Row 3: 3 Detail Vignettes (Items 2, 4, 5) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-5 pt-2">
-              {[
-                { item: config.lookbook[2], label: "Bridesmaid Posies" },
-                { item: config.lookbook[4], label: "Curated Tablescape" },
-                { item: config.lookbook[5], label: "Boutonnière Detail" },
-              ]
-                .filter((v) => v.item)
-                .map((entry, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => setLightboxImage(entry.item)}
-                    className="group cursor-pointer space-y-2"
-                  >
-                    <div
-                      className="relative aspect-[4/3] w-full rounded-xl overflow-hidden border transition-all duration-500 group-hover:shadow-md"
-                      style={{
-                        borderColor: activePalette.border,
-                        backgroundColor: activePalette.cardBg,
-                      }}
-                    >
-                      <Image
-                        src={entry.item.src}
-                        alt={entry.item.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 300px"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        priority
-                        unoptimized
-                      />
-                      <div className="absolute top-2 left-2">
-                        <span
-                          className="px-2 py-0.5 rounded text-[9px] font-mono tracking-wider"
-                          style={{
-                            backgroundColor: `${activePalette.cardBg}E6`,
-                            color: activePalette.text,
-                          }}
-                        >
-                          {entry.label}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-left space-y-0.5">
-                      <h4 className="text-xs font-semibold truncate" style={{ color: activePalette.text }}>
-                        {entry.item.title}
-                      </h4>
-                      <p className="text-[10px] font-mono truncate" style={{ color: activePalette.muted }}>
-                        {entry.item.tag.split("·")[0]}
+                      <p className="text-[10px] sm:text-xs font-mono truncate" style={{ color: activePalette.muted }}>
+                        {item.tag}
                       </p>
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Row 2: 4 Square Detail Vignettes */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                {config.lookbook.slice(2, 6).map((item, idx) => (
+                  <div key={idx} className="space-y-1.5">
+                    <div
+                      className="relative aspect-square w-full rounded-lg overflow-hidden border bg-zinc-900"
+                      style={{ borderColor: activePalette.border }}
+                    >
+                      <Image
+                        src={item.src}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 640px) 50vw, 220px"
+                        className="object-cover transition-transform duration-500 hover:scale-105"
+                        priority
+                        unoptimized
+                      />
+                    </div>
+                    <div className="space-y-0.5 px-0.5">
+                      <h4 className="text-xs font-heading font-medium leading-snug truncate" style={{ color: activePalette.text }}>
+                        {item.title}
+                      </h4>
+                      <p className="text-[10px] font-mono truncate" style={{ color: activePalette.muted }}>
+                        {item.tag.split("·")[0].trim()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* -------------------------------------------------------------
+            LOOKBOOK C: WEDDING - BOTANICAL MONOGRAPH PORTFOLIO
+            ------------------------------------------------------------- */}
+        {config.id === "wedding" && (
+          <section id="lookbook-gallery" className="space-y-4">
+            <div
+              className="flex items-baseline justify-between border-b pb-2.5"
+              style={{ borderColor: activePalette.border }}
+            >
+              <h2 className="text-lg sm:text-xl font-light font-heading tracking-wide">
+                Selected Works
+              </h2>
+              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+                Oslo &amp; Surrounding Venues
+              </span>
+            </div>
+
+            {/* Monograph Spread */}
+            <div className="space-y-4 sm:space-y-5">
+              {/* Row 1: Diptych (2 Large Portraits) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                {config.lookbook.slice(0, 2).map((item, idx) => (
+                  <div key={idx} className="space-y-2">
+                    <div
+                      className="relative aspect-[4/5] w-full rounded-lg overflow-hidden border bg-zinc-100"
+                      style={{ borderColor: activePalette.border }}
+                    >
+                      <Image
+                        src={item.src}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 450px"
+                        className="object-cover transition-transform duration-500 hover:scale-105"
+                        priority
+                        unoptimized
+                      />
+                    </div>
+                    <div className="space-y-0.5 px-0.5">
+                      <h3 className="text-xs sm:text-sm font-medium font-heading tracking-wide" style={{ color: activePalette.text }}>
+                        {item.title}
+                      </h3>
+                      <p className="text-[10px] sm:text-xs font-mono italic" style={{ color: activePalette.muted }}>
+                        {item.tag}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Row 2: Full-Width Ceremony Panorama Banner */}
+              {config.lookbook[3] && (
+                <div className="space-y-2">
+                  <div
+                    className="relative aspect-[16/9] sm:aspect-[21/9] w-full rounded-lg overflow-hidden border bg-zinc-100"
+                    style={{ borderColor: activePalette.border }}
+                  >
+                    <Image
+                      src={config.lookbook[3].src}
+                      alt={config.lookbook[3].title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 900px"
+                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      priority
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2 px-0.5">
+                    <h3 className="text-xs sm:text-sm font-medium font-heading tracking-wide" style={{ color: activePalette.text }}>
+                      {config.lookbook[3].title}
+                    </h3>
+                    <p className="text-[10px] sm:text-xs font-mono italic" style={{ color: activePalette.muted }}>
+                      {config.lookbook[3].tag}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Row 3: 3 Detail Vignettes */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-5">
+                {[config.lookbook[2], config.lookbook[4], config.lookbook[5]]
+                  .filter(Boolean)
+                  .map((item, idx) => (
+                    <div key={idx} className="space-y-1.5">
+                      <div
+                        className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border bg-zinc-100"
+                        style={{ borderColor: activePalette.border }}
+                      >
+                        <Image
+                          src={item.src}
+                          alt={item.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, 300px"
+                          className="object-cover transition-transform duration-500 hover:scale-105"
+                          priority
+                          unoptimized
+                        />
+                      </div>
+                      <div className="space-y-0.5 px-0.5">
+                        <h4 className="text-xs font-medium font-heading truncate" style={{ color: activePalette.text }}>
+                          {item.title}
+                        </h4>
+                        <p className="text-[10px] font-mono truncate" style={{ color: activePalette.muted }}>
+                          {item.tag.split("·")[0].trim()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
           </section>
         )}
@@ -903,23 +734,15 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         {config.id === "cakes" && (
           <section id="services-menu" className="space-y-6">
             <div
-              className="flex flex-col sm:flex-row sm:items-end justify-between gap-1 border-b pb-3"
+              className="flex items-baseline justify-between border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <div>
-                <span
-                  className="text-[10px] font-mono uppercase tracking-[0.25em] font-semibold"
-                  style={{ color: activePalette.accent }}
-                >
-                  La Carte du Fournil
-                </span>
-                <h2 className="text-xl sm:text-2xl font-bold font-heading tracking-tight">
-                  Pâtisserie &amp; Tarifs
-                </h2>
-              </div>
-              <p className="text-xs font-mono" style={{ color: activePalette.muted }}>
-                Prix en NOK · Ingrédients bio de première qualité · Précommandes
-              </p>
+              <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
+                Pâtisserie &amp; Cakes
+              </h2>
+              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+                Pre-orders · NOK
+              </span>
             </div>
 
             {/* Category Filter Tabs */}
@@ -945,24 +768,12 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
             {/* Parisian Carte Sheet (Continuous Layout, Zero SaaS Cards) */}
             <div
-              className="p-4 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl border transition-all space-y-6 sm:space-y-8 shadow-sm overflow-hidden"
+              className="p-4 sm:p-6 sm:rounded-2xl rounded-xl border transition-all space-y-4 shadow-sm overflow-hidden"
               style={{
                 backgroundColor: activePalette.cardBg,
                 borderColor: activePalette.border,
               }}
             >
-              {/* Carte Top Title Ornament */}
-              <div className="text-center space-y-1 pb-4 border-b border-dashed" style={{ borderColor: activePalette.border }}>
-                <span className="text-[10px] font-mono tracking-[0.3em] uppercase block" style={{ color: activePalette.accent }}>
-                  Atelier de Pâtisserie · Frogner Oslo
-                </span>
-                <h3 className="text-lg sm:text-xl font-bold uppercase tracking-wider font-heading" style={{ color: activePalette.text }}>
-                  Carte des Créations &amp; Commandes
-                </h3>
-                <p className="text-xs font-mono italic" style={{ color: activePalette.muted }}>
-                  Chaque pièce est confectionnée à la main avec du beurre français AOP et des vanilles grand cru
-                </p>
-              </div>
 
               {/* Items List - Continuous Dot-Leader Brasserie Lines */}
               <div className="space-y-4 sm:space-y-6">
@@ -1058,23 +869,15 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         {config.id === "nails" && (
           <section id="services-menu" className="space-y-6">
             <div
-              className="flex flex-col sm:flex-row sm:items-end justify-between gap-1 border-b pb-3"
+              className="flex items-baseline justify-between border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <div>
-                <span
-                  className="text-[10px] font-mono uppercase tracking-[0.25em] font-semibold"
-                  style={{ color: activePalette.accent }}
-                >
-                  Treatment Ledger
-                </span>
-                <h2 className="text-xl sm:text-2xl font-bold font-heading tracking-tight">
-                  Studio Services &amp; Rates
-                </h2>
-              </div>
-              <p className="text-xs font-mono" style={{ color: activePalette.muted }}>
-                Russian dry cuticle prep included with all services · Transparent NOK rates
-              </p>
+              <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
+                Studio Services &amp; Rates
+              </h2>
+              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+                Cuticle prep included · NOK
+              </span>
             </div>
 
             {/* Category Tabs */}
@@ -1206,23 +1009,15 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         {config.id === "wedding" && (
           <section id="services-menu" className="space-y-6">
             <div
-              className="flex flex-col sm:flex-row sm:items-end justify-between gap-1 border-b pb-3"
+              className="flex items-baseline justify-between border-b pb-2.5"
               style={{ borderColor: activePalette.border }}
             >
-              <div>
-                <span
-                  className="text-[10px] font-mono uppercase tracking-[0.25em] font-semibold"
-                  style={{ color: activePalette.accent }}
-                >
-                  Commission Index
-                </span>
-                <h2 className="text-xl sm:text-2xl font-light font-heading tracking-wide">
-                  Wedding Floral Suites &amp; Investment
-                </h2>
-              </div>
-              <p className="text-xs font-mono" style={{ color: activePalette.muted }}>
-                Transparent pricing with itemized deliverables · No production surprises
-              </p>
+              <h2 className="text-lg sm:text-xl font-light font-heading tracking-wide">
+                Packages &amp; Investment
+              </h2>
+              <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
+                Oslo &amp; Surrounding Venues
+              </span>
             </div>
 
             {/* Category Filter Pills */}
@@ -1249,12 +1044,12 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             {/* Architectural Full-Bleed Suite Layout */}
             <div className="space-y-6">
               {/* Highlighted Flagship Suite Feature (Item 4) */}
-              {(selectedCategory === "all" || selectedCategory === "ceremony") && (
+              {(selectedCategory === "all" || selectedCategory === "ceremony") && flagshipService && (
                 <div
-                  onClick={() => handleSelectService(config.services[4])}
+                  onClick={() => handleSelectService(flagshipService)}
                   className="p-6 sm:p-8 rounded-3xl border-2 transition-all cursor-pointer relative shadow-sm"
                   style={{
-                    backgroundColor: selectedService.id === config.services[4].id ? activePalette.tagBg : activePalette.cardBg,
+                    backgroundColor: selectedService.id === flagshipService.id ? activePalette.tagBg : activePalette.cardBg,
                     borderColor: activePalette.accent,
                   }}
                 >
@@ -1270,31 +1065,31 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                         <FiStar size={11} /> Flagship Commission · Limited 12 Per Season
                       </span>
                       <h3 className="text-xl sm:text-2xl font-normal font-heading tracking-wide pt-1" style={{ color: activePalette.text }}>
-                        {config.services[4].name}
+                        {flagshipService.name}
                       </h3>
                       <p className="text-xs sm:text-sm font-body italic leading-relaxed" style={{ color: activePalette.muted }}>
-                        {config.services[4].description}
+                        {flagshipService.description}
                       </p>
                     </div>
 
                     <div className="text-left sm:text-right flex-shrink-0">
                       <span className="text-2xl sm:text-3xl font-mono font-black block" style={{ color: activePalette.text }}>
-                        {config.services[4].price.toLocaleString("no-NO")} kr
+                        {flagshipService.price.toLocaleString("no-NO")} kr
                       </span>
                       <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
-                        {config.services[4].leadTime}
+                        {flagshipService.leadTime}
                       </span>
                     </div>
                   </div>
 
                   {/* Included Deliverables Architectural Checklist */}
-                  {config.services[4].included && (
+                  {flagshipService.included && (
                     <div className="pt-4 mt-4 border-t space-y-2" style={{ borderColor: activePalette.border }}>
                       <span className="text-[10px] font-mono uppercase tracking-wider block font-semibold" style={{ color: activePalette.accent }}>
                         Itemized Floral Deliverables Checklist:
                       </span>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
-                        {config.services[4].included.map((item, i) => (
+                        {flagshipService.included.map((item, i) => (
                           <div key={i} className="flex items-center gap-2" style={{ color: activePalette.text }}>
                             <FiCheck size={13} style={{ color: activePalette.accent }} className="flex-shrink-0" />
                             <span>{item}</span>
@@ -1306,7 +1101,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
                   <div className="pt-4 mt-3 flex items-center justify-between text-xs font-mono">
                     <span style={{ color: activePalette.muted }}>
-                      {selectedService.id === config.services[4].id ? "✓ Currently Selected Wedding Suite" : "Touch to select this flagship suite"}
+                      {selectedService.id === flagshipService.id ? "✓ Currently Selected Wedding Suite" : "Touch to select this flagship suite"}
                     </span>
                     <button
                       type="button"
@@ -1316,7 +1111,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                         color: activePalette.accentFg,
                       }}
                     >
-                      {selectedService.id === config.services[4].id ? "Selected" : "Select Suite"}
+                      {selectedService.id === flagshipService.id ? "Selected" : "Select Suite"}
                     </button>
                   </div>
                 </div>
@@ -1328,7 +1123,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 style={{ borderColor: activePalette.border }}
               >
                 {filteredServices
-                  .filter((s) => (selectedCategory === "all" ? s.id !== config.services[4].id : true))
+                  .filter((s) => (selectedCategory === "all" ? s.id !== flagshipService?.id : true))
                   .map((service) => {
                     const isChosen = selectedService.id === service.id;
                     return (
@@ -1414,23 +1209,15 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
         <section id="booking-form-section" className="space-y-6 pt-4">
           <div
-            className="flex flex-col sm:flex-row sm:items-end justify-between gap-1 border-b pb-3"
+            className="flex items-baseline justify-between border-b pb-2.5"
             style={{ borderColor: activePalette.border }}
           >
-            <div>
-              <span
-                className="text-[10px] font-mono uppercase tracking-[0.25em] font-semibold"
-                style={{ color: activePalette.accent }}
-              >
-                Reservation &amp; Inquiry
-              </span>
-              <h2 className="text-xl sm:text-2xl font-bold font-heading tracking-tight">
-                {config.bookingConfig.sectionTitle}
-              </h2>
-            </div>
-            <p className="text-xs font-mono" style={{ color: activePalette.muted }}>
+            <h2 className="text-lg sm:text-xl font-bold font-heading tracking-tight">
+              {config.bookingConfig.sectionTitle}
+            </h2>
+            <span className="text-xs font-mono" style={{ color: activePalette.muted }}>
               {config.bookingConfig.sectionSubtitle}
-            </p>
+            </span>
           </div>
 
           {!bookingConfirmed ? (
@@ -1440,28 +1227,25 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             config.id === "cakes" ? (
               <form
                 onSubmit={handleBookingSubmit}
-                className="rounded-2xl sm:rounded-3xl border border-dashed p-4 sm:p-8 md:p-10 space-y-6 sm:space-y-8 shadow-sm relative overflow-hidden"
+                className="rounded-xl sm:rounded-2xl border p-4 sm:p-8 space-y-6 shadow-sm relative overflow-hidden"
                 style={{
                   backgroundColor: activePalette.cardBg,
                   borderColor: activePalette.border,
                 }}
               >
-                {/* Perforated Chit Top Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-dashed" style={{ borderColor: activePalette.border }}>
-                  <div className="min-w-0">
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-widest block truncate" style={{ color: activePalette.accent }}>
-                      BON DE COMMANDE · TICKET N° MS-849
+                {/* Order Summary Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b" style={{ borderColor: activePalette.border }}>
+                  <div>
+                    <span className="text-xs font-mono font-bold block" style={{ color: activePalette.text }}>
+                      Selected: {selectedService.name}
                     </span>
-                    <span className="text-[10px] font-mono block truncate" style={{ color: activePalette.muted }}>
-                      Fournil Maison Sucre · Bygdøy Allé 14, Frogner
+                    <span className="text-[10px] font-mono" style={{ color: activePalette.muted }}>
+                      Atelier Frogner · Oslo
                     </span>
                   </div>
-                  <div className="text-left sm:text-right min-w-0">
-                    <span className="text-xs font-mono font-bold block truncate" style={{ color: activePalette.text }}>
-                      Article Sélectionné: {selectedService.name}
-                    </span>
-                    <span className="text-xs font-mono block font-black" style={{ color: activePalette.accent }}>
-                      Total: {selectedService.price} NOK
+                  <div className="text-left sm:text-right">
+                    <span className="text-sm font-mono font-bold" style={{ color: activePalette.accent }}>
+                      {selectedService.price} NOK total
                     </span>
                   </div>
                 </div>
@@ -1469,9 +1253,9 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 {/* Step 1: Collection Day */}
                 <div className="space-y-2">
                   <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
-                    1. Jour de Retrait au Fournil (Pickup Date)
+                    1. Collection Date
                   </label>
-                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                  <div className="flex overflow-x-auto snap-x gap-2 pb-1 sm:grid sm:grid-cols-5 sm:overflow-visible sm:pb-0">
                     {config.bookingConfig.dates.map((d, i) => {
                       const isSelected = selectedDate.full === d.full;
                       return (
@@ -1479,7 +1263,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                           key={i}
                           type="button"
                           onClick={() => setSelectedDate(d)}
-                          className="py-3 px-2 rounded-xl text-center transition-all border flex flex-col items-center justify-center group"
+                          className="py-2.5 px-3 rounded-xl text-center transition-all border flex flex-col items-center justify-center flex-shrink-0 min-w-[72px] sm:min-w-0"
                           style={{
                             backgroundColor: isSelected ? activePalette.accent : "transparent",
                             color: isSelected ? activePalette.accentFg : activePalette.text,
@@ -1487,95 +1271,97 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                           }}
                         >
                           <span className="text-[10px] font-mono uppercase opacity-75">{d.day}</span>
-                          <span className="text-lg font-black font-mono leading-none pt-0.5">{d.date}</span>
+                          <span className="text-base font-bold font-mono pt-0.5">{d.date}</span>
                         </button>
                       );
                     })}
                   </div>
                 </div>
 
-                {/* Step 2: Fresh Bake Window (Morning vs Afternoon) */}
+                {/* Step 2: Fresh Bake Window */}
                 <div className="space-y-2">
                   <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
-                    2. Créneau de Cuisson Fraîche (Bake Window)
+                    2. Bake Window
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <button
                       type="button"
                       onClick={() => setCakeBakeWindow("morning")}
-                      className="p-3.5 rounded-xl border text-left transition-all flex items-center justify-between"
+                      className="p-3 rounded-xl border text-left transition-all flex items-center justify-between"
                       style={{
                         backgroundColor: cakeBakeWindow === "morning" ? activePalette.tagBg : "transparent",
                         borderColor: cakeBakeWindow === "morning" ? activePalette.accent : activePalette.border,
                         color: activePalette.text,
                       }}
                     >
-                      <div className="space-y-0.5">
-                        <span className="text-xs font-mono font-bold block">☀️ Fournée du Matin (10:00 – 13:00)</span>
-                        <span className="text-[10px] font-mono opacity-70">Sorti du four à 06:00 · Idéal pour les déjeuners</span>
-                      </div>
+                      <span className="text-xs font-mono font-semibold">Morning Pickup (10:00 – 13:00)</span>
                       {cakeBakeWindow === "morning" && <FiCheck size={14} style={{ color: activePalette.accent }} />}
                     </button>
 
                     <button
                       type="button"
                       onClick={() => setCakeBakeWindow("afternoon")}
-                      className="p-3.5 rounded-xl border text-left transition-all flex items-center justify-between"
+                      className="p-3 rounded-xl border text-left transition-all flex items-center justify-between"
                       style={{
                         backgroundColor: cakeBakeWindow === "afternoon" ? activePalette.tagBg : "transparent",
                         borderColor: cakeBakeWindow === "afternoon" ? activePalette.accent : activePalette.border,
                         color: activePalette.text,
                       }}
                     >
-                      <div className="space-y-0.5">
-                        <span className="text-xs font-mono font-bold block">🌙 Fournée de l&apos;Après-Midi (14:00 – 18:00)</span>
-                        <span className="text-[10px] font-mono opacity-70">Finition glacée à midi · Idéal pour les soirées</span>
-                      </div>
+                      <span className="text-xs font-mono font-semibold">Afternoon Pickup (14:00 – 18:00)</span>
                       {cakeBakeWindow === "afternoon" && <FiCheck size={14} style={{ color: activePalette.accent }} />}
                     </button>
                   </div>
                 </div>
 
-                {/* Step 3: Tactile Handwritten Buttercream Inscription Card */}
-                <div className="space-y-2">
+                {/* Step 3: Piped Inscription */}
+                <div className="space-y-1.5">
                   <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
-                    3. Message Personnalisé Écrit au Cornet de Chocolat (Optionnel)
+                    3. Custom Inscription (Optional)
                   </label>
-                  <div
-                    className="p-4 rounded-xl border space-y-2"
+                  <input
+                    type="text"
+                    value={cakeInscription}
+                    onChange={(e) => setCakeInscription(e.target.value)}
+                    placeholder="e.g. 'Happy Birthday Julie 25' or 'Forever & Always'"
+                    className="w-full px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:outline-none"
                     style={{
-                      backgroundColor: activePalette.tagBg,
+                      backgroundColor: activePalette.bg,
                       borderColor: activePalette.border,
+                      color: activePalette.text,
                     }}
-                  >
-                    <input
-                      type="text"
-                      value={cakeInscription}
-                      onChange={(e) => setCakeInscription(e.target.value)}
-                      placeholder="ex: 'Joyeux Anniversaire Julie 25' ou 'Pour Toujours'"
-                      className="w-full px-3.5 py-2.5 rounded-lg border text-xs sm:text-sm font-mono focus:outline-none"
-                      style={{
-                        backgroundColor: activePalette.cardBg,
-                        borderColor: activePalette.border,
-                        color: activePalette.text,
-                      }}
-                    />
-                    <span className="text-[10px] font-mono italic block opacity-75" style={{ color: activePalette.muted }}>
-                      Calligraphié à la main sur le gâteau avec ganache noire ou glaçage royal
-                    </span>
-                  </div>
+                  />
                 </div>
 
-                {/* Step 4: Contact & Allergies */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
+                {/* Step 3b: Allergy & Dietary Notes */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
+                    3b. Dietary Notes / Allergies (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={cakeAllergies}
+                    onChange={(e) => setCakeAllergies(e.target.value)}
+                    placeholder="e.g. Nut allergy, gluten intolerance, lactose-free"
+                    className="w-full px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:outline-none"
+                    style={{
+                      backgroundColor: activePalette.bg,
+                      borderColor: activePalette.border,
+                      color: activePalette.text,
+                    }}
+                  />
+                </div>
+
+                {/* Step 4: Contact */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div className="space-y-1">
                     <label className="text-[11px] font-mono" style={{ color: activePalette.muted }}>
-                      Nom et Prénom (Full Name) *
+                      Full Name *
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="ex: Camille Bernard"
+                      placeholder="Your name"
                       value={clientName}
                       onChange={(e) => setClientName(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:outline-none"
@@ -1587,9 +1373,9 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1">
                     <label className="text-[11px] font-mono" style={{ color: activePalette.muted }}>
-                      Téléphone SMS (Pour notification de retrait) *
+                      Mobile Phone (SMS Confirmation) *
                     </label>
                     <input
                       type="tel"
@@ -1611,20 +1397,17 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full py-4 px-6 rounded-xl font-mono text-xs sm:text-sm font-bold tracking-wider uppercase transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2"
+                    className="w-full py-3.5 px-6 rounded-xl font-mono text-xs sm:text-sm font-bold tracking-wider uppercase transition-all shadow-sm active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
                     style={{
                       backgroundColor: activePalette.accent,
                       color: activePalette.accentFg,
                     }}
                   >
-                    <FiShoppingBag size={16} />
+                    <FiShoppingBag size={15} />
                     <span>
-                      Confirmer la Commande · {selectedService.price} NOK
+                      Confirm Order · {selectedService.price} NOK
                     </span>
                   </button>
-                  <p className="text-[10px] font-mono text-center pt-2" style={{ color: activePalette.muted }}>
-                    Retrait direct à l&apos;Atelier Frogner · Règlement par Vipps ou Carte lors du retrait
-                  </p>
                 </div>
               </form>
             ) : /* -------------------------------------------------------------
@@ -1771,8 +1554,8 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
                       Chair Slot
                     </label>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      {config.bookingConfig.timeSlots.slice(0, 4).map((slot, i) => {
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {config.bookingConfig.timeSlots.map((slot, i) => {
                         const isSelected = selectedTime === slot;
                         return (
                           <button
@@ -1855,9 +1638,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                       Reserve Studio Chair · {effectiveNailPrice.toLocaleString("no-NO")} kr
                     </span>
                   </button>
-                  <p className="text-[10px] font-mono text-center pt-2" style={{ color: activePalette.muted }}>
-                    Russian cuticle prep included · 48h cancellation notice · Studio 4B, Grünerløkka
-                  </p>
                 </div>
               </form>
             ) : (
@@ -1866,7 +1646,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                  ------------------------------------------------------------- */
               <form
                 onSubmit={handleBookingSubmit}
-                className="p-6 sm:p-10 rounded-3xl border-2 transition-all space-y-8 shadow-sm"
+                className="p-6 sm:p-10 rounded-2xl border transition-all space-y-6 shadow-sm"
                 style={{
                   backgroundColor: activePalette.cardBg,
                   borderColor: activePalette.border,
@@ -1874,14 +1654,11 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               >
                 {/* Dossier Header */}
                 <div className="text-center space-y-1 pb-4 border-b" style={{ borderColor: activePalette.border }}>
-                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-semibold block" style={{ color: activePalette.accent }}>
-                    Wedding Atelier · Season 2025/2026
-                  </span>
                   <h3 className="text-xl sm:text-2xl font-light font-heading tracking-wide" style={{ color: activePalette.text }}>
-                    Private Commission Inquiry Dossier
+                    Wedding Inquiry
                   </h3>
-                  <p className="text-xs font-mono italic" style={{ color: activePalette.muted }}>
-                    Selected Collection: <strong>{selectedService.name}</strong> ({selectedService.price > 0 ? `${selectedService.price.toLocaleString("no-NO")} kr` : "Complimentary Consultation"})
+                  <p className="text-xs font-mono" style={{ color: activePalette.muted }}>
+                    Selected: <strong>{selectedService.name}</strong> ({selectedService.price > 0 ? `${selectedService.price.toLocaleString("no-NO")} kr` : "Complimentary Consultation"})
                   </p>
                 </div>
 
@@ -2006,6 +1783,33 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                   </div>
                 </div>
 
+                {/* 4b. Consultation Time Preference */}
+                <div className="space-y-2">
+                  <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
+                    4b. Preferred Time
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {config.bookingConfig.timeSlots.map((slot, i) => {
+                      const isSelected = selectedTime === slot;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setSelectedTime(slot)}
+                          className="py-2.5 px-3 rounded-xl text-center text-xs font-mono transition-all border font-semibold"
+                          style={{
+                            backgroundColor: isSelected ? activePalette.accent : "transparent",
+                            color: isSelected ? activePalette.accentFg : activePalette.text,
+                            borderColor: isSelected ? activePalette.accent : activePalette.border,
+                          }}
+                        >
+                          {slot}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 {/* 5. Floral Vision Notes */}
                 <div className="space-y-2">
                   <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
@@ -2081,9 +1885,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                       Submit Wedding Inquiry · {selectedService.price > 0 ? `${selectedService.price.toLocaleString("no-NO")} kr` : "Complimentary Consultation"}
                     </span>
                   </button>
-                  <p className="text-[10px] font-mono text-center pt-2" style={{ color: activePalette.muted }}>
-                    Strictly limited weddings per season · Proposals locked for 14 days following consultation
-                  </p>
                 </div>
               </form>
             )
@@ -2216,107 +2017,31 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
           )}
         </section>
 
+      {/* ================= 10. EDITORIAL FOOTER ================= */}
+      <footer
+        className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 text-center space-y-3 border-t mt-8"
+        style={{ borderColor: activePalette.border }}
+      >
+        <p className="text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: activePalette.muted }}>
+          {config.id === "cakes" ? "Retrait · Atelier Frogner · Annulation 48h à l'avance"
+            : config.id === "nails" ? "Studio 4B · Grünerløkka · 48h Cancellation Notice"
+            : "By Appointment Only · Oslo & Surrounding Venues"}
+        </p>
+        <div className="h-px w-12 mx-auto" style={{ backgroundColor: activePalette.border }} />
+        <p className="text-[10px] font-mono" style={{ color: activePalette.muted }}>
+          Template by{" "}
+          <a
+            href="/contact?package=the-booking-drop"
+            className="underline underline-offset-2 hover:opacity-70 transition-opacity font-semibold"
+            style={{ color: activePalette.accent }}
+          >
+            A.GURE
+          </a>
+          {" "}· One-page mobile site · 2,000 kr
+        </p>
+      </footer>
       </main>
 
-      {/* ================= 7. MODERN EDITORIAL LIGHTBOX MODAL (NO DARK BOXES, AIRY & TRANSPARENT) ================= */}
-      {lightboxImage && (
-        <div
-          onClick={() => setLightboxImage(null)}
-          className="fixed inset-0 z-50 bg-black/25 backdrop-blur-md flex flex-col items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
-        >
-          {/* Frameless Floating Image Card with Clean Frosted Header & Footer */}
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative max-w-lg w-full flex flex-col items-center gap-3 animate-in zoom-in-95 duration-200"
-          >
-            {/* Top Bar: Archival Tag + Modern Frosted Close Button */}
-            <div className="w-full flex items-center justify-between px-1">
-              <span
-                className="text-[10px] font-mono uppercase tracking-[0.2em] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-xl border"
-                style={{
-                  backgroundColor: `${activePalette.cardBg}F0`,
-                  borderColor: activePalette.border,
-                  color: activePalette.accent,
-                }}
-              >
-                Lookbook Archival View
-              </span>
-
-              <button
-                type="button"
-                onClick={() => setLightboxImage(null)}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium tracking-wide shadow-md backdrop-blur-xl border transition-all cursor-pointer hover:scale-105 active:scale-95"
-                style={{
-                  backgroundColor: `${activePalette.cardBg}F0`,
-                  borderColor: activePalette.border,
-                  color: activePalette.text,
-                }}
-                aria-label="Close image preview"
-              >
-                <FiX size={13} className="stroke-[2.5]" />
-                <span>Close</span>
-                <span className="text-[10px] opacity-60 font-mono hidden sm:inline">[ESC]</span>
-              </button>
-            </div>
-
-            {/* High-Resolution Frameless Photo */}
-            <div
-              className="relative w-full aspect-[4/5] sm:aspect-square max-h-[62vh] rounded-3xl overflow-hidden shadow-2xl border"
-              style={{
-                backgroundColor: activePalette.cardBg,
-                borderColor: activePalette.border,
-              }}
-            >
-              <Image
-                src={lightboxImage.src}
-                alt={lightboxImage.title}
-                fill
-                sizes="(max-width: 640px) 95vw, 600px"
-                className="object-cover"
-                priority
-              />
-            </div>
-
-            {/* Luminous Frosted Glass Caption & Direct Action Pill (ZERO DARK BOXES) */}
-            <div
-              className="w-full p-4 rounded-2xl border shadow-xl backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors"
-              style={{
-                backgroundColor: `${activePalette.cardBg}FA`,
-                borderColor: activePalette.border,
-                color: activePalette.text,
-              }}
-            >
-              <div className="space-y-0.5 min-w-0">
-                <h3 className="text-sm sm:text-base font-bold truncate tracking-tight font-heading" style={{ color: activePalette.text }}>
-                  {lightboxImage.title}
-                </h3>
-                <p className="text-xs font-mono truncate" style={{ color: activePalette.muted }}>
-                  {lightboxImage.tag}
-                </p>
-              </div>
-
-              <div className="flex-shrink-0 pt-1 sm:pt-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLightboxImage(null);
-                    const el = document.getElementById("booking-form-section");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-95 cursor-pointer"
-                  style={{
-                    backgroundColor: activePalette.accent,
-                    color: activePalette.accentFg,
-                  }}
-                >
-                  <span>Book This Look</span>
-                  <FiArrowUpRight size={13} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ================= 8. UNIFIED INTERACTIVE STUDIO DOCK (DEMOS + PALETTES) ================= */}
       <aside
