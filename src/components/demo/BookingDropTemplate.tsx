@@ -50,12 +50,29 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
   // Active Theme / Palette - Synchronizes immediately when route / niche changes
   const [activePalette, setActivePalette] = useState<PaletteTheme>(config.palettes[0]);
 
+  const [isDockCollapsed, setIsDockCollapsed] = useState(false);
+
+  const demoList = [
+    { id: "cakes", label: "Bakery", brand: "Maison Sucre", icon: "🎂", href: "/demo" },
+    { id: "nails", label: "Nail Studio", brand: "Studio Klō", icon: "💅", href: "/demo/nails" },
+    { id: "wedding", label: "Weddings", brand: "Astrid Bridal", icon: "💍", href: "/demo/wedding" },
+  ] as const;
+
   useEffect(() => {
     setActivePalette(config.palettes[0]);
     setSelectedService(config.services[0]);
     setSelectedCategory("all");
     setSelectedDate(config.bookingConfig.dates[1]);
     setSelectedTime(config.bookingConfig.timeSlots[1]);
+    setClientName("");
+    setClientPhone("");
+    setClientInstagram("");
+    setCakeInscription("");
+    setCakeAllergies("");
+    setNailInspoNote("");
+    setWeddingVenue("");
+    setWeddingColorVision("");
+    setBookingConfirmed(false);
   }, [config.id]);
 
   useEffect(() => {
@@ -1559,7 +1576,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     <input
                       type="text"
                       required
-                      placeholder="Camille Bernard"
+                      placeholder="ex: Camille Bernard"
                       value={clientName}
                       onChange={(e) => setClientName(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:outline-none"
@@ -1578,7 +1595,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     <input
                       type="tel"
                       required
-                      placeholder="+47 912 34 567"
+                      placeholder="+47 000 00 000"
                       value={clientPhone}
                       onChange={(e) => setClientPhone(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:outline-none"
@@ -2018,7 +2035,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     <input
                       type="text"
                       required
-                      placeholder="Astrid & Magnus"
+                      placeholder="e.g. Astrid & Magnus"
                       value={clientName}
                       onChange={(e) => setClientName(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:outline-none"
@@ -2037,7 +2054,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     <input
                       type="tel"
                       required
-                      placeholder="+47 912 34 567"
+                      placeholder="+47 000 00 000"
                       value={clientPhone}
                       onChange={(e) => setClientPhone(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:outline-none"
@@ -2202,53 +2219,79 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
       </main>
 
-      {/* ================= 7. MODERN EDITORIAL LIGHTBOX MODAL ================= */}
+      {/* ================= 7. MODERN EDITORIAL LIGHTBOX MODAL (NO DARK BOXES, AIRY & TRANSPARENT) ================= */}
       {lightboxImage && (
         <div
           onClick={() => setLightboxImage(null)}
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl flex items-center justify-center p-3 sm:p-6 md:p-10 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black/25 backdrop-blur-md flex flex-col items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
         >
-          {/* Floating Minimalist Top Action Bar */}
-          <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
-            <button
-              type="button"
-              onClick={() => setLightboxImage(null)}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-wider uppercase text-white/90 bg-white/10 hover:bg-white/25 active:scale-95 backdrop-blur-md border border-white/20 shadow-xl transition-all cursor-pointer"
-              aria-label="Close image preview"
-            >
-              <FiX size={14} className="stroke-[2.5]" />
-              <span className="hidden sm:inline">Close</span>
-              <span className="text-[10px] opacity-60 font-mono hidden sm:inline">[ESC]</span>
-            </button>
-          </div>
-
-          {/* Clean Frameless Editorial Modal Card */}
+          {/* Frameless Floating Image Card with Clean Frosted Header & Footer */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-2xl w-full max-h-[88vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl border border-white/15 bg-black/60 backdrop-blur-2xl animate-in zoom-in-95 duration-200"
+            className="relative max-w-lg w-full flex flex-col items-center gap-3 animate-in zoom-in-95 duration-200"
           >
-            {/* High-Resolution Photo Frame */}
-            <div className="relative w-full h-[55vh] sm:h-[65vh] bg-zinc-950 overflow-hidden flex items-center justify-center">
+            {/* Top Bar: Archival Tag + Modern Frosted Close Button */}
+            <div className="w-full flex items-center justify-between px-1">
+              <span
+                className="text-[10px] font-mono uppercase tracking-[0.2em] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-xl border"
+                style={{
+                  backgroundColor: `${activePalette.cardBg}F0`,
+                  borderColor: activePalette.border,
+                  color: activePalette.accent,
+                }}
+              >
+                Lookbook Archival View
+              </span>
+
+              <button
+                type="button"
+                onClick={() => setLightboxImage(null)}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium tracking-wide shadow-md backdrop-blur-xl border transition-all cursor-pointer hover:scale-105 active:scale-95"
+                style={{
+                  backgroundColor: `${activePalette.cardBg}F0`,
+                  borderColor: activePalette.border,
+                  color: activePalette.text,
+                }}
+                aria-label="Close image preview"
+              >
+                <FiX size={13} className="stroke-[2.5]" />
+                <span>Close</span>
+                <span className="text-[10px] opacity-60 font-mono hidden sm:inline">[ESC]</span>
+              </button>
+            </div>
+
+            {/* High-Resolution Frameless Photo */}
+            <div
+              className="relative w-full aspect-[4/5] sm:aspect-square max-h-[62vh] rounded-3xl overflow-hidden shadow-2xl border"
+              style={{
+                backgroundColor: activePalette.cardBg,
+                borderColor: activePalette.border,
+              }}
+            >
               <Image
                 src={lightboxImage.src}
                 alt={lightboxImage.title}
                 fill
-                sizes="(max-width: 1024px) 100vw, 850px"
-                className="object-contain sm:object-cover"
+                sizes="(max-width: 640px) 95vw, 600px"
+                className="object-cover"
                 priority
               />
             </div>
 
-            {/* Sleek Minimalist Editorial Caption & Quick Action */}
-            <div className="p-4 sm:p-5 bg-zinc-950/85 backdrop-blur-md border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-white">
+            {/* Luminous Frosted Glass Caption & Direct Action Pill (ZERO DARK BOXES) */}
+            <div
+              className="w-full p-4 rounded-2xl border shadow-xl backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors"
+              style={{
+                backgroundColor: `${activePalette.cardBg}FA`,
+                borderColor: activePalette.border,
+                color: activePalette.text,
+              }}
+            >
               <div className="space-y-0.5 min-w-0">
-                <span className="text-[9px] font-mono uppercase tracking-[0.25em] text-white/60 block font-semibold">
-                  Studio Archival Lookbook
-                </span>
-                <h3 className="text-sm sm:text-base font-medium tracking-wide truncate">
+                <h3 className="text-sm sm:text-base font-bold truncate tracking-tight font-heading" style={{ color: activePalette.text }}>
                   {lightboxImage.title}
                 </h3>
-                <p className="text-xs font-mono text-white/70 truncate">
+                <p className="text-xs font-mono truncate" style={{ color: activePalette.muted }}>
                   {lightboxImage.tag}
                 </p>
               </div>
@@ -2261,7 +2304,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     const el = document.getElementById("booking-form-section");
                     if (el) el.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95 cursor-pointer"
+                  className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-95 cursor-pointer"
                   style={{
                     backgroundColor: activePalette.accent,
                     color: activePalette.accentFg,
@@ -2276,75 +2319,164 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         </div>
       )}
 
-      {/* ================= 8. PERMANENT FLOATING COLOR PALETTE DOCK ================= */}
-      {/* Restored floating bottom dock with genuine 3-dot discs across all 4 brand palettes */}
+      {/* ================= 8. UNIFIED INTERACTIVE STUDIO DOCK (DEMOS + PALETTES) ================= */}
       <aside
-        aria-label="Interactive brand palette switcher"
-        className="fixed bottom-16 sm:bottom-4 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-md transition-all duration-300"
+        aria-label="Interactive studio demo switcher and palette dock"
+        className="fixed bottom-14 sm:bottom-4 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-lg transition-all duration-300"
       >
-        <div
-          className="backdrop-blur-md rounded-2xl border shadow-xl p-2.5 sm:p-3 space-y-2 transition-colors"
-          style={{
-            backgroundColor: `${activePalette.cardBg}F0`,
-            borderColor: activePalette.border,
-          }}
-        >
-          {/* Header row */}
-          <div className="flex items-center justify-between px-1 text-[11px] font-mono">
-            <div className="flex items-center gap-1.5 font-bold" style={{ color: activePalette.text }}>
-              <span>🎨 Studio Palette:</span>
-              <span className="underline underline-offset-2" style={{ color: activePalette.accent }}>
-                {activePalette.name}
+        {isDockCollapsed ? (
+          /* Collapsed Floating Pill - Minimalist, unobtrusive */
+          <div className="flex justify-center">
+            <button
+              type="button"
+              onClick={() => setIsDockCollapsed(false)}
+              className="backdrop-blur-xl rounded-full border shadow-xl px-4 py-2 flex items-center gap-2.5 text-xs font-mono font-semibold transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              style={{
+                backgroundColor: `${activePalette.cardBg}F8`,
+                borderColor: activePalette.border,
+                color: activePalette.text,
+              }}
+              title="Expand live demo switcher and color palettes"
+            >
+              <span className="flex items-center gap-1 text-[13px]">
+                <span>🎂</span>
+                <span>💅</span>
+                <span>💍</span>
               </span>
+              <span className="font-bold">Switch Demo &amp; Palettes</span>
+              <span
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ backgroundColor: activePalette.accent }}
+              />
+              <span className="text-[10px] opacity-75 font-mono">▲</span>
+            </button>
+          </div>
+        ) : (
+          /* Expanded Unified Studio Control Panel */
+          <div
+            className="backdrop-blur-xl rounded-2xl border shadow-2xl p-2.5 sm:p-3.5 space-y-2.5 transition-colors"
+            style={{
+              backgroundColor: `${activePalette.cardBg}FA`,
+              borderColor: activePalette.border,
+            }}
+          >
+            {/* Top Row: Demos Header & Collapse Toggle */}
+            <div className="flex items-center justify-between px-1 text-[11px] font-mono">
+              <div className="flex items-center gap-1.5 font-bold" style={{ color: activePalette.text }}>
+                <span className="text-xs">⚡</span>
+                <span>Select Demo Archetype:</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsDockCollapsed(true)}
+                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium transition-all hover:opacity-80 border cursor-pointer active:scale-95"
+                style={{
+                  borderColor: activePalette.border,
+                  color: activePalette.muted,
+                  backgroundColor: activePalette.bg,
+                }}
+                title="Minimize toolbar to clear screen"
+              >
+                <span>Hide</span>
+                <span>▼</span>
+              </button>
             </div>
-            <span className="text-[10px] font-mono hidden sm:inline" style={{ color: activePalette.muted }}>
-              Tap to test live vibes
-            </span>
-          </div>
 
-          {/* Actual Visual Color Swatches (4 Palettes with genuine spaced 3-dot discs) */}
-          <div className="grid grid-cols-4 gap-1.5">
-            {config.palettes.map((p) => {
-              const isActive = activePalette.id === p.id;
-              return (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => setActivePalette(p)}
-                  className="p-1.5 sm:p-2 rounded-xl text-center transition-all flex flex-col items-center justify-center gap-1 border cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
-                  style={{
-                    backgroundColor: isActive ? p.tagBg : "transparent",
-                    borderColor: isActive ? p.accent : activePalette.border,
-                    outline: isActive ? `1.5px solid ${p.accent}` : "none",
-                  }}
-                  title={`Switch theme to ${p.name}`}
-                >
-                  {/* Spaced 3-color circular swatches */}
-                  <div className="flex items-center justify-center gap-1">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full border border-black/20 shadow-sm flex-shrink-0"
-                      style={{ backgroundColor: p.swatches[0] }}
-                    />
-                    <span
-                      className="w-2.5 h-2.5 rounded-full border border-black/20 shadow-sm flex-shrink-0"
-                      style={{ backgroundColor: p.swatches[1] }}
-                    />
-                    <span
-                      className="w-2.5 h-2.5 rounded-full border border-black/20 shadow-sm flex-shrink-0"
-                      style={{ backgroundColor: p.swatches[2] }}
-                    />
-                  </div>
-                  <span
-                    className="text-[10px] font-mono truncate max-w-full font-medium"
-                    style={{ color: p.text }}
+            {/* 3 Live Demo Segmented Buttons (Prominent & Highly Visible) */}
+            <div className="grid grid-cols-3 gap-1.5">
+              {demoList.map((d) => {
+                const isCurrent = config.id === d.id;
+                return (
+                  <Link
+                    key={d.id}
+                    href={d.href}
+                    className="p-1.5 sm:p-2 rounded-xl text-center transition-all flex flex-col items-center justify-center gap-0.5 border cursor-pointer group"
+                    style={{
+                      backgroundColor: isCurrent ? activePalette.accent : "transparent",
+                      color: isCurrent ? activePalette.accentFg : activePalette.text,
+                      borderColor: isCurrent ? activePalette.accent : activePalette.border,
+                      outline: isCurrent ? `1.5px solid ${activePalette.accent}` : "none",
+                    }}
+                    title={`Switch to ${d.brand} (${d.label})`}
                   >
-                    {p.name.split(" ")[0]}
+                    <div className="flex items-center gap-1">
+                      <span className="text-xs">{d.icon}</span>
+                      <span className="text-[11px] font-mono font-bold truncate">
+                        {d.label}
+                      </span>
+                    </div>
+                    <span
+                      className="text-[9px] font-mono truncate max-w-full opacity-80"
+                      style={{ color: isCurrent ? activePalette.accentFg : activePalette.muted }}
+                    >
+                      {d.brand}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Divider */}
+            <div className="border-t my-1" style={{ borderColor: activePalette.border }} />
+
+            {/* Row 2: 4 Palette Themes */}
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between px-1 text-[11px] font-mono">
+                <div className="flex items-center gap-1.5 font-bold" style={{ color: activePalette.text }}>
+                  <span>🎨 Colorway:</span>
+                  <span className="underline underline-offset-2" style={{ color: activePalette.accent }}>
+                    {activePalette.name}
                   </span>
-                </button>
-              );
-            })}
+                </div>
+                <span className="text-[10px] font-mono hidden sm:inline" style={{ color: activePalette.muted }}>
+                  Instant live test
+                </span>
+              </div>
+
+              {/* 4 Color Swatch Buttons */}
+              <div className="grid grid-cols-4 gap-1.5">
+                {config.palettes.map((p) => {
+                  const isActive = activePalette.id === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => setActivePalette(p)}
+                      className="p-1.5 rounded-xl text-center transition-all flex flex-col items-center justify-center gap-1 border cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                      style={{
+                        backgroundColor: isActive ? p.tagBg : "transparent",
+                        borderColor: isActive ? p.accent : activePalette.border,
+                        outline: isActive ? `1.5px solid ${p.accent}` : "none",
+                      }}
+                      title={`Switch theme to ${p.name}`}
+                    >
+                      <div className="flex items-center justify-center gap-1">
+                        <span
+                          className="w-2.5 h-2.5 rounded-full border border-black/20 shadow-sm flex-shrink-0"
+                          style={{ backgroundColor: p.swatches[0] }}
+                        />
+                        <span
+                          className="w-2.5 h-2.5 rounded-full border border-black/20 shadow-sm flex-shrink-0"
+                          style={{ backgroundColor: p.swatches[1] }}
+                        />
+                        <span
+                          className="w-2.5 h-2.5 rounded-full border border-black/20 shadow-sm flex-shrink-0"
+                          style={{ backgroundColor: p.swatches[2] }}
+                        />
+                      </div>
+                      <span
+                        className="text-[10px] font-mono truncate max-w-full font-medium"
+                        style={{ color: activePalette.text }}
+                      >
+                        {p.name.split(" ")[0]}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </aside>
 
       {/* ================= 9. STICKY MOBILE BOOKING BAR ================= */}

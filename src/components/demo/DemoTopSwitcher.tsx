@@ -59,7 +59,7 @@ export default function DemoTopSwitcher({
               <Link
                 key={d.id}
                 href={d.href}
-                className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1 rounded-full text-[11px] sm:text-xs font-medium transition-all ${
+                className={`inline-flex items-center gap-1 px-2 sm:px-3.5 py-1 rounded-full text-[10px] sm:text-xs font-medium transition-all ${
                   isActive
                     ? "shadow-sm font-semibold scale-[1.02]"
                     : "opacity-60 hover:opacity-100 hover:scale-[1.01]"
@@ -73,8 +73,8 @@ export default function DemoTopSwitcher({
                     : textColor || "#141416",
                 }}
               >
-                <span className="text-[12px] leading-none">{d.icon}</span>
-                <span className={isActive ? "inline" : "hidden xs:inline sm:inline"}>
+                <span className="text-[11px] sm:text-[12px] leading-none">{d.icon}</span>
+                <span className="inline font-mono">
                   {d.label}
                 </span>
               </Link>
