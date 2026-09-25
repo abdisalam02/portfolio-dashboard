@@ -1,4 +1,6 @@
 import React from "react";
+import { LuCroissant } from "react-icons/lu";
+import { RiFlowerLine } from "react-icons/ri";
 
 export interface PaletteTheme {
   id: string;
@@ -86,37 +88,27 @@ export const cakesDemoConfig: DemoConfig = {
       className="w-full h-full rounded-2xl flex flex-col items-center justify-center p-2 text-center relative"
       style={{ border: `1px solid ${border}` }}
     >
-      <svg
-        width="38"
-        height="38"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="mb-1"
-        style={{ color: accent }}
-      >
-        {/* Architectural Atelier Arch */}
-        <path
-          d="M14 40V20C14 14.4772 18.4772 10 24 10C29.5228 10 34 14.4772 34 20V40"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-        />
-        {/* Elegant Wheat Stalk */}
-        <path d="M24 15V36" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
-        <path d="M24 18C21.5 17 20 18.5 20 18.5C20 18.5 21.5 20.5 24 19.5" stroke="currentColor" strokeWidth="0.9" />
-        <path d="M24 18C26.5 17 28 18.5 28 18.5C28 18.5 26.5 20.5 24 19.5" stroke="currentColor" strokeWidth="0.9" />
-        <path d="M24 23C21.5 22 20 23.5 20 23.5C20 23.5 21.5 25.5 24 24.5" stroke="currentColor" strokeWidth="0.9" />
-        <path d="M24 23C26.5 22 28 23.5 28 23.5C28 23.5 26.5 25.5 24 24.5" stroke="currentColor" strokeWidth="0.9" />
-        {/* Base Pedestal Line */}
-        <line x1="10" y1="40" x2="38" y2="40" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-      </svg>
+      <LuCroissant size={28} style={{ color: accent }} className="mb-1" />
       <span className="text-[7.5px] font-mono tracking-[0.22em] uppercase font-bold" style={{ color: muted }}>
         MAISON SUCRE
       </span>
     </div>
   ),
   palettes: [
+    {
+      id: "vanilla",
+      name: "Miel & Vanille",
+      descriptor: "Artisanal Warm Paper",
+      swatches: ["#FAF6EE", "#231B15", "#8C6339"],
+      bg: "#FAF6EE",
+      cardBg: "#FFFFFF",
+      border: "rgba(35, 27, 21, 0.12)",
+      text: "#231B15",
+      muted: "#766A60",
+      accent: "#8C6339",
+      accentFg: "#FFFFFF",
+      tagBg: "rgba(140, 99, 57, 0.08)",
+    },
     {
       id: "rose",
       name: "Rose & Cassis",
@@ -158,20 +150,6 @@ export const cakesDemoConfig: DemoConfig = {
       accent: "#C8AC70",
       accentFg: "#101012",
       tagBg: "rgba(200, 172, 112, 0.12)",
-    },
-    {
-      id: "vanilla",
-      name: "Miel & Vanille",
-      descriptor: "Artisanal Warm Paper",
-      swatches: ["#FAF6EE", "#231B15", "#8C6339"],
-      bg: "#FAF6EE",
-      cardBg: "#FFFFFF",
-      border: "rgba(35, 27, 21, 0.12)",
-      text: "#231B15",
-      muted: "#766A60",
-      accent: "#8C6339",
-      accentFg: "#FFFFFF",
-      tagBg: "rgba(140, 99, 57, 0.08)",
     },
   ],
   lookbook: [
@@ -529,29 +507,8 @@ export const weddingDemoConfig: DemoConfig = {
       className="w-full h-full rounded-2xl flex flex-col items-center justify-center p-2 text-center relative"
       style={{ border: `1px solid ${border}` }}
     >
-      <svg
-        width="36"
-        height="24"
-        viewBox="0 0 48 30"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="mb-0.5"
-        style={{ color: accent }}
-      >
-        {/* Handcrafted Botanical Olive & Floral Sprig */}
-        <path d="M10 18C15 17 20 13 24 6C28 13 33 17 38 18" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" opacity="0.8" />
-        <path d="M17 15C15 11 18 9 18 9C18 9 20 12 18 15" stroke="currentColor" strokeWidth="0.85" />
-        <path d="M31 15C33 11 30 9 30 9C30 9 28 12 30 15" stroke="currentColor" strokeWidth="0.85" />
-        <circle cx="24" cy="6" r="1.5" fill="currentColor" />
-        <line x1="14" y1="26" x2="34" y2="26" stroke="currentColor" strokeWidth="0.75" opacity="0.4" />
-      </svg>
-      <span
-        className="text-base font-serif font-light tracking-[0.22em] uppercase leading-none"
-        style={{ color: accent, fontFamily: "var(--font-cormorant), serif" }}
-      >
-        A · B
-      </span>
-      <span className="text-[7px] font-mono tracking-[0.25em] uppercase font-semibold mt-1" style={{ color: muted }}>
+      <RiFlowerLine size={26} style={{ color: accent }} className="mb-1" />
+      <span className="text-[7.5px] font-mono tracking-[0.22em] uppercase font-bold" style={{ color: muted }}>
         ASTRID BRIDAL
       </span>
     </div>

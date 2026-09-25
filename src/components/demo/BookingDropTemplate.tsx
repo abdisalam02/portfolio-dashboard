@@ -21,6 +21,8 @@ import {
   FiChevronRight,
   FiShoppingBag,
   FiFileText,
+  FiX,
+  FiZoomIn,
 } from "react-icons/fi";
 import DemoTopSwitcher from "@/components/demo/DemoTopSwitcher";
 import NailShapeSelector, { NailShapeType } from "@/components/demo/NailShapeSelector";
@@ -94,8 +96,10 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
   // Nails Niche Specific State
   const [nailStatus, setNailStatus] = useState<"bare" | "biab_removal" | "gelx_removal">("bare");
   const [nailShape, setNailShape] = useState<NailShapeType>("almond");
+  const [nailLength, setNailLength] = useState<"natural" | "medium" | "long" | "extra_long">("medium");
   const [nailArtLevel, setNailArtLevel] = useState<"clean" | "chrome" | "editorial_3d">("chrome");
   const [nailInspoNote, setNailInspoNote] = useState("");
+  const [previewNailService, setPreviewNailService] = useState<ServiceItem | null>(null);
 
   // Wedding Niche Specific State
   const [weddingConsultationType, setWeddingConsultationType] = useState<"studio" | "video">("studio");
@@ -117,10 +121,44 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
       : nailArtLevel === "editorial_3d" && selectedService.id !== "editorial-3d"
       ? 250
       : 0;
-  const effectiveNailPrice = selectedService.price + removalAddon + artAddon;
+  const lengthAddon = nailLength === "long" ? 80 : nailLength === "extra_long" ? 150 : 0;
+  const effectiveNailPrice = selectedService.price + removalAddon + artAddon + lengthAddon;
 
   const handleSelectService = (service: ServiceItem) => {
     setSelectedService(service);
+    if (config.id === "nails") {
+      if (service.id === "biab-overlay") {
+        setNailShape("natural_oval");
+        setNailLength("natural");
+        setNailStatus("bare");
+        setNailArtLevel("clean");
+      } else if (service.id === "chrome-glaze") {
+        setNailShape("almond");
+        setNailLength("medium");
+        setNailStatus("bare");
+        setNailArtLevel("chrome");
+      } else if (service.id === "gelx-full") {
+        setNailShape("almond");
+        setNailLength("long");
+        setNailStatus("bare");
+        setNailArtLevel("chrome");
+      } else if (service.id === "editorial-3d") {
+        setNailShape("coffin");
+        setNailLength("long");
+        setNailStatus("bare");
+        setNailArtLevel("editorial_3d");
+      } else if (service.id === "russian-care") {
+        setNailShape("natural_oval");
+        setNailLength("natural");
+        setNailStatus("bare");
+        setNailArtLevel("clean");
+      } else if (service.id === "soakoff-restore") {
+        setNailShape("square");
+        setNailLength("natural");
+        setNailStatus("biab_removal");
+        setNailArtLevel("clean");
+      }
+    }
     const formEl = document.getElementById("booking-form-section");
     if (formEl) {
       formEl.scrollIntoView({ behavior: "smooth" });
@@ -283,9 +321,8 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
                 <div className="space-y-1">
                   <h1
-                    className="text-4xl sm:text-6xl font-black tracking-tighter uppercase leading-none"
+                    className="text-4xl sm:text-6xl font-black tracking-tighter uppercase leading-none font-heading"
                     style={{
-                      fontFamily: config.fontFamilyHeading,
                       color: activePalette.text,
                     }}
                   >
@@ -503,39 +540,30 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               </span>
             </div>
 
-            {/* Horizontal Snap-Scroll Strip (Takes only ~170px height) */}
-            <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none">
+            {/* Horizontal Snap-Scroll Vitrine (Borderless, large images with clean 1-line text) */}
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none overscroll-x-contain scroll-smooth">
               {config.lookbook.map((item, idx) => (
                 <div
                   key={idx}
-                  className="snap-start flex-shrink-0 w-36 sm:w-44 rounded-xl border p-2 space-y-1.5 transition-all shadow-xs"
-                  style={{
-                    backgroundColor: activePalette.cardBg,
-                    borderColor: activePalette.border,
-                  }}
+                  className="snap-start flex-shrink-0 w-60 sm:w-72 space-y-2 group cursor-pointer"
                 >
-                  <div className="relative aspect-square w-full rounded-lg overflow-hidden bg-zinc-100">
+                  <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-stone-100 shadow-xs">
                     <Image
                       src={item.src}
                       alt={item.title}
                       fill
-                      sizes="176px"
-                      className="object-cover"
+                      sizes="(max-width: 640px) 240px, 288px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                       priority={idx < 2}
                       unoptimized
                     />
                   </div>
-                  <div className="space-y-0.5">
-                    <h3
-                      className="text-xs font-medium leading-tight truncate"
-                      style={{ color: activePalette.text, fontFamily: config.fontFamilyHeading }}
-                    >
-                      {item.title}
-                    </h3>
-                    <p className="text-[10px] font-mono truncate" style={{ color: activePalette.muted }}>
-                      {item.tag.split("·")[0].trim()}
-                    </p>
-                  </div>
+                  <h3
+                    className="text-xs sm:text-sm font-semibold tracking-tight truncate px-0.5"
+                    style={{ color: activePalette.text, fontFamily: config.fontFamilyHeading }}
+                  >
+                    {item.title}
+                  </h3>
                 </div>
               ))}
             </div>
@@ -797,20 +825,30 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                       borderLeftColor: isChosen ? activePalette.accent : "transparent",
                     }}
                   >
-                    {/* Integrated Photo Thumbnail */}
+                    {/* Integrated Photo Thumbnail with Popup Preview */}
                     {service.imageSrc && (
                       <div
-                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden relative flex-shrink-0 border bg-zinc-900 shadow-xs"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPreviewNailService(service);
+                        }}
+                        className="w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden relative flex-shrink-0 border bg-zinc-900 shadow-sm cursor-zoom-in group/thumb"
                         style={{ borderColor: isChosen ? activePalette.accent : activePalette.border }}
+                        title="Touch to view high-res photo & set details"
                       >
                         <Image
                           src={service.imageSrc}
                           alt={service.name}
                           fill
-                          sizes="80px"
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 640px) 80px, 112px"
+                          className="object-cover transition-transform duration-500 group-hover/thumb:scale-110"
                           unoptimized
                         />
+                        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+                          <span className="text-[10px] font-mono font-bold text-white bg-black/70 px-2 py-0.5 rounded-full backdrop-blur-xs flex items-center gap-1">
+                            <FiZoomIn size={11} /> Expand
+                          </span>
+                        </div>
                       </div>
                     )}
 
@@ -1350,6 +1388,54 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                   textColor={activePalette.text}
                   tagBg={activePalette.tagBg}
                 />
+
+                {/* 1b. Nail Length / Extension Size Architecture */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
+                      Nail Length / Extension Size
+                    </label>
+                    <span
+                      className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded font-bold"
+                      style={{ backgroundColor: activePalette.tagBg, color: activePalette.accent }}
+                    >
+                      {nailLength.replace("_", " ").toUpperCase()} SELECTED
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {[
+                      { id: "natural", label: "Natural (Short)", sub: "Active · 0 kr" },
+                      { id: "medium", label: "Medium", sub: "Standard · 0 kr" },
+                      { id: "long", label: "Long Apex", sub: "Sculpted · +80 kr" },
+                      { id: "extra_long", label: "Extra Long", sub: "Statement · +150 kr" },
+                    ].map((len) => {
+                      const isSel = nailLength === len.id;
+                      return (
+                        <button
+                          key={len.id}
+                          type="button"
+                          onClick={() => setNailLength(len.id as any)}
+                          className="p-2.5 rounded-xl border text-center transition-all flex flex-col items-center justify-center cursor-pointer active:scale-[0.98]"
+                          style={{
+                            backgroundColor: isSel ? activePalette.tagBg : activePalette.cardBg,
+                            borderColor: isSel ? activePalette.accent : activePalette.border,
+                            boxShadow: isSel ? `0 0 0 1.5px ${activePalette.accent}` : "none",
+                          }}
+                        >
+                          <span
+                            className="font-mono text-xs font-bold block"
+                            style={{ color: isSel ? activePalette.accent : activePalette.text }}
+                          >
+                            {len.label}
+                          </span>
+                          <span className="text-[9px] font-mono block opacity-70" style={{ color: activePalette.muted }}>
+                            {len.sub}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
                 {/* 2. Natural Nail Status & Art Complexity Tiers */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -2141,6 +2227,92 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
           </button>
         </div>
       </div>
+
+      {/* ================= 10. NAILS LIGHTBOX POPUP MODAL ================= */}
+      {previewNailService && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+          onClick={() => setPreviewNailService(null)}
+        >
+          <div
+            className="w-full max-w-sm sm:max-w-md rounded-3xl border p-4 sm:p-6 shadow-2xl relative space-y-4"
+            style={{
+              backgroundColor: activePalette.cardBg,
+              borderColor: activePalette.accent,
+              color: activePalette.text,
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setPreviewNailService(null)}
+              className="absolute top-3.5 right-3.5 w-8 h-8 rounded-full border flex items-center justify-center text-xs font-mono font-bold transition-all hover:opacity-75 cursor-pointer z-10 shadow-sm"
+              style={{
+                backgroundColor: activePalette.bg,
+                borderColor: activePalette.border,
+                color: activePalette.text,
+              }}
+            >
+              <FiX size={15} />
+            </button>
+
+            {/* High-Res Photo */}
+            <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden border bg-zinc-950 shadow-inner">
+              {previewNailService.imageSrc && (
+                <Image
+                  src={previewNailService.imageSrc}
+                  alt={previewNailService.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 450px"
+                  className="object-cover"
+                  unoptimized
+                />
+              )}
+              <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-black/80 text-white backdrop-blur-xs">
+                {previewNailService.servings} · {previewNailService.leadTime}
+              </div>
+            </div>
+
+            {/* Details Matching Page Design */}
+            <div className="space-y-1.5 pt-0.5">
+              <div className="flex items-baseline justify-between gap-3">
+                <h3
+                  className="text-lg sm:text-xl font-bold tracking-tight"
+                  style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
+                >
+                  {previewNailService.name}
+                </h3>
+                <span className="text-lg font-mono font-black flex-shrink-0" style={{ color: activePalette.accent }}>
+                  {previewNailService.price.toLocaleString("no-NO")} kr
+                </span>
+              </div>
+              <p className="text-xs font-body leading-relaxed opacity-85" style={{ color: activePalette.muted }}>
+                {previewNailService.description}
+              </p>
+            </div>
+
+            {/* Select & Book Button */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  handleSelectService(previewNailService);
+                  setPreviewNailService(null);
+                }}
+                className="w-full py-3.5 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+                style={{
+                  backgroundColor: activePalette.accent,
+                  color: activePalette.accentFg,
+                }}
+              >
+                <FiCheckCircle size={15} />
+                <span>Select This Set &amp; Reserve Chair</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

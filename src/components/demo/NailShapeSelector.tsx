@@ -74,14 +74,14 @@ export default function NailShapeSelector({
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: textColor }}>
-          Desired Nail Shape Architecture
+          Nail Shape Architecture
         </label>
         <span className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded font-bold" style={{ backgroundColor: tagBg, color: accentColor }}>
           {selectedShape.toUpperCase()} SELECTED
         </span>
       </div>
 
-      <div className="flex overflow-x-auto snap-x snap-mandatory gap-2 pb-2 sm:grid sm:grid-cols-5 sm:gap-2.5 sm:overflow-visible sm:pb-0 sm:snap-none">
+      <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex overflow-x-auto snap-x snap-mandatory gap-2.5 pb-2.5 pt-1 scroll-smooth scrollbar-none overscroll-x-contain sm:grid sm:grid-cols-5 sm:gap-2.5 sm:overflow-visible sm:pb-0 sm:snap-none">
         {SHAPES.map((shape) => {
           const isSelected = selectedShape === shape.id;
           return (
@@ -89,11 +89,11 @@ export default function NailShapeSelector({
               key={shape.id}
               type="button"
               onClick={() => onSelectShape(shape.id)}
-              className="snap-start flex-shrink-0 min-w-[calc(50%-4px)] sm:min-w-0 p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-between group hover:scale-[1.02] active:scale-[0.98]"
+              className="snap-start flex-shrink-0 w-28 sm:w-auto p-3 sm:p-3.5 rounded-2xl border text-center transition-all flex flex-col items-center justify-between group active:scale-[0.97] cursor-pointer shadow-xs"
               style={{
                 backgroundColor: isSelected ? tagBg : cardBg,
                 borderColor: isSelected ? accentColor : borderColor,
-                boxShadow: isSelected ? `0 0 0 1px ${accentColor}` : "none",
+                boxShadow: isSelected ? `0 0 0 1.5px ${accentColor}` : "none",
               }}
             >
               {/* Silhouette SVG Preview */}
