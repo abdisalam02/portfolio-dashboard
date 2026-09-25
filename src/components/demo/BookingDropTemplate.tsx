@@ -23,9 +23,14 @@ import {
   FiFileText,
   FiX,
   FiZoomIn,
+  FiLayers,
 } from "react-icons/fi";
+import { LuCroissant, LuSparkles } from "react-icons/lu";
+import { GiDiamondRing } from "react-icons/gi";
 import DemoTopSwitcher from "@/components/demo/DemoTopSwitcher";
+import DemoSideNav from "@/components/demo/DemoSideNav";
 import NailShapeSelector, { NailShapeType } from "@/components/demo/NailShapeSelector";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   cakesDemoConfig,
   nailsDemoConfig,
@@ -55,9 +60,9 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
   const [isDockCollapsed, setIsDockCollapsed] = useState(true);
 
   const demoList = [
-    { id: "cakes", label: "Bakery", brand: "Maison Sucre", icon: "🎂", href: "/demo" },
-    { id: "nails", label: "Nail Studio", brand: "Studio Klō", icon: "💅", href: "/demo/nails" },
-    { id: "wedding", label: "Weddings", brand: "Astrid Bridal", icon: "💍", href: "/demo/wedding" },
+    { id: "cakes", label: "Bakery", brand: "Maison Sucre", icon: LuCroissant, href: "/demo" },
+    { id: "nails", label: "Nails Atelier", brand: "Studio Klø", icon: LuSparkles, href: "/demo/nails" },
+    { id: "wedding", label: "Bridal Florals", brand: "Astrid Bridal", icon: GiDiamondRing, href: "/demo/wedding" },
   ] as const;
 
   useEffect(() => {
@@ -187,9 +192,11 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         cardBg={activePalette.cardBg}
       />
 
+      {/* ================= 2. FLOATING SECTION NAVIGATOR (SIDE RAIL & QUICK TRAVERSE) ================= */}
+      <DemoSideNav currentDemo={config.id} palette={activePalette} />
 
       {/* Main Responsive Canvas */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-16 sm:space-y-20">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-16 sm:space-y-24">
 
         {/* ================= 3. STUDIO BRAND HERO (3 RADICAL ARCHETYPES) ================= */}
 
@@ -197,7 +204,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             ARCHETYPE A: CAKES - TACTILE FRENCH PATISSERIE & WAX SEAL
             ------------------------------------------------------------- */}
         {config.id === "cakes" && (
-          <section className="text-center space-y-4 pt-2 max-w-xl mx-auto">
+          <section id="brand-hero" className="text-center space-y-4 pt-2 max-w-xl mx-auto scroll-mt-20">
             {/* Bakery Stamp Seal */}
             <div className="flex justify-center mb-1">
               <div
@@ -300,7 +307,8 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             ------------------------------------------------------------- */}
         {config.id === "nails" && (
           <section
-            className="pt-2 sm:pt-4 border-b pb-8 sm:pb-10"
+            id="brand-hero"
+            className="pt-2 sm:pt-4 border-b pb-8 sm:pb-10 scroll-mt-20"
             style={{ borderColor: activePalette.border }}
           >
             <div className="flex flex-col-reverse md:flex-row md:items-end justify-between gap-6 sm:gap-8">
@@ -420,7 +428,8 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             ------------------------------------------------------------- */}
         {config.id === "wedding" && (
           <section
-            className="text-center space-y-5 pt-2 pb-6 border-b"
+            id="brand-hero"
+            className="text-center space-y-5 pt-2 pb-6 border-b scroll-mt-20"
             style={{ borderColor: activePalette.border }}
           >
             {/* Top Delicate Seal with Hairline Divider Lines */}
@@ -524,24 +533,72 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             METHOD B (CAKES): HORIZONTAL SNAP-SCROLL PASTRIES VITRINE
             ------------------------------------------------------------- */}
         {config.id === "cakes" && (
-          <section id="lookbook-gallery" className="space-y-3">
+          <section id="lookbook-gallery" className="space-y-4 pt-6 border-t scroll-mt-20" style={{ borderColor: activePalette.border }}>
+            {/* Striking Section Kicker */}
+            <div className="flex items-center gap-2">
+              <span
+                className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full border uppercase"
+                style={{
+                  backgroundColor: activePalette.tagBg,
+                  borderColor: activePalette.accent,
+                  color: activePalette.accent,
+                }}
+              >
+                01 · Vitrine Du Jour
+              </span>
+              <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase" style={{ color: activePalette.muted }}>
+                Fresh Artisanal Creations
+              </span>
+            </div>
+
             <div
-              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 border-b pb-3"
               style={{ borderColor: activePalette.border }}
             >
               <h2
-                className="text-base sm:text-xl font-bold tracking-tight"
+                className="text-2xl sm:text-3xl font-black tracking-tight uppercase"
                 style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
               >
                 Daily Pâtisserie Drops
               </h2>
-              <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
-                Swipe creations →
-              </span>
+              
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
+                  Swipe or glide creations →
+                </span>
+                {/* Smooth Scroll Navigation Arrows */}
+                <div className="hidden sm:flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      document.getElementById("cakes-vitrine-scroll")?.scrollBy({ left: -320, behavior: "smooth" });
+                    }}
+                    className="w-7 h-7 rounded-full border flex items-center justify-center font-mono text-sm hover:opacity-75 active:scale-95 transition-all cursor-pointer shadow-xs"
+                    style={{ borderColor: activePalette.border, color: activePalette.text, backgroundColor: activePalette.cardBg }}
+                    title="Previous creations"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      document.getElementById("cakes-vitrine-scroll")?.scrollBy({ left: 320, behavior: "smooth" });
+                    }}
+                    className="w-7 h-7 rounded-full border flex items-center justify-center font-mono text-sm hover:opacity-75 active:scale-95 transition-all cursor-pointer shadow-xs"
+                    style={{ borderColor: activePalette.border, color: activePalette.text, backgroundColor: activePalette.cardBg }}
+                    title="Next creations"
+                  >
+                    ›
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* Horizontal Snap-Scroll Vitrine (Borderless, large images with clean 1-line text, zero scrollbar) */}
-            <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-5 pb-2 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden overscroll-x-contain scroll-smooth">
+            <div
+              id="cakes-vitrine-scroll"
+              className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-5 pb-2 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden overscroll-x-contain scroll-smooth"
+            >
               {config.lookbook.map((item, idx) => (
                 <div
                   key={idx}
@@ -574,19 +631,36 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             METHOD C (WEDDING): COMPACT SIGNATURE WORKS DIPTYCH
             ------------------------------------------------------------- */}
         {config.id === "wedding" && (
-          <section id="lookbook-gallery" className="space-y-4">
+          <section id="lookbook-gallery" className="space-y-4 pt-6 border-t scroll-mt-20" style={{ borderColor: activePalette.border }}>
+            {/* Striking Section Kicker */}
+            <div className="flex items-center gap-2">
+              <span
+                className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full border uppercase"
+                style={{
+                  backgroundColor: activePalette.tagBg,
+                  borderColor: activePalette.accent,
+                  color: activePalette.accent,
+                }}
+              >
+                01 · Portfolio &amp; Commissions
+              </span>
+              <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase" style={{ color: activePalette.muted }}>
+                Oslo &amp; Surrounding Venues
+              </span>
+            </div>
+
             <div
-              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-3"
               style={{ borderColor: activePalette.border }}
             >
               <h2
-                className="text-base sm:text-xl font-light tracking-wide"
+                className="text-2xl sm:text-3xl font-light tracking-wide uppercase"
                 style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
               >
-                Signature Floral Commissions
+                Signature Floral Works
               </h2>
               <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
-                Oslo &amp; Surrounding Venues
+                Curated Editorial Commissions
               </span>
             </div>
 
@@ -595,7 +669,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               {config.lookbook.slice(0, 2).map((item, idx) => (
                 <div key={idx} className="space-y-2">
                   <div
-                    className="relative aspect-[16/10] sm:aspect-[4/3] w-full rounded-xl overflow-hidden border bg-zinc-100"
+                    className="relative aspect-[16/10] sm:aspect-[4/3] w-full rounded-xl overflow-hidden border bg-zinc-100 shadow-xs"
                     style={{ borderColor: activePalette.border }}
                   >
                     <Image
@@ -631,13 +705,30 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             MENU A: CAKES - AUTHENTIC PARISIAN BRASSERIE CARTE (ZERO CARDS)
             ------------------------------------------------------------- */}
         {config.id === "cakes" && (
-          <section id="services-menu" className="space-y-6">
+          <section id="services-menu" className="space-y-6 pt-6 border-t scroll-mt-20" style={{ borderColor: activePalette.border }}>
+            {/* Striking Section Kicker */}
+            <div className="flex items-center gap-2">
+              <span
+                className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full border uppercase"
+                style={{
+                  backgroundColor: activePalette.tagBg,
+                  borderColor: activePalette.accent,
+                  color: activePalette.accent,
+                }}
+              >
+                02 · La Carte &amp; Menu
+              </span>
+              <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase" style={{ color: activePalette.muted }}>
+                Pre-orders &amp; Weekly Batches
+              </span>
+            </div>
+
             <div
-              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-3"
               style={{ borderColor: activePalette.border }}
             >
               <h2
-                className="text-base sm:text-xl font-bold tracking-tight"
+                className="text-2xl sm:text-3xl font-black tracking-tight uppercase"
                 style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
               >
                 Pâtisserie &amp; Cakes
@@ -769,16 +860,33 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             MENU B: NAILS - THE DAVID MALLETT DOT-LEADER TREATMENT LEDGER (ZERO CARDS)
             ------------------------------------------------------------- */}
         {config.id === "nails" && (
-          <section id="services-menu" className="space-y-6">
+          <section id="services-menu" className="space-y-6 pt-6 border-t scroll-mt-20" style={{ borderColor: activePalette.border }}>
+            {/* Striking Section Kicker */}
+            <div className="flex items-center gap-2">
+              <span
+                className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-sm border uppercase"
+                style={{
+                  backgroundColor: activePalette.tagBg,
+                  borderColor: activePalette.accent,
+                  color: activePalette.accent,
+                }}
+              >
+                01 · Studio Treatment Ledger
+              </span>
+              <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase" style={{ color: activePalette.muted }}>
+                Bespoke Gel &amp; BIAB Services
+              </span>
+            </div>
+
             <div
-              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-3"
               style={{ borderColor: activePalette.border }}
             >
               <h2
-                className="text-base sm:text-xl font-bold tracking-tight"
-                style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
+                className="text-2xl sm:text-4xl font-black tracking-tight uppercase font-heading"
+                style={{ color: activePalette.text }}
               >
-                Studio Services &amp; Rates
+                Services &amp; Rates
               </h2>
               <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
                 Cuticle prep included · NOK
@@ -936,13 +1044,30 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             MENU C: WEDDING - ARCHITECTURAL MONOGRAPH COMMISSION GUIDE (ZERO CARDS)
             ------------------------------------------------------------- */}
         {config.id === "wedding" && (
-          <section id="services-menu" className="space-y-6">
+          <section id="services-menu" className="space-y-6 pt-6 border-t scroll-mt-20" style={{ borderColor: activePalette.border }}>
+            {/* Striking Section Kicker */}
+            <div className="flex items-center gap-2">
+              <span
+                className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full border uppercase"
+                style={{
+                  backgroundColor: activePalette.tagBg,
+                  borderColor: activePalette.accent,
+                  color: activePalette.accent,
+                }}
+              >
+                02 · Investment &amp; Packages
+              </span>
+              <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase" style={{ color: activePalette.muted }}>
+                Floral Suites &amp; Day-Of Styling
+              </span>
+            </div>
+
             <div
-              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
+              className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-3"
               style={{ borderColor: activePalette.border }}
             >
               <h2
-                className="text-base sm:text-xl font-light tracking-wide"
+                className="text-2xl sm:text-3xl font-light tracking-wide uppercase"
                 style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
               >
                 Packages &amp; Investment
@@ -1139,13 +1264,38 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
         {/* ================= 6. RADICAL BOOKING REDESIGN (3 CONTEXTUAL FLOWS) ================= */}
 
-        <section id="booking-form-section" className="space-y-6 pt-4">
+        <section id="booking-form-section" className="space-y-6 pt-6 border-t scroll-mt-20" style={{ borderColor: activePalette.border }}>
+          {/* Striking Section Kicker */}
+          <div className="flex items-center gap-2">
+            <span
+              className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full border uppercase"
+              style={{
+                backgroundColor: activePalette.tagBg,
+                borderColor: activePalette.accent,
+                color: activePalette.accent,
+              }}
+            >
+              {config.id === "cakes"
+                ? "03 · Commande En Ligne"
+                : config.id === "nails"
+                ? "02 · Chair Reservation Slip"
+                : "03 · Consultation & Inquiry"}
+            </span>
+            <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase" style={{ color: activePalette.muted }}>
+              {config.id === "cakes"
+                ? "Atelier Frogner Collection"
+                : config.id === "nails"
+                ? "Grünerløkka Studio 4B"
+                : "2025/2026 Calendar"}
+            </span>
+          </div>
+
           <div
-            className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-2.5"
+            className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b pb-3"
             style={{ borderColor: activePalette.border }}
           >
             <h2
-              className="text-base sm:text-xl font-bold tracking-tight"
+              className="text-2xl sm:text-3xl font-black tracking-tight uppercase"
               style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
             >
               {config.bookingConfig.sectionTitle}
@@ -2045,12 +2195,12 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
               }}
               title="Expand live demo switcher and color palettes"
             >
-              <span className="flex items-center gap-1 text-[13px]">
-                <span>🎂</span>
-                <span>💅</span>
-                <span>💍</span>
-              </span>
-              <span className="font-bold">Switch Demo &amp; Palettes</span>
+              <div className="flex items-center gap-1.5 opacity-75">
+                <LuCroissant size={13} />
+                <LuSparkles size={12} />
+                <GiDiamondRing size={13} />
+              </div>
+              <span className="font-bold">Demos &amp; Palettes</span>
               <span
                 className="w-2 h-2 rounded-full flex-shrink-0"
                 style={{ backgroundColor: activePalette.accent }}
@@ -2070,8 +2220,8 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             {/* Top Row: Demos Header & Collapse Toggle */}
             <div className="flex items-center justify-between px-1 text-[11px] font-mono">
               <div className="flex items-center gap-1.5 font-bold" style={{ color: activePalette.text }}>
-                <span className="text-xs">⚡</span>
-                <span>Select Demo Archetype:</span>
+                <FiLayers size={13} style={{ color: activePalette.accent }} />
+                <span>Live Client Examples:</span>
               </div>
               <button
                 type="button"
@@ -2093,6 +2243,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             <div className="grid grid-cols-3 gap-1.5">
               {demoList.map((d) => {
                 const isCurrent = config.id === d.id;
+                const Icon = d.icon;
                 return (
                   <Link
                     key={d.id}
@@ -2106,8 +2257,8 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     }}
                     title={`Switch to ${d.brand} (${d.label})`}
                   >
-                    <div className="flex items-center gap-1">
-                      <span className="text-xs">{d.icon}</span>
+                    <div className="flex items-center gap-1.5">
+                      <Icon size={13} />
                       <span className="text-[11px] font-mono font-bold truncate">
                         {d.label}
                       </span>
@@ -2228,95 +2379,105 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         </div>
       </div>
 
-      {/* ================= 10. NAILS LIGHTBOX POPUP MODAL (SHARP LUXURY ATELIER) ================= */}
-      {previewNailService && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
-          onClick={() => setPreviewNailService(null)}
-        >
-          <div
-            className="w-full max-w-sm sm:max-w-md rounded-none border-2 p-4 sm:p-6 shadow-2xl relative space-y-4"
-            style={{
-              backgroundColor: activePalette.cardBg,
-              borderColor: activePalette.accent,
-              color: activePalette.text,
-            }}
-            onClick={(e) => e.stopPropagation()}
+      {/* ================= 10. NAILS LIGHTBOX POPUP MODAL (SHARP LUXURY ATELIER WITH SMOOTH SPRING ANIMATION) ================= */}
+      <AnimatePresence>
+        {previewNailService && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            onClick={() => setPreviewNailService(null)}
           >
-            {/* Close Button - Sharp Box */}
-            <button
-              type="button"
-              onClick={() => setPreviewNailService(null)}
-              className="absolute top-3.5 right-3.5 w-8 h-8 rounded-none border flex items-center justify-center text-xs font-mono font-bold transition-all hover:opacity-75 cursor-pointer z-10 shadow-xs"
+            <motion.div
+              initial={{ scale: 0.94, opacity: 0, y: 14 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.94, opacity: 0, y: 14 }}
+              transition={{ type: "spring", damping: 26, stiffness: 340 }}
+              className="w-full max-w-sm sm:max-w-md rounded-none border-2 p-4 sm:p-6 shadow-2xl relative space-y-4"
               style={{
-                backgroundColor: activePalette.bg,
-                borderColor: activePalette.border,
+                backgroundColor: activePalette.cardBg,
+                borderColor: activePalette.accent,
                 color: activePalette.text,
               }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <FiX size={15} />
-            </button>
-
-            {/* High-Res Photo - Sharp Edges */}
-            <div
-              className="relative aspect-[4/3] w-full rounded-none overflow-hidden border bg-zinc-950 shadow-inner"
-              style={{ borderColor: activePalette.border }}
-            >
-              {previewNailService.imageSrc && (
-                <Image
-                  src={previewNailService.imageSrc}
-                  alt={previewNailService.name}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 450px"
-                  className="object-cover"
-                  unoptimized
-                />
-              )}
-              <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-none text-[10px] font-mono font-bold uppercase tracking-wider bg-black/85 text-white backdrop-blur-xs border border-white/20">
-                {previewNailService.servings} · {previewNailService.leadTime}
-              </div>
-            </div>
-
-            {/* Details Matching Page Design */}
-            <div className="space-y-1.5 pt-0.5">
-              <div className="flex items-baseline justify-between gap-3">
-                <h3
-                  className="text-lg sm:text-xl font-bold tracking-tight"
-                  style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
-                >
-                  {previewNailService.name}
-                </h3>
-                <span className="text-lg font-mono font-black flex-shrink-0" style={{ color: activePalette.accent }}>
-                  {previewNailService.price.toLocaleString("no-NO")} kr
-                </span>
-              </div>
-              <p className="text-xs font-body leading-relaxed opacity-85" style={{ color: activePalette.muted }}>
-                {previewNailService.description}
-              </p>
-            </div>
-
-            {/* Select & Book Button - Sharp Architectural Action Bar */}
-            <div className="pt-2">
+              {/* Close Button - Sharp Box */}
               <button
                 type="button"
-                onClick={() => {
-                  handleSelectService(previewNailService);
-                  setPreviewNailService(null);
-                }}
-                className="w-full py-3.5 px-4 rounded-none font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer border"
+                onClick={() => setPreviewNailService(null)}
+                className="absolute top-3.5 right-3.5 w-8 h-8 rounded-none border flex items-center justify-center text-xs font-mono font-bold transition-all hover:opacity-75 cursor-pointer z-10 shadow-xs"
                 style={{
-                  backgroundColor: activePalette.accent,
-                  borderColor: activePalette.accent,
-                  color: activePalette.accentFg,
+                  backgroundColor: activePalette.bg,
+                  borderColor: activePalette.border,
+                  color: activePalette.text,
                 }}
               >
-                <FiCheckCircle size={15} />
-                <span>Select This Set &amp; Reserve Chair</span>
+                <FiX size={15} />
               </button>
-            </div>
-          </div>
-        </div>
-      )}
+
+              {/* High-Res Photo - Sharp Edges */}
+              <div
+                className="relative aspect-[4/3] w-full rounded-none overflow-hidden border bg-zinc-950 shadow-inner"
+                style={{ borderColor: activePalette.border }}
+              >
+                {previewNailService.imageSrc && (
+                  <Image
+                    src={previewNailService.imageSrc}
+                    alt={previewNailService.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 450px"
+                    className="object-cover"
+                    unoptimized
+                  />
+                )}
+                <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-none text-[10px] font-mono font-bold uppercase tracking-wider bg-black/85 text-white backdrop-blur-xs border border-white/20">
+                  {previewNailService.servings} · {previewNailService.leadTime}
+                </div>
+              </div>
+
+              {/* Details Matching Page Design */}
+              <div className="space-y-1.5 pt-0.5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3
+                    className="text-lg sm:text-xl font-bold tracking-tight"
+                    style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
+                  >
+                    {previewNailService.name}
+                  </h3>
+                  <span className="text-lg font-mono font-black flex-shrink-0" style={{ color: activePalette.accent }}>
+                    {previewNailService.price.toLocaleString("no-NO")} kr
+                  </span>
+                </div>
+                <p className="text-xs font-body leading-relaxed opacity-85" style={{ color: activePalette.muted }}>
+                  {previewNailService.description}
+                </p>
+              </div>
+
+              {/* Select & Book Button - Sharp Architectural Action Bar */}
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleSelectService(previewNailService);
+                    setPreviewNailService(null);
+                  }}
+                  className="w-full py-3.5 px-4 rounded-none font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer border"
+                  style={{
+                    backgroundColor: activePalette.accent,
+                    borderColor: activePalette.accent,
+                    color: activePalette.accentFg,
+                  }}
+                >
+                  <FiCheckCircle size={15} />
+                  <span>Select This Set &amp; Reserve Chair</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
