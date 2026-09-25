@@ -57,14 +57,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
   // Active Theme / Palette - Synchronizes immediately when route / niche changes
   const [activePalette, setActivePalette] = useState<PaletteTheme>(config.palettes[0]);
 
-  const [isDockCollapsed, setIsDockCollapsed] = useState(true);
-
-  const demoList = [
-    { id: "cakes", label: "Bakery", brand: "Maison Sucre", icon: LuCroissant, href: "/demo" },
-    { id: "nails", label: "Nails Atelier", brand: "Studio Klø", icon: LuSparkles, href: "/demo/nails" },
-    { id: "wedding", label: "Bridal Florals", brand: "Astrid Bridal", icon: GiDiamondRing, href: "/demo/wedding" },
-  ] as const;
-
   useEffect(() => {
     setActivePalette(config.palettes[0]);
     setSelectedService(config.services[0]);
@@ -80,7 +72,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
     setWeddingVenue("");
     setWeddingColorVision("");
     setBookingConfirmed(false);
-    setIsDockCollapsed(true);
   }, [config.id]);
 
   // Common State
@@ -177,7 +168,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
 
   return (
     <div
-      className="min-h-screen transition-colors duration-300 font-body relative pb-36 sm:pb-32"
+      className="min-h-screen transition-colors duration-300 font-body relative pb-16 sm:pb-20"
       style={{
         backgroundColor: activePalette.bg,
         color: activePalette.text,
@@ -2174,168 +2165,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         </p>
       </footer>
       </main>
-
-
-      {/* ================= 8. UNIFIED INTERACTIVE STUDIO DOCK (DEMOS + PALETTES) ================= */}
-      <aside
-        aria-label="Interactive studio demo switcher and palette dock"
-        className="fixed bottom-14 sm:bottom-4 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-lg transition-all duration-300"
-      >
-        {isDockCollapsed ? (
-          /* Collapsed Floating Pill - Minimalist, unobtrusive */
-          <div className="flex justify-center">
-            <button
-              type="button"
-              onClick={() => setIsDockCollapsed(false)}
-              className="backdrop-blur-xl rounded-full border shadow-xl px-4 py-2 flex items-center gap-2.5 text-xs font-mono font-semibold transition-all hover:scale-105 active:scale-95 cursor-pointer"
-              style={{
-                backgroundColor: `${activePalette.cardBg}F8`,
-                borderColor: activePalette.border,
-                color: activePalette.text,
-              }}
-              title="Expand live demo switcher and color palettes"
-            >
-              <div className="flex items-center gap-1.5 opacity-75">
-                <LuCroissant size={13} />
-                <LuSparkles size={12} />
-                <GiDiamondRing size={13} />
-              </div>
-              <span className="font-bold">Demos &amp; Palettes</span>
-              <span
-                className="w-2 h-2 rounded-full flex-shrink-0"
-                style={{ backgroundColor: activePalette.accent }}
-              />
-              <span className="text-[10px] opacity-75 font-mono">▲</span>
-            </button>
-          </div>
-        ) : (
-          /* Expanded Unified Studio Control Panel */
-          <div
-            className="backdrop-blur-xl rounded-2xl border shadow-2xl p-2.5 sm:p-3.5 space-y-2.5 transition-colors"
-            style={{
-              backgroundColor: `${activePalette.cardBg}FA`,
-              borderColor: activePalette.border,
-            }}
-          >
-            {/* Top Row: Demos Header & Collapse Toggle */}
-            <div className="flex items-center justify-between px-1 text-[11px] font-mono">
-              <div className="flex items-center gap-1.5 font-bold" style={{ color: activePalette.text }}>
-                <FiLayers size={13} style={{ color: activePalette.accent }} />
-                <span>Live Client Examples:</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsDockCollapsed(true)}
-                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium transition-all hover:opacity-80 border cursor-pointer active:scale-95"
-                style={{
-                  borderColor: activePalette.border,
-                  color: activePalette.muted,
-                  backgroundColor: activePalette.bg,
-                }}
-                title="Minimize toolbar to clear screen"
-              >
-                <span>Hide</span>
-                <span>▼</span>
-              </button>
-            </div>
-
-            {/* 3 Live Demo Segmented Buttons (Prominent & Highly Visible) */}
-            <div className="grid grid-cols-3 gap-1.5">
-              {demoList.map((d) => {
-                const isCurrent = config.id === d.id;
-                const Icon = d.icon;
-                return (
-                  <Link
-                    key={d.id}
-                    href={d.href}
-                    className="p-1.5 sm:p-2 rounded-xl text-center transition-all flex flex-col items-center justify-center gap-0.5 border cursor-pointer group"
-                    style={{
-                      backgroundColor: isCurrent ? activePalette.accent : "transparent",
-                      color: isCurrent ? activePalette.accentFg : activePalette.text,
-                      borderColor: isCurrent ? activePalette.accent : activePalette.border,
-                      outline: isCurrent ? `1.5px solid ${activePalette.accent}` : "none",
-                    }}
-                    title={`Switch to ${d.brand} (${d.label})`}
-                  >
-                    <div className="flex items-center gap-1.5">
-                      <Icon size={13} />
-                      <span className="text-[11px] font-mono font-bold truncate">
-                        {d.label}
-                      </span>
-                    </div>
-                    <span
-                      className="text-[9px] font-mono truncate max-w-full opacity-80"
-                      style={{ color: isCurrent ? activePalette.accentFg : activePalette.muted }}
-                    >
-                      {d.brand}
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Divider */}
-            <div className="border-t my-1" style={{ borderColor: activePalette.border }} />
-
-            {/* Row 2: 4 Palette Themes */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between px-1 text-[11px] font-mono">
-                <div className="flex items-center gap-1.5 font-bold" style={{ color: activePalette.text }}>
-                  <span>🎨 Colorway:</span>
-                  <span className="underline underline-offset-2" style={{ color: activePalette.accent }}>
-                    {activePalette.name}
-                  </span>
-                </div>
-                <span className="text-[10px] font-mono hidden sm:inline" style={{ color: activePalette.muted }}>
-                  Instant live test
-                </span>
-              </div>
-
-              {/* 4 Color Swatch Buttons */}
-              <div className="grid grid-cols-4 gap-1.5">
-                {config.palettes.map((p) => {
-                  const isActive = activePalette.id === p.id;
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => setActivePalette(p)}
-                      className="p-1.5 rounded-xl text-center transition-all flex flex-col items-center justify-center gap-1 border cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
-                      style={{
-                        backgroundColor: isActive ? p.tagBg : "transparent",
-                        borderColor: isActive ? p.accent : activePalette.border,
-                        outline: isActive ? `1.5px solid ${p.accent}` : "none",
-                      }}
-                      title={`Switch theme to ${p.name}`}
-                    >
-                      <div className="flex items-center justify-center gap-1">
-                        <span
-                          className="w-2.5 h-2.5 rounded-full border border-black/20 shadow-sm flex-shrink-0"
-                          style={{ backgroundColor: p.swatches[0] }}
-                        />
-                        <span
-                          className="w-2.5 h-2.5 rounded-full border border-black/20 shadow-sm flex-shrink-0"
-                          style={{ backgroundColor: p.swatches[1] }}
-                        />
-                        <span
-                          className="w-2.5 h-2.5 rounded-full border border-black/20 shadow-sm flex-shrink-0"
-                          style={{ backgroundColor: p.swatches[2] }}
-                        />
-                      </div>
-                      <span
-                        className="text-[10px] font-mono truncate max-w-full font-medium"
-                        style={{ color: activePalette.text }}
-                      >
-                        {p.name.split(" ")[0]}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        )}
-      </aside>
 
       {/* ================= 9. STICKY MOBILE BOOKING BAR ================= */}
       <div

@@ -11,7 +11,6 @@ interface DemoSideNavProps {
 
 export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) {
   const [activeSection, setActiveSection] = useState<string>("brand-hero");
-  const [isHovered, setIsHovered] = useState(false);
 
   const navItems =
     currentDemo === "cakes"
@@ -60,12 +59,10 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
 
   return (
     <>
-      {/* Desktop Floating Side Rail (Right Side) */}
+      {/* Desktop / Tablet Floating Side Rail (Fixed to Right Edge) */}
       <nav
         aria-label="Section navigation"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className="fixed right-5 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-end gap-2.5 p-2 rounded-2xl border backdrop-blur-md shadow-lg transition-all duration-300"
+        className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 hidden sm:flex flex-col items-end gap-2 p-2 rounded-2xl border backdrop-blur-md shadow-xl transition-all duration-300"
         style={{
           backgroundColor: `${palette.cardBg}EE`,
           borderColor: palette.border,
@@ -95,15 +92,15 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
                 key={item.id}
                 type="button"
                 onClick={() => scrollToSection(item.id)}
-                className={`group flex items-center justify-between gap-3 px-2.5 py-1.5 rounded-xl text-left transition-all cursor-pointer ${
-                  isActive ? "shadow-xs" : "hover:bg-black/5"
+                className={`group flex items-center justify-between gap-2.5 px-2.5 py-1.5 rounded-xl text-left transition-all cursor-pointer ${
+                  isActive ? "shadow-2xs" : "hover:bg-black/5"
                 }`}
                 style={{
                   backgroundColor: isActive ? palette.accent : "transparent",
                   color: isActive ? palette.accentFg : palette.text,
                 }}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                   <span
                     className="text-[10px] font-mono font-bold"
                     style={{ color: isActive ? palette.accentFg : palette.muted }}
@@ -112,25 +109,25 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
                   </span>
                   <span
                     className={`text-xs font-mono tracking-wide transition-all ${
-                      isActive ? "font-bold" : "opacity-80 group-hover:opacity-100"
+                      isActive ? "font-bold" : "opacity-75 group-hover:opacity-100"
                     }`}
                   >
                     {item.label}
                   </span>
                 </div>
-                <Icon size={12} className={isActive ? "opacity-100" : "opacity-40 group-hover:opacity-80"} />
+                <Icon size={11} className={isActive ? "opacity-100" : "opacity-40 group-hover:opacity-80"} />
               </button>
             );
           })}
         </div>
       </nav>
 
-      {/* Mobile / Tablet Floating Quick Traverse Pills (Subtle Bottom Floating Strip) */}
+      {/* Mobile Floating Side Micro-Pill (Fixed to Right Edge) */}
       <nav
         aria-label="Mobile section navigation"
-        className="fixed bottom-16 sm:bottom-14 left-1/2 -translate-x-1/2 z-20 flex xl:hidden items-center gap-1 p-1 rounded-full border backdrop-blur-md shadow-md max-w-[92vw] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="fixed right-1.5 top-1/2 -translate-y-1/2 z-30 flex sm:hidden flex-col items-center gap-1.5 p-1 rounded-full border backdrop-blur-md shadow-lg"
         style={{
-          backgroundColor: `${palette.cardBg}F5`,
+          backgroundColor: `${palette.cardBg}F0`,
           borderColor: palette.border,
         }}
       >
@@ -141,13 +138,15 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
               key={item.id}
               type="button"
               onClick={() => scrollToSection(item.id)}
-              className="px-3 py-1 rounded-full text-[10px] font-mono uppercase font-bold tracking-wider transition-all whitespace-nowrap"
+              className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-mono font-bold transition-all shadow-2xs"
               style={{
                 backgroundColor: isActive ? palette.accent : "transparent",
                 color: isActive ? palette.accentFg : palette.muted,
+                border: isActive ? `1px solid ${palette.accent}` : "none",
               }}
+              title={item.label}
             >
-              {item.num} {item.label}
+              {item.num}
             </button>
           );
         })}
@@ -155,3 +154,4 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
     </>
   );
 }
+
