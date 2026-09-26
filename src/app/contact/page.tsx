@@ -259,6 +259,12 @@ function ContactForm() {
                       {type}
                     </button>
                   ))}
+                  {selectedType === "The Instagram Booking Drop (2,000 kr)" && (
+                    <div className="w-full pt-1.5 text-[11px] font-mono text-muted flex items-start gap-1.5 leading-relaxed">
+                      <span className="text-foreground">↳</span>
+                      <span>Next step: You&apos;ll fill out a short questionnaire to pick your layout style, colors, services, and upload 6 photos. Ready in 48 hours to 1 week.</span>
+                    </div>
+                  )}
                 </div>
               </div>
 

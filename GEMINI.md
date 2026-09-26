@@ -51,8 +51,9 @@ This document contains permanent preferences, design rules, tone-of-voice constr
 ## 3. Pricing & Product Structure
 
 - **Structure:** 2 Core Tiers + Modular Add-ons:
-  1. **Tier 1: The Booking Drop (2,000 kr · One-Time · 48–72h)**
+  1. **Tier 1: The Booking Drop (2,000 kr · One-Time · 48h to 1 Week)**
      - Strictly a 1-page mobile site targeted to Instagram creators & solo artists.
+     - Client fills out a short questionnaire picking what they want (layout, colors, services, photos).
      - Replaces "DM to book" with a transparent price list, 1-tap booking, and 6-photo lookbook.
      - Extra pages or custom domains are explicit add-ons.
   2. **Tier 2: The Studio Website (5,500 – 12,500 kr · Scope Range · 1–2 Weeks)**

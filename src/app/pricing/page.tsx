@@ -98,7 +98,7 @@ export default function PricingPage() {
                 </div>
                 <div className="flex items-center gap-1.5 text-xs font-mono text-muted pt-1">
                   <FiClock size={13} />
-                  <span>Turnaround: 48 to 72 hours</span>
+                  <span>Turnaround: 48 hours to 1 week</span>
                 </div>
               </div>
 
@@ -156,7 +156,7 @@ export default function PricingPage() {
                   {expandedTier === "booking-drop" && (
                     <div className="mt-4 pt-3 border-t border-card-border/40 text-xs text-muted space-y-2 font-body leading-relaxed">
                       <p>
-                        <strong>How it works:</strong> You send me your Instagram handle, your treatment/price list, 6 photos, and your booking preferences. I build your site in 2–3 days, you test it on your phone, and we launch.
+                        <strong>How it works:</strong> You fill out a quick questionnaire where you pick what you want—your layout style, colors, service menu, and upload 6 photos. I build your site in 48 hours to 1 week, you test it on your phone, and we launch.
                       </p>
                       <p>
                         <strong>Hosting &amp; Domain:</strong> Included with a fast online link ready to paste right into your bio. If you want your own custom address like <code>yourstudio.no</code>, I can set that up as an add-on.
@@ -610,13 +610,13 @@ export default function PricingPage() {
 
           <div className="flex flex-col sm:flex-row md:flex-col gap-3 flex-shrink-0 text-xs font-mono">
             <div className="px-4 py-2 rounded-lg bg-background border border-card-border text-foreground">
-              ⚡ 48h to 1 week turnaround
+              48 hours to 1 week turnaround
             </div>
             <div className="px-4 py-2 rounded-lg bg-background border border-card-border text-foreground">
-              🤝 Direct 1-on-1 contact
+              Direct 1-on-1 with me
             </div>
             <div className="px-4 py-2 rounded-lg bg-background border border-card-border text-foreground">
-              📦 100% your code &amp; domain
+              100% your code &amp; domain
             </div>
           </div>
         </div>
