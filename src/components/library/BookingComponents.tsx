@@ -633,3 +633,102 @@ export function BookingArtisanFridayDelivery() {
     </div>
   );
 }
+
+// 21. Y2K Acid Chrome Tooth Gem Slip (Tooth Gems, Cyber Nails, Body Art)
+export function BookingY2KAcidSlip() {
+  const [selectedGem, setSelectedGem] = useState("Swarovski Crystal (450 kr)");
+
+  return (
+    <div className="w-full bg-[#121214] border border-[#3a3a42] p-5 text-[#f0f0f5] font-mono text-xs">
+      <div className="flex justify-between items-center pb-2 border-b border-white/10 mb-3">
+        <span className="text-[#e2fe52] font-black uppercase text-[10px] tracking-wider flex items-center gap-1">
+          <FiZap /> FLASH DROP // VIP BOOKING PASS
+        </span>
+        <span className="text-[10px] text-neutral-400">20 MIN SESSION</span>
+      </div>
+      <div className="space-y-2 mb-4">
+        {["Swarovski Crystal (450 kr)", "18K Solid Gold Star (750 kr)", "Opal Heart Cap (850 kr)"].map((gem) => (
+          <button
+            key={gem}
+            onClick={() => setSelectedGem(gem)}
+            className={`w-full p-2.5 text-left border flex items-center justify-between transition-all ${
+              selectedGem === gem
+                ? "bg-[#232328] border-[#e2fe52] text-white font-bold"
+                : "bg-black/40 border-neutral-800 text-neutral-400 hover:text-white"
+            }`}
+          >
+            <span>{gem}</span>
+            {selectedGem === gem && <span className="text-[#e2fe52] text-xs">● SELECTED</span>}
+          </button>
+        ))}
+      </div>
+      <button className="w-full py-3 bg-[#e2fe52] text-black font-black uppercase hover:bg-[#c9e838] transition-colors shadow-[0_0_15px_rgba(226,254,82,0.3)]">
+        LOCK VIP APPOINTMENT (VIPPS) →
+      </button>
+    </div>
+  );
+}
+
+// 22. Japanese Sashiko Reservation Pass (Artisan Workshop, Pottery, Tea House)
+export function BookingJapaneseSashikoPass() {
+  return (
+    <div className="w-full bg-[#0d1527] border-2 border-dashed border-[#2a3b5e] p-5 text-[#f8f6f0] font-mono text-xs">
+      <div className="flex justify-between items-start pb-3 border-b border-[#2a3b5e] mb-3">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-4 h-4 rounded-full bg-[#ef4444] text-white flex items-center justify-center text-[9px] font-bold">
+              印
+            </span>
+            <span className="font-bold uppercase text-[10px] tracking-widest text-neutral-400">
+              TEA CEREMONY &amp; WHEEL WORKSHOP
+            </span>
+          </div>
+          <span className="font-serif text-base text-white block">Saturday 14:00 – 16:30</span>
+        </div>
+        <div className="text-right">
+          <span className="text-xs font-bold text-[#ef4444]">750 KR</span>
+          <span className="text-[10px] text-neutral-400 block">MATERIALS INCLUDED</span>
+        </div>
+      </div>
+      <p className="text-[11px] text-neutral-300 mb-4 leading-relaxed">
+        Maximum 4 participants per session to ensure hands-on guidance on traditional kick-wheel throwing and sukumo dyeing.
+      </p>
+      <button className="w-full py-2.5 bg-[#f8f6f0] text-[#0d1527] font-bold uppercase hover:bg-white transition-colors">
+        RESERVE WORKSHOP SEAT (VIPPS)
+      </button>
+    </div>
+  );
+}
+
+// 23. Swiss Utilitarian Linear Booking Bar (Architectural, Minimalist, Engineering)
+export function BookingSwissLinearBar() {
+  return (
+    <div className="w-full bg-[#f7f7f7] border border-[#d1d1d6] p-5 font-mono text-xs text-black">
+      <div className="flex justify-between items-center pb-2 border-b border-black mb-3">
+        <span className="font-bold flex items-center gap-1.5">
+          <span className="w-2 h-2 bg-[#ff3b30] inline-block" />
+          DISCIPLINARY SESSION APPOINTMENT
+        </span>
+        <span className="text-[10px] text-neutral-500">REF: #OSL-902</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3">
+        <div className="p-2.5 bg-white border border-neutral-300">
+          <span className="text-[9px] text-neutral-400 block uppercase">SESSION TYPE</span>
+          <span className="font-bold block text-black">Consultation (60m)</span>
+        </div>
+        <div className="p-2.5 bg-white border border-neutral-300">
+          <span className="text-[9px] text-neutral-400 block uppercase">FEE SCHEDULE</span>
+          <span className="font-bold block text-black">1,500 kr Flat</span>
+        </div>
+        <div className="p-2.5 bg-white border border-neutral-300">
+          <span className="text-[9px] text-neutral-400 block uppercase">LOCATION</span>
+          <span className="font-bold block text-black">Aker Brygge / Video</span>
+        </div>
+      </div>
+      <button className="w-full py-2.5 bg-black text-white font-bold uppercase hover:bg-neutral-800 transition-colors">
+        AUTHORIZE CONSULTATION SLOT →
+      </button>
+    </div>
+  );
+}
+

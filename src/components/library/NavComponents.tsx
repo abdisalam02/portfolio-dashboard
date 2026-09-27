@@ -550,3 +550,55 @@ export function NavArtisanLinen() {
     </nav>
   );
 }
+
+// 25. Nordic Cobalt Floating Swiss Nav (Modernist Studios, Architecture, Galleries)
+export function NavNordicCobaltPill() {
+  return (
+    <nav className="w-full py-3 px-5 bg-[#f4f5f7] border border-[#d8dce3] flex items-center justify-between text-[#0b0c10]">
+      <div className="flex items-center gap-3">
+        <span className="font-heading font-black tracking-tight text-sm text-[#002fa7] uppercase">
+          KLEIN / 01
+        </span>
+        <span className="px-2 py-0.5 rounded-full bg-[#002fa7]/10 text-[#002fa7] font-mono text-[10px] font-bold">
+          OSLO 22:45
+        </span>
+      </div>
+      <div className="flex items-center gap-4 text-xs font-mono">
+        <span className="text-neutral-500 hover:text-black cursor-pointer hidden sm:inline">Index</span>
+        <span className="text-neutral-500 hover:text-black cursor-pointer hidden sm:inline">Archive</span>
+        <button className="px-3.5 py-1.5 rounded-full bg-[#002fa7] text-white font-bold text-xs hover:bg-[#002587] transition-colors shadow-sm flex items-center gap-1.5">
+          <span>Book Session</span>
+          <FiArrowUpRight className="text-xs" />
+        </button>
+      </div>
+    </nav>
+  );
+}
+
+// 26. Y2K Acid Chrome Marquee Bar (Tooth Gems, Cyber Nails, Streetwear)
+export function NavY2KChromeMarquee() {
+  return (
+    <nav className="w-full bg-[#121214] border-b border-[#3a3a42] text-[#f0f0f5] text-xs font-mono">
+      <div className="py-1 px-4 bg-gradient-to-r from-[#232328] via-[#3a3a42] to-[#232328] border-b border-white/10 flex items-center justify-between text-[10px] text-neutral-400">
+        <span className="flex items-center gap-1 text-[#e2fe52] font-bold">
+          <FiZap className="text-xs" /> FLASH DROP OPEN · 4 SLOTS LEFT
+        </span>
+        <span className="tracking-widest hidden sm:inline">OSLO · ST. HANSHAUGEN</span>
+      </div>
+      <div className="py-3 px-5 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="font-black text-sm tracking-widest text-[#e2fe52] uppercase bg-black px-2 py-0.5 border border-[#e2fe52]/40">
+            CHROME★GEM
+          </span>
+          <span className="text-[10px] text-neutral-400 hidden sm:inline">TOOTH GEMS &amp; GRILLZ</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <button className="px-3 py-1 rounded bg-[#e2fe52] text-black font-black uppercase text-[11px] hover:bg-[#c9e838] transition-colors shadow-[0_0_12px_rgba(226,254,82,0.3)]">
+            LOCK SLOT →
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+}
+

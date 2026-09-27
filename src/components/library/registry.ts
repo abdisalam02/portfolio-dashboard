@@ -25,6 +25,8 @@ import {
   NavWeddingEditorialScript,
   NavStreetwearBadge,
   NavArtisanLinen,
+  NavNordicCobaltPill,
+  NavY2KChromeMarquee,
 } from "./NavComponents";
 
 import {
@@ -52,6 +54,9 @@ import {
   HeroWeddingDocumentary,
   HeroBarberIndustrial,
   HeroArtisanFloralBoutique,
+  HeroNeoMintWellness,
+  HeroDarkBotanicalApothecary,
+  HeroJapaneseIndigoArtisan,
 } from "./HeroComponents";
 
 import {
@@ -77,6 +82,8 @@ import {
   TitleWeddingScriptEmboss,
   TitleBarberStencil,
   TitleArtisanHandStitch,
+  TitleSwissUtilitarianGrid,
+  TitlePeachCloudGlow,
 } from "./TitleComponents";
 
 import {
@@ -102,6 +109,8 @@ import {
   GalleryWedding35mmFilm,
   GalleryBarberFadeGrid,
   GalleryBotanicalHerbarium,
+  GalleryEspressoPolaroidStrip,
+  GalleryRetroSunsetMosaic,
 } from "./GalleryComponents";
 
 import {
@@ -146,6 +155,9 @@ import {
   PricingSliderDeposit,
   PricingSplitTwoTone,
   PricingMinimalistPills,
+  PricingNordicCobaltMatrix,
+  PricingSolarAmberIndustrial,
+  PricingNeoMintTreatmentTree,
 } from "./PricingComponents";
 
 import {
@@ -163,6 +175,8 @@ import {
   ReviewMarqueeTickerReviews,
   ReviewBarberChop,
   ReviewVippsVerifiedSlip,
+  ReviewDarkBotanicalPraise,
+  ReviewPeachCloudDM,
 } from "./ReviewComponents";
 
 import {
@@ -186,6 +200,9 @@ import {
   BookingWeddingContractInquiry,
   BookingBarberLiveQueue,
   BookingArtisanFridayDelivery,
+  BookingY2KAcidSlip,
+  BookingJapaneseSashikoPass,
+  BookingSwissLinearBar,
 } from "./BookingComponents";
 
 import {
@@ -203,6 +220,8 @@ import {
   FooterBotanicalStorefront,
   FooterOneTapActionDock,
   FooterMinimalistSingleLine,
+  FooterEspressoRoastery,
+  FooterSolarAmberTerminal,
 } from "./FooterComponents";
 
 export const UI_COMPONENTS_REGISTRY: UIComponentItem[] = [
@@ -449,6 +468,26 @@ export const UI_COMPONENTS_REGISTRY: UIComponentItem[] = [
     component: NavArtisanLinen,
     codeSnippet: `<nav className="w-full py-3.5 px-6 bg-[#f5f1e8] border-b-2 border-dashed border-[#b8a994] text-[#3c342b] flex items-center justify-between font-mono text-xs">...</nav>`,
   },
+  {
+    id: "nav-nordic-cobalt-pill",
+    category: "navs",
+    name: "Nordic Cobalt Modernist Nav",
+    styleTag: "Modernist",
+    aestheticVibe: "Nordic Cobalt / Modernist",
+    description: "Swiss architectural ultramarine blue with Oslo time coordinate indicator and direct booking pill.",
+    component: NavNordicCobaltPill,
+    codeSnippet: `<nav className="w-full py-3 px-5 bg-[#f4f5f7] border border-[#d8dce3] flex items-center justify-between text-[#0b0c10]">...</nav>`,
+  },
+  {
+    id: "nav-y2k-chrome-marquee",
+    category: "navs",
+    name: "Y2K Acid Chrome Marquee Bar",
+    styleTag: "Y2K Street",
+    aestheticVibe: "Y2K Acid Chrome / Silver",
+    description: "Brushed dark aluminum with electric acid lime flash drop alert and tooth gem reservation lock.",
+    component: NavY2KChromeMarquee,
+    codeSnippet: `<nav className="w-full bg-[#121214] border-b border-[#3a3a42] text-[#f0f0f5] text-xs font-mono">...</nav>`,
+  },
 
   // ==========================================
   // HEADERS & HEROES (24 items)
@@ -693,6 +732,36 @@ export const UI_COMPONENTS_REGISTRY: UIComponentItem[] = [
     component: HeroArtisanFloralBoutique,
     codeSnippet: `<div className="w-full bg-[#f6f3ec] border border-[#d8d0c0] p-6 sm:p-10 text-[#302920]">...</div>`,
   },
+  {
+    id: "hero-neo-mint-wellness",
+    category: "heroes",
+    name: "Neo-Mint Collective Exhale Hero",
+    styleTag: "Wellness",
+    aestheticVibe: "Neo-Mint / Digital Sage",
+    description: "2026 trending optical calm neo-mint canvas for lymphatic care, breathwork, and holistic wellness.",
+    component: HeroNeoMintWellness,
+    codeSnippet: `<div className="w-full bg-[#f0fdf4] border border-[#bbf7d0] p-6 sm:p-10 text-[#0f172a] rounded-2xl">...</div>`,
+  },
+  {
+    id: "hero-dark-botanical-apothecary",
+    category: "heroes",
+    name: "Dark Botanical Velvet Hero",
+    styleTag: "Moody Botanical",
+    aestheticVibe: "Dark Botanical / Moss",
+    description: "Deep forest canopy noir with antiqued copper rules and small-batch harvest badge.",
+    component: HeroDarkBotanicalApothecary,
+    codeSnippet: `<div className="w-full bg-[#07130e] border border-[#1d3b30] p-6 sm:p-10 text-[#e4efea]">...</div>`,
+  },
+  {
+    id: "hero-japanese-indigo-artisan",
+    category: "heroes",
+    name: "Japanese Aizome Indigo Hero",
+    styleTag: "Artisan Heritage",
+    aestheticVibe: "Japanese Indigo / Sashiko",
+    description: "Traditional midnight indigo with vermilion hanko seal stamp, raw denim objects, and studio visit CTA.",
+    component: HeroJapaneseIndigoArtisan,
+    codeSnippet: `<div className="w-full bg-[#0d1527] border border-[#2a3b5e] p-6 sm:p-10 text-[#f8f6f0]">...</div>`,
+  },
 
   // ==========================================
   // TITLES & TYPOGRAPHY (22 items)
@@ -917,6 +986,26 @@ export const UI_COMPONENTS_REGISTRY: UIComponentItem[] = [
     component: TitleArtisanHandStitch,
     codeSnippet: `<div className="w-full bg-[#f7f4ed] border-2 border-dashed border-[#b3a490] p-6 text-[#3b3227]">...</div>`,
   },
+  {
+    id: "title-swiss-utilitarian-grid",
+    category: "titles",
+    name: "Swiss Utilitarian Coordinate Title",
+    styleTag: "Utilitarian",
+    aestheticVibe: "Swiss Utilitarian / Grid",
+    description: "Strict mathematical DIN typography with system coordinates and signal red status block.",
+    component: TitleSwissUtilitarianGrid,
+    codeSnippet: `<div className="w-full bg-[#f7f7f7] border border-[#d1d1d6] p-6 font-mono text-black">...</div>`,
+  },
+  {
+    id: "title-peach-cloud-glow",
+    category: "titles",
+    name: "Peach Cloud Dewy Title",
+    styleTag: "Dewy Glow",
+    aestheticVibe: "Peach Cloud / K-Beauty",
+    description: "Soft peach cloud mist with hydration pill tag and delicate editorial typography for lash and skin studios.",
+    component: TitlePeachCloudGlow,
+    codeSnippet: `<div className="w-full bg-[#fff7f3] border border-[#fcd5c5] p-6 sm:p-8 rounded-2xl text-[#431407]">...</div>`,
+  },
 
   // ==========================================
   // IMAGE GALLERIES (22 items)
@@ -1140,6 +1229,26 @@ export const UI_COMPONENTS_REGISTRY: UIComponentItem[] = [
     description: "Oat paper specimen tiles with botanical Latin names and harvest numbers.",
     component: GalleryBotanicalHerbarium,
     codeSnippet: `<div className="w-full bg-[#f6f3eb] border border-[#d2c9b8] p-5 text-[#2c241b]">...</div>`,
+  },
+  {
+    id: "gallery-espresso-polaroid-strip",
+    category: "galleries",
+    name: "Espresso Roast Tasting Polaroid Strip",
+    styleTag: "Specialty Cafe",
+    aestheticVibe: "Espresso & Oat / Specialty",
+    description: "Dark roast mahogany background with polaroid style harvest tags, cupping notes, and roast levels.",
+    component: GalleryEspressoPolaroidStrip,
+    codeSnippet: `<div className="w-full bg-[#18110d] border border-[#3d2e25] p-5 text-[#f5ebe1] font-mono">...</div>`,
+  },
+  {
+    id: "gallery-retro-sunset-mosaic",
+    category: "galleries",
+    name: "70s Retro Sunset Vinyl Lookbook",
+    styleTag: "70s Retro",
+    aestheticVibe: "Retro Sunset / Lilac",
+    description: "Tangerine sunburst and lavender frames for vintage apparel, thrift finds, and retro salons.",
+    component: GalleryRetroSunsetMosaic,
+    codeSnippet: `<div className="w-full bg-[#fff5f0] border-2 border-[#ffccba] p-5 text-[#2d1e2f] rounded-2xl">...</div>`,
   },
 
   // ==========================================
@@ -1529,6 +1638,36 @@ export const UI_COMPONENTS_REGISTRY: UIComponentItem[] = [
     component: PricingMinimalistPills,
     codeSnippet: `<div className="w-full bg-white border border-neutral-300 p-4 font-mono text-xs">...</div>`,
   },
+  {
+    id: "pricing-nordic-cobalt-matrix",
+    category: "pricing",
+    name: "Nordic Cobalt Swiss Price Matrix",
+    styleTag: "Modernist",
+    aestheticVibe: "Nordic Cobalt / Modernist",
+    description: "Interactive Swiss matrix with multi-select services and live calculated estimated total.",
+    component: PricingNordicCobaltMatrix,
+    codeSnippet: `<div className="w-full bg-[#f4f5f7] border border-[#d8dce3] p-5 font-mono text-xs text-[#0b0c10]">...</div>`,
+  },
+  {
+    id: "pricing-solar-amber-industrial",
+    category: "pricing",
+    name: "Solar Amber Industrial Fabrication Rates",
+    styleTag: "Industrial",
+    aestheticVibe: "Solar Amber / Industrial",
+    description: "Concrete asphalt card with caution amber hourly bench rates and blueprint quote submission.",
+    component: PricingSolarAmberIndustrial,
+    codeSnippet: `<div className="w-full bg-[#1c1917] border border-[#44403c] p-5 text-[#fafaf9] font-mono text-xs">...</div>`,
+  },
+  {
+    id: "pricing-neo-mint-treatment-tree",
+    category: "pricing",
+    name: "Neo-Mint Holistic Treatment Tree",
+    styleTag: "Wellness",
+    aestheticVibe: "Neo-Mint / Digital Sage",
+    description: "2026 Collective Exhale soothing mint service cards with transparent durations and oil prep.",
+    component: PricingNeoMintTreatmentTree,
+    codeSnippet: `<div className="w-full bg-[#f0fdf4] border border-[#bbf7d0] p-5 rounded-2xl text-[#0f172a] text-xs">...</div>`,
+  },
 
   // ==========================================
   // SOCIAL PROOF & REVIEWS (14 items)
@@ -1672,6 +1811,26 @@ export const UI_COMPONENTS_REGISTRY: UIComponentItem[] = [
     description: "Orange Vipps verified badge with customer praise for midnight instant chair booking.",
     component: ReviewVippsVerifiedSlip,
     codeSnippet: `<div className="w-full bg-white border border-neutral-300 p-4 font-mono text-xs text-neutral-900 shadow-sm">...</div>`,
+  },
+  {
+    id: "review-dark-botanical-praise",
+    category: "reviews",
+    name: "Dark Botanical Herbalist Testimonial",
+    styleTag: "Moody Botanical",
+    aestheticVibe: "Dark Botanical / Moss",
+    description: "Deep forest canopy card with verified botanical client stamp and five-star rating.",
+    component: ReviewDarkBotanicalPraise,
+    codeSnippet: `<div className="w-full bg-[#07130e] border border-[#1d3b30] p-5 text-[#e4efea] font-mono text-xs">...</div>`,
+  },
+  {
+    id: "review-peach-cloud-dm",
+    category: "reviews",
+    name: "Peach Cloud K-Beauty Feedback",
+    styleTag: "Dewy Glow",
+    aestheticVibe: "Peach Cloud / K-Beauty",
+    description: "Gentle peach blush card with verified lash lift and tint client testimonial.",
+    component: ReviewPeachCloudDM,
+    codeSnippet: `<div className="w-full bg-[#fff7f3] border border-[#fcd5c5] p-5 rounded-2xl text-[#431407] text-xs">...</div>`,
   },
 
   // ==========================================
@@ -1877,6 +2036,36 @@ export const UI_COMPONENTS_REGISTRY: UIComponentItem[] = [
     component: BookingArtisanFridayDelivery,
     codeSnippet: `<div className="w-full bg-[#f6f2e8] border-2 border-dashed border-[#b3a490] p-5 text-[#30281e] font-mono text-xs">...</div>`,
   },
+  {
+    id: "booking-y2k-acid-slip",
+    category: "booking",
+    name: "Y2K Acid Chrome Tooth Gem Slip",
+    styleTag: "Y2K Street",
+    aestheticVibe: "Y2K Acid Chrome / Silver",
+    description: "Tooth gem placement selection (Swarovski / 18k solid gold / opal) with instant VIP pass booking.",
+    component: BookingY2KAcidSlip,
+    codeSnippet: `<div className="w-full bg-[#121214] border border-[#3a3a42] p-5 text-[#f0f0f5] font-mono text-xs">...</div>`,
+  },
+  {
+    id: "booking-japanese-sashiko-pass",
+    category: "booking",
+    name: "Japanese Sashiko Reservation Pass",
+    styleTag: "Artisan Heritage",
+    aestheticVibe: "Japanese Indigo / Sashiko",
+    description: "Tea ceremony and pottery wheel session card with red seal chop and Vipps instant reserve.",
+    component: BookingJapaneseSashikoPass,
+    codeSnippet: `<div className="w-full bg-[#0d1527] border-2 border-dashed border-[#2a3b5e] p-5 text-[#f8f6f0] font-mono text-xs">...</div>`,
+  },
+  {
+    id: "booking-swiss-linear-bar",
+    category: "booking",
+    name: "Swiss Utilitarian Linear Booking Bar",
+    styleTag: "Utilitarian",
+    aestheticVibe: "Swiss Utilitarian / Grid",
+    description: "Strict monochrome appointment bar with consultation duration, location coordinates, and authorize trigger.",
+    component: BookingSwissLinearBar,
+    codeSnippet: `<div className="w-full bg-[#f7f7f7] border border-[#d1d1d6] p-5 font-mono text-xs text-black">...</div>`,
+  },
 
   // ==========================================
   // FOOTERS & LOCATION / HOURS (14 items)
@@ -2020,5 +2209,25 @@ export const UI_COMPONENTS_REGISTRY: UIComponentItem[] = [
     description: "Ultra-clean single line footer with developer credit and direct email link.",
     component: FooterMinimalistSingleLine,
     codeSnippet: `<footer className="w-full bg-white border-t border-neutral-200 py-4 px-6 flex justify-between items-center font-mono text-[11px] text-neutral-500">...</footer>`,
+  },
+  {
+    id: "footer-espresso-roastery",
+    category: "footers",
+    name: "Espresso Roastery & Cafe Hours Footer",
+    styleTag: "Specialty Cafe",
+    aestheticVibe: "Espresso & Oat / Specialty",
+    description: "Dark roast bean footer with Oslo cafe hours, tram stops, and wholesale bean contact.",
+    component: FooterEspressoRoastery,
+    codeSnippet: `<footer className="w-full bg-[#18110d] border-t border-[#3d2e25] p-6 sm:p-8 font-mono text-xs text-[#f5ebe1]">...</footer>`,
+  },
+  {
+    id: "footer-solar-amber-terminal",
+    category: "footers",
+    name: "Solar Amber Industrial Terminal",
+    styleTag: "Industrial",
+    aestheticVibe: "Solar Amber / Industrial",
+    description: "Heavy asphalt footer with caution amber loading dock directions and security buzzer info.",
+    component: FooterSolarAmberTerminal,
+    codeSnippet: `<footer className="w-full bg-[#1c1917] border-t-2 border-[#f59e0b] p-6 text-[#fafaf9] font-mono text-xs">...</footer>`,
   },
 ];

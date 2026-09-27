@@ -617,3 +617,68 @@ export function GalleryBotanicalHerbarium() {
     </div>
   );
 }
+
+// 23. Espresso Roast Polaroid Ledger (Specialty Coffee, Bakeries, Roasteries)
+export function GalleryEspressoPolaroidStrip() {
+  return (
+    <div className="w-full bg-[#18110d] border border-[#3d2e25] p-5 text-[#f5ebe1] font-mono">
+      <div className="flex justify-between items-center text-xs pb-3 border-b border-[#3d2e25] mb-4">
+        <span className="text-[#d97706] font-bold">ROAST PROFILES // TASTING ARCHIVE</span>
+        <span className="text-neutral-500 text-[10px]">ETHIOPIA &amp; COLOMBIA HARVEST</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {[
+          { origin: "Yirgacheffe Kochere", note: "Jasmine, Peach & Honey", roast: "Light Filter" },
+          { origin: "Huila Pink Bourbon", note: "Red Apple & Bergamot", roast: "Omni Roast" },
+          { origin: "Antioquia Natural", note: "Dark Chocolate & Fig", roast: "Espresso" },
+        ].map((item, i) => (
+          <div key={item.origin} className="bg-[#281d17] border border-[#4a392e] p-3 rounded shadow-sm">
+            <div className="relative h-32 bg-black/40 border border-[#4a392e] mb-3 overflow-hidden">
+              <Image src={`/demo/cakes/cake-${i + 1}.jpg`} alt={item.origin} fill className="object-cover" />
+              <span className="absolute bottom-1 right-1 bg-black/80 text-[#d97706] text-[9px] px-1.5 py-0.5">
+                {item.roast}
+              </span>
+            </div>
+            <span className="text-xs font-bold text-white block">{item.origin}</span>
+            <p className="text-[10px] text-neutral-400 mt-0.5">{item.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// 24. 70s Retro Sunset Vinyl Lookbook (Vintage Boutiques, Retro Salons)
+export function GalleryRetroSunsetMosaic() {
+  return (
+    <div className="w-full bg-[#fff5f0] border-2 border-[#ffccba] p-5 text-[#2d1e2f] rounded-2xl">
+      <div className="flex justify-between items-center mb-4">
+        <span className="px-3 py-1 bg-[#ff5722] text-white text-xs font-bold rounded-full uppercase tracking-wider">
+          SIDE A · SELECTION
+        </span>
+        <span className="text-xs font-mono text-[#9c27b0] font-bold">OSLO RETRO VAULT</span>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="relative h-36 rounded-xl overflow-hidden border-2 border-[#ff5722]">
+          <Image src="/demo/wedding/portfolio-1.jpg" alt="Vintage 1" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2">
+            <span className="text-white text-[10px] font-bold">1974 Silk Blazer</span>
+          </div>
+        </div>
+        <div className="relative h-36 rounded-xl overflow-hidden border-2 border-[#9c27b0]">
+          <Image src="/demo/wedding/portfolio-2.jpg" alt="Vintage 2" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2">
+            <span className="text-white text-[10px] font-bold">Amber Acetate Shades</span>
+          </div>
+        </div>
+        <div className="relative h-36 rounded-xl overflow-hidden border-2 border-[#ff5722] col-span-2 sm:col-span-1">
+          <Image src="/demo/wedding/portfolio-3.jpg" alt="Vintage 3" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2">
+            <span className="text-white text-[10px] font-bold">Italian Leather Hobo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+

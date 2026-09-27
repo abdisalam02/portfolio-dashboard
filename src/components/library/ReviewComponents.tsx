@@ -252,3 +252,48 @@ export function ReviewVippsVerifiedSlip() {
     </div>
   );
 }
+
+// 15. Dark Botanical Herbalist Testimonial (Apothecary & Botanical Tattoo)
+export function ReviewDarkBotanicalPraise() {
+  return (
+    <div className="w-full bg-[#07130e] border border-[#1d3b30] p-5 text-[#e4efea] font-mono text-xs">
+      <div className="flex justify-between items-center pb-2 border-b border-[#1d3b30] mb-3">
+        <span className="text-[#c4975a] font-bold text-[10px] uppercase flex items-center gap-1.5">
+          <span>🌿 VERIFIED BOTANICAL CLIENT</span>
+        </span>
+        <span className="text-[10px] text-neutral-500">BATCH 09 VISITOR</span>
+      </div>
+      <p className="font-serif italic text-sm text-neutral-200 leading-relaxed">
+        &quot;The juniper facial ritual completely transformed my skin texture. The studio smells like wild Nordmarka pine and calm.&quot;
+      </p>
+      <div className="mt-3 flex justify-between items-center text-[10px] text-neutral-400">
+        <span>Amalie H. · Grünerløkka</span>
+        <span className="text-[#c4975a]">★★★★★ 5.0</span>
+      </div>
+    </div>
+  );
+}
+
+// 16. Peach Cloud K-Beauty Direct Feedback (Lash & Brow Spas)
+export function ReviewPeachCloudDM() {
+  return (
+    <div className="w-full bg-[#fff7f3] border border-[#fcd5c5] p-5 rounded-2xl text-[#431407] text-xs">
+      <div className="flex items-center gap-2 mb-3">
+        <span className="w-8 h-8 rounded-full bg-[#feece2] border border-[#fcd5c5] flex items-center justify-center font-bold text-xs text-[#fb7185]">
+          🌸
+        </span>
+        <div>
+          <span className="font-bold block text-[#431407]">Elena V. (@elena.beauty)</span>
+          <span className="text-[10px] text-[#fb7185] font-mono">VERIFIED LASH LIFT &amp; TINT</span>
+        </div>
+        <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#feece2] text-[#fb7185] font-bold font-mono">
+          5.0 ★
+        </span>
+      </div>
+      <div className="p-3 bg-white rounded-xl border border-[#fcd5c5]/60 text-[#431407] text-[11px] leading-relaxed shadow-sm">
+        &quot;My lash lift usually falls after 3 weeks but here it lasted a full 7 weeks! The studio is like a pink cloud heaven.&quot;
+      </div>
+    </div>
+  );
+}
+

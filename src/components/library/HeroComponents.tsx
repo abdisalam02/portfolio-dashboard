@@ -811,3 +811,105 @@ export function HeroArtisanFloralBoutique() {
     </div>
   );
 }
+
+// 25. Neo-Mint Wellness & Breathwork Hero (2026 Collective Exhale Aesthetic)
+export function HeroNeoMintWellness() {
+  return (
+    <div className="w-full bg-[#f0fdf4] border border-[#bbf7d0] p-6 sm:p-10 text-[#0f172a] rounded-2xl">
+      <div className="max-w-2xl">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#dcfce7] border border-[#86efac] text-[#15803d] font-mono text-[11px] font-bold mb-4">
+          <span className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
+          <span>SPRING APPOINTMENTS LIVE · OSLO SENTRUM</span>
+        </div>
+        <h1 className="text-3xl sm:text-5xl font-light tracking-tight text-[#14532d] leading-[1.15]">
+          The collective exhale. <br />
+          <span className="font-serif italic font-normal text-[#16a34a]">Lymphatic drainage</span> &amp; sound baths.
+        </h1>
+        <p className="text-xs sm:text-sm text-[#374151] mt-4 leading-relaxed max-w-lg">
+          Zero rush. Sixty minutes of restorative vagus-nerve therapy and organic botanical oils in our soundproof sanctuary.
+        </p>
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <button className="px-5 py-2.5 rounded-full bg-[#15803d] text-white font-medium text-xs hover:bg-[#166534] transition-all shadow-sm">
+            Reserve Studio Session · 950 kr
+          </button>
+          <span className="text-[11px] font-mono text-[#15803d] font-semibold">
+            Only 3 slots open for this Saturday
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 26. Dark Botanical Velvet Apothecary Hero (Herbalists, Botanical Tattoo, Natural Perfume)
+export function HeroDarkBotanicalApothecary() {
+  return (
+    <div className="w-full bg-[#07130e] border border-[#1d3b30] p-6 sm:p-10 text-[#e4efea]">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        <div className="md:col-span-8">
+          <div className="flex items-center gap-2 text-[10px] font-mono tracking-widest text-[#c4975a] uppercase mb-2">
+            <span>VOL. IV // ORGANIC ALCHEMY</span>
+            <span>·</span>
+            <span>OSLO BOTANICAL</span>
+          </div>
+          <h2 className="font-serif text-3xl sm:text-4xl text-white leading-tight">
+            Small-batch forest tinctures &amp; handcrafted floral inks.
+          </h2>
+          <p className="text-xs text-neutral-400 mt-3 leading-relaxed max-w-md">
+            Distilled from wild juniper and pine needle extracts harvested in Nordmarka. Each bottle is numbered by hand.
+          </p>
+          <div className="mt-6 flex items-center gap-4">
+            <button className="px-4 py-2 border border-[#c4975a] bg-[#c4975a]/10 text-[#c4975a] text-xs font-mono uppercase tracking-wider hover:bg-[#c4975a] hover:text-black transition-colors">
+              Request Custom Blend →
+            </button>
+            <span className="text-[11px] font-mono text-neutral-400">Batch 14 · 18 of 50 Left</span>
+          </div>
+        </div>
+        <div className="md:col-span-4 bg-[#0e231b] border border-[#1d3b30] p-4 text-center">
+          <div className="w-12 h-12 rounded-full border border-[#c4975a] mx-auto flex items-center justify-center text-[#c4975a] font-serif text-lg mb-2">
+            🌿
+          </div>
+          <span className="font-serif italic text-white text-sm block">Nordmarka Harvest</span>
+          <span className="text-[10px] font-mono text-[#c4975a] block mt-1">OCTOBER EXTRACT · 450 KR</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 27. Japanese Aizome Indigo Hero (Craftsman Pottery, Raw Denim, Traditional Woodcraft)
+export function HeroJapaneseIndigoArtisan() {
+  return (
+    <div className="w-full bg-[#0d1527] border border-[#2a3b5e] p-6 sm:p-10 text-[#f8f6f0]">
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-4 pb-4 border-b border-[#2a3b5e]/60">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-5 h-5 rounded-full bg-[#ef4444] text-white flex items-center justify-center text-[10px] font-bold">
+              印
+            </span>
+            <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase">
+              STUDIO AIZOME · INDIGO OBJECTS
+            </span>
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-light text-white tracking-tight">
+            Hand-dipped indigo canvas &amp; woodfired ceramics.
+          </h2>
+        </div>
+        <div className="text-right font-mono text-xs hidden sm:block">
+          <span className="text-[#ef4444] font-bold block">1-OF-1 ARTISAN PIECES</span>
+          <span className="text-neutral-400 text-[10px]">WORKSHOP VISITS BY APPOINTMENT</span>
+        </div>
+      </div>
+      <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
+        <p className="text-xs text-neutral-300 font-mono leading-relaxed max-w-md">
+          Natural fermentation vats maintained with Japanese sukumo. No chemical fixatives.
+        </p>
+        <button className="px-5 py-2.5 bg-[#f8f6f0] text-[#0d1527] font-mono font-bold text-xs uppercase hover:bg-white transition-colors flex items-center gap-2">
+          <span>SCHEDULE STUDIO VISIT</span>
+          <FiArrowRight />
+        </button>
+      </div>
+    </div>
+  );
+}
+

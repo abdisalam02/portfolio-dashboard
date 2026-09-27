@@ -5,6 +5,7 @@ import Link from "next/link";
 import { UI_COMPONENTS_REGISTRY } from "@/components/library/registry";
 import { ComponentCard } from "@/components/library/ComponentCard";
 import { ComponentCategory, AestheticVibe } from "@/components/library/types";
+import { THEME_PALETTES } from "@/components/library/palettes";
 import { 
   FiSearch, 
   FiFilter, 
@@ -18,33 +19,47 @@ import {
   FiShare2,
   FiCode,
   FiEye,
-  FiStar
+  FiStar,
+  FiChevronDown,
+  FiChevronUp,
+  FiZap
 } from "react-icons/fi";
 
 const CATEGORIES: { id: ComponentCategory; label: string; count: number }[] = [
-  { id: "all", label: "ALL COMPONENTS", count: 178 },
-  { id: "navs", label: "NAVIGATIONS", count: 24 },
-  { id: "heroes", label: "HEADERS & HEROES", count: 24 },
-  { id: "titles", label: "TITLES & TYPOGRAPHY", count: 22 },
-  { id: "galleries", label: "IMAGE GALLERIES", count: 22 },
+  { id: "all", label: "ALL COMPONENTS", count: 197 },
+  { id: "navs", label: "NAVIGATIONS", count: 26 },
+  { id: "heroes", label: "HEADERS & HEROES", count: 27 },
+  { id: "titles", label: "TITLES & TYPOGRAPHY", count: 24 },
+  { id: "galleries", label: "IMAGE GALLERIES", count: 24 },
   { id: "dropdowns", label: "ACCORDIONS & DROPDOWNS", count: 22 },
-  { id: "pricing", label: "PRICING & MENUS", count: 16 },
-  { id: "reviews", label: "REVIEWS & SOCIAL PROOF", count: 14 },
-  { id: "booking", label: "BOOKING & CTAs", count: 20 },
-  { id: "footers", label: "LOCATION & FOOTERS", count: 14 },
+  { id: "pricing", label: "PRICING & MENUS", count: 19 },
+  { id: "reviews", label: "REVIEWS & SOCIAL PROOF", count: 16 },
+  { id: "booking", label: "BOOKING & CTAs", count: 23 },
+  { id: "footers", label: "LOCATION & FOOTERS", count: 16 },
 ];
 
-const AESTHETIC_VIBES: AestheticVibe[] = [
-  "All",
-  "Terracotta / Earthy",
-  "Patisserie / Pastel",
-  "Wabi-Sabi / Sage",
-  "Cyber Chrome / Dark",
-  "Neo-Brutalist / Pop",
-  "Luxury Atelier / Gold",
-  "Editorial / Print",
-  "Modern Magic / Glow",
-  "Artisan / Linen",
+const AESTHETIC_VIBES: { id: AestheticVibe; dotColor?: string }[] = [
+  { id: "All" },
+  { id: "Terracotta / Earthy", dotColor: "#C86D51" },
+  { id: "Patisserie / Pastel", dotColor: "#E07A8A" },
+  { id: "Wabi-Sabi / Sage", dotColor: "#5B7059" },
+  { id: "Cyber Chrome / Dark", dotColor: "#00F0FF" },
+  { id: "Neo-Brutalist / Pop", dotColor: "#CCFF00" },
+  { id: "Luxury Atelier / Gold", dotColor: "#D4AF37" },
+  { id: "Editorial / Print", dotColor: "#B83A2E" },
+  { id: "Modern Magic / Glow", dotColor: "#8B5CF6" },
+  { id: "Artisan / Linen", dotColor: "#8C7355" },
+  // 10 Brand New Palettes
+  { id: "Nordic Cobalt / Modernist", dotColor: "#002FA7" },
+  { id: "Neo-Mint / Digital Sage", dotColor: "#15803D" },
+  { id: "Y2K Acid Chrome / Silver", dotColor: "#E2FE52" },
+  { id: "Dark Botanical / Moss", dotColor: "#C4975A" },
+  { id: "Japanese Indigo / Sashiko", dotColor: "#EF4444" },
+  { id: "Espresso & Oat / Specialty", dotColor: "#D97706" },
+  { id: "Retro Sunset / Lilac", dotColor: "#FF5722" },
+  { id: "Swiss Utilitarian / Grid", dotColor: "#FF3B30" },
+  { id: "Peach Cloud / K-Beauty", dotColor: "#FB7185" },
+  { id: "Solar Amber / Industrial", dotColor: "#F59E0B" },
 ];
 
 export default function UILibraryPage() {
@@ -56,6 +71,7 @@ export default function UILibraryPage() {
   const [viewMode, setViewMode] = useState<"grid" | "sections">("grid");
   const [copySuccess, setCopySuccess] = useState(false);
   const [previewSiteOpen, setPreviewSiteOpen] = useState(false);
+  const [paletteGuideOpen, setPaletteGuideOpen] = useState(false);
 
   // Sync theme with localStorage
   useEffect(() => {
@@ -138,148 +154,224 @@ export default function UILibraryPage() {
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300 pb-36">
-      {/* Top Floating App Bar */}
-      <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-card-border px-4 sm:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Link href="/" className="font-heading font-black text-base sm:text-lg tracking-tight hover:opacity-80">
+      {/* 
+        STICKY ACCESSIBLE FILTER COMMAND CENTER 
+        Stays pinned as you scroll down through all 197 components.
+      */}
+      <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-card-border shadow-sm transition-all">
+        {/* Top Control Bar */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 py-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            {/* Logo & Counter */}
+            <div className="flex items-center gap-2.5">
+              <Link href="/" className="font-heading font-black text-sm sm:text-base tracking-tight hover:opacity-80">
                 A.GURE
               </Link>
-              <span className="text-muted">/</span>
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-foreground">
-                UI CUSTOMIZER VAULT
+              <span className="text-muted text-xs">/</span>
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-foreground hidden sm:inline">
+                UI VAULT
               </span>
               <span className="px-2 py-0.5 bg-foreground text-background text-[10px] font-mono font-bold">
-                178 COMPONENTS
+                197 COMPONENTS
+              </span>
+              <span className="text-muted text-xs hidden lg:inline">·</span>
+              <span className="text-xs font-mono text-muted hidden lg:inline">
+                {filteredItems.length} matching styles
               </span>
             </div>
 
-            <button
-              onClick={toggleTheme}
-              className="md:hidden p-2 border border-card-border text-foreground hover:bg-muted/10 text-xs font-mono"
-            >
-              {isLightMode ? <FiMoon /> : <FiSun />}
-            </button>
-          </div>
+            {/* Quick Search & Actions */}
+            <div className="flex items-center gap-2.5 flex-1 sm:flex-initial justify-end">
+              <div className="relative w-full max-w-[200px] sm:max-w-[240px]">
+                <FiSearch className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted text-xs" />
+                <input
+                  type="text"
+                  placeholder="Search 197 components..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-7 pr-7 py-1 border border-card-border bg-card text-foreground font-mono text-xs outline-none focus:border-foreground"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-foreground text-xs"
+                  >
+                    <FiX />
+                  </button>
+                )}
+              </div>
 
-          {/* Quick Search & Controls */}
-          <div className="flex items-center gap-3">
-            <div className="relative flex-1 sm:w-64">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-xs" />
-              <input
-                type="text"
-                placeholder="Search 178 components..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 border border-card-border bg-card text-foreground font-mono text-xs outline-none focus:border-foreground"
-              />
-              {searchQuery && (
+              {/* View Switcher */}
+              <div className="hidden sm:flex border border-card-border p-0.5 font-mono text-xs">
                 <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted hover:text-foreground text-xs"
+                  onClick={() => setViewMode("grid")}
+                  className={`px-2 py-0.5 flex items-center gap-1 ${
+                    viewMode === "grid" ? "bg-foreground text-background font-bold" : "text-muted hover:text-foreground"
+                  }`}
+                  title="Masonry Grid"
                 >
-                  <FiX />
+                  <FiGrid className="text-xs" />
+                  <span className="text-[10px] hidden md:inline">GRID</span>
+                </button>
+                <button
+                  onClick={() => setViewMode("sections")}
+                  className={`px-2 py-0.5 flex items-center gap-1 ${
+                    viewMode === "sections" ? "bg-foreground text-background font-bold" : "text-muted hover:text-foreground"
+                  }`}
+                  title="Grouped by Section"
+                >
+                  <FiLayers className="text-xs" />
+                  <span className="text-[10px] hidden md:inline">SECTIONS</span>
+                </button>
+              </div>
+
+              {/* Palette Guide Button */}
+              <button
+                onClick={() => setPaletteGuideOpen(!paletteGuideOpen)}
+                className={`flex items-center gap-1.5 px-2.5 py-1 border text-xs font-mono transition-colors ${
+                  paletteGuideOpen
+                    ? "bg-foreground text-background font-bold border-foreground"
+                    : "border-card-border text-muted hover:text-foreground bg-card"
+                }`}
+                title="View Color Palette Guide"
+              >
+                <span>🎨</span>
+                <span className="text-[11px] font-bold hidden sm:inline">19 PALETTES</span>
+                {paletteGuideOpen ? <FiChevronUp className="text-xs" /> : <FiChevronDown className="text-xs" />}
+              </button>
+
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="p-1.5 border border-card-border text-foreground hover:bg-muted/10 text-xs font-mono"
+                title="Toggle Theme"
+              >
+                {isLightMode ? <FiMoon /> : <FiSun />}
+              </button>
+
+              {/* Sticky Assembled Preview Trigger (Visible when components are queued) */}
+              {selectedComponents.length > 0 && (
+                <button
+                  onClick={() => setPreviewSiteOpen(true)}
+                  className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-mono font-bold text-xs uppercase flex items-center gap-1.5 shadow-sm transition-all"
+                >
+                  <FiEye />
+                  <span className="hidden sm:inline">PREVIEW</span>
+                  <span>({selectedComponents.length})</span>
                 </button>
               )}
             </div>
-
-            <div className="hidden sm:flex border border-card-border p-0.5 font-mono text-xs">
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`px-2.5 py-1 flex items-center gap-1 ${
-                  viewMode === "grid" ? "bg-foreground text-background font-bold" : "text-muted hover:text-foreground"
-                }`}
-              >
-                <FiGrid className="text-xs" />
-                <span className="text-[10px]">PINTEREST</span>
-              </button>
-              <button
-                onClick={() => setViewMode("sections")}
-                className={`px-2.5 py-1 flex items-center gap-1 ${
-                  viewMode === "sections" ? "bg-foreground text-background font-bold" : "text-muted hover:text-foreground"
-                }`}
-              >
-                <FiLayers className="text-xs" />
-                <span className="text-[10px]">BY SECTION</span>
-              </button>
-            </div>
-
-            <button
-              onClick={toggleTheme}
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 border border-card-border text-foreground hover:bg-muted/10 text-xs font-mono"
-            >
-              {isLightMode ? <FiMoon className="text-xs" /> : <FiSun className="text-xs" />}
-              <span className="text-[11px]">{isLightMode ? "DARK" : "LIGHT"}</span>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Hero Intro Header */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 sm:pt-10 pb-6">
-        <div className="border border-card-border bg-card p-6 sm:p-8 font-mono text-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-card-border">
-            <div>
-              <span className="text-[10px] text-muted uppercase tracking-widest block mb-1 font-bold">
-                A.GURE · 2,000 KR TEMPLATE BUILDER &amp; COMPONENT VAULT
-              </span>
-              <h1 className="font-heading font-black text-2xl sm:text-4xl uppercase tracking-tighter text-foreground leading-tight">
-                Vast UI Component Library.
-              </h1>
-              <p className="text-xs text-muted mt-2 max-w-2xl leading-relaxed">
-                178 uniquely styled UI components across 9 core sections. Compare warm terracotta, Parisian patisserie, Japanese wabi-sabi sage, cyberpunk chrome, and neo-brutalist pop designs. Select components to assemble your custom 1-page site blueprint.
-              </p>
-            </div>
-            <div className="text-left sm:text-right border-t sm:border-t-0 pt-3 sm:pt-0 border-card-border">
-              <span className="text-3xl font-black font-heading text-foreground block">
-                {filteredItems.length}
-              </span>
-              <span className="text-[10px] text-muted uppercase font-bold">MATCHING STYLES</span>
-            </div>
           </div>
 
-          {/* Aesthetic Universe / Vibe Filter Bar */}
-          <div className="pt-4 pb-2">
-            <div className="text-[10px] text-muted uppercase mb-2 font-bold flex items-center gap-1">
-              <FiStar className="text-xs text-amber-500 fill-amber-500" />
-              <span>AESTHETIC UNIVERSE &amp; THEME PALETTES:</span>
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {AESTHETIC_VIBES.map((vibe) => (
-                <button
-                  key={vibe}
-                  onClick={() => setSelectedVibe(vibe)}
-                  className={`px-3 py-1 text-xs font-mono transition-all rounded ${
-                    selectedVibe === vibe
-                      ? "bg-foreground text-background font-bold shadow-sm"
-                      : "border border-card-border text-muted hover:text-foreground hover:border-foreground bg-card"
-                  }`}
-                >
-                  {vibe}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Category Tabs */}
-          <div className="mt-4 pt-4 border-t border-card-border flex flex-wrap gap-1.5">
+          {/* Sticky Row 2: Category Navigation Strip */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-2 mt-1 border-t border-card-border/60 scroll-smooth">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-2.5 py-1 text-[11px] font-mono transition-all ${
+                className={`px-2.5 py-1 text-[11px] font-mono whitespace-nowrap transition-all flex-shrink-0 ${
                   activeCategory === cat.id
-                    ? "bg-foreground text-background font-bold"
-                    : "border border-card-border text-muted hover:text-foreground"
+                    ? "bg-foreground text-background font-bold shadow-sm"
+                    : "border border-card-border text-muted hover:text-foreground hover:border-foreground bg-card"
                 }`}
               >
                 {cat.label} ({cat.count})
               </button>
             ))}
           </div>
+
+          {/* Sticky Row 3: Aesthetic Universes & Theme Palettes Strip */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1.5 border-t border-card-border/40 scroll-smooth text-xs">
+            <span className="text-[10px] font-mono text-muted uppercase font-bold flex-shrink-0 mr-1 hidden sm:inline">
+              VIBE:
+            </span>
+            {AESTHETIC_VIBES.map((vibe) => (
+              <button
+                key={vibe.id}
+                onClick={() => setSelectedVibe(vibe.id)}
+                className={`px-2 py-0.5 text-[10px] font-mono whitespace-nowrap transition-all rounded flex-shrink-0 flex items-center gap-1.5 ${
+                  selectedVibe === vibe.id
+                    ? "bg-foreground text-background font-bold shadow-sm ring-1 ring-foreground"
+                    : "border border-card-border text-muted hover:text-foreground hover:border-foreground bg-card"
+                }`}
+              >
+                {vibe.dotColor && (
+                  <span 
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: vibe.dotColor }}
+                  />
+                )}
+                <span>{vibe.id}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </section>
+
+        {/* Collapsible Palette Swatch Drawer */}
+        {paletteGuideOpen && (
+          <div className="border-t-2 border-foreground bg-card p-4 sm:p-6 max-h-[70vh] overflow-y-auto font-mono text-xs animate-in slide-in-from-top-2 duration-200">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex justify-between items-center pb-3 mb-4 border-b border-card-border">
+                <div>
+                  <h3 className="font-heading font-black text-sm sm:text-base uppercase tracking-tight text-foreground">
+                    THE 19 THEME PALETTES &amp; SWATCH VAULT
+                  </h3>
+                  <p className="text-muted text-[11px] mt-0.5">
+                    Click any palette to instantly filter components for that aesthetic universe.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setPaletteGuideOpen(false)}
+                  className="p-1 text-muted hover:text-foreground text-sm"
+                >
+                  <FiX />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {THEME_PALETTES.map((pal) => (
+                  <div
+                    key={pal.name}
+                    onClick={() => {
+                      setSelectedVibe(pal.id);
+                      setPaletteGuideOpen(false);
+                    }}
+                    className={`p-3 border cursor-pointer transition-all ${
+                      selectedVibe === pal.id
+                        ? "border-foreground ring-2 ring-foreground bg-foreground/5 shadow-md"
+                        : "border-card-border hover:border-foreground/60 bg-card hover:shadow-sm"
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <span className="font-bold text-foreground text-xs block">{pal.name}</span>
+                        <span className="text-[10px] text-muted">{pal.subtitle}</span>
+                      </div>
+                      <span className="text-[9px] px-1.5 py-0.5 bg-foreground/10 text-foreground font-bold uppercase rounded">
+                        {selectedVibe === pal.id ? "ACTIVE" : "FILTER"}
+                      </span>
+                    </div>
+
+                    {/* 5-Color Swatch Bar */}
+                    <div className="flex h-5 w-full rounded overflow-hidden border border-black/10 my-2">
+                      <div className="flex-1" style={{ backgroundColor: pal.bgHex }} title={`Background: ${pal.bgHex}`} />
+                      <div className="flex-1" style={{ backgroundColor: pal.cardHex }} title={`Card: ${pal.cardHex}`} />
+                      <div className="flex-1" style={{ backgroundColor: pal.accentHex }} title={`Accent: ${pal.accentHex}`} />
+                      <div className="flex-1" style={{ backgroundColor: pal.borderHex }} title={`Border: ${pal.borderHex}`} />
+                      <div className="flex-1" style={{ backgroundColor: pal.textHex }} title={`Text: ${pal.textHex}`} />
+                    </div>
+
+                    <div className="text-[10px] space-y-0.5 pt-1 text-muted border-t border-card-border/40">
+                      <div><strong className="text-foreground">Best for:</strong> {pal.bestFor}</div>
+                      <div className="italic text-[9px]">{pal.mood}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
 
       {/* Main Component Display Canvas */}
       <section className="max-w-7xl mx-auto px-4 sm:px-8 mt-6">
@@ -319,7 +411,7 @@ export default function UILibraryPage() {
               if (catItems.length === 0) return null;
 
               return (
-                <div key={cat.id} id={cat.id} className="scroll-mt-24">
+                <div key={cat.id} id={cat.id} className="scroll-mt-36">
                   <div className="flex items-center justify-between pb-3 mb-6 border-b-2 border-foreground font-mono">
                     <div className="flex items-center gap-3">
                       <span className="font-heading font-black text-xl sm:text-2xl uppercase tracking-tight text-foreground">

@@ -424,3 +424,125 @@ export function PricingMinimalistPills() {
     </div>
   );
 }
+
+// 17. Nordic Cobalt Swiss Price Matrix (Modernist Studios, Architecture, Design)
+export function PricingNordicCobaltMatrix() {
+  const [selected, setSelected] = useState<number[]>([0]);
+
+  const items = [
+    { title: "Standard Brand Identity Drop", time: "3 Working Days", price: 2000 },
+    { title: "Custom Editorial Lookbook", time: "+1 Day", price: 800 },
+    { title: "Vipps / Card Checkout Flow", time: "+1 Day", price: 1200 },
+  ];
+
+  const toggle = (idx: number) => {
+    setSelected(prev => 
+      prev.includes(idx) ? prev.filter(i => i !== idx) : [...prev, idx]
+    );
+  };
+
+  const total = selected.reduce((sum, idx) => sum + items[idx].price, 0);
+
+  return (
+    <div className="w-full bg-[#f4f5f7] border border-[#d8dce3] p-5 font-mono text-xs text-[#0b0c10]">
+      <div className="flex justify-between items-center pb-2 border-b-2 border-[#002fa7] mb-3">
+        <span className="font-bold text-[#002fa7]">SWISS MATRIX // FIXED PRICING</span>
+        <span className="text-[10px] text-neutral-500">NO HIDDEN SURCHARGES</span>
+      </div>
+      <div className="space-y-2">
+        {items.map((item, idx) => {
+          const isChecked = selected.includes(idx);
+          return (
+            <div 
+              key={item.title}
+              onClick={() => toggle(idx)}
+              className={`p-3 border flex items-center justify-between cursor-pointer transition-all ${
+                isChecked ? "bg-white border-[#002fa7] shadow-sm" : "bg-neutral-100/60 border-neutral-200"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-4 h-4 rounded-none border flex items-center justify-center text-[10px] ${
+                  isChecked ? "bg-[#002fa7] border-[#002fa7] text-white" : "border-neutral-400"
+                }`}>
+                  {isChecked && "✓"}
+                </div>
+                <div>
+                  <span className="font-bold block text-black">{item.title}</span>
+                  <span className="text-[10px] text-neutral-500">{item.time}</span>
+                </div>
+              </div>
+              <span className="font-black text-black">{item.price.toLocaleString()} kr</span>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-3 pt-3 border-t border-[#d8dce3] flex justify-between items-center">
+        <span className="font-bold text-[#002fa7]">ESTIMATED TOTAL</span>
+        <span className="text-base font-black text-black">{total.toLocaleString()} kr</span>
+      </div>
+    </div>
+  );
+}
+
+// 18. Solar Amber Industrial Fabrication Rates (Workshops, Custom Fabrication, Leather)
+export function PricingSolarAmberIndustrial() {
+  return (
+    <div className="w-full bg-[#1c1917] border border-[#44403c] p-5 text-[#fafaf9] font-mono text-xs">
+      <div className="flex justify-between items-center pb-2 border-b border-[#f59e0b] mb-4">
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 bg-[#f59e0b]" />
+          <span className="font-black text-sm text-[#f59e0b] uppercase tracking-wider">FABRICATION RATES</span>
+        </div>
+        <span className="text-[10px] text-neutral-400">SHOP HOURLY &amp; FIXED</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+        <div className="p-3 bg-[#292524] border border-[#44403c]">
+          <span className="text-[10px] text-[#f59e0b] font-bold block mb-1">BENCH RATE</span>
+          <span className="text-xl font-black text-white block">850 kr / hr</span>
+          <p className="text-[10px] text-neutral-400 mt-1">MIG/TIG welding, lathe turning &amp; custom fitting.</p>
+        </div>
+        <div className="p-3 bg-[#292524] border border-[#44403c]">
+          <span className="text-[10px] text-[#f59e0b] font-bold block mb-1">LEAD TIME</span>
+          <span className="text-xl font-black text-white block">5–8 Days</span>
+          <p className="text-[10px] text-neutral-400 mt-1">Includes 3D CAD modeling &amp; material inspection.</p>
+        </div>
+      </div>
+      <button className="w-full py-2 bg-[#f59e0b] text-black font-black uppercase text-xs hover:bg-[#d97706] transition-colors">
+        SUBMIT BLUEPRINT FOR QUOTE
+      </button>
+    </div>
+  );
+}
+
+// 19. Neo-Mint Holistic Treatment Tree (2026 Calm Skincare & Wellness)
+export function PricingNeoMintTreatmentTree() {
+  return (
+    <div className="w-full bg-[#f0fdf4] border border-[#bbf7d0] p-5 rounded-2xl text-[#0f172a] text-xs">
+      <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#bbf7d0]">
+        <span className="font-bold text-[#15803d] font-mono text-[11px] uppercase tracking-wide">
+          HOLISTIC TREATMENT MENU
+        </span>
+        <span className="px-2 py-0.5 rounded-full bg-[#dcfce7] text-[#15803d] font-mono text-[10px] font-bold">
+          ORGANIC OILS INCLUDED
+        </span>
+      </div>
+      <div className="space-y-3">
+        {[
+          { name: "Lymphatic Vagus Reset", desc: "Gentle facial gua sha, warm compress & scalp massage", time: "60 min", price: "950 kr" },
+          { name: "Soundwave Meditation Session", desc: "Acoustic resonance bowl sound bath with cedar oils", time: "45 min", price: "650 kr" },
+          { name: "Complete Sanctuary Pass", desc: "Full combination treatment with post-session herbal tea", time: "105 min", price: "1,450 kr" },
+        ].map((item) => (
+          <div key={item.name} className="p-3 rounded-xl bg-white border border-[#bbf7d0] flex justify-between items-center">
+            <div>
+              <span className="font-bold text-[#14532d] block">{item.name}</span>
+              <p className="text-[11px] text-neutral-500 mt-0.5">{item.desc}</p>
+              <span className="text-[10px] font-mono text-[#15803d] font-bold">{item.time}</span>
+            </div>
+            <span className="text-sm font-bold text-[#14532d] ml-3 whitespace-nowrap">{item.price}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+

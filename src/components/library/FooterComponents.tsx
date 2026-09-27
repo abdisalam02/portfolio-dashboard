@@ -247,3 +247,68 @@ export function FooterMinimalistSingleLine() {
     </footer>
   );
 }
+
+// 15. Espresso Roastery & Cafe Hours Footer (Specialty Coffee & Bakery)
+export function FooterEspressoRoastery() {
+  return (
+    <footer className="w-full bg-[#18110d] border-t border-[#3d2e25] p-6 sm:p-8 font-mono text-xs text-[#f5ebe1]">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pb-6 border-b border-[#3d2e25]">
+        <div>
+          <span className="text-[#d97706] font-bold text-xs uppercase block mb-2">BREW BAR &amp; ROASTERY</span>
+          <p className="text-neutral-400 text-[11px] leading-relaxed">
+            Markveien 56, Grünerløkka<br />
+            0554 Oslo, Norway<br />
+            Tram 11 / 12 / 18 to Olaf Ryes Plass
+          </p>
+        </div>
+        <div>
+          <span className="text-[#d97706] font-bold text-xs uppercase block mb-2">BARISTA HOURS</span>
+          <p className="text-neutral-400 text-[11px] leading-relaxed">
+            Tuesday – Friday: 07:30 – 16:30<br />
+            Saturday – Sunday: 09:00 – 17:00<br />
+            Monday: Closed for Roasting
+          </p>
+        </div>
+        <div>
+          <span className="text-[#d97706] font-bold text-xs uppercase block mb-2">WHOLESALE &amp; BEANS</span>
+          <p className="text-neutral-400 text-[11px] leading-relaxed">
+            kaffe@osloroasters.no<br />
+            Fresh roasts shipped nationwide every Wednesday.
+          </p>
+        </div>
+      </div>
+      <div className="pt-4 flex justify-between items-center text-[10px] text-neutral-500">
+        <span>© 2026 OSLO COFFEE ROASTERS</span>
+        <span className="text-[#d97706]">BATCH-ROASTED WEEKLY</span>
+      </div>
+    </footer>
+  );
+}
+
+// 16. Solar Amber Industrial Workshop Terminal (Fabrication, Motors, Metal)
+export function FooterSolarAmberTerminal() {
+  return (
+    <footer className="w-full bg-[#1c1917] border-t-2 border-[#f59e0b] p-6 text-[#fafaf9] font-mono text-xs">
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-4 pb-4 border-b border-[#44403c]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-2.5 h-2.5 bg-[#f59e0b]" />
+            <span className="font-black text-sm uppercase text-white tracking-tight">OSLO FABRICATION DOCK</span>
+          </div>
+          <p className="text-[11px] text-neutral-400">
+            Kabelgata 10, Økern Industrial Park · Gate 3 Loading Dock
+          </p>
+        </div>
+        <div className="text-left sm:text-right">
+          <span className="text-[#f59e0b] font-bold block text-[11px]">SHOP ACTIVE // VISITS BY APPOINTMENT</span>
+          <span className="text-neutral-500 text-[10px]">DIRECT: workshop@oslofab.no</span>
+        </div>
+      </div>
+      <div className="pt-3 flex justify-between items-center text-[10px] text-neutral-500">
+        <span>ISO 9001 WORKSHOP STANDARDS</span>
+        <span>SECURITY BUZZER: #041</span>
+      </div>
+    </footer>
+  );
+}
+

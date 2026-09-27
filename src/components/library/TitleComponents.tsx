@@ -383,3 +383,42 @@ export function TitleArtisanHandStitch() {
     </div>
   );
 }
+
+// 23. Swiss Utilitarian Coordinate Title (Architectural, Industrial, Strict DIN)
+export function TitleSwissUtilitarianGrid() {
+  return (
+    <div className="w-full bg-[#f7f7f7] border border-[#d1d1d6] p-6 font-mono text-black">
+      <div className="flex justify-between items-center text-[10px] text-neutral-500 pb-2 border-b border-black mb-3">
+        <span className="font-bold flex items-center gap-1.5 text-black">
+          <span className="w-2 h-2 bg-[#ff3b30] rounded-none inline-block" />
+          SYSTEM SPEC // 04.01
+        </span>
+        <span>59.9139° N, 10.7522° E · OSLO</span>
+      </div>
+      <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tighter leading-none">
+        INDEX OF DISCIPLINARY DELIVERABLES
+      </h3>
+      <p className="text-[11px] text-neutral-600 mt-2 font-normal">
+        All projects documented under ISO dimensional standards.
+      </p>
+    </div>
+  );
+}
+
+// 24. Peach Cloud Dewy Title (K-Beauty, Lash & Brow Spas, Skin Hydration)
+export function TitlePeachCloudGlow() {
+  return (
+    <div className="w-full bg-[#fff7f3] border border-[#fcd5c5] p-6 sm:p-8 rounded-2xl text-[#431407]">
+      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#feece2] text-[#fb7185] font-mono text-[10px] font-bold mb-3 shadow-sm">
+        <span>✨ HYDRATION ARCHIVE</span>
+        <span>·</span>
+        <span>K-BEAUTY LAB</span>
+      </div>
+      <h3 className="font-serif text-2xl sm:text-3xl font-normal leading-tight text-[#431407]">
+        Glass skin treatments &amp; <br className="hidden sm:inline" />
+        <span className="italic font-light text-[#fb7185]">featherlight lash artistry.</span>
+      </h3>
+    </div>
+  );
+}
+
