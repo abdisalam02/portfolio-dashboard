@@ -1,6 +1,8 @@
 import React from "react";
-import { LuCroissant } from "react-icons/lu";
-import { GiDiamondRing } from "react-icons/gi";
+import { LuCroissant, LuSparkles, LuPartyPopper } from "react-icons/lu";
+import { GiDiamondRing, GiHand } from "react-icons/gi";
+
+export type DemoNiche = "cakes" | "nails" | "wedding" | "decorations" | "henna";
 
 export interface PaletteTheme {
   id: string;
@@ -36,7 +38,7 @@ export interface LookbookItem {
 }
 
 export interface DemoConfig {
-  id: "cakes" | "nails" | "wedding";
+  id: DemoNiche;
   badgeLabel: string;
   brandName: string;
   brandSubtitle: string;
@@ -62,7 +64,7 @@ export interface DemoConfig {
     timeSlots: string[];
     customLabel: string;
     customPlaceholder: string;
-    nicheType: "cakes" | "nails" | "wedding";
+    nicheType: DemoNiche;
   };
 }
 
@@ -702,3 +704,390 @@ export const weddingDemoConfig: DemoConfig = {
     nicheType: "wedding",
   },
 };
+
+/* =========================================================================
+   4. DECORATIONS DEMO: AURA DECOR & BALLOONS (Balloons & Wedding Events)
+   ========================================================================= */
+export const decorationsDemoConfig: DemoConfig = {
+  id: "decorations",
+  badgeLabel: "Balloon & Event Styling Demo",
+  brandName: "AURA DECOR",
+  brandSubtitle: "Organic Balloon Architecture & Event Backdrops · Oslo",
+  brandDescription:
+    "Sculptural organic balloon arches, shimmer wall backdrops, circular floral frames, and celebration styling across Oslo and Viken.",
+  location: "Kabelgata 10, Økern & On-Site",
+  locationDetails: "On-Site Installation across Oslo Zone 1",
+  statusPill: "Spring / Summer 2026 Open",
+  instagramHandle: "@auradecor.oslo",
+  instagramUrl: "https://instagram.com",
+  metaNotes: "Custom color matching · 100% biodegradable latex & chrome spheres · Setup & tear-down included",
+  fontFamilyHeading: "var(--font-heading), sans-serif",
+  logoEmblem: (accent) => (
+    <div className="flex flex-col items-center justify-center">
+      <LuPartyPopper size={28} style={{ color: accent }} />
+    </div>
+  ),
+  palettes: [
+    {
+      id: "gold-noir",
+      name: "Champagne Gold & Noir",
+      descriptor: "Modern Luxury Gala",
+      swatches: ["#0D0C0B", "#F3EEE3", "#D4AF37"],
+      bg: "#0D0C0B",
+      cardBg: "#191715",
+      border: "rgba(212, 175, 55, 0.18)",
+      text: "#F3EEE3",
+      muted: "#9E9484",
+      accent: "#D4AF37",
+      accentFg: "#000000",
+      tagBg: "rgba(212, 175, 55, 0.12)",
+    },
+    {
+      id: "blush-cream",
+      name: "Dusty Rose & Cream",
+      descriptor: "Romantic Bridal Shower",
+      swatches: ["#FCF7F8", "#2F1E24", "#D9778F"],
+      bg: "#FCF7F8",
+      cardBg: "#FFFFFF",
+      border: "rgba(217, 119, 143, 0.15)",
+      text: "#2F1E24",
+      muted: "#78626A",
+      accent: "#D9778F",
+      accentFg: "#FFFFFF",
+      tagBg: "rgba(217, 119, 143, 0.08)",
+    },
+    {
+      id: "sage-botanical",
+      name: "Nordic Sage & Linen",
+      descriptor: "Minimalist Garden Styling",
+      swatches: ["#F5F6F0", "#1E2B1F", "#5B7059"],
+      bg: "#F5F6F0",
+      cardBg: "#FFFFFF",
+      border: "rgba(91, 112, 89, 0.16)",
+      text: "#1E2B1F",
+      muted: "#667865",
+      accent: "#5B7059",
+      accentFg: "#FFFFFF",
+      tagBg: "rgba(91, 112, 89, 0.08)",
+    },
+    {
+      id: "white-chrome",
+      name: "Monochrome White & Chrome",
+      descriptor: "Clean Scandinavian Chic",
+      swatches: ["#FFFFFF", "#0A0A0A", "#111113"],
+      bg: "#FFFFFF",
+      cardBg: "#F8F8F8",
+      border: "rgba(0, 0, 0, 0.12)",
+      text: "#0A0A0A",
+      muted: "#666666",
+      accent: "#0A0A0A",
+      accentFg: "#FFFFFF",
+      tagBg: "rgba(0, 0, 0, 0.06)",
+    },
+  ],
+  lookbook: [
+    { src: "/demo/decorations/decor-1.jpg", title: "Organic Chrome Sphere Garland", tag: "Balloons" },
+    { src: "/demo/decorations/decor-2.jpg", title: "Circular Floral Arch Frame", tag: "Backdrops" },
+    { src: "/demo/decorations/decor-3.jpg", title: "Iridescent Shimmer Wall & Neon", tag: "Shimmer Wall" },
+    { src: "/demo/decorations/decor-4.jpg", title: "Candlelit Ceremony Stage Suite", tag: "Weddings" },
+    { src: "/demo/decorations/decor-5.jpg", title: "Pastel Cloud Easel Welcome", tag: "Birthdays" },
+    { src: "/demo/decorations/decor-6.jpg", title: "Dual-Tone Celebration Arch", tag: "Installations" },
+  ],
+  categories: [
+    { id: "all", label: "All Setups" },
+    { id: "balloons", label: "Organic Balloon Arches" },
+    { id: "backdrops", label: "Floral & Shimmer Walls" },
+    { id: "packages", label: "Full Event Suites" },
+  ],
+  services: [
+    {
+      id: "organic-half-arch",
+      name: "Organic Balloon Half-Arch (2.5m)",
+      category: "balloons",
+      servings: "2.5m organic garland",
+      price: 1800,
+      leadTime: "Book 7 days ahead",
+      description: "Custom color double-stuffed matte balloons, chrome metallic accent spheres, delivery, rigging and on-site styling.",
+      included: [
+        "Up to 3 custom mixed latex color shades",
+        "Chrome gold or silver spherical accent balloons",
+        "Professional on-site rigging & styling",
+      ],
+      imageSrc: "/demo/decorations/decor-1.jpg",
+    },
+    {
+      id: "circular-backdrop-frame",
+      name: "Circular Metal Arch & Custom Acrylic Sign",
+      category: "backdrops",
+      servings: "2m gold/white circular frame",
+      price: 3500,
+      leadTime: "Book 10 days ahead",
+      description: "2-meter free-standing circular steel arch with half-wrap organic balloon cluster, faux floral accents, and custom personalized vinyl lettering.",
+      included: [
+        "2-meter gold or white steel circle frame rental",
+        "3-meter organic balloon styling wrap",
+        "Custom acrylic disc with gold vinyl lettering",
+        "Late-night collection / tear-down",
+      ],
+      imageSrc: "/demo/decorations/decor-2.jpg",
+    },
+    {
+      id: "shimmer-wall-neon",
+      name: "Reflective Shimmer Wall & LED Neon",
+      category: "backdrops",
+      servings: "2.4m x 2.4m photo backdrop",
+      price: 4200,
+      leadTime: "Book 10 days ahead",
+      description: "Showstopping wind-activated iridescent square sequin shimmer wall with top organic balloon cascade and LED neon sign ('Better Together' or 'Happy Birthday').",
+      included: [
+        "2.4m x 2.4m iridescent or champagne gold shimmer wall",
+        "Overhead floating balloon cloud",
+        "Choice of warm white LED neon sign",
+        "Delivery, installation & post-event collection",
+      ],
+      imageSrc: "/demo/decorations/decor-3.jpg",
+    },
+    {
+      id: "full-wedding-stage",
+      name: "The Grand Bridal Stage & Ceremony Suite",
+      category: "packages",
+      servings: "Complete stage styling",
+      price: 7800,
+      leadTime: "Book 2–4 weeks ahead",
+      description: "Full ceremonial backdrop styling including dual organic floral/balloon arches, 4 cylinder plinths with florals, hurricane candle vases, and aisle entrance accents.",
+      included: [
+        "Main ceremony backdrop arch with luxury styling",
+        "4 white matte or ribbed cylinder display plinths",
+        "12 hurricane glass candle vases with long-burn pillar candles",
+        "Dedicated styling director on-site for morning setup",
+        "Complete midnight strike and venue cleanup",
+      ],
+      imageSrc: "/demo/decorations/decor-4.jpg",
+    },
+    {
+      id: "welcome-easel-spray",
+      name: "Custom Welcome Easel & Mini Balloon Spray",
+      category: "balloons",
+      servings: "Entrance feature",
+      price: 950,
+      leadTime: "Book 5 days ahead",
+      description: "Frosted acrylic welcome sign with custom calligraphy on wood/metal easel, adorned with an organic mini balloon spray.",
+      included: [
+        "A1 frosted or clear acrylic welcome board",
+        "Custom vinyl name & date personalization",
+        "Mini 1.2m organic balloon spray matching your palette",
+      ],
+      imageSrc: "/demo/decorations/decor-5.jpg",
+    },
+  ],
+  bookingConfig: {
+    sectionTitle: "Check Date & Reserve Event Styling",
+    sectionSubtitle: "We deliver, inflate, and style on-site at your venue anywhere in Oslo Zone 1.",
+    dateLabel: "Event / Celebration Date",
+    timeLabel: "Setup Time Slot",
+    dates: [
+      { day: "Fri", date: "16", full: "Friday, May 16" },
+      { day: "Sat", date: "17", full: "Saturday, May 17" },
+      { day: "Sun", date: "18", full: "Sunday, May 18" },
+      { day: "Fri", date: "23", full: "Friday, May 23" },
+      { day: "Sat", date: "24", full: "Saturday, May 24" },
+    ],
+    timeSlots: ["Morning Setup (09:00 – 12:00)", "Afternoon Setup (12:30 – 15:30)", "Pre-Dinner Setup (16:00 – 18:30)"],
+    customLabel: "Venue, Guest Count & Color Theme Vision",
+    customPlaceholder: "e.g. 'Gamle Logen Oslo. 30th Birthday. Palette of dusty rose, matte white, and chrome gold balloons.'",
+    nicheType: "decorations",
+  },
+};
+
+/* =========================================================================
+   5. HENNA DEMO: NOOR HENNA ATELIER (Organic Bridal & Festive Mendhi)
+   ========================================================================= */
+export const hennaDemoConfig: DemoConfig = {
+  id: "henna",
+  badgeLabel: "Henna & Mendhi Demo",
+  brandName: "NOOR HENNA",
+  brandSubtitle: "100% Organic Rajasthani Mendhi & Fine-Line Jagua · Oslo",
+  brandDescription:
+    "Chemical-free natural organic henna pastes, hand-rolled cones, and modern fine-line jagua stains for weddings, Eid celebrations, and private appointments.",
+  location: "Torggata 22, Sentrum, Oslo",
+  locationDetails: "Studio Chair & On-Site Bridal, Oslo",
+  statusPill: "Eid & Bridal Slots Open",
+  instagramHandle: "@noorhenna.oslo",
+  instagramUrl: "https://instagram.com",
+  metaNotes: "100% Natural organic Rajasthani henna · Deep 48h dark mahogany stain · Sealant spray & aftercare balm included",
+  fontFamilyHeading: "var(--font-cormorant), serif",
+  logoEmblem: (accent) => (
+    <div className="flex flex-col items-center justify-center">
+      <GiHand size={28} style={{ color: accent }} />
+    </div>
+  ),
+  palettes: [
+    {
+      id: "terracotta-rust",
+      name: "Earthen Terracotta & Rust",
+      descriptor: "Warm Organic Mendhi",
+      swatches: ["#FAF7F2", "#2A1610", "#C86D51"],
+      bg: "#FAF7F2",
+      cardBg: "#FFFFFF",
+      border: "rgba(200, 109, 81, 0.2)",
+      text: "#2A1610",
+      muted: "#7A6458",
+      accent: "#C86D51",
+      accentFg: "#FFFFFF",
+      tagBg: "rgba(200, 109, 81, 0.08)",
+    },
+    {
+      id: "indigo-hanko",
+      name: "Midnight Indigo & Hanko Red",
+      descriptor: "Artisan Atelier Contrast",
+      swatches: ["#0D1527", "#F8F6F0", "#EF4444"],
+      bg: "#0D1527",
+      cardBg: "#17233D",
+      border: "rgba(239, 68, 68, 0.2)",
+      text: "#F8F6F0",
+      muted: "#8C9BB8",
+      accent: "#EF4444",
+      accentFg: "#FFFFFF",
+      tagBg: "rgba(239, 68, 68, 0.12)",
+    },
+    {
+      id: "botanical-sage",
+      name: "Natural Henna Leaf & Sage",
+      descriptor: "Pure Botanical Healing",
+      swatches: ["#F4F7F2", "#1C2E1F", "#3E5C43"],
+      bg: "#F4F7F2",
+      cardBg: "#FFFFFF",
+      border: "rgba(62, 92, 67, 0.16)",
+      text: "#1C2E1F",
+      muted: "#5C755F",
+      accent: "#3E5C43",
+      accentFg: "#FFFFFF",
+      tagBg: "rgba(62, 92, 67, 0.08)",
+    },
+    {
+      id: "noir-amber",
+      name: "Velvet Noir & Warm Amber",
+      descriptor: "Evening Bridal Lounge",
+      swatches: ["#12100E", "#F5EBE1", "#D97706"],
+      bg: "#12100E",
+      cardBg: "#1E1A16",
+      border: "rgba(217, 119, 6, 0.2)",
+      text: "#F5EBE1",
+      muted: "#96877B",
+      accent: "#D97706",
+      accentFg: "#000000",
+      tagBg: "rgba(217, 119, 6, 0.12)",
+    },
+  ],
+  lookbook: [
+    { src: "/demo/henna/henna-1.jpg", title: "Royal Bridal Mandala & Cuffs", tag: "Bridal" },
+    { src: "/demo/henna/henna-2.jpg", title: "Modern Fine-Line Floral Glove", tag: "Jagua" },
+    { src: "/demo/henna/henna-3.jpg", title: "Intricate Lace Bridal Feet", tag: "Bridal Feet" },
+    { src: "/demo/henna/henna-4.jpg", title: "Minimalist Lotus Palm Stain", tag: "Minimalist" },
+    { src: "/demo/henna/henna-5.jpg", title: "Festive Sangeet Guest Strip", tag: "Festive" },
+    { src: "/demo/henna/henna-6.jpg", title: "Dark Mahogany Stain Result", tag: "Natural Stain" },
+  ],
+  categories: [
+    { id: "all", label: "All Mendhi" },
+    { id: "bridal", label: "Bridal Suites" },
+    { id: "festive", label: "Eid & Festive Sets" },
+    { id: "modern", label: "Fine-Line Jagua" },
+  ],
+  services: [
+    {
+      id: "minimalist-palm",
+      name: "Minimalist Palm & Finger Mandala",
+      category: "modern",
+      servings: "25 mins",
+      price: 350,
+      leadTime: "Same-day booking",
+      description: "Delicate organic henna design on 1 palm extending to fingertips. Perfect for casual celebrations or trial stains.",
+      included: [
+        "100% natural organic Rajasthani henna paste",
+        "Lemon-sugar sealant application",
+        "Complimentary aftercare instruction card",
+      ],
+      imageSrc: "/demo/henna/henna-4.jpg",
+    },
+    {
+      id: "double-hand-festive",
+      name: "Double Hand Festive Set (Both Sides)",
+      category: "festive",
+      servings: "50 mins",
+      price: 650,
+      leadTime: "Popular for Eid",
+      description: "Intricate floral and geometric henna covering the front and back of both hands up to wrists. Designed for Eid and party guests.",
+      included: [
+        "Full front & back coverage on both hands",
+        "Organic essential oil blend for rich deep staining",
+        "Protective mehendi sealant spray",
+      ],
+      imageSrc: "/demo/henna/henna-5.jpg",
+    },
+    {
+      id: "modern-jagua-cuff",
+      name: "Modern Fine-Line Jagua Wrist Cuff",
+      category: "modern",
+      servings: "35 mins",
+      price: 450,
+      leadTime: "Lasts 2–3 weeks",
+      description: "Contemporary tattoo-inspired fine-line botanical cuff drawn with 100% organic Amazonian jagua fruit extract. Dries to a deep navy/black stain.",
+      included: [
+        "Pure organic Jagua gel (chemical-free, PPD-free)",
+        "Fine 0.3mm precision cone needle line-work",
+        "Aftercare moisturizing balm tube",
+      ],
+      imageSrc: "/demo/henna/henna-2.jpg",
+    },
+    {
+      id: "grand-bridal-suite",
+      name: "The Grand Bridal Mendhi Suite",
+      category: "bridal",
+      servings: "3.5 – 4 hours",
+      price: 2200,
+      leadTime: "Book 2–4 weeks ahead",
+      description: "Complete royal bridal mendhi coverage on both sides of forearms up to elbows, plus intricate matching bridal feet lace and personalized hidden initials.",
+      included: [
+        "Full arms up to elbows (front & back)",
+        "Bridal feet coverage up to ankles",
+        "Personalized hidden initials / wedding motifs",
+        "Signature organic eucalyptus stain sealant",
+        "Take-home organic coconut & beeswax aftercare balm",
+      ],
+      imageSrc: "/demo/henna/henna-1.jpg",
+    },
+    {
+      id: "henna-party-hourly",
+      name: "Private Henna Party (Studio or On-Site)",
+      category: "festive",
+      servings: "Hourly rate (min. 2h)",
+      price: 950,
+      leadTime: "On-site across Oslo",
+      description: "Dedicated mendhi artist for your pre-wedding sangeet, bridal shower, or Eid party. Rapid stylish guest designs for 6–10 guests per hour.",
+      included: [
+        "Continuous custom guest designs (hands or wrists)",
+        "All organic henna cones and sealants provided",
+        "On-site setup with aesthetic studio table runner",
+      ],
+      imageSrc: "/demo/henna/henna-6.jpg",
+    },
+  ],
+  bookingConfig: {
+    sectionTitle: "Select Mendhi Style & Reserve Chair",
+    sectionSubtitle: "Private studio appointments in Torggata or on-site bridal bookings across Oslo.",
+    dateLabel: "Appointment Date",
+    timeLabel: "Preferred Chair Slot",
+    dates: [
+      { day: "Thu", date: "23", full: "Thursday, May 23" },
+      { day: "Fri", date: "24", full: "Friday, May 24" },
+      { day: "Sat", date: "25", full: "Saturday, May 25" },
+      { day: "Sun", date: "26", full: "Sunday, May 26" },
+      { day: "Mon", date: "27", full: "Monday, May 27" },
+    ],
+    timeSlots: ["11:00 – 12:30", "13:00 – 14:30", "15:00 – 16:30", "17:00 – 18:30", "19:00 – 20:30"],
+    customLabel: "Henna Placement & Design Vision",
+    customPlaceholder: "e.g. 'Both palms and back of hands. Traditional floral mandala with fine fingertip lace.'",
+    nicheType: "henna",
+  },
+};
+

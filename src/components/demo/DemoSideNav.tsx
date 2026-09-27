@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { FiShoppingBag, FiCalendar, FiBookOpen, FiImage, FiCompass, FiArrowUp } from "react-icons/fi";
-import { PaletteTheme } from "@/app/demo/demo-data";
+import { DemoNiche, PaletteTheme } from "@/app/demo/demo-data";
 
 interface DemoSideNavProps {
-  currentDemo: "cakes" | "nails" | "wedding";
+  currentDemo: DemoNiche;
   palette: PaletteTheme;
 }
 
@@ -23,8 +23,23 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
       : currentDemo === "nails"
       ? [
           { id: "brand-hero", label: "Studio", icon: FiCompass },
+          { id: "lookbook-gallery", label: "Lookbook", icon: FiImage },
           { id: "services-menu", label: "Services", icon: FiBookOpen },
           { id: "booking-form-section", label: "Reserve", icon: FiCalendar },
+        ]
+      : currentDemo === "decorations"
+      ? [
+          { id: "brand-hero", label: "Atelier", icon: FiCompass },
+          { id: "lookbook-gallery", label: "Installs", icon: FiImage },
+          { id: "services-menu", label: "Suites", icon: FiBookOpen },
+          { id: "booking-form-section", label: "Reserve", icon: FiCalendar },
+        ]
+      : currentDemo === "henna"
+      ? [
+          { id: "brand-hero", label: "Atelier", icon: FiCompass },
+          { id: "lookbook-gallery", label: "Mendhi", icon: FiImage },
+          { id: "services-menu", label: "Packages", icon: FiBookOpen },
+          { id: "booking-form-section", label: "Book", icon: FiCalendar },
         ]
       : [
           { id: "brand-hero", label: "Studio", icon: FiCompass },

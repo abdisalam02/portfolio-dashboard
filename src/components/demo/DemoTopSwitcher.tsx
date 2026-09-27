@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
-import { LuCroissant, LuSparkles } from "react-icons/lu";
-import { GiDiamondRing } from "react-icons/gi";
+import { LuCroissant, LuSparkles, LuPartyPopper } from "react-icons/lu";
+import { GiDiamondRing, GiHand } from "react-icons/gi";
+import { DemoNiche } from "@/app/demo/demo-data";
 
 interface DemoTopSwitcherProps {
-  currentDemo: "cakes" | "nails" | "wedding";
+  currentDemo: DemoNiche;
   accentColor?: string;
   borderColor?: string;
   textColor?: string;
@@ -21,9 +22,10 @@ export default function DemoTopSwitcher({
   cardBg,
 }: DemoTopSwitcherProps) {
   const demos = [
-    { id: "cakes", short: "Bakery", brand: "Maison Sucre", icon: LuCroissant, href: "/demo" },
+    { id: "cakes", short: "Cakes", brand: "Maison Sucre", icon: LuCroissant, href: "/demo/cakes" },
     { id: "nails", short: "Nails", brand: "Studio Klø", icon: LuSparkles, href: "/demo/nails" },
-    { id: "wedding", short: "Wedding", brand: "Astrid Bridal", icon: GiDiamondRing, href: "/demo/wedding" },
+    { id: "decorations", short: "Decor", brand: "Aura Events", icon: LuPartyPopper, href: "/demo/decorations" },
+    { id: "henna", short: "Henna", brand: "Noor Henna", icon: GiHand, href: "/demo/henna" },
   ] as const;
 
   return (
