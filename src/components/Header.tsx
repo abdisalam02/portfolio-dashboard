@@ -8,6 +8,7 @@ import { FiArrowUpRight, FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 const navLinks = [
   { label: "Work", href: "/#work" },
   { label: "Pricing", href: "/pricing" },
+  { label: "UI Vault", href: "/library" },
   { label: "Contact", href: "/contact" },
 ];
 
