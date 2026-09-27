@@ -47,9 +47,12 @@ export function ComponentCard({ item, index, onSelect, isSelected }: ComponentCa
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 border border-card-border bg-card text-[10px] text-muted uppercase font-bold tracking-wider">
+          <div className="flex items-center gap-1.5">
+            <span className="px-2 py-0.5 border border-card-border bg-card text-[10px] text-muted uppercase font-bold tracking-wider hidden sm:inline">
               {item.styleTag}
+            </span>
+            <span className="px-2 py-0.5 bg-foreground/10 text-foreground text-[9px] font-mono font-semibold rounded">
+              {item.aestheticVibe}
             </span>
             <button
               onClick={() => setCodeOpen(true)}
