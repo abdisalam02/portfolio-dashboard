@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,6 +18,23 @@ import {
   FiPhone,
   FiMail,
 } from "react-icons/fi";
+import {
+  LuBox,
+  LuCake,
+  LuCrown,
+  LuCakeSlice,
+  LuFlower2,
+  LuCookie,
+  LuLeaf,
+  LuHeart as LuHeartIcon,
+  LuCitrus,
+  LuCherry,
+  LuFlame,
+  LuCoffee,
+  LuSun,
+  LuCloud,
+  LuSparkles,
+} from "react-icons/lu";
 import PreviewShell from "@/components/preview/PreviewShell";
 
 // ==========================================
@@ -48,30 +65,8 @@ function LuffyCakesLogo({ className = "w-7 h-7" }: { className?: string }) {
   );
 }
 
-// Sunburst sticker matching luffy-donuts-customizer
-function SunburstSticker({
-  text,
-  className = "",
-  textSize = "text-[9px]",
-}: {
-  text: string;
-  className?: string;
-  textSize?: string;
-}) {
-  return (
-    <div className={`relative inline-flex items-center justify-center ${className}`}>
-      <svg viewBox="0 0 100 100" className="w-20 h-20 text-[#FFF59D] fill-current animate-pulse duration-1000">
-        <polygon points="50,0 63,22 88,10 82,35 100,50 82,65 88,90 63,78 50,100 37,78 12,90 18,65 0,50 18,35 12,10 37,22" />
-      </svg>
-      <div className={`absolute inset-0 flex items-center justify-center text-center p-2 font-black uppercase text-[#332F32] leading-tight ${textSize}`}>
-        {text}
-      </div>
-    </div>
-  );
-}
-
 // ==========================================
-// 1. CAROUSEL DATA (100% Real Celebration Cakes - No Croissants!)
+// 1. CAROUSEL DATA (100% Real Celebration Cakes)
 // ==========================================
 const GALLERY_CAKES = [
   {
@@ -188,7 +183,7 @@ const SIGNATURE_PRESETS = [
 ];
 
 // ==========================================
-// 3. STEP OPTIONS (Compact, High-Density Choices)
+// 3. STEP OPTIONS WITH RICH ICONS
 // ==========================================
 interface CakeSizeTier {
   id: string;
@@ -197,29 +192,30 @@ interface CakeSizeTier {
   diameter: string;
   basePrice: number;
   popular?: boolean;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
 }
 
 const CAKE_SIZES: CakeSizeTier[] = [
-  { id: "bento", name: "Bento Lunchbox", portions: "2–3 pers", diameter: "10 cm", basePrice: 240 },
-  { id: "petite", name: "Petite Celebration", portions: "6–8 pers", diameter: "15 cm", basePrice: 480, popular: true },
-  { id: "signature", name: "Signature Gateau", portions: "12–16 pers", diameter: "20 cm", basePrice: 780 },
-  { id: "grand", name: "Two-Tier Grand", portions: "24–30 pers", diameter: "22cm + 15cm", basePrice: 1480 },
+  { id: "bento", name: "Bento Lunchbox", portions: "2–3 pers", diameter: "10 cm", basePrice: 240, icon: LuBox },
+  { id: "petite", name: "Petite Celebration", portions: "6–8 pers", diameter: "15 cm", basePrice: 480, popular: true, icon: LuCake },
+  { id: "signature", name: "Signature Gateau", portions: "12–16 pers", diameter: "20 cm", basePrice: 780, icon: LuCrown },
+  { id: "grand", name: "Two-Tier Grand", portions: "24–30 pers", diameter: "22cm + 15cm", basePrice: 1480, icon: LuCakeSlice },
 ];
 
 const SPONGE_OPTIONS = [
-  { id: "vanilla", name: "Madagascar Vanilje", swatch: "#FFF6E5", note: "Luftig bourbon-chiffon" },
-  { id: "chocolate", name: "Valrhona 70% Kakao", swatch: "#4A2E1B", note: "Mørk og saftig fransk kakao" },
-  { id: "pistachio", name: "Røstet Pistasj", swatch: "#B8C9A3", note: "Siciliansk nøttebunn" },
-  { id: "red-velvet", name: "Red Velvet", swatch: "#8A2232", note: "Klassisk silkemyk sørstat" },
-  { id: "lemon", name: "Sitron & Valmue", swatch: "#FFF1A8", note: "Frisk sitronzest og frø" },
+  { id: "vanilla", name: "Madagascar Vanilje", swatch: "#FFF6E5", note: "Luftig bourbon-chiffon", icon: LuFlower2, iconColor: "text-amber-700" },
+  { id: "chocolate", name: "Valrhona 70% Kakao", swatch: "#4A2E1B", note: "Mørk og saftig fransk kakao", icon: LuCookie, iconColor: "text-amber-950" },
+  { id: "pistachio", name: "Røstet Pistasj", swatch: "#B8C9A3", note: "Siciliansk nøttebunn", icon: LuLeaf, iconColor: "text-emerald-700" },
+  { id: "red-velvet", name: "Red Velvet", swatch: "#8A2232", note: "Klassisk silkemyk sørstat", icon: LuHeartIcon, iconColor: "text-rose-600" },
+  { id: "lemon", name: "Sitron & Valmue", swatch: "#FFF1A8", note: "Frisk sitronzest og frø", icon: LuCitrus, iconColor: "text-yellow-600" },
 ];
 
 const FILLING_OPTIONS = [
-  { id: "raspberry", name: "Nordiske Bringebær", swatch: "#D1345B", note: "Syrlig skogsbærkompott" },
-  { id: "caramel", name: "Salt Karamell", swatch: "#C68B45", note: "Fleur de sel og mascarpone" },
-  { id: "ganache", name: "Mørk Sjokoladeganache", swatch: "#3D2314", note: "64% belgisk sjokolade" },
-  { id: "passion", name: "Pasjonsfrukt Curd", swatch: "#E58F1C", note: "Frisk og eksotisk syre" },
-  { id: "mascarpone", name: "Vanilje Mascarpone", swatch: "#FAF2DD", note: "Silkelett italiensk krem" },
+  { id: "raspberry", name: "Nordiske Bringebær", swatch: "#D1345B", note: "Syrlig skogsbærkompott", icon: LuCherry, iconColor: "text-rose-600" },
+  { id: "caramel", name: "Salt Karamell", swatch: "#C68B45", note: "Fleur de sel og mascarpone", icon: LuFlame, iconColor: "text-amber-600" },
+  { id: "ganache", name: "Mørk Sjokoladeganache", swatch: "#3D2314", note: "64% belgisk sjokolade", icon: LuCoffee, iconColor: "text-amber-900" },
+  { id: "passion", name: "Pasjonsfrukt Curd", swatch: "#E58F1C", note: "Frisk og eksotisk syre", icon: LuSun, iconColor: "text-orange-500" },
+  { id: "mascarpone", name: "Vanilje Mascarpone", swatch: "#FAF2DD", note: "Silkelett italiensk krem", icon: LuCloud, iconColor: "text-sky-600" },
 ];
 
 const FROSTING_OPTIONS = [
@@ -256,8 +252,8 @@ const FROSTING_OPTIONS = [
 ];
 
 const TOPPING_OPTIONS = [
-  { id: "gold-leaf", name: "24K Spiselig Bladgull", priceDelta: 50 },
-  { id: "macarons", name: "Franske Makroner (4 stk)", priceDelta: 80 },
+  { id: "gold-leaf", name: "24K Spiselig Bladgull", priceDelta: 50, icon: LuSparkles },
+  { id: "macarons", name: "Franske Makroner (4 stk)", priceDelta: 80, icon: LuCookie },
 ];
 
 const PICKUP_TIMES = ["11:00 – 13:00", "13:00 – 15:00", "15:00 – 17:00", "17:00 – 18:30"];
@@ -265,6 +261,9 @@ const MIN_DAYS_IN_ADVANCE = 7;
 
 export default function PreviewCakesPage() {
   const carouselRef = useRef<HTMLDivElement>(null);
+
+  // Active Section Tracker for Scroll-and-Lock Nav
+  const [activeSection, setActiveSection] = useState<"hero" | "gallery" | "studio" | "comparison" | "reviews">("hero");
 
   // Ordering Mode: "custom" (Builder) vs "preset" (1-Click)
   const [orderMode, setOrderMode] = useState<"custom" | "preset">("custom");
@@ -307,6 +306,34 @@ export default function PreviewCakesPage() {
 
   const deliveryPrice = fulfillmentType === "delivery" ? 150 : 0;
   const totalPrice = selectedSize.basePrice + toppingsTotal + deliveryPrice;
+
+  // Scroll Spy for Changing Sticky Nav
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 130;
+      const heroEl = document.getElementById("hero");
+      const galleryEl = document.getElementById("gallery");
+      const studioEl = document.getElementById("order-studio");
+      const comparisonEl = document.getElementById("comparison");
+      const reviewsEl = document.getElementById("reviews");
+
+      if (reviewsEl && scrollPos >= reviewsEl.offsetTop) {
+        setActiveSection("reviews");
+      } else if (comparisonEl && scrollPos >= comparisonEl.offsetTop) {
+        setActiveSection("comparison");
+      } else if (studioEl && scrollPos >= studioEl.offsetTop) {
+        setActiveSection("studio");
+      } else if (galleryEl && scrollPos >= galleryEl.offsetTop) {
+        setActiveSection("gallery");
+      } else {
+        setActiveSection("hero");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Carousel Scroll Controls
   const scrollCarousel = (direction: "left" | "right") => {
@@ -392,37 +419,180 @@ export default function PreviewCakesPage() {
     >
       <div className="min-h-screen bg-[#FAF7EE] text-[#332F32] font-sans selection:bg-[#FFA8C5] selection:text-[#332F32] overflow-x-hidden">
         {/* =========================================================
-            HEADER: STREAMLINED GRID BAR
+            HEADER: DYNAMIC SCROLL-AND-LOCK CHANGING NAV BAR
+            Logo stays locked on the left. The rest transforms dynamically
+            as each section scrolls past and locks in place!
             ========================================================= */}
-        <header className="sticky top-0 z-40 bg-[#FAF7EE] border-b border-[#E5E0D5]">
-          <div className="max-w-6xl mx-auto flex items-stretch divide-x divide-[#E5E0D5] text-xs font-mono font-bold uppercase tracking-wider text-[#332F32]">
-            <div className="p-3 sm:px-6 flex items-center flex-shrink-0">
+        <header className="sticky top-0 z-40 bg-[#FAF7EE]/95 backdrop-blur-md border-b border-[#E5E0D5]">
+          <div className="max-w-6xl mx-auto flex items-center justify-between text-xs font-mono font-bold uppercase tracking-wider text-[#332F32] h-14 px-3 sm:px-6">
+            {/* Logo: Always Locked Pinned On Left */}
+            <div className="flex items-center flex-shrink-0 pr-4 border-r border-[#E5E0D5]">
               <LuffyCakesLogo />
             </div>
 
-            <a href="#gallery" className="hidden sm:flex items-center px-4 hover:bg-[#FFA8C5]/20 transition-colors">
-              LOOKBOOK
-            </a>
+            {/* Dynamic Center & Right Section Indicator with Scroll Lock */}
+            <div className="flex-1 flex items-center justify-between pl-4 overflow-hidden">
+              <AnimatePresence mode="wait">
+                {activeSection === "hero" && (
+                  <motion.div
+                    key="hero-nav"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-full flex items-center justify-between"
+                  >
+                    <div className="hidden md:flex items-center gap-6 text-[#555]">
+                      <a href="#gallery" className="hover:text-[#332F32] transition-colors">
+                        LOOKBOOK
+                      </a>
+                      <a href="#order-studio" className="hover:text-[#332F32] transition-colors">
+                        BESTILL KAKE
+                      </a>
+                      <a href="#comparison" className="hover:text-[#332F32] transition-colors">
+                        SLIPP DM
+                      </a>
+                      <a href="#reviews" className="hover:text-[#332F32] transition-colors">
+                        OMTALER
+                      </a>
+                    </div>
 
-            <a href="#order-studio" className="hidden md:flex items-center px-4 hover:bg-[#FFA8C5]/20 transition-colors">
-              BESTILL KAKE
-            </a>
+                    <div className="ml-auto flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const el = document.getElementById("order-studio");
+                          if (el) el.scrollIntoView({ behavior: "smooth" });
+                        }}
+                        className="px-3.5 py-1.5 rounded-full bg-[#332F32] text-white hover:bg-black font-black text-xs uppercase tracking-wider shadow-xs cursor-pointer flex items-center gap-1.5"
+                      >
+                        <span>Start Bestilling ↓</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
 
-            <a href="#comparison" className="hidden lg:flex items-center px-4 hover:bg-[#FFA8C5]/20 transition-colors">
-              HVORFOR SLIPPE DM
-            </a>
+                {activeSection === "gallery" && (
+                  <motion.div
+                    key="gallery-nav"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-full flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#FF5983] animate-pulse" />
+                      <span className="font-black text-[#332F32] text-xs uppercase truncate">
+                        LOOKBOOK · 5 KAKESTILER
+                      </span>
+                    </div>
 
-            <div className="ml-auto flex items-center px-3 sm:px-6 gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  const el = document.getElementById("order-studio");
-                  if (el) el.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#332F32] text-white hover:bg-black font-mono font-black text-xs uppercase tracking-wider shadow-xs transition-transform active:scale-95 cursor-pointer flex items-center gap-1.5"
-              >
-                <span>Reserver Kake ↓</span>
-              </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById("order-studio");
+                        if (el) el.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="px-3 py-1.5 rounded-full bg-[#FFA8C5] text-[#332F32] border border-[#332F32] font-black text-[11px] uppercase tracking-wider hover:bg-[#FF9EBC] cursor-pointer"
+                    >
+                      Gå Til Kakebygger ↓
+                    </button>
+                  </motion.div>
+                )}
+
+                {activeSection === "studio" && (
+                  <motion.div
+                    key="studio-nav"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-full flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#332F32]" />
+                      <span className="font-black text-[#332F32] text-xs uppercase truncate">
+                        KAKEBYGGER · STEG {currentStep}/6: {stepLabels[currentStep - 1]}
+                      </span>
+                      <span className="hidden lg:inline text-[10px] text-[#666]">
+                        ({selectedSize.name})
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-1 rounded-full bg-[#FFF59D] text-[#332F32] font-black text-xs border border-[#332F32]">
+                        {totalPrice} kr
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setCurrentStep(6)}
+                        className="px-3 py-1.5 rounded-full bg-[#332F32] text-white font-black text-[11px] uppercase tracking-wider hover:bg-black cursor-pointer"
+                      >
+                        Til Kassen →
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeSection === "comparison" && (
+                  <motion.div
+                    key="comparison-nav"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-full flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-600" />
+                      <span className="font-black text-[#332F32] text-xs uppercase truncate">
+                        SLIPP DM-KAOSET · FOR BRANSJEN
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById("order-studio");
+                        if (el) el.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="px-3 py-1.5 rounded-full bg-[#332F32] text-white font-black text-[11px] uppercase tracking-wider hover:bg-black cursor-pointer"
+                    >
+                      Reserver Kake ↓
+                    </button>
+                  </motion.div>
+                )}
+
+                {activeSection === "reviews" && (
+                  <motion.div
+                    key="reviews-nav"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-full flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-amber-500" />
+                      <span className="font-black text-[#332F32] text-xs uppercase truncate">
+                        KUNDEOMTALER · 5.0 / 5.0 ★
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById("order-studio");
+                        if (el) el.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="px-3.5 py-1.5 rounded-full bg-[#FFA8C5] text-[#332F32] border border-[#332F32] font-black text-xs uppercase tracking-wider hover:bg-[#FF9EBC] cursor-pointer"
+                    >
+                      Reserver Kake ↓
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </header>
@@ -430,12 +600,12 @@ export default function PreviewCakesPage() {
         {/* =========================================================
             HERO: PUNCHY 50/50 SPLIT (COMPACT & RESPONSIVE)
             ========================================================= */}
-        <section className="border-b border-[#E5E0D5]">
-          <div className="grid grid-cols-1 md:grid-cols-12 min-h-[420px] sm:min-h-[460px]">
+        <section id="hero" className="border-b border-[#E5E0D5]">
+          <div className="grid grid-cols-1 md:grid-cols-12 min-h-[400px] sm:min-h-[440px]">
             {/* Left Pink Hero */}
-            <div className="md:col-span-6 bg-[#FFA8C5] p-6 sm:p-12 lg:p-14 flex flex-col justify-center space-y-4 border-b md:border-b-0 md:border-r border-[#E5E0D5]">
+            <div className="md:col-span-6 bg-[#FFA8C5] p-6 sm:p-10 lg:p-12 flex flex-col justify-center space-y-3.5 border-b md:border-b-0 md:border-r border-[#E5E0D5]">
               <div className="inline-flex">
-                <span className="px-2.5 py-1 bg-white text-[#332F32] font-mono text-[9px] font-black uppercase tracking-widest border border-[#332F32]">
+                <span className="px-2.5 py-0.5 bg-white text-[#332F32] font-mono text-[9px] font-black uppercase tracking-widest border border-[#332F32]">
                   SLIPP DM-KAOSET PÅ INSTAGRAM
                 </span>
               </div>
@@ -468,7 +638,7 @@ export default function PreviewCakesPage() {
 
             {/* Right Cream Canvas with Featured Lambeth Cake */}
             <div className="md:col-span-6 bg-[#FAF7EE] p-6 sm:p-10 flex items-center justify-center relative overflow-hidden">
-              <div className="relative w-full max-w-[320px] sm:max-w-[360px] aspect-[4/5] rounded-3xl overflow-hidden shadow-lg border-2 border-[#E5E0D5]">
+              <div className="relative w-full max-w-[300px] sm:max-w-[340px] aspect-[4/5] rounded-3xl overflow-hidden shadow-lg border-2 border-[#E5E0D5]">
                 <Image
                   src="/demo/cakes/cake-1.jpg"
                   alt="Vintage Lambeth Heart Cake"
@@ -493,16 +663,15 @@ export default function PreviewCakesPage() {
 
         {/* =========================================================
             SECTION 1: INSPIRASJON CAROUSEL (SWIPEABLE LOOKBOOK)
-            Replaces long downward stacking with a compact, smooth carousel!
             ========================================================= */}
-        <section id="gallery" className="py-10 sm:py-14 border-b border-[#E5E0D5] bg-[#FAF7EE]">
-          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-5">
+        <section id="gallery" className="py-10 sm:py-12 border-b border-[#E5E0D5] bg-[#FAF7EE]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-4">
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#FF5983] font-bold block">
                   ● KAKESTILER &amp; LOOKBOOK
                 </span>
-                <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-[#332F32]">
+                <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#332F32]">
                   Inspirasjonsgalleri
                 </h2>
               </div>
@@ -536,7 +705,7 @@ export default function PreviewCakesPage() {
               {GALLERY_CAKES.map((cake) => (
                 <div
                   key={cake.id}
-                  className="snap-start w-[260px] sm:w-[290px] flex-shrink-0 bg-white border-2 border-[#332F32] rounded-2xl overflow-hidden flex flex-col justify-between shadow-2xs hover:shadow-md transition-shadow font-mono"
+                  className="snap-start w-[260px] sm:w-[280px] flex-shrink-0 bg-white border-2 border-[#332F32] rounded-2xl overflow-hidden flex flex-col justify-between shadow-2xs hover:shadow-md transition-shadow font-mono"
                 >
                   <div>
                     <div className="relative aspect-square w-full bg-[#FAF7EE]">
@@ -551,7 +720,7 @@ export default function PreviewCakesPage() {
                       </div>
                     </div>
 
-                    <div className="p-4 space-y-1.5">
+                    <div className="p-3.5 space-y-1">
                       <span className="text-[10px] text-[#FF5983] font-bold block uppercase">
                         ● {cake.portions}
                       </span>
@@ -564,7 +733,7 @@ export default function PreviewCakesPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 pt-0">
+                  <div className="p-3.5 pt-0">
                     <button
                       type="button"
                       onClick={() => {
@@ -587,13 +756,12 @@ export default function PreviewCakesPage() {
         </section>
 
         {/* =========================================================
-            SECTION 2: BESTILLINGS-STUDIO (COMPACT & INTUITIVE)
-            Everything within eye reach: options grid + live preview
+            SECTION 2: BESTILLINGS-STUDIO (COMPACT & WITH RICH ICONS)
             ========================================================= */}
-        <section id="order-studio" className="py-10 sm:py-14 border-b border-[#E5E0D5] bg-[#FAF7EE] scroll-mt-10">
-          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-6">
+        <section id="order-studio" className="py-10 sm:py-12 border-b border-[#E5E0D5] bg-[#FAF7EE] scroll-mt-10">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-5">
             {/* Mode Switcher */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5E0D5] pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5E0D5] pb-3">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#FF5983] font-bold block">
                   ● BESTILLINGS-STUDIO
@@ -628,14 +796,14 @@ export default function PreviewCakesPage() {
 
             {/* VEI B: FERDIGE SIGNATURKAKER */}
             {orderMode === "preset" && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2 font-mono">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1 font-mono">
                 {SIGNATURE_PRESETS.map((preset) => (
                   <div
                     key={preset.id}
-                    className="p-4 bg-white border-2 border-[#332F32] rounded-2xl flex flex-col justify-between shadow-2xs space-y-3"
+                    className="p-3.5 bg-white border-2 border-[#332F32] rounded-2xl flex flex-col justify-between shadow-2xs space-y-3"
                   >
                     <div>
-                      <div className="relative aspect-square w-full rounded-xl overflow-hidden border border-[#E5E0D5] mb-2.5">
+                      <div className="relative aspect-square w-full rounded-xl overflow-hidden border border-[#E5E0D5] mb-2">
                         <Image src={preset.image} alt={preset.title} fill className="object-cover" />
                         <span className="absolute top-2 right-2 px-2 py-0.5 bg-[#FFF59D] text-[9px] font-black uppercase border border-[#332F32]">
                           {preset.tag}
@@ -663,11 +831,11 @@ export default function PreviewCakesPage() {
               </div>
             )}
 
-            {/* VEI A: BYGG DIN EGEN KAKE (HIGH-DENSITY GRID CONSOLE) */}
+            {/* VEI A: BYGG DIN EGEN KAKE (HIGH-DENSITY GRID CONSOLE WITH THEMATIC ICONS) */}
             {orderMode === "custom" && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start font-mono">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start font-mono">
                 {/* Left Side: Option Selector & Step Nav (lg:col-span-7) */}
-                <div className="lg:col-span-7 space-y-4">
+                <div className="lg:col-span-7 space-y-3.5">
                   {/* Step Pills Bar */}
                   <div className="grid grid-cols-6 gap-1 bg-white p-1.5 rounded-2xl border-2 border-[#332F32]">
                     {stepLabels.map((lbl, idx) => {
@@ -679,7 +847,7 @@ export default function PreviewCakesPage() {
                           key={num}
                           type="button"
                           onClick={() => setCurrentStep(num)}
-                          className={`py-2 px-1 text-center rounded-xl transition-all cursor-pointer truncate ${
+                          className={`py-1.5 px-1 text-center rounded-xl transition-all cursor-pointer truncate ${
                             isActive
                               ? "bg-[#332F32] text-white font-black"
                               : isDone
@@ -695,42 +863,48 @@ export default function PreviewCakesPage() {
                   </div>
 
                   {/* ACTIVE STEP PANEL */}
-                  <div className="bg-white border-2 border-[#332F32] rounded-3xl p-5 sm:p-6 shadow-sm">
-                    {/* STEP 1: STØRRELSE (COMPACT 2x2 GRID) */}
+                  <div className="bg-white border-2 border-[#332F32] rounded-3xl p-4 sm:p-5 shadow-sm">
+                    {/* STEP 1: STØRRELSE (WITH ICONS) */}
                     {currentStep === 1 && (
-                      <div className="space-y-4">
+                      <div className="space-y-3.5">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 1 · Velg Kakestørrelse
                           </span>
-                          <span className="text-[10px] text-[#666]">Alle størrelser inkl. brett &amp; eske</span>
+                          <span className="text-[10px] text-[#666]">Inkludert kakebrett &amp; eske</span>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                           {CAKE_SIZES.map((tier) => {
                             const isSel = selectedSize.id === tier.id;
+                            const IconComponent = tier.icon;
                             return (
                               <div
                                 key={tier.id}
                                 onClick={() => setSelectedSize(tier)}
-                                className={`p-3.5 rounded-2xl border-2 transition-all cursor-pointer flex justify-between items-center ${
+                                className={`p-3 rounded-2xl border-2 transition-all cursor-pointer flex justify-between items-center ${
                                   isSel
                                     ? "border-[#332F32] bg-[#FFA8C5]/20 ring-2 ring-[#332F32]"
                                     : "border-[#E5E0D5] bg-[#FAF7EE] hover:border-[#332F32]"
                                 }`}
                               >
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-black text-xs uppercase text-[#332F32]">{tier.name}</span>
-                                    {tier.popular && (
-                                      <span className="px-1.5 py-0.5 rounded bg-[#FFF59D] text-[8px] font-black uppercase border border-[#332F32]">
-                                        Populær
-                                      </span>
-                                    )}
+                                <div className="flex items-center gap-2.5">
+                                  <div className="w-8 h-8 rounded-xl bg-white border border-[#332F32] flex items-center justify-center flex-shrink-0 shadow-2xs">
+                                    <IconComponent size={18} className="text-[#332F32]" />
                                   </div>
-                                  <span className="text-[11px] text-[#FF5983] font-bold block mt-0.5">
-                                    {tier.portions} · {tier.diameter}
-                                  </span>
+                                  <div>
+                                    <div className="flex items-center gap-1.5">
+                                      <span className="font-black text-xs uppercase text-[#332F32]">{tier.name}</span>
+                                      {tier.popular && (
+                                        <span className="px-1.5 py-0.5 rounded bg-[#FFF59D] text-[8px] font-black uppercase border border-[#332F32]">
+                                          Populær
+                                        </span>
+                                      )}
+                                    </div>
+                                    <span className="text-[11px] text-[#FF5983] font-bold block mt-0.5">
+                                      {tier.portions} · {tier.diameter}
+                                    </span>
+                                  </div>
                                 </div>
                                 <span className="font-black text-sm text-[#332F32]">{tier.basePrice} kr</span>
                               </div>
@@ -740,9 +914,9 @@ export default function PreviewCakesPage() {
                       </div>
                     )}
 
-                    {/* STEP 2: BUNN (COMPACT GRID) */}
+                    {/* STEP 2: BUNN (WITH THEMATIC INGREDIENT ICONS) */}
                     {currentStep === 2 && (
-                      <div className="space-y-4">
+                      <div className="space-y-3.5">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 2 · Velg Kakebunn (Sponge)
@@ -750,14 +924,15 @@ export default function PreviewCakesPage() {
                           <span className="text-[10px] text-[#666]">Bakes ferskt på bestillingsdagen</span>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {SPONGE_OPTIONS.map((sp) => {
                             const isSel = selectedSponge.id === sp.id;
+                            const IconComp = sp.icon;
                             return (
                               <div
                                 key={sp.id}
                                 onClick={() => setSelectedSponge(sp)}
-                                className={`p-3 rounded-xl border-2 transition-all cursor-pointer flex items-center justify-between ${
+                                className={`p-2.5 rounded-xl border-2 transition-all cursor-pointer flex items-center justify-between ${
                                   isSel
                                     ? "border-[#332F32] bg-[#FFA8C5]/20 ring-2 ring-[#332F32]"
                                     : "border-[#E5E0D5] bg-[#FAF7EE] hover:border-[#332F32]"
@@ -765,9 +940,11 @@ export default function PreviewCakesPage() {
                               >
                                 <div className="flex items-center gap-2.5">
                                   <div
-                                    className="w-5 h-5 rounded-full border border-[#332F32] flex-shrink-0"
+                                    className="w-7 h-7 rounded-lg border border-[#332F32] flex items-center justify-center flex-shrink-0"
                                     style={{ backgroundColor: sp.swatch }}
-                                  />
+                                  >
+                                    <IconComp size={15} className={sp.iconColor} />
+                                  </div>
                                   <div>
                                     <span className="font-black text-xs text-[#332F32] block">{sp.name}</span>
                                     <span className="text-[10px] text-[#666]">{sp.note}</span>
@@ -781,24 +958,25 @@ export default function PreviewCakesPage() {
                       </div>
                     )}
 
-                    {/* STEP 3: FYLL (COMPACT GRID) */}
+                    {/* STEP 3: FYLL (WITH THEMATIC FRUIT/FILLING ICONS) */}
                     {currentStep === 3 && (
-                      <div className="space-y-4">
+                      <div className="space-y-3.5">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 3 · Velg Kremfyll
                           </span>
-                          <span className="text-[10px] text-[#666]">Generøst fyll mellom kakebunnlagene</span>
+                          <span className="text-[10px] text-[#666]">Rikt lagt mellom bunnene</span>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {FILLING_OPTIONS.map((fill) => {
                             const isSel = selectedFilling.id === fill.id;
+                            const IconComp = fill.icon;
                             return (
                               <div
                                 key={fill.id}
                                 onClick={() => setSelectedFilling(fill)}
-                                className={`p-3 rounded-xl border-2 transition-all cursor-pointer flex items-center justify-between ${
+                                className={`p-2.5 rounded-xl border-2 transition-all cursor-pointer flex items-center justify-between ${
                                   isSel
                                     ? "border-[#332F32] bg-[#FFA8C5]/20 ring-2 ring-[#332F32]"
                                     : "border-[#E5E0D5] bg-[#FAF7EE] hover:border-[#332F32]"
@@ -806,9 +984,11 @@ export default function PreviewCakesPage() {
                               >
                                 <div className="flex items-center gap-2.5">
                                   <div
-                                    className="w-5 h-5 rounded-full border border-[#332F32] flex-shrink-0"
+                                    className="w-7 h-7 rounded-lg border border-[#332F32] flex items-center justify-center flex-shrink-0"
                                     style={{ backgroundColor: fill.swatch }}
-                                  />
+                                  >
+                                    <IconComp size={15} className={fill.iconColor} />
+                                  </div>
                                   <div>
                                     <span className="font-black text-xs text-[#332F32] block">{fill.name}</span>
                                     <span className="text-[10px] text-[#666]">{fill.note}</span>
@@ -824,28 +1004,28 @@ export default function PreviewCakesPage() {
 
                     {/* STEP 4: DEKOR & STIL (COMPACT VISUAL GRID) */}
                     {currentStep === 4 && (
-                      <div className="space-y-4">
+                      <div className="space-y-3.5">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 4 · Velg Dekor &amp; Glasurstil
                           </span>
-                          <span className="text-[10px] text-[#666]">Endrer forhåndsvisningen til høyre</span>
+                          <span className="text-[10px] text-[#666]">Endrer forhåndsvisningen</span>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                           {FROSTING_OPTIONS.map((fr) => {
                             const isSel = selectedFrosting.id === fr.id;
                             return (
                               <div
                                 key={fr.id}
                                 onClick={() => setSelectedFrosting(fr)}
-                                className={`p-2.5 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-3 ${
+                                className={`p-2 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-2.5 ${
                                   isSel
                                     ? "border-[#332F32] bg-white ring-2 ring-[#FFA8C5] shadow-xs"
                                     : "border-[#E5E0D5] bg-[#FAF7EE] hover:border-[#332F32]"
                                 }`}
                               >
-                                <div className="relative w-14 h-14 rounded-xl overflow-hidden border border-[#E5E0D5] flex-shrink-0">
+                                <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-[#E5E0D5] flex-shrink-0">
                                   <Image src={fr.image} alt={fr.name} fill className="object-cover" />
                                 </div>
                                 <div className="flex-1 min-w-0">
@@ -862,7 +1042,7 @@ export default function PreviewCakesPage() {
 
                     {/* STEP 5: TEKST, LYS & TOPPINGS */}
                     {currentStep === 5 && (
-                      <div className="space-y-4">
+                      <div className="space-y-3.5">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 5 · Personlig Tekst &amp; Toppings
@@ -873,7 +1053,7 @@ export default function PreviewCakesPage() {
                         <div className="space-y-3">
                           <div>
                             <label className="text-[10px] uppercase font-bold text-[#332F32] block mb-1">
-                              Håndskrevet Tekst på Kaken (Valgfritt):
+                              Håndskrevet Tekst på Kaken:
                             </label>
                             <input
                               type="text"
@@ -894,7 +1074,7 @@ export default function PreviewCakesPage() {
                                   key={c}
                                   type="button"
                                   onClick={() => setCandleCount(c)}
-                                  className={`py-2 text-center rounded-lg border text-xs font-bold transition-all cursor-pointer ${
+                                  className={`py-1.5 text-center rounded-lg border text-xs font-bold transition-all cursor-pointer ${
                                     candleCount === c
                                       ? "bg-[#332F32] text-white border-[#332F32]"
                                       : "bg-[#FAF7EE] text-[#555] border-[#E5E0D5]"
@@ -913,6 +1093,7 @@ export default function PreviewCakesPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                               {TOPPING_OPTIONS.map((top) => {
                                 const isChecked = selectedToppings.includes(top.id);
+                                const TopIcon = top.icon;
                                 return (
                                   <div
                                     key={top.id}
@@ -930,6 +1111,7 @@ export default function PreviewCakesPage() {
                                         onChange={() => {}}
                                         className="w-3.5 h-3.5 accent-[#332F32]"
                                       />
+                                      <TopIcon size={14} className="text-amber-600" />
                                       <span className="text-xs font-bold text-[#332F32]">{top.name}</span>
                                     </div>
                                     <span className="text-xs font-black text-[#FF5983]">+{top.priceDelta} kr</span>
@@ -942,9 +1124,9 @@ export default function PreviewCakesPage() {
                       </div>
                     )}
 
-                    {/* STEP 6: KALENDER & KONTAKT FORM */}
+                    {/* STEP 6: KALENDER & MERGED CONFIRMATION FORM */}
                     {currentStep === 6 && (
-                      <div className="space-y-5">
+                      <div className="space-y-4">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 6 · Velg Hentedato (Min. 7 Dager)
@@ -955,9 +1137,9 @@ export default function PreviewCakesPage() {
                         </div>
 
                         {!isConfirmed ? (
-                          <form onSubmit={handleBookingSubmit} className="space-y-4">
+                          <form onSubmit={handleBookingSubmit} className="space-y-3.5">
                             {/* Calendar Navigation & Month Matrix */}
-                            <div className="p-3.5 rounded-2xl bg-[#FAF7EE] border border-[#E5E0D5] space-y-2.5">
+                            <div className="p-3 rounded-2xl bg-[#FAF7EE] border border-[#E5E0D5] space-y-2">
                               <div className="flex items-center justify-between">
                                 <button
                                   type="button"
@@ -988,7 +1170,7 @@ export default function PreviewCakesPage() {
 
                               <div className="grid grid-cols-7 gap-1">
                                 {Array.from({ length: startDayOfWeek }).map((_, i) => (
-                                  <div key={`blank-${i}`} className="p-1.5" />
+                                  <div key={`blank-${i}`} className="p-1" />
                                 ))}
 
                                 {Array.from({ length: daysInMonth }).map((_, i) => {
@@ -1027,7 +1209,7 @@ export default function PreviewCakesPage() {
 
                               <div className="pt-1 flex items-center justify-between text-[11px] font-bold">
                                 <span className="text-[#332F32]">Valgt: {formattedSelectedDate}</span>
-                                <span className="text-emerald-800 text-[10px]">✓ Godkjent</span>
+                                <span className="text-emerald-800 text-[10px]">✓ Oppfyller 7 dagers varsel</span>
                               </div>
                             </div>
 
@@ -1113,81 +1295,114 @@ export default function PreviewCakesPage() {
                           </form>
                         ) : (
                           /* =================================================
-                              LUXURY NORDIC RESERVASJONS-VOUCHER (NEAT & CLEAN)
-                              Solves the "wall of plain monospace text" issue!
+                              MERGED CONFIGURATION + CONFIRMATION LUXURY PASS
+                              Incorporates the cake photo directly, structured
+                              with zero truncation and pristine editorial spacing!
                               ================================================= */
-                          <div className="p-5 rounded-2xl border-2 border-[#332F32] bg-[#FAF7EE] space-y-4">
+                          <div className="p-5 sm:p-6 rounded-3xl border-2 border-[#332F32] bg-[#FAF7EE] space-y-4">
                             {/* Voucher Header Bar */}
                             <div className="flex items-center justify-between pb-3 border-b-2 border-dashed border-[#E5E0D5]">
-                              <div className="flex items-center gap-2">
-                                <LuffyCakesLogo className="w-6 h-6" />
+                              <div className="flex items-center gap-2.5">
+                                <LuffyCakesLogo className="w-7 h-7" />
                                 <div>
-                                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase inline-block">
+                                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase inline-block">
                                     ● RESERVASJON BEKREFTET
                                   </span>
-                                  <span className="font-black text-xs text-[#332F32] block">
+                                  <h3 className="font-black text-sm text-[#332F32] uppercase">
                                     Luffy Cakes Bestillingsbevis
+                                  </h3>
+                                </div>
+                              </div>
+
+                              <div className="text-right">
+                                <span className="px-3.5 py-1 rounded-full bg-[#FFA8C5] text-[#332F32] font-black text-sm border border-[#332F32] inline-block shadow-2xs">
+                                  {totalPrice} kr
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Main Body: Merging Image Aspect & Specifications */}
+                            <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+                              {/* Left: Framed Cake Image */}
+                              <div className="sm:col-span-5 relative aspect-square rounded-2xl overflow-hidden border-2 border-[#332F32] bg-white shadow-2xs">
+                                <Image
+                                  src={selectedFrosting.image}
+                                  alt="Bestilt kake"
+                                  fill
+                                  className="object-cover"
+                                />
+                                <div className="absolute top-2 left-2 px-2 py-0.5 bg-white font-mono text-[9px] font-black uppercase border border-[#332F32]">
+                                  {selectedSize.name}
+                                </div>
+                                <div className="absolute bottom-2 left-2 right-2 p-1 bg-white/95 text-[9px] font-bold text-center border border-[#E5E0D5] rounded">
+                                  {selectedSize.portions}
+                                </div>
+                              </div>
+
+                              {/* Right: Clean, Structured Specs List (ZERO TRUNCATION) */}
+                              <div className="sm:col-span-7 space-y-2 text-xs">
+                                <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
+                                  <span className="text-[9px] uppercase text-[#888] font-bold block">
+                                    Hentedato &amp; Tid:
+                                  </span>
+                                  <span className="font-black text-[#332F32] block">
+                                    {formattedSelectedDate}
+                                  </span>
+                                  <span className="text-[11px] text-[#FF5983] font-bold">
+                                    kl. {pickupTime}
+                                  </span>
+                                </div>
+
+                                <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
+                                  <span className="text-[9px] uppercase text-[#888] font-bold block">
+                                    Smak &amp; Fyll:
+                                  </span>
+                                  <span className="font-black text-[#332F32] block">
+                                    {selectedSponge.name}
+                                  </span>
+                                  <span className="text-[11px] text-[#666]">
+                                    med {selectedFilling.name.toLowerCase()}
+                                  </span>
+                                </div>
+
+                                <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
+                                  <span className="text-[9px] uppercase text-[#888] font-bold block">
+                                    Dekorstil &amp; Hilsen:
+                                  </span>
+                                  <span className="font-black text-[#332F32] block">
+                                    {selectedFrosting.name.split(" (")[0]}
+                                  </span>
+                                  <span className="text-[11px] text-[#555] italic block">
+                                    &ldquo;{customInscription}&rdquo; ({candleCount})
                                   </span>
                                 </div>
                               </div>
-                              <span className="px-3 py-1 rounded-full bg-[#FFA8C5] text-[#332F32] font-black text-sm">
-                                {totalPrice} kr
+                            </div>
+
+                            {/* Location & Order ID */}
+                            <div className="p-3 rounded-xl bg-white border border-[#E5E0D5] flex items-center justify-between text-xs">
+                              <div>
+                                <span className="text-[9px] uppercase text-[#888] font-bold block">Hentested</span>
+                                <span className="font-bold text-[#332F32]">
+                                  {fulfillmentType === "delivery"
+                                    ? "Budlevering i Oslo (+150 kr inkludert)"
+                                    : "Markveien 32, Grünerløkka, 0554 Oslo"}
+                                </span>
+                              </div>
+                              <span className="font-black text-xs text-[#332F32] px-2.5 py-1 rounded bg-[#FAF7EE] border border-[#332F32]">
+                                Ordre #LC-9165
                               </span>
                             </div>
 
-                            {/* Structured 2x2 Info Grid (Clean visual hierarchy) */}
-                            <div className="grid grid-cols-2 gap-2 text-xs">
-                              <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
-                                <span className="text-[9px] uppercase text-[#888] font-bold block">Kake</span>
-                                <span className="font-black text-[#332F32] block truncate">
-                                  {selectedSize.name}
-                                </span>
-                                <span className="text-[10px] text-[#FF5983]">{selectedSize.portions}</span>
-                              </div>
-
-                              <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
-                                <span className="text-[9px] uppercase text-[#888] font-bold block">Tid &amp; Dato</span>
-                                <span className="font-black text-[#332F32] block truncate">
-                                  {formattedSelectedDate.split(" ").slice(0, 3).join(" ")}
-                                </span>
-                                <span className="text-[10px] text-[#666]">kl. {pickupTime}</span>
-                              </div>
-
-                              <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
-                                <span className="text-[9px] uppercase text-[#888] font-bold block">Smaksprofil</span>
-                                <span className="font-bold text-[#332F32] block text-[11px] truncate">
-                                  {selectedSponge.name.split(" ")[0]} + {selectedFilling.name.split(" ")[0]}
-                                </span>
-                                <span className="text-[10px] text-[#666]">{selectedFrosting.name.split(" (")[0]}</span>
-                              </div>
-
-                              <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
-                                <span className="text-[9px] uppercase text-[#888] font-bold block">Piped Tekst</span>
-                                <span className="font-bold text-[#332F32] block text-[11px] italic truncate">
-                                  &ldquo;{customInscription}&rdquo;
-                                </span>
-                                <span className="text-[10px] text-[#666]">{candleCount}</span>
-                              </div>
-                            </div>
-
-                            {/* Pickup Address & SMS confirmation */}
-                            <div className="p-3 rounded-xl bg-white border border-[#E5E0D5] flex items-center justify-between text-[11px]">
-                              <span className="text-[#555]">
-                                {fulfillmentType === "delivery"
-                                  ? "Levering: Bud i Oslo (+150 kr)"
-                                  : "Hentes: Markveien 32, Grünerløkka"}
+                            {/* Footer SMS & Vipps Confirmation Note */}
+                            <div className="pt-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] border-t border-[#E5E0D5]">
+                              <span className="text-[#666]">
+                                Vipps-krav og SMS-kvittering er sendt til {customerPhone}
                               </span>
-                              <span className="font-black text-[#332F32]">
-                                Ordre #LC-{Date.now().toString().slice(-4)}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center justify-between text-[10px]">
-                              <span className="text-[#777]">SMS og Vipps sendt til {customerPhone}</span>
                               <button
                                 type="button"
                                 onClick={() => setIsConfirmed(false)}
-                                className="text-[#332F32] font-black underline cursor-pointer"
+                                className="text-[#332F32] font-black underline cursor-pointer hover:text-[#FF5983]"
                               >
                                 Endre bestilling ↺
                               </button>
@@ -1197,9 +1412,9 @@ export default function PreviewCakesPage() {
                       </div>
                     )}
 
-                    {/* Integrated Next/Previous Actions Bar (No scrolling needed!) */}
+                    {/* Integrated Next/Previous Actions Bar */}
                     {currentStep < 6 && (
-                      <div className="pt-4 mt-4 border-t border-[#E5E0D5] flex items-center justify-between">
+                      <div className="pt-3.5 mt-3.5 border-t border-[#E5E0D5] flex items-center justify-between">
                         <button
                           type="button"
                           disabled={currentStep === 1}
@@ -1222,8 +1437,8 @@ export default function PreviewCakesPage() {
                 </div>
 
                 {/* Right Side: Sticky Live Preview Console (lg:col-span-5) */}
-                <div className="lg:col-span-5 sticky top-16 space-y-3">
-                  <div className="bg-white border-2 border-[#332F32] rounded-3xl p-4 sm:p-5 shadow-sm space-y-3">
+                <div className="lg:col-span-5 sticky top-20 space-y-3">
+                  <div className="bg-white border-2 border-[#332F32] rounded-3xl p-4 shadow-sm space-y-3">
                     <div className="flex items-center justify-between pb-2 border-b border-[#E5E0D5]">
                       <span className="text-[10px] font-black uppercase tracking-wider text-[#888]">
                         DIN KAKE-KONFIGURASJON
@@ -1286,8 +1501,8 @@ export default function PreviewCakesPage() {
         {/* =========================================================
             SECTION 3: DM vs STUDIO BOOKING (TIGHT COMPARISON)
             ========================================================= */}
-        <section id="comparison" className="py-10 sm:py-14 border-b border-[#E5E0D5] bg-[#FAF7EE]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 space-y-5 font-mono">
+        <section id="comparison" className="py-10 sm:py-12 border-b border-[#E5E0D5] bg-[#FAF7EE]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-8 space-y-4 font-mono">
             <div className="text-center space-y-1">
               <span className="text-[10px] font-black uppercase tracking-widest text-[#FF5983]">
                 HVORFOR BRUKE DETTE I STEDET FOR &quot;SEND DM FOR BESTILLING&quot;?
@@ -1326,8 +1541,8 @@ export default function PreviewCakesPage() {
         {/* =========================================================
             SECTION 4: REVIEWS (COMPACT 3-GRID)
             ========================================================= */}
-        <section className="py-10 sm:py-14 border-b border-[#E5E0D5]">
-          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-6 font-mono text-xs">
+        <section id="reviews" className="py-10 sm:py-12 border-b border-[#E5E0D5]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-5 font-mono text-xs">
             <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
               <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-[#332F32]">
                 Hva Kundene Sier
