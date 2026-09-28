@@ -18,23 +18,6 @@ import {
   FiPhone,
   FiMail,
 } from "react-icons/fi";
-import {
-  LuBox,
-  LuCake,
-  LuCrown,
-  LuCakeSlice,
-  LuFlower2,
-  LuCookie,
-  LuLeaf,
-  LuHeart as LuHeartIcon,
-  LuCitrus,
-  LuCherry,
-  LuFlame,
-  LuCoffee,
-  LuSun,
-  LuCloud,
-  LuSparkles,
-} from "react-icons/lu";
 import PreviewShell from "@/components/preview/PreviewShell";
 
 // ==========================================
@@ -62,6 +45,195 @@ function LuffyCakesLogo({ className = "w-7 h-7" }: { className?: string }) {
         </span>
       </div>
     </div>
+  );
+}
+
+// ==========================================
+// BESPOKE FLATICON-STYLE SVG VECTOR ICONS
+// Clean, colorful, high-detail culinary vectors
+// ==========================================
+
+// 1. SIZES ICONS
+function BentoBoxIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none">
+      <rect x="8" y="14" width="32" height="24" rx="4" fill="#FAF7EE" stroke="#332F32" strokeWidth="2" />
+      <path d="M8 22H40" stroke="#FFA8C5" strokeWidth="3" />
+      <rect x="14" y="26" width="20" height="8" rx="2" fill="#FFA8C5" stroke="#332F32" strokeWidth="1.5" />
+      <circle cx="24" cy="30" r="2" fill="#FFF59D" />
+      <path d="M18 10L24 14L30 10" stroke="#332F32" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function PetiteCakeIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none">
+      <rect x="12" y="22" width="24" height="16" rx="3" fill="#FAF7EE" stroke="#332F32" strokeWidth="2" />
+      <path d="M12 26Q18 30 24 26Q30 30 36 26" fill="#FFA8C5" stroke="#332F32" strokeWidth="1.5" />
+      <line x1="24" y1="22" x2="24" y2="12" stroke="#332F32" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="24" cy="9" r="2.5" fill="#FFF59D" stroke="#332F32" strokeWidth="1.5" />
+      <circle cx="16" cy="34" r="1.5" fill="#FF5983" />
+      <circle cx="24" cy="34" r="1.5" fill="#FF5983" />
+      <circle cx="32" cy="34" r="1.5" fill="#FF5983" />
+    </svg>
+  );
+}
+
+function SignatureGateauIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none">
+      <rect x="8" y="20" width="32" height="18" rx="3" fill="#FAF7EE" stroke="#332F32" strokeWidth="2" />
+      <path d="M8 24C12 28 16 22 20 26C24 30 28 22 32 26C36 30 40 24 40 24" fill="#3D2314" stroke="#332F32" strokeWidth="1.5" />
+      <circle cx="16" cy="16" r="3" fill="#D1345B" stroke="#332F32" strokeWidth="1.5" />
+      <circle cx="24" cy="15" r="3" fill="#D1345B" stroke="#332F32" strokeWidth="1.5" />
+      <circle cx="32" cy="16" r="3" fill="#D1345B" stroke="#332F32" strokeWidth="1.5" />
+      <path d="M16 13C16 10 18 8 20 8" stroke="#332F32" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function TwoTierGrandIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none">
+      <rect x="8" y="26" width="32" height="14" rx="2" fill="#FAF7EE" stroke="#332F32" strokeWidth="2" />
+      <rect x="14" y="14" width="20" height="12" rx="2" fill="#FFA8C5" stroke="#332F32" strokeWidth="2" />
+      <circle cx="24" cy="10" r="3" fill="#FFF59D" stroke="#332F32" strokeWidth="1.5" />
+      <path d="M8 29Q16 32 24 29Q32 32 40 29" stroke="#FFA8C5" strokeWidth="2" fill="none" />
+      <circle cx="24" cy="6" r="1.5" fill="#D1345B" />
+    </svg>
+  );
+}
+
+// 2. SPONGE INGREDIENT ICONS
+function VanillaFlowerIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <path d="M16 4C18 9 24 10 24 14C24 18 19 20 16 20C13 20 8 18 8 14C8 10 14 9 16 4Z" fill="#FFF6E5" stroke="#332F32" strokeWidth="1.5" />
+      <circle cx="16" cy="14" r="3" fill="#FFF59D" stroke="#332F32" strokeWidth="1.5" />
+      <path d="M16 20C16 26 12 28 8 30" stroke="#332F32" strokeWidth="2" strokeLinecap="round" />
+      <path d="M18 20C20 25 24 28 28 29" stroke="#332F32" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function CocoaChocolateIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <rect x="6" y="8" width="20" height="16" rx="2" fill="#4A2E1B" stroke="#332F32" strokeWidth="1.5" />
+      <line x1="16" y1="8" x2="16" y2="24" stroke="#FAF7EE" strokeWidth="1.5" />
+      <line x1="6" y1="16" x2="26" y2="16" stroke="#FAF7EE" strokeWidth="1.5" />
+      <circle cx="23" cy="23" r="3" fill="#8A2232" stroke="#332F32" strokeWidth="1" />
+    </svg>
+  );
+}
+
+function PistachioNutIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <path d="M16 6C9 6 6 12 6 18C6 24 11 26 16 26C21 26 26 24 26 18C26 12 23 6 16 6Z" fill="#FAF7EE" stroke="#332F32" strokeWidth="1.5" />
+      <ellipse cx="16" cy="17" rx="5" ry="7" fill="#B8C9A3" stroke="#332F32" strokeWidth="1.5" />
+      <path d="M16 10V24" stroke="#8EA873" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function RedVelvetHeartIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <path d="M16 27L6 17C3 14 3 9 7 6C11 3 14 5 16 9C18 5 21 3 25 6C29 9 29 14 26 17L16 27Z" fill="#8A2232" stroke="#332F32" strokeWidth="1.5" />
+      <path d="M10 13Q16 17 22 13" stroke="#FAF7EE" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function LemonCitrusIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <circle cx="16" cy="16" r="10" fill="#FFF1A8" stroke="#332F32" strokeWidth="1.5" />
+      <circle cx="16" cy="16" r="7" fill="#FFF59D" />
+      <line x1="16" y1="9" x2="16" y2="23" stroke="#332F32" strokeWidth="1" />
+      <line x1="9" y1="16" x2="23" y2="16" stroke="#332F32" strokeWidth="1" />
+      <circle cx="19" cy="12" r="0.75" fill="#332F32" />
+      <circle cx="13" cy="20" r="0.75" fill="#332F32" />
+    </svg>
+  );
+}
+
+// 3. FILLING ICONS
+function RaspberryFruitIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <circle cx="16" cy="14" r="3.5" fill="#D1345B" stroke="#332F32" strokeWidth="1" />
+      <circle cx="12" cy="18" r="3.5" fill="#D1345B" stroke="#332F32" strokeWidth="1" />
+      <circle cx="20" cy="18" r="3.5" fill="#D1345B" stroke="#332F32" strokeWidth="1" />
+      <circle cx="16" cy="22" r="3.5" fill="#D1345B" stroke="#332F32" strokeWidth="1" />
+      <path d="M16 10V6M16 6C13 6 12 8 12 8M16 6C19 6 20 8 20 8" stroke="#332F32" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function SaltCaramelSwirlIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <path d="M16 6C22 6 26 11 26 17C26 23 21 26 16 26C11 26 6 22 6 16C6 10 11 8 16 8C20 8 22 11 22 15C22 18 19 20 16 20C13 20 12 18 12 16" stroke="#C68B45" strokeWidth="2.5" strokeLinecap="round" />
+      <rect x="20" y="8" width="3" height="3" rx="0.5" fill="#FAF7EE" stroke="#332F32" strokeWidth="1" />
+      <rect x="8" y="20" width="3" height="3" rx="0.5" fill="#FAF7EE" stroke="#332F32" strokeWidth="1" />
+    </svg>
+  );
+}
+
+function GanacheChocolateIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <path d="M16 6C16 6 24 14 24 19C24 23.5 20.5 26 16 26C11.5 26 8 23.5 8 19C8 14 16 6 16 6Z" fill="#3D2314" stroke="#332F32" strokeWidth="1.5" />
+      <path d="M12 18Q16 22 20 18" stroke="#FAF7EE" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function PassionCurdIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <circle cx="16" cy="16" r="10" fill="#E58F1C" stroke="#332F32" strokeWidth="1.5" />
+      <circle cx="16" cy="16" r="7" fill="#FFA8C5" />
+      <circle cx="14" cy="14" r="1" fill="#332F32" />
+      <circle cx="18" cy="14" r="1" fill="#332F32" />
+      <circle cx="16" cy="18" r="1" fill="#332F32" />
+      <circle cx="13" cy="17" r="1" fill="#332F32" />
+    </svg>
+  );
+}
+
+function MascarponeCreamIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <path d="M16 6C19 6 22 9 22 13C24 14 26 16 26 19C26 23 22 25 16 25C10 25 6 23 6 19C6 16 8 14 10 13C10 9 13 6 16 6Z" fill="#FAF2DD" stroke="#332F32" strokeWidth="1.5" />
+      <circle cx="14" cy="15" r="0.75" fill="#332F32" />
+      <circle cx="18" cy="17" r="0.75" fill="#332F32" />
+      <circle cx="16" cy="20" r="0.75" fill="#332F32" />
+    </svg>
+  );
+}
+
+// 4. TOPPING ICONS
+function GoldSparklesIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <path d="M16 4L18.5 12.5L27 15L18.5 17.5L16 26L13.5 17.5L5 15L13.5 12.5L16 4Z" fill="#FFF59D" stroke="#332F32" strokeWidth="1.5" strokeLinejoin="round" />
+      <circle cx="24" cy="8" r="2" fill="#FFA8C5" />
+      <circle cx="8" cy="24" r="2" fill="#FFA8C5" />
+    </svg>
+  );
+}
+
+function FrenchMacaronIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="none">
+      <rect x="7" y="10" width="18" height="6" rx="3" fill="#FFA8C5" stroke="#332F32" strokeWidth="1.5" />
+      <rect x="7" y="18" width="18" height="6" rx="3" fill="#FFA8C5" stroke="#332F32" strokeWidth="1.5" />
+      <line x1="8" y1="16" x2="24" y2="16" stroke="#FAF7EE" strokeWidth="2" strokeLinecap="round" />
+    </svg>
   );
 }
 
@@ -117,7 +289,7 @@ const GALLERY_CAKES = [
 ];
 
 // ==========================================
-// 2. FERDIGE SIGNATURKAKER (Quick 1-Click Pick Option)
+// 2. FERDIGE SIGNATURKAKER
 // ==========================================
 const SIGNATURE_PRESETS = [
   {
@@ -183,7 +355,7 @@ const SIGNATURE_PRESETS = [
 ];
 
 // ==========================================
-// 3. STEP OPTIONS WITH RICH ICONS
+// 3. STEP OPTIONS WITH BESPOKE FLATICON VECTORS
 // ==========================================
 interface CakeSizeTier {
   id: string;
@@ -192,30 +364,30 @@ interface CakeSizeTier {
   diameter: string;
   basePrice: number;
   popular?: boolean;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
+  IconComponent: React.ComponentType<{ className?: string }>;
 }
 
 const CAKE_SIZES: CakeSizeTier[] = [
-  { id: "bento", name: "Bento Lunchbox", portions: "2–3 pers", diameter: "10 cm", basePrice: 240, icon: LuBox },
-  { id: "petite", name: "Petite Celebration", portions: "6–8 pers", diameter: "15 cm", basePrice: 480, popular: true, icon: LuCake },
-  { id: "signature", name: "Signature Gateau", portions: "12–16 pers", diameter: "20 cm", basePrice: 780, icon: LuCrown },
-  { id: "grand", name: "Two-Tier Grand", portions: "24–30 pers", diameter: "22cm + 15cm", basePrice: 1480, icon: LuCakeSlice },
+  { id: "bento", name: "Bento Lunchbox", portions: "2–3 pers", diameter: "10 cm", basePrice: 240, IconComponent: BentoBoxIcon },
+  { id: "petite", name: "Petite Celebration", portions: "6–8 pers", diameter: "15 cm", basePrice: 480, popular: true, IconComponent: PetiteCakeIcon },
+  { id: "signature", name: "Signature Gateau", portions: "12–16 pers", diameter: "20 cm", basePrice: 780, IconComponent: SignatureGateauIcon },
+  { id: "grand", name: "Two-Tier Grand", portions: "24–30 pers", diameter: "22cm + 15cm", basePrice: 1480, IconComponent: TwoTierGrandIcon },
 ];
 
 const SPONGE_OPTIONS = [
-  { id: "vanilla", name: "Madagascar Vanilje", swatch: "#FFF6E5", note: "Luftig bourbon-chiffon", icon: LuFlower2, iconColor: "text-amber-700" },
-  { id: "chocolate", name: "Valrhona 70% Kakao", swatch: "#4A2E1B", note: "Mørk og saftig fransk kakao", icon: LuCookie, iconColor: "text-amber-950" },
-  { id: "pistachio", name: "Røstet Pistasj", swatch: "#B8C9A3", note: "Siciliansk nøttebunn", icon: LuLeaf, iconColor: "text-emerald-700" },
-  { id: "red-velvet", name: "Red Velvet", swatch: "#8A2232", note: "Klassisk silkemyk sørstat", icon: LuHeartIcon, iconColor: "text-rose-600" },
-  { id: "lemon", name: "Sitron & Valmue", swatch: "#FFF1A8", note: "Frisk sitronzest og frø", icon: LuCitrus, iconColor: "text-yellow-600" },
+  { id: "vanilla", name: "Madagascar Vanilje", swatch: "#FFF6E5", note: "Luftig bourbon-chiffon", IconComponent: VanillaFlowerIcon },
+  { id: "chocolate", name: "Valrhona 70% Kakao", swatch: "#4A2E1B", note: "Mørk og saftig fransk kakao", IconComponent: CocoaChocolateIcon },
+  { id: "pistachio", name: "Røstet Pistasj", swatch: "#B8C9A3", note: "Siciliansk nøttebunn", IconComponent: PistachioNutIcon },
+  { id: "red-velvet", name: "Red Velvet", swatch: "#8A2232", note: "Klassisk silkemyk sørstat", IconComponent: RedVelvetHeartIcon },
+  { id: "lemon", name: "Sitron & Valmue", swatch: "#FFF1A8", note: "Frisk sitronzest og frø", IconComponent: LemonCitrusIcon },
 ];
 
 const FILLING_OPTIONS = [
-  { id: "raspberry", name: "Nordiske Bringebær", swatch: "#D1345B", note: "Syrlig skogsbærkompott", icon: LuCherry, iconColor: "text-rose-600" },
-  { id: "caramel", name: "Salt Karamell", swatch: "#C68B45", note: "Fleur de sel og mascarpone", icon: LuFlame, iconColor: "text-amber-600" },
-  { id: "ganache", name: "Mørk Sjokoladeganache", swatch: "#3D2314", note: "64% belgisk sjokolade", icon: LuCoffee, iconColor: "text-amber-900" },
-  { id: "passion", name: "Pasjonsfrukt Curd", swatch: "#E58F1C", note: "Frisk og eksotisk syre", icon: LuSun, iconColor: "text-orange-500" },
-  { id: "mascarpone", name: "Vanilje Mascarpone", swatch: "#FAF2DD", note: "Silkelett italiensk krem", icon: LuCloud, iconColor: "text-sky-600" },
+  { id: "raspberry", name: "Nordiske Bringebær", swatch: "#D1345B", note: "Syrlig skogsbærkompott", IconComponent: RaspberryFruitIcon },
+  { id: "caramel", name: "Salt Karamell", swatch: "#C68B45", note: "Fleur de sel og mascarpone", IconComponent: SaltCaramelSwirlIcon },
+  { id: "ganache", name: "Mørk Sjokoladeganache", swatch: "#3D2314", note: "64% belgisk sjokolade", IconComponent: GanacheChocolateIcon },
+  { id: "passion", name: "Pasjonsfrukt Curd", swatch: "#E58F1C", note: "Frisk og eksotisk syre", IconComponent: PassionCurdIcon },
+  { id: "mascarpone", name: "Vanilje Mascarpone", swatch: "#FAF2DD", note: "Silkelett italiensk krem", IconComponent: MascarponeCreamIcon },
 ];
 
 const FROSTING_OPTIONS = [
@@ -252,8 +424,8 @@ const FROSTING_OPTIONS = [
 ];
 
 const TOPPING_OPTIONS = [
-  { id: "gold-leaf", name: "24K Spiselig Bladgull", priceDelta: 50, icon: LuSparkles },
-  { id: "macarons", name: "Franske Makroner (4 stk)", priceDelta: 80, icon: LuCookie },
+  { id: "gold-leaf", name: "24K Spiselig Bladgull", priceDelta: 50, IconComponent: GoldSparklesIcon },
+  { id: "macarons", name: "Franske Makroner (4 stk)", priceDelta: 80, IconComponent: FrenchMacaronIcon },
 ];
 
 const PICKUP_TIMES = ["11:00 – 13:00", "13:00 – 15:00", "15:00 – 17:00", "17:00 – 18:30"];
@@ -420,8 +592,6 @@ export default function PreviewCakesPage() {
       <div className="min-h-screen bg-[#FAF7EE] text-[#332F32] font-sans selection:bg-[#FFA8C5] selection:text-[#332F32] overflow-x-hidden">
         {/* =========================================================
             HEADER: DYNAMIC SCROLL-AND-LOCK CHANGING NAV BAR
-            Logo stays locked on the left. The rest transforms dynamically
-            as each section scrolls past and locks in place!
             ========================================================= */}
         <header className="sticky top-0 z-40 bg-[#FAF7EE]/95 backdrop-blur-md border-b border-[#E5E0D5]">
           <div className="max-w-6xl mx-auto flex items-center justify-between text-xs font-mono font-bold uppercase tracking-wider text-[#332F32] h-14 px-3 sm:px-6">
@@ -598,7 +768,7 @@ export default function PreviewCakesPage() {
         </header>
 
         {/* =========================================================
-            HERO: PUNCHY 50/50 SPLIT (COMPACT & RESPONSIVE)
+            HERO: PUNCHY 50/50 SPLIT
             ========================================================= */}
         <section id="hero" className="border-b border-[#E5E0D5]">
           <div className="grid grid-cols-1 md:grid-cols-12 min-h-[400px] sm:min-h-[440px]">
@@ -756,7 +926,7 @@ export default function PreviewCakesPage() {
         </section>
 
         {/* =========================================================
-            SECTION 2: BESTILLINGS-STUDIO (COMPACT & WITH RICH ICONS)
+            SECTION 2: BESTILLINGS-STUDIO (WITH BESPOKE FLATICON ICONS)
             ========================================================= */}
         <section id="order-studio" className="py-10 sm:py-12 border-b border-[#E5E0D5] bg-[#FAF7EE] scroll-mt-10">
           <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-5">
@@ -831,7 +1001,7 @@ export default function PreviewCakesPage() {
               </div>
             )}
 
-            {/* VEI A: BYGG DIN EGEN KAKE (HIGH-DENSITY GRID CONSOLE WITH THEMATIC ICONS) */}
+            {/* VEI A: BYGG DIN EGEN KAKE (HIGH-DENSITY GRID CONSOLE WITH BESPOKE FLATICON VECTORS) */}
             {orderMode === "custom" && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start font-mono">
                 {/* Left Side: Option Selector & Step Nav (lg:col-span-7) */}
@@ -864,7 +1034,7 @@ export default function PreviewCakesPage() {
 
                   {/* ACTIVE STEP PANEL */}
                   <div className="bg-white border-2 border-[#332F32] rounded-3xl p-4 sm:p-5 shadow-sm">
-                    {/* STEP 1: STØRRELSE (WITH ICONS) */}
+                    {/* STEP 1: STØRRELSE (WITH BESPOKE FLATICON ICONS) */}
                     {currentStep === 1 && (
                       <div className="space-y-3.5">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
@@ -877,7 +1047,7 @@ export default function PreviewCakesPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                           {CAKE_SIZES.map((tier) => {
                             const isSel = selectedSize.id === tier.id;
-                            const IconComponent = tier.icon;
+                            const IconComponent = tier.IconComponent;
                             return (
                               <div
                                 key={tier.id}
@@ -888,9 +1058,9 @@ export default function PreviewCakesPage() {
                                     : "border-[#E5E0D5] bg-[#FAF7EE] hover:border-[#332F32]"
                                 }`}
                               >
-                                <div className="flex items-center gap-2.5">
-                                  <div className="w-8 h-8 rounded-xl bg-white border border-[#332F32] flex items-center justify-center flex-shrink-0 shadow-2xs">
-                                    <IconComponent size={18} className="text-[#332F32]" />
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 rounded-xl bg-white border border-[#332F32] flex items-center justify-center flex-shrink-0 shadow-2xs">
+                                    <IconComponent className="w-7 h-7" />
                                   </div>
                                   <div>
                                     <div className="flex items-center gap-1.5">
@@ -914,7 +1084,7 @@ export default function PreviewCakesPage() {
                       </div>
                     )}
 
-                    {/* STEP 2: BUNN (WITH THEMATIC INGREDIENT ICONS) */}
+                    {/* STEP 2: BUNN (WITH BESPOKE FLATICON SPONGE ICONS) */}
                     {currentStep === 2 && (
                       <div className="space-y-3.5">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
@@ -927,7 +1097,7 @@ export default function PreviewCakesPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {SPONGE_OPTIONS.map((sp) => {
                             const isSel = selectedSponge.id === sp.id;
-                            const IconComp = sp.icon;
+                            const IconComp = sp.IconComponent;
                             return (
                               <div
                                 key={sp.id}
@@ -940,10 +1110,10 @@ export default function PreviewCakesPage() {
                               >
                                 <div className="flex items-center gap-2.5">
                                   <div
-                                    className="w-7 h-7 rounded-lg border border-[#332F32] flex items-center justify-center flex-shrink-0"
+                                    className="w-8 h-8 rounded-lg border border-[#332F32] flex items-center justify-center flex-shrink-0"
                                     style={{ backgroundColor: sp.swatch }}
                                   >
-                                    <IconComp size={15} className={sp.iconColor} />
+                                    <IconComp className="w-5 h-5" />
                                   </div>
                                   <div>
                                     <span className="font-black text-xs text-[#332F32] block">{sp.name}</span>
@@ -958,7 +1128,7 @@ export default function PreviewCakesPage() {
                       </div>
                     )}
 
-                    {/* STEP 3: FYLL (WITH THEMATIC FRUIT/FILLING ICONS) */}
+                    {/* STEP 3: FYLL (WITH BESPOKE FLATICON FILLING ICONS) */}
                     {currentStep === 3 && (
                       <div className="space-y-3.5">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
@@ -971,7 +1141,7 @@ export default function PreviewCakesPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {FILLING_OPTIONS.map((fill) => {
                             const isSel = selectedFilling.id === fill.id;
-                            const IconComp = fill.icon;
+                            const IconComp = fill.IconComponent;
                             return (
                               <div
                                 key={fill.id}
@@ -984,10 +1154,10 @@ export default function PreviewCakesPage() {
                               >
                                 <div className="flex items-center gap-2.5">
                                   <div
-                                    className="w-7 h-7 rounded-lg border border-[#332F32] flex items-center justify-center flex-shrink-0"
+                                    className="w-8 h-8 rounded-lg border border-[#332F32] flex items-center justify-center flex-shrink-0"
                                     style={{ backgroundColor: fill.swatch }}
                                   >
-                                    <IconComp size={15} className={fill.iconColor} />
+                                    <IconComp className="w-5 h-5" />
                                   </div>
                                   <div>
                                     <span className="font-black text-xs text-[#332F32] block">{fill.name}</span>
@@ -1002,7 +1172,7 @@ export default function PreviewCakesPage() {
                       </div>
                     )}
 
-                    {/* STEP 4: DEKOR & STIL (COMPACT VISUAL GRID) */}
+                    {/* STEP 4: DEKOR & STIL */}
                     {currentStep === 4 && (
                       <div className="space-y-3.5">
                         <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
@@ -1093,7 +1263,7 @@ export default function PreviewCakesPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                               {TOPPING_OPTIONS.map((top) => {
                                 const isChecked = selectedToppings.includes(top.id);
-                                const TopIcon = top.icon;
+                                const TopIcon = top.IconComponent;
                                 return (
                                   <div
                                     key={top.id}
@@ -1111,7 +1281,7 @@ export default function PreviewCakesPage() {
                                         onChange={() => {}}
                                         className="w-3.5 h-3.5 accent-[#332F32]"
                                       />
-                                      <TopIcon size={14} className="text-amber-600" />
+                                      <TopIcon className="w-5 h-5" />
                                       <span className="text-xs font-bold text-[#332F32]">{top.name}</span>
                                     </div>
                                     <span className="text-xs font-black text-[#FF5983]">+{top.priceDelta} kr</span>
@@ -1296,8 +1466,6 @@ export default function PreviewCakesPage() {
                         ) : (
                           /* =================================================
                               MERGED CONFIGURATION + CONFIRMATION LUXURY PASS
-                              Incorporates the cake photo directly, structured
-                              with zero truncation and pristine editorial spacing!
                               ================================================= */
                           <div className="p-5 sm:p-6 rounded-3xl border-2 border-[#332F32] bg-[#FAF7EE] space-y-4">
                             {/* Voucher Header Bar */}
