@@ -1,16 +1,11 @@
 "use client";
 
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   FiArrowLeft,
-  FiCamera,
   FiVideo,
-  FiSquare,
-  FiEyeOff,
-  FiEye,
-  FiChevronDown,
   FiCheck,
   FiMinimize2,
   FiMaximize2,
@@ -23,12 +18,6 @@ interface PreviewShellProps {
   children: React.ReactNode;
 }
 
-interface TouchRipple {
-  id: number;
-  x: number;
-  y: number;
-}
-
 export default function PreviewShell({
   nicheTitle,
   nicheSubtitle,
@@ -36,15 +25,12 @@ export default function PreviewShell({
   children,
 }: PreviewShellProps) {
   const pathname = usePathname();
-  const [cleanMode, setCleanMode] = useState(false);
-  const [ripples, setRipples] = useState<TouchRipple[]>([]);
 
   // Recording State
   const [isRecording, setIsRecording] = useState(false);
   const [recordingSeconds, setRecordingSeconds] = useState(0);
   const [countdown, setCountdown] = useState<number | null>(null);
-  const [showMenu, setShowMenu] = useState(false);
-  const [hudMinimized, setHudMinimized] = useState(false);
+  const [minimized, setMinimized] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -52,14 +38,7 @@ export default function PreviewShell({
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const chunksRef = useRef<BlobPart[]>([]);
 
-  // Format MM:SS
-  const formatTime = (secs: number) => {
-    const m = Math.floor(secs / 60);
-    const s = secs % 60;
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-  };
-
-  // Keyboard shortcut 'h' to toggle clean recording mode, 'Esc' to stop recording
+  // Keyboard shortcut: Esc or H to stop recording
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
@@ -68,14 +47,7 @@ export default function PreviewShell({
       ) {
         return;
       }
-
-      if (e.key === "h" || e.key === "H") {
-        if (isRecording) {
-          stopScreenRecording();
-        } else {
-          setCleanMode((prev) => !prev);
-        }
-      } else if (e.key === "Escape" && isRecording) {
+      if ((e.key === "Escape" || e.key === "h" || e.key === "H") && isRecording) {
         stopScreenRecording();
       }
     };
@@ -83,33 +55,10 @@ export default function PreviewShell({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isRecording]);
 
-  // Visual touch feedback on every manual click/touch
-  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    // Avoid triggering ripple on recording HUD buttons
-    if ((e.target as HTMLElement)?.closest(".recording-hud, .demo-nav-bar")) {
-      return;
-    }
-
-    const newRipple: TouchRipple = {
-      id: Date.now() + Math.random(),
-      x: e.clientX,
-      y: e.clientY,
-    };
-    setRipples((prev) => [...prev.slice(-4), newRipple]);
-
-    setTimeout(() => {
-      setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
-    }, 550);
-  }, []);
-
   // In-Browser Screen Recorder
   const startScreenRecording = async () => {
-    setShowMenu(false);
     if (typeof window === "undefined" || !navigator.mediaDevices?.getDisplayMedia) {
-      alert(
-        "In-browser screen recording is not supported in this browser. Switching to clean mode so you can record with your screen recording tool."
-      );
-      setCleanMode(true);
+      alert("In-browser screen recording is not supported in this browser.");
       return;
     }
 
@@ -123,9 +72,6 @@ export default function PreviewShell({
       });
 
       streamRef.current = stream;
-
-      // Automatically hide the top black nav bar
-      setCleanMode(true);
 
       // 3-second countdown before recording starts
       setCountdown(3);
@@ -141,7 +87,7 @@ export default function PreviewShell({
         }
       }, 1000);
 
-      // Handle user clicking the browser's native "Stop Sharing" bar
+      // Handle user clicking the browser's native "Stop Sharing" button
       const track = stream.getVideoTracks()[0];
       if (track) {
         track.onended = () => {
@@ -150,6 +96,7 @@ export default function PreviewShell({
       }
     } catch (err) {
       console.warn("Screen recording cancelled or failed:", err);
+      setCountdown(null);
     }
   };
 
@@ -177,7 +124,7 @@ export default function PreviewShell({
       recorder.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: mimeType });
         const safeName = nicheTitle.toLowerCase().replace(/[^a-z0-9]/g, "-") || "walkthrough";
-        const filename = `${safeName}-manual-walkthrough.webm`;
+        const filename = `${safeName}-walkthrough.webm`;
 
         // Auto download file
         const url = URL.createObjectURL(blob);
@@ -192,13 +139,11 @@ export default function PreviewShell({
           URL.revokeObjectURL(url);
         }, 1200);
 
-        setToastMessage(`Downloaded ${filename}`);
-        setTimeout(() => setToastMessage(null), 4500);
+        setToastMessage(`Lagret ${filename}`);
+        setTimeout(() => setToastMessage(null), 4000);
 
-        // Reset state
         setIsRecording(false);
         setRecordingSeconds(0);
-        setCleanMode(false);
         if (streamRef.current) {
           streamRef.current.getTracks().forEach((t) => t.stop());
           streamRef.current = null;
@@ -216,7 +161,6 @@ export default function PreviewShell({
     } catch (err) {
       console.error("Failed to start MediaRecorder", err);
       setIsRecording(false);
-      setCleanMode(false);
     }
   };
 
@@ -230,7 +174,6 @@ export default function PreviewShell({
     } else {
       setIsRecording(false);
       setRecordingSeconds(0);
-      setCleanMode(false);
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((t) => t.stop());
         streamRef.current = null;
@@ -240,269 +183,127 @@ export default function PreviewShell({
 
   const navItems = [
     { label: "Studio Nails", path: "/preview/nails", icon: "💅" },
-    { label: "Maison Choux Cakes", path: "/preview/cakes", icon: "🍰" },
+    { label: "Luffy Cakes", path: "/preview/cakes", icon: "🍰" },
   ];
 
   return (
-    <div
-      onPointerDown={handlePointerDown}
-      className="relative min-h-screen transition-colors duration-300 selection:bg-neutral-800 selection:text-white"
-    >
-      {/* Touch Ripple Visual FX on manual tap/click */}
-      <div className="fixed inset-0 pointer-events-none z-[99999] overflow-hidden">
-        {ripples.map((ripple) => (
-          <span
-            key={ripple.id}
-            className="absolute rounded-full pointer-events-none animate-touch-ripple"
-            style={{
-              left: ripple.x,
-              top: ripple.y,
-              transform: "translate(-50%, -50%)",
-            }}
-          />
-        ))}
-      </div>
-
+    <div className="relative min-h-screen">
       {/* Countdown Overlay before recording starts */}
       {countdown !== null && (
-        <div className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm text-white pointer-events-none transition-all">
-          <div className="font-mono text-7xl font-bold tracking-tighter animate-pulse mb-3">
+        <div className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-black/75 backdrop-blur-sm text-white pointer-events-none transition-all">
+          <div className="font-mono text-8xl font-bold tracking-tighter animate-pulse mb-3">
             {countdown}
           </div>
-          <div className="font-mono text-sm tracking-widest uppercase text-neutral-300">
-            Get ready to scroll...
+          <div className="font-mono text-xs tracking-widest uppercase text-neutral-300">
+            Gjør klar til opptak...
           </div>
         </div>
       )}
 
-      {/* Active Recording HUD (Discreet, draggable / minimizable) */}
-      {isRecording && (
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[100001] flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-950 text-white border border-neutral-700 shadow-2xl font-mono text-xs animate-in fade-in slide-in-from-top-2">
+          <FiCheck className="text-emerald-400" size={14} />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
+      {/* 
+        FLOATING RECORD & NAV CONTROLS
+        COMPLETELY DISAPPEARS when recording or in countdown so the video is 100% clean!
+      */}
+      {!isRecording && countdown === null && (
         <aside
-          aria-label="Active Recording Status"
-          className="recording-hud fixed bottom-4 right-4 z-[99998] transition-all"
+          aria-label="Demo Floating Controls"
+          className="fixed bottom-4 right-4 z-[9999] transition-all"
         >
-          {hudMinimized ? (
-            <button
-              type="button"
-              onClick={() => setHudMinimized(false)}
-              className="flex items-center gap-2 px-3 py-2 rounded-full bg-neutral-900/90 text-white border border-neutral-700 shadow-xl backdrop-blur-md hover:bg-black transition-all cursor-pointer"
-              title="Expand recording controls"
-            >
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
-              <span className="font-mono text-xs font-semibold">{formatTime(recordingSeconds)}</span>
-              <FiMaximize2 size={12} className="text-neutral-400" />
-            </button>
+          {minimized ? (
+            /* Minimized circular button */
+            <div className="flex items-center gap-1.5 p-1 rounded-full bg-neutral-950/90 text-white border border-neutral-800 shadow-2xl backdrop-blur-md">
+              <button
+                type="button"
+                onClick={startScreenRecording}
+                className="w-9 h-9 rounded-full bg-red-600 hover:bg-red-500 text-white flex items-center justify-center transition-all cursor-pointer shadow-md group"
+                title="Start skjermopptak"
+              >
+                <span className="w-3 h-3 rounded-full bg-white group-hover:scale-110 transition-transform" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setMinimized(false)}
+                className="p-1.5 rounded-full text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                title="Vis meny"
+              >
+                <FiMaximize2 size={13} />
+              </button>
+            </div>
           ) : (
-            <div className="flex items-center gap-3 px-3.5 py-2.5 rounded-full bg-neutral-950/95 text-white border border-red-500/40 shadow-2xl backdrop-blur-md">
-              <div className="flex items-center gap-2 pr-2 border-r border-neutral-800">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
-                </span>
-                <span className="font-mono text-xs font-bold tracking-wider text-red-400">REC</span>
-                <span className="font-mono text-xs text-neutral-200">
-                  {formatTime(recordingSeconds)}
-                </span>
+            /* Sleek floating capsule */
+            <div className="flex items-center gap-2 p-1.5 pl-2.5 rounded-full bg-neutral-950/92 text-white border border-neutral-800 shadow-2xl backdrop-blur-md font-mono text-xs">
+              {/* Back to Vault */}
+              <Link
+                href="/library"
+                className="inline-flex items-center gap-1 text-[11px] text-neutral-400 hover:text-white transition-colors pr-1.5 border-r border-neutral-800"
+                title="Tilbake til UI Vault"
+              >
+                <FiArrowLeft size={11} />
+                <span>Vault</span>
+              </Link>
+
+              {/* Showcase switcher */}
+              <div className="flex items-center gap-1">
+                {navItems.map((item) => {
+                  const isActive = pathname === item.path;
+                  return (
+                    <Link
+                      key={item.path}
+                      href={item.path}
+                      className={`px-2 py-1 rounded-full text-[11px] transition-all flex items-center gap-1 ${
+                        isActive
+                          ? "bg-neutral-800 text-white font-bold"
+                          : "text-neutral-400 hover:text-neutral-200"
+                      }`}
+                    >
+                      <span>{item.icon}</span>
+                      <span className="hidden sm:inline">{item.label}</span>
+                    </Link>
+                  );
+                })}
               </div>
 
+              {/* Record Button (Disappears when clicked) */}
               <button
                 type="button"
-                onClick={stopScreenRecording}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-mono text-xs font-medium transition-all shadow-sm cursor-pointer"
-                title="Stop recording and download .webm video (or press Esc / H)"
+                onClick={startScreenRecording}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-medium transition-all text-[11px] shadow-sm cursor-pointer ml-1"
+                title="Ta opp video (forsvinner under opptak)"
               >
-                <FiSquare size={11} className="fill-current" />
-                <span>Stop &amp; Save</span>
+                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                <span>Record</span>
               </button>
 
+              {/* Minimize pill */}
               <button
                 type="button"
-                onClick={() => setHudMinimized(true)}
-                className="p-1 rounded text-neutral-400 hover:text-white transition-colors cursor-pointer"
-                title="Minimize HUD so it won't block view"
+                onClick={() => setMinimized(true)}
+                className="p-1 text-neutral-500 hover:text-neutral-300 transition-colors cursor-pointer"
+                title="Minimer kontrollpanel"
               >
-                <FiMinimize2 size={13} />
+                <FiMinimize2 size={12} />
               </button>
             </div>
           )}
         </aside>
       )}
 
-      {/* Floating Restore Button when cleanMode is active (and not currently in-browser recording) */}
-      {cleanMode && !isRecording && (
-        <button
-          type="button"
-          onClick={() => setCleanMode(false)}
-          className="fixed top-3 right-3 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-900/90 hover:bg-black text-white border border-neutral-700 shadow-lg text-xs font-mono backdrop-blur transition-all opacity-40 hover:opacity-100 cursor-pointer"
-          title="Restore top control header (or press 'H')"
-        >
-          <FiEye size={13} />
-          <span>Show Nav</span>
-          <span className="text-[10px] bg-neutral-800 px-1 rounded text-neutral-400">H</span>
-        </button>
-      )}
-
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[100001] flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-950 text-white border border-neutral-700 shadow-2xl font-mono text-xs">
-          <FiCheck className="text-emerald-400" size={14} />
-          <span>{toastMessage}</span>
-        </div>
-      )}
-
-      {/* Floating Demo Control Header (The Black Nav) */}
-      {!cleanMode && (
-        <header className="demo-nav-bar sticky top-0 z-50 w-full bg-neutral-900/95 backdrop-blur-md text-white border-b border-neutral-800 px-3 sm:px-6 py-2.5 transition-all shadow-sm">
-          <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 text-xs font-mono">
-            {/* Left: UI Vault Backlink & Label */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <Link
-                href="/library"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white transition-colors"
-                title="Return to UI Component Library"
-              >
-                <FiArrowLeft size={12} />
-                <span className="hidden sm:inline">UI Vault</span>
-              </Link>
-
-              <span className="text-neutral-500 hidden md:inline">|</span>
-
-              <div className="hidden sm:block">
-                <span className="text-white font-bold">{nicheTitle}</span>
-                <span className="text-neutral-400 text-[10px] ml-2">({nicheSubtitle})</span>
-              </div>
-            </div>
-
-            {/* Middle: 2 Showcases Switcher */}
-            <div className="flex items-center gap-1 bg-neutral-950 p-1 rounded-lg border border-neutral-800">
-              {navItems.map((item) => {
-                const isActive = pathname === item.path;
-                return (
-                  <Link
-                    key={item.path}
-                    href={item.path}
-                    className={`px-2.5 py-1 rounded-md text-[11px] transition-all flex items-center gap-1.5 ${
-                      isActive
-                        ? "bg-white text-neutral-950 font-bold shadow-xs"
-                        : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-900"
-                    }`}
-                  >
-                    <span>{item.icon}</span>
-                    <span className="hidden md:inline">{item.label}</span>
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Right: Record Button & Mode Options */}
-            <div className="relative flex items-center gap-1.5">
-              {/* Primary Instant Record Button */}
-              <button
-                type="button"
-                onClick={startScreenRecording}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-red-600 hover:bg-red-500 text-white font-medium transition-all text-[11px] shadow-xs cursor-pointer group"
-                title="Start manual recording: Hides nav bar, captures tab, and auto-downloads .webm when you finish"
-              >
-                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                <span>Record</span>
-              </button>
-
-              {/* Options dropdown button */}
-              <button
-                type="button"
-                onClick={() => setShowMenu((prev) => !prev)}
-                className="p-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white transition-colors cursor-pointer"
-                title="Recording options"
-              >
-                <FiChevronDown size={13} />
-              </button>
-
-              {/* Dropdown Menu */}
-              {showMenu && (
-                <div className="absolute right-0 top-full mt-2 w-64 rounded-xl bg-neutral-950 border border-neutral-800 p-2 shadow-2xl z-50 flex flex-col gap-1 text-left">
-                  <div className="px-2.5 py-1.5 text-[10px] uppercase font-bold text-neutral-400 border-b border-neutral-800">
-                    Recording Mode
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={startScreenRecording}
-                    className="w-full px-2.5 py-2 rounded-lg hover:bg-neutral-900 text-left transition-colors flex items-start gap-2.5 cursor-pointer group"
-                  >
-                    <span className="p-1 rounded bg-red-500/20 text-red-400 mt-0.5">
-                      <FiVideo size={13} />
-                    </span>
-                    <div>
-                      <div className="font-semibold text-white group-hover:text-red-300 transition-colors">
-                        Record Tab (.webm)
-                      </div>
-                      <div className="text-[10px] text-neutral-400 leading-tight">
-                        Hides nav, 3s countdown, records tab as you scroll, and auto-downloads.
-                      </div>
-                    </div>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowMenu(false);
-                      setCleanMode(true);
-                    }}
-                    className="w-full px-2.5 py-2 rounded-lg hover:bg-neutral-900 text-left transition-colors flex items-start gap-2.5 cursor-pointer group"
-                  >
-                    <span className="p-1 rounded bg-neutral-800 text-neutral-300 mt-0.5">
-                      <FiCamera size={13} />
-                    </span>
-                    <div>
-                      <div className="font-semibold text-white group-hover:text-neutral-200 transition-colors">
-                        Hide Nav Only
-                      </div>
-                      <div className="text-[10px] text-neutral-400 leading-tight">
-                        Hides black nav so you can use OBS, Windows Snipping Tool, or Loom. (Press &apos;H&apos; to restore)
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </header>
-      )}
-
-      {/* Main Page Content */}
+      {/* Main Page Content - Clean & Butter-Smooth */}
       <main className="w-full">{children}</main>
 
-      {/* Embedded CSS for smooth touch ripple FX */}
       <style jsx global>{`
         html {
           scroll-behavior: smooth;
-        }
-
-        @keyframes touchRippleAnim {
-          0% {
-            width: 14px;
-            height: 14px;
-            background: rgba(255, 255, 255, 0.75);
-            border: 2px solid ${accentColor};
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
-            transform: translate(-50%, -50%) scale(0.6);
-            opacity: 0.95;
-          }
-          50% {
-            transform: translate(-50%, -50%) scale(1.35);
-            opacity: 0.75;
-          }
-          100% {
-            width: 44px;
-            height: 44px;
-            border: 1.5px solid ${accentColor};
-            transform: translate(-50%, -50%) scale(1.75);
-            opacity: 0;
-          }
-        }
-
-        .animate-touch-ripple {
-          animation: touchRippleAnim 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
       `}</style>
     </div>

@@ -634,7 +634,7 @@ export default function PreviewCakesPage() {
                           const el = document.getElementById("order-studio");
                           if (el) el.scrollIntoView({ behavior: "smooth" });
                         }}
-                        className="px-3.5 py-1.5 rounded-full bg-[#332F32] text-white hover:bg-black font-black text-xs uppercase tracking-wider shadow-xs cursor-pointer flex items-center gap-1.5"
+                        className="px-3.5 py-1.5 border-2 border-[#332F32] bg-[#332F32] text-white hover:bg-black font-black text-xs uppercase tracking-wider shadow-[2px_2px_0px_#FFF59D] cursor-pointer flex items-center gap-1.5"
                       >
                         <span>Start Bestilling ↓</span>
                       </button>
@@ -652,7 +652,7 @@ export default function PreviewCakesPage() {
                     className="w-full flex items-center justify-between"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#FF5983] animate-pulse" />
+                      <span className="w-2 h-2 bg-[#FF5983] border border-[#332F32] animate-pulse inline-block" />
                       <span className="font-black text-[#332F32] text-xs uppercase truncate">
                         LOOKBOOK · 5 KAKESTILER
                       </span>
@@ -664,7 +664,7 @@ export default function PreviewCakesPage() {
                         const el = document.getElementById("order-studio");
                         if (el) el.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="px-3 py-1.5 rounded-full bg-[#FFA8C5] text-[#332F32] border border-[#332F32] font-black text-[11px] uppercase tracking-wider hover:bg-[#FF9EBC] cursor-pointer"
+                      className="px-3 py-1.5 border-2 border-[#332F32] bg-[#FFA8C5] text-[#332F32] font-black text-[11px] uppercase tracking-wider hover:bg-[#FF9EBC] cursor-pointer shadow-[2px_2px_0px_#332F32]"
                     >
                       Gå Til Kakebygger ↓
                     </button>
@@ -681,23 +681,23 @@ export default function PreviewCakesPage() {
                     className="w-full flex items-center justify-between"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#332F32]" />
+                      <span className="w-2 h-2 bg-[#332F32] inline-block" />
                       <span className="font-black text-[#332F32] text-xs uppercase truncate">
                         KAKEBYGGER · STEG {currentStep}/6: {stepLabels[currentStep - 1]}
                       </span>
-                      <span className="hidden lg:inline text-[10px] text-[#666]">
+                      <span className="hidden lg:inline text-[10px] text-[#666] font-bold">
                         ({selectedSize.name})
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-1 rounded-full bg-[#FFF59D] text-[#332F32] font-black text-xs border border-[#332F32]">
+                      <span className="px-2.5 py-1 bg-[#FFF59D] text-[#332F32] font-black text-xs border border-[#332F32] shadow-[1.5px_1.5px_0px_#332F32]">
                         {totalPrice} kr
                       </span>
                       <button
                         type="button"
                         onClick={() => setCurrentStep(6)}
-                        className="px-3 py-1.5 rounded-full bg-[#332F32] text-white font-black text-[11px] uppercase tracking-wider hover:bg-black cursor-pointer"
+                        className="px-3 py-1.5 border-2 border-[#332F32] bg-[#332F32] text-white font-black text-[11px] uppercase tracking-wider hover:bg-black cursor-pointer shadow-[2px_2px_0px_#FFF59D]"
                       >
                         Til Kassen →
                       </button>
@@ -715,7 +715,7 @@ export default function PreviewCakesPage() {
                     className="w-full flex items-center justify-between"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-600" />
+                      <span className="w-2 h-2 bg-emerald-600 border border-emerald-900 inline-block" />
                       <span className="font-black text-[#332F32] text-xs uppercase truncate">
                         SLIPP DM-KAOSET · FOR BRANSJEN
                       </span>
@@ -727,7 +727,7 @@ export default function PreviewCakesPage() {
                         const el = document.getElementById("order-studio");
                         if (el) el.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="px-3 py-1.5 rounded-full bg-[#332F32] text-white font-black text-[11px] uppercase tracking-wider hover:bg-black cursor-pointer"
+                      className="px-3 py-1.5 border-2 border-[#332F32] bg-[#332F32] text-white font-black text-[11px] uppercase tracking-wider hover:bg-black cursor-pointer shadow-[2px_2px_0px_#FFF59D]"
                     >
                       Reserver Kake ↓
                     </button>
@@ -744,7 +744,7 @@ export default function PreviewCakesPage() {
                     className="w-full flex items-center justify-between"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-amber-500" />
+                      <span className="w-2 h-2 bg-amber-500 border border-amber-800 inline-block" />
                       <span className="font-black text-[#332F32] text-xs uppercase truncate">
                         KUNDEOMTALER · 5.0 / 5.0 ★
                       </span>
@@ -756,7 +756,7 @@ export default function PreviewCakesPage() {
                         const el = document.getElementById("order-studio");
                         if (el) el.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="px-3.5 py-1.5 rounded-full bg-[#FFA8C5] text-[#332F32] border border-[#332F32] font-black text-xs uppercase tracking-wider hover:bg-[#FF9EBC] cursor-pointer"
+                      className="px-3.5 py-1.5 border-2 border-[#332F32] bg-[#FFA8C5] text-[#332F32] font-black text-xs uppercase tracking-wider hover:bg-[#FF9EBC] cursor-pointer shadow-[2px_2px_0px_#332F32]"
                     >
                       Reserver Kake ↓
                     </button>
@@ -808,7 +808,7 @@ export default function PreviewCakesPage() {
 
             {/* Right Cream Canvas with Featured Lambeth Cake */}
             <div className="md:col-span-6 bg-[#FAF7EE] p-6 sm:p-10 flex items-center justify-center relative overflow-hidden">
-              <div className="relative w-full max-w-[300px] sm:max-w-[340px] aspect-[4/5] rounded-3xl overflow-hidden shadow-lg border-2 border-[#E5E0D5]">
+              <div className="relative w-full max-w-[300px] sm:max-w-[340px] aspect-[4/5] border-2 border-[#332F32] shadow-[6px_6px_0px_#332F32] overflow-hidden bg-white">
                 <Image
                   src="/demo/cakes/cake-1.jpg"
                   alt="Vintage Lambeth Heart Cake"
@@ -816,15 +816,22 @@ export default function PreviewCakesPage() {
                   className="object-cover"
                   priority
                 />
-                <div className="absolute top-3 right-3 px-2.5 py-0.5 bg-white font-mono text-[9px] font-black text-[#332F32] uppercase border border-[#332F32]">
+                <div className="absolute top-3 right-3 px-2.5 py-1 bg-white font-mono text-[9px] font-black text-[#332F32] uppercase border-2 border-[#332F32] shadow-[2px_2px_0px_#332F32]">
                   ● SIGNATUR LAMBETH
                 </div>
-                <div className="absolute bottom-3 left-3 right-3 p-3 bg-white/95 backdrop-blur-xs font-mono text-xs flex justify-between items-center border border-[#E5E0D5] rounded-xl">
+                {/* Signature Pink Card Layout for Description */}
+                <div className="absolute bottom-3 left-3 right-3 p-3 bg-[#FFA8C5] border-2 border-[#332F32] font-mono text-xs flex justify-between items-center shadow-[3px_3px_0px_#332F32]">
                   <div>
-                    <span className="font-black text-[#332F32] block">Vintage Heart Lambeth</span>
-                    <span className="text-[10px] text-[#666]">6–8 porsjoner · 15 cm</span>
+                    <span className="font-black text-[#332F32] block uppercase tracking-tight">
+                      Vintage Heart Lambeth
+                    </span>
+                    <span className="text-[10px] text-[#332F32]/85 font-bold block mt-0.5">
+                      6–8 porsjoner · 15 cm
+                    </span>
                   </div>
-                  <span className="font-black text-[#FF5983] text-sm">480 kr</span>
+                  <span className="font-black text-[#332F32] text-xs sm:text-sm px-2.5 py-1 bg-white border border-[#332F32] shadow-[2px_2px_0px_#332F32] flex-shrink-0 ml-2">
+                    480 kr
+                  </span>
                 </div>
               </div>
             </div>
@@ -846,21 +853,21 @@ export default function PreviewCakesPage() {
                 </h2>
               </div>
 
-              {/* Carousel Controls */}
+              {/* Carousel Controls (Sharp Retro Buttons) */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => scrollCarousel("left")}
-                  aria-label="Previous cake"
-                  className="w-9 h-9 rounded-full border-2 border-[#332F32] bg-white hover:bg-[#FFA8C5] flex items-center justify-center transition-colors cursor-pointer"
+                  aria-label="Forrige kake"
+                  className="w-9 h-9 border-2 border-[#332F32] bg-white hover:bg-[#FFA8C5] flex items-center justify-center transition-colors cursor-pointer shadow-[2px_2px_0px_#332F32]"
                 >
                   <FiChevronLeft size={18} />
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollCarousel("right")}
-                  aria-label="Next cake"
-                  className="w-9 h-9 rounded-full border-2 border-[#332F32] bg-white hover:bg-[#FFA8C5] flex items-center justify-center transition-colors cursor-pointer"
+                  aria-label="Neste kake"
+                  className="w-9 h-9 border-2 border-[#332F32] bg-white hover:bg-[#FFA8C5] flex items-center justify-center transition-colors cursor-pointer shadow-[2px_2px_0px_#332F32]"
                 >
                   <FiChevronRight size={18} />
                 </button>
@@ -875,7 +882,7 @@ export default function PreviewCakesPage() {
               {GALLERY_CAKES.map((cake) => (
                 <div
                   key={cake.id}
-                  className="snap-start w-[260px] sm:w-[280px] flex-shrink-0 bg-white border-2 border-[#332F32] rounded-2xl overflow-hidden flex flex-col justify-between shadow-2xs hover:shadow-md transition-shadow font-mono"
+                  className="snap-start w-[265px] sm:w-[285px] flex-shrink-0 bg-white border-2 border-[#332F32] overflow-hidden flex flex-col justify-between shadow-[4px_4px_0px_#332F32] hover:shadow-[6px_6px_0px_#332F32] transition-all font-mono"
                 >
                   <div>
                     <div className="relative aspect-square w-full bg-[#FAF7EE]">
@@ -885,25 +892,31 @@ export default function PreviewCakesPage() {
                         fill
                         className="object-cover"
                       />
-                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-white font-mono text-[9px] font-black uppercase border border-[#332F32]">
+                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-white font-mono text-[9px] font-black uppercase border-2 border-[#332F32] shadow-[2px_2px_0px_#332F32]">
                         {cake.tag}
                       </div>
                     </div>
 
-                    <div className="p-3.5 space-y-1">
-                      <span className="text-[10px] text-[#FF5983] font-bold block uppercase">
-                        ● {cake.portions}
-                      </span>
-                      <h3 className="font-black text-sm text-[#332F32] uppercase">
+                    {/* Pink Card Layout for Description */}
+                    <div className="p-3.5 space-y-1.5 bg-[#FFA8C5] border-t-2 border-b-2 border-[#332F32]">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] text-[#332F32] font-black uppercase px-2 py-0.5 bg-white border border-[#332F32] shadow-[1.5px_1.5px_0px_#332F32]">
+                          ● {cake.portions}
+                        </span>
+                        <span className="font-black text-xs text-[#332F32] px-2 py-0.5 bg-[#FFF59D] border border-[#332F32]">
+                          Signatur
+                        </span>
+                      </div>
+                      <h3 className="font-black text-sm text-[#332F32] uppercase tracking-tight">
                         {cake.title}
                       </h3>
-                      <p className="text-[11px] text-[#666] leading-relaxed">
+                      <p className="text-[11px] text-[#332F32]/90 leading-relaxed font-bold">
                         {cake.description}
                       </p>
                     </div>
                   </div>
 
-                  <div className="p-3.5 pt-0">
+                  <div className="p-3 bg-white">
                     <button
                       type="button"
                       onClick={() => {
@@ -914,9 +927,10 @@ export default function PreviewCakesPage() {
                         const el = document.getElementById("order-studio");
                         if (el) el.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="w-full py-2 px-3 rounded-xl border border-[#332F32] bg-[#FAF7EE] hover:bg-[#FFA8C5] text-[#332F32] font-mono text-xs font-black uppercase tracking-wider flex items-center justify-between transition-colors cursor-pointer"
+                      className="w-full py-2.5 px-3 border-2 border-[#332F32] bg-[#FFF59D] hover:bg-white text-[#332F32] font-mono text-xs font-black uppercase tracking-wider flex items-center justify-between transition-colors cursor-pointer shadow-[2px_2px_0px_#332F32]"
                     >
-                      <span>Bruk stil i kakebygger →</span>
+                      <span>Bruk stil i studio</span>
+                      <FiArrowRight size={14} />
                     </button>
                   </div>
                 </div>
@@ -926,28 +940,30 @@ export default function PreviewCakesPage() {
         </section>
 
         {/* =========================================================
-            SECTION 2: BESTILLINGS-STUDIO (WITH BESPOKE FLATICON ICONS)
+            SECTION 2: BESTILLINGS-STUDIO (WITH SIGNATURE PINK BACKGROUND)
             ========================================================= */}
-        <section id="order-studio" className="py-10 sm:py-12 border-b border-[#E5E0D5] bg-[#FAF7EE] scroll-mt-10">
+        <section id="order-studio" className="py-12 border-b-2 border-[#332F32] bg-[#FFA8C5] scroll-mt-10">
           <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-5">
             {/* Mode Switcher */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5E0D5] pb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-[#332F32] pb-3">
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#FF5983] font-bold block">
+                <span className="text-[10px] font-mono uppercase tracking-[0.2em] px-2.5 py-0.5 bg-white text-[#332F32] font-black border-2 border-[#332F32] shadow-[2px_2px_0px_#332F32] inline-block mb-1.5">
                   ● BESTILLINGS-STUDIO
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#332F32]">
+                <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-[#332F32]">
                   Sett Sammen Kake
                 </h2>
               </div>
 
-              {/* Mode Toggle Pills */}
-              <div className="inline-flex rounded-xl border-2 border-[#332F32] bg-white p-1 font-mono text-xs font-bold">
+              {/* Mode Toggle Pills (Sharp Retro Toggle) */}
+              <div className="inline-flex border-2 border-[#332F32] bg-white p-1 font-mono text-xs font-bold shadow-[3px_3px_0px_#332F32]">
                 <button
                   type="button"
                   onClick={() => setOrderMode("custom")}
-                  className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-                    orderMode === "custom" ? "bg-[#332F32] text-white" : "text-[#555] hover:text-[#332F32]"
+                  className={`px-3.5 py-1.5 transition-all cursor-pointer ${
+                    orderMode === "custom"
+                      ? "bg-[#332F32] text-white shadow-[2px_2px_0px_#FFF59D] font-black"
+                      : "text-[#332F32] hover:bg-[#FAF7EE]"
                   }`}
                 >
                   Bygg Kake (Trinn-for-trinn)
@@ -955,8 +971,10 @@ export default function PreviewCakesPage() {
                 <button
                   type="button"
                   onClick={() => setOrderMode("preset")}
-                  className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-                    orderMode === "preset" ? "bg-[#FFA8C5] text-[#332F32]" : "text-[#555] hover:text-[#332F32]"
+                  className={`px-3.5 py-1.5 transition-all cursor-pointer ${
+                    orderMode === "preset"
+                      ? "bg-[#FFF59D] text-[#332F32] shadow-[2px_2px_0px_#332F32] font-black"
+                      : "text-[#332F32] hover:bg-[#FAF7EE]"
                   }`}
                 >
                   Signaturkaker (1 Klikk)
@@ -970,21 +988,23 @@ export default function PreviewCakesPage() {
                 {SIGNATURE_PRESETS.map((preset) => (
                   <div
                     key={preset.id}
-                    className="p-3.5 bg-white border-2 border-[#332F32] rounded-2xl flex flex-col justify-between shadow-2xs space-y-3"
+                    className="p-3.5 bg-white border-2 border-[#332F32] flex flex-col justify-between shadow-[4px_4px_0px_#332F32] hover:shadow-[6px_6px_0px_#332F32] transition-all space-y-3"
                   >
                     <div>
-                      <div className="relative aspect-square w-full rounded-xl overflow-hidden border border-[#E5E0D5] mb-2">
+                      <div className="relative aspect-square w-full overflow-hidden border-2 border-[#332F32] mb-2.5 bg-[#FAF7EE]">
                         <Image src={preset.image} alt={preset.title} fill className="object-cover" />
-                        <span className="absolute top-2 right-2 px-2 py-0.5 bg-[#FFF59D] text-[9px] font-black uppercase border border-[#332F32]">
+                        <span className="absolute top-2 right-2 px-2 py-0.5 bg-[#FFF59D] text-[9px] font-black uppercase border-2 border-[#332F32] shadow-[1.5px_1.5px_0px_#332F32]">
                           {preset.tag}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-[10px] text-[#FF5983] font-black uppercase">● {preset.portions}</span>
-                        <span className="font-black text-[#332F32]">{preset.basePrice} kr</span>
+                      <div className="flex items-center justify-between text-xs pb-1">
+                        <span className="text-[10px] text-[#332F32] font-black uppercase px-2 py-0.5 bg-[#FFA8C5] border border-[#332F32]">
+                          ● {preset.portions}
+                        </span>
+                        <span className="font-black text-[#332F32] text-sm">{preset.basePrice} kr</span>
                       </div>
-                      <h3 className="font-black text-sm text-[#332F32] uppercase mt-1">{preset.title}</h3>
-                      <p className="text-[11px] text-[#666] mt-1 leading-relaxed">
+                      <h3 className="font-black text-sm text-[#332F32] uppercase mt-1 tracking-tight">{preset.title}</h3>
+                      <p className="text-[11px] text-[#555] mt-1 leading-relaxed font-bold">
                         {preset.spongeName} med {preset.fillingName.toLowerCase()}.
                       </p>
                     </div>
@@ -992,9 +1012,10 @@ export default function PreviewCakesPage() {
                     <button
                       type="button"
                       onClick={() => applyPreset(preset)}
-                      className="w-full py-2.5 px-3 rounded-xl bg-[#332F32] hover:bg-black text-white text-xs font-black uppercase tracking-wider transition-colors cursor-pointer"
+                      className="w-full py-2.5 px-3 border-2 border-[#332F32] bg-[#332F32] hover:bg-black text-white text-xs font-black uppercase tracking-wider transition-colors cursor-pointer shadow-[2px_2px_0px_#FFF59D] flex items-center justify-between"
                     >
-                      Velg &amp; Gå Til Dato →
+                      <span>Velg &amp; Gå Til Dato</span>
+                      <FiArrowRight size={14} />
                     </button>
                   </div>
                 ))}
@@ -1005,9 +1026,9 @@ export default function PreviewCakesPage() {
             {orderMode === "custom" && (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start font-mono">
                 {/* Left Side: Option Selector & Step Nav (lg:col-span-7) */}
-                <div className="lg:col-span-7 space-y-3.5">
-                  {/* Step Pills Bar */}
-                  <div className="grid grid-cols-6 gap-1 bg-white p-1.5 rounded-2xl border-2 border-[#332F32]">
+                <div className="lg:col-span-7 space-y-4">
+                  {/* Step Pills Bar (Sharp Retro Box) */}
+                  <div className="grid grid-cols-6 gap-1 bg-white p-1.5 border-2 border-[#332F32] shadow-[4px_4px_0px_#332F32]">
                     {stepLabels.map((lbl, idx) => {
                       const num = idx + 1;
                       const isActive = currentStep === num;
@@ -1017,12 +1038,12 @@ export default function PreviewCakesPage() {
                           key={num}
                           type="button"
                           onClick={() => setCurrentStep(num)}
-                          className={`py-1.5 px-1 text-center rounded-xl transition-all cursor-pointer truncate ${
+                          className={`py-1.5 px-1 text-center transition-all cursor-pointer truncate ${
                             isActive
-                              ? "bg-[#332F32] text-white font-black"
+                              ? "bg-[#332F32] text-white font-black shadow-[2px_2px_0px_#FFF59D]"
                               : isDone
-                              ? "bg-[#FFA8C5]/30 text-[#332F32] font-bold"
-                              : "text-[#888] hover:text-[#332F32]"
+                              ? "bg-[#FFF59D] text-[#332F32] font-black border border-[#332F32]"
+                              : "text-[#666] hover:text-[#332F32]"
                           }`}
                         >
                           <span className="block text-xs font-black">{num}</span>
@@ -1032,19 +1053,19 @@ export default function PreviewCakesPage() {
                     })}
                   </div>
 
-                  {/* ACTIVE STEP PANEL */}
-                  <div className="bg-white border-2 border-[#332F32] rounded-3xl p-4 sm:p-5 shadow-sm">
+                  {/* ACTIVE STEP PANEL (Sharp Retro White Card) */}
+                  <div className="bg-white border-2 border-[#332F32] p-4 sm:p-6 shadow-[6px_6px_0px_#332F32]">
                     {/* STEP 1: STØRRELSE (WITH BESPOKE FLATICON ICONS) */}
                     {currentStep === 1 && (
-                      <div className="space-y-3.5">
-                        <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between border-b-2 border-[#332F32] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 1 · Velg Kakestørrelse
                           </span>
-                          <span className="text-[10px] text-[#666]">Inkludert kakebrett &amp; eske</span>
+                          <span className="text-[10px] text-[#666] font-bold">Inkludert kakebrett &amp; eske</span>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {CAKE_SIZES.map((tier) => {
                             const isSel = selectedSize.id === tier.id;
                             const IconComponent = tier.IconComponent;
@@ -1052,31 +1073,33 @@ export default function PreviewCakesPage() {
                               <div
                                 key={tier.id}
                                 onClick={() => setSelectedSize(tier)}
-                                className={`p-3 rounded-2xl border-2 transition-all cursor-pointer flex justify-between items-center ${
+                                className={`p-3 border-2 transition-all cursor-pointer flex justify-between items-center ${
                                   isSel
-                                    ? "border-[#332F32] bg-[#FFA8C5]/20 ring-2 ring-[#332F32]"
-                                    : "border-[#E5E0D5] bg-[#FAF7EE] hover:border-[#332F32]"
+                                    ? "border-[#332F32] bg-[#FFF59D] shadow-[4px_4px_0px_#332F32] -translate-y-0.5"
+                                    : "border-[#332F32] bg-[#FAF7EE] shadow-[2px_2px_0px_#332F32] hover:bg-white"
                                 }`}
                               >
                                 <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 rounded-xl bg-white border border-[#332F32] flex items-center justify-center flex-shrink-0 shadow-2xs">
+                                  <div className="w-10 h-10 bg-white border-2 border-[#332F32] flex items-center justify-center flex-shrink-0 shadow-[1.5px_1.5px_0px_#332F32]">
                                     <IconComponent className="w-7 h-7" />
                                   </div>
                                   <div>
                                     <div className="flex items-center gap-1.5">
                                       <span className="font-black text-xs uppercase text-[#332F32]">{tier.name}</span>
                                       {tier.popular && (
-                                        <span className="px-1.5 py-0.5 rounded bg-[#FFF59D] text-[8px] font-black uppercase border border-[#332F32]">
+                                        <span className="px-1.5 py-0.5 bg-[#FFF59D] text-[8px] font-black uppercase border border-[#332F32]">
                                           Populær
                                         </span>
                                       )}
                                     </div>
-                                    <span className="text-[11px] text-[#FF5983] font-bold block mt-0.5">
+                                    <span className="text-[11px] text-[#332F32] font-black block mt-0.5">
                                       {tier.portions} · {tier.diameter}
                                     </span>
                                   </div>
                                 </div>
-                                <span className="font-black text-sm text-[#332F32]">{tier.basePrice} kr</span>
+                                <span className="font-black text-sm text-[#332F32] px-2 py-0.5 bg-white border border-[#332F32] shadow-[1px_1px_0px_#332F32]">
+                                  {tier.basePrice} kr
+                                </span>
                               </div>
                             );
                           })}
@@ -1086,15 +1109,15 @@ export default function PreviewCakesPage() {
 
                     {/* STEP 2: BUNN (WITH BESPOKE FLATICON SPONGE ICONS) */}
                     {currentStep === 2 && (
-                      <div className="space-y-3.5">
-                        <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between border-b-2 border-[#332F32] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 2 · Velg Kakebunn (Sponge)
                           </span>
-                          <span className="text-[10px] text-[#666]">Bakes ferskt på bestillingsdagen</span>
+                          <span className="text-[10px] text-[#666] font-bold">Bakes ferskt på bestillingsdagen</span>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                           {SPONGE_OPTIONS.map((sp) => {
                             const isSel = selectedSponge.id === sp.id;
                             const IconComp = sp.IconComponent;
@@ -1102,25 +1125,29 @@ export default function PreviewCakesPage() {
                               <div
                                 key={sp.id}
                                 onClick={() => setSelectedSponge(sp)}
-                                className={`p-2.5 rounded-xl border-2 transition-all cursor-pointer flex items-center justify-between ${
+                                className={`p-3 border-2 transition-all cursor-pointer flex items-center justify-between ${
                                   isSel
-                                    ? "border-[#332F32] bg-[#FFA8C5]/20 ring-2 ring-[#332F32]"
-                                    : "border-[#E5E0D5] bg-[#FAF7EE] hover:border-[#332F32]"
+                                    ? "border-[#332F32] bg-[#FFF59D] shadow-[4px_4px_0px_#332F32] -translate-y-0.5"
+                                    : "border-[#332F32] bg-[#FAF7EE] shadow-[2px_2px_0px_#332F32] hover:bg-white"
                                 }`}
                               >
                                 <div className="flex items-center gap-2.5">
                                   <div
-                                    className="w-8 h-8 rounded-lg border border-[#332F32] flex items-center justify-center flex-shrink-0"
+                                    className="w-8 h-8 border-2 border-[#332F32] flex items-center justify-center flex-shrink-0 shadow-[1px_1px_0px_#332F32]"
                                     style={{ backgroundColor: sp.swatch }}
                                   >
                                     <IconComp className="w-5 h-5" />
                                   </div>
                                   <div>
-                                    <span className="font-black text-xs text-[#332F32] block">{sp.name}</span>
-                                    <span className="text-[10px] text-[#666]">{sp.note}</span>
+                                    <span className="font-black text-xs text-[#332F32] block uppercase">{sp.name}</span>
+                                    <span className="text-[10px] text-[#555] font-bold">{sp.note}</span>
                                   </div>
                                 </div>
-                                {isSel && <FiCheck size={16} className="text-[#332F32]" />}
+                                {isSel && (
+                                  <span className="px-1.5 py-0.5 bg-[#332F32] text-white text-[9px] font-black uppercase">
+                                    Valgt
+                                  </span>
+                                )}
                               </div>
                             );
                           })}
@@ -1130,15 +1157,15 @@ export default function PreviewCakesPage() {
 
                     {/* STEP 3: FYLL (WITH BESPOKE FLATICON FILLING ICONS) */}
                     {currentStep === 3 && (
-                      <div className="space-y-3.5">
-                        <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between border-b-2 border-[#332F32] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 3 · Velg Kremfyll
                           </span>
-                          <span className="text-[10px] text-[#666]">Rikt lagt mellom bunnene</span>
+                          <span className="text-[10px] text-[#666] font-bold">Rikt lagt mellom bunnene</span>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                           {FILLING_OPTIONS.map((fill) => {
                             const isSel = selectedFilling.id === fill.id;
                             const IconComp = fill.IconComponent;
@@ -1146,25 +1173,29 @@ export default function PreviewCakesPage() {
                               <div
                                 key={fill.id}
                                 onClick={() => setSelectedFilling(fill)}
-                                className={`p-2.5 rounded-xl border-2 transition-all cursor-pointer flex items-center justify-between ${
+                                className={`p-3 border-2 transition-all cursor-pointer flex items-center justify-between ${
                                   isSel
-                                    ? "border-[#332F32] bg-[#FFA8C5]/20 ring-2 ring-[#332F32]"
-                                    : "border-[#E5E0D5] bg-[#FAF7EE] hover:border-[#332F32]"
+                                    ? "border-[#332F32] bg-[#FFF59D] shadow-[4px_4px_0px_#332F32] -translate-y-0.5"
+                                    : "border-[#332F32] bg-[#FAF7EE] shadow-[2px_2px_0px_#332F32] hover:bg-white"
                                 }`}
                               >
                                 <div className="flex items-center gap-2.5">
                                   <div
-                                    className="w-8 h-8 rounded-lg border border-[#332F32] flex items-center justify-center flex-shrink-0"
+                                    className="w-8 h-8 border-2 border-[#332F32] flex items-center justify-center flex-shrink-0 shadow-[1px_1px_0px_#332F32]"
                                     style={{ backgroundColor: fill.swatch }}
                                   >
                                     <IconComp className="w-5 h-5" />
                                   </div>
                                   <div>
-                                    <span className="font-black text-xs text-[#332F32] block">{fill.name}</span>
-                                    <span className="text-[10px] text-[#666]">{fill.note}</span>
+                                    <span className="font-black text-xs text-[#332F32] block uppercase">{fill.name}</span>
+                                    <span className="text-[10px] text-[#555] font-bold">{fill.note}</span>
                                   </div>
                                 </div>
-                                {isSel && <FiCheck size={16} className="text-[#332F32]" />}
+                                {isSel && (
+                                  <span className="px-1.5 py-0.5 bg-[#332F32] text-white text-[9px] font-black uppercase">
+                                    Valgt
+                                  </span>
+                                )}
                               </div>
                             );
                           })}
@@ -1174,12 +1205,12 @@ export default function PreviewCakesPage() {
 
                     {/* STEP 4: DEKOR & STIL */}
                     {currentStep === 4 && (
-                      <div className="space-y-3.5">
-                        <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between border-b-2 border-[#332F32] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 4 · Velg Dekor &amp; Glasurstil
                           </span>
-                          <span className="text-[10px] text-[#666]">Endrer forhåndsvisningen</span>
+                          <span className="text-[10px] text-[#666] font-bold">Endrer forhåndsvisningen</span>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -1189,20 +1220,24 @@ export default function PreviewCakesPage() {
                               <div
                                 key={fr.id}
                                 onClick={() => setSelectedFrosting(fr)}
-                                className={`p-2 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-2.5 ${
+                                className={`p-2.5 border-2 transition-all cursor-pointer flex items-center gap-2.5 ${
                                   isSel
-                                    ? "border-[#332F32] bg-white ring-2 ring-[#FFA8C5] shadow-xs"
-                                    : "border-[#E5E0D5] bg-[#FAF7EE] hover:border-[#332F32]"
+                                    ? "border-[#332F32] bg-[#FFF59D] shadow-[4px_4px_0px_#332F32] -translate-y-0.5"
+                                    : "border-[#332F32] bg-[#FAF7EE] shadow-[2px_2px_0px_#332F32] hover:bg-white"
                                 }`}
                               >
-                                <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-[#E5E0D5] flex-shrink-0">
+                                <div className="relative w-12 h-12 border-2 border-[#332F32] flex-shrink-0 shadow-[1px_1px_0px_#332F32] bg-[#FAF7EE] overflow-hidden">
                                   <Image src={fr.image} alt={fr.name} fill className="object-cover" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                  <span className="font-black text-xs text-[#332F32] block truncate">{fr.name}</span>
-                                  <span className="text-[10px] text-[#666] block leading-tight">{fr.note}</span>
+                                  <span className="font-black text-xs text-[#332F32] block truncate uppercase">{fr.name}</span>
+                                  <span className="text-[10px] text-[#555] font-bold block leading-tight">{fr.note}</span>
                                 </div>
-                                {isSel && <FiCheck size={16} className="text-[#332F32] flex-shrink-0" />}
+                                {isSel && (
+                                  <span className="px-1.5 py-0.5 bg-[#332F32] text-white text-[9px] font-black uppercase flex-shrink-0">
+                                    Valgt
+                                  </span>
+                                )}
                               </div>
                             );
                           })}
@@ -1212,17 +1247,17 @@ export default function PreviewCakesPage() {
 
                     {/* STEP 5: TEKST, LYS & TOPPINGS */}
                     {currentStep === 5 && (
-                      <div className="space-y-3.5">
-                        <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between border-b-2 border-[#332F32] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 5 · Personlig Tekst &amp; Toppings
                           </span>
-                          <span className="text-[10px] text-[#666]">Gjør kaken unik</span>
+                          <span className="text-[10px] text-[#666] font-bold">Gjør kaken unik</span>
                         </div>
 
-                        <div className="space-y-3">
+                        <div className="space-y-3.5">
                           <div>
-                            <label className="text-[10px] uppercase font-bold text-[#332F32] block mb-1">
+                            <label className="text-[10px] uppercase font-black text-[#332F32] block mb-1">
                               Håndskrevet Tekst på Kaken:
                             </label>
                             <input
@@ -1230,12 +1265,12 @@ export default function PreviewCakesPage() {
                               value={customInscription}
                               onChange={(e) => setCustomInscription(e.target.value)}
                               placeholder='f.eks. "Happy 25th Sofia!"'
-                              className="w-full p-2.5 rounded-xl border border-[#332F32] bg-white text-[#332F32] font-bold text-xs"
+                              className="w-full p-2.5 border-2 border-[#332F32] bg-white text-[#332F32] font-mono font-bold text-xs shadow-[2px_2px_0px_#332F32] focus:outline-none focus:bg-[#FFF59D]/20"
                             />
                           </div>
 
                           <div>
-                            <label className="text-[10px] uppercase font-bold text-[#332F32] block mb-1">
+                            <label className="text-[10px] uppercase font-black text-[#332F32] block mb-1">
                               Bursdagslys (Inkludert):
                             </label>
                             <div className="grid grid-cols-4 gap-2">
@@ -1244,10 +1279,10 @@ export default function PreviewCakesPage() {
                                   key={c}
                                   type="button"
                                   onClick={() => setCandleCount(c)}
-                                  className={`py-1.5 text-center rounded-lg border text-xs font-bold transition-all cursor-pointer ${
+                                  className={`py-2 text-center border-2 text-xs font-black uppercase transition-all cursor-pointer ${
                                     candleCount === c
-                                      ? "bg-[#332F32] text-white border-[#332F32]"
-                                      : "bg-[#FAF7EE] text-[#555] border-[#E5E0D5]"
+                                      ? "bg-[#332F32] text-white border-[#332F32] shadow-[2px_2px_0px_#FFF59D]"
+                                      : "bg-[#FAF7EE] text-[#332F32] border-[#332F32] hover:bg-white shadow-[1.5px_1.5px_0px_#332F32]"
                                   }`}
                                 >
                                   {c}
@@ -1257,7 +1292,7 @@ export default function PreviewCakesPage() {
                           </div>
 
                           <div>
-                            <label className="text-[10px] uppercase font-bold text-[#332F32] block mb-1">
+                            <label className="text-[10px] uppercase font-black text-[#332F32] block mb-1">
                               Ekstra Toppings:
                             </label>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -1268,10 +1303,10 @@ export default function PreviewCakesPage() {
                                   <div
                                     key={top.id}
                                     onClick={() => toggleTopping(top.id)}
-                                    className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                                    className={`p-2.5 border-2 border-[#332F32] transition-all cursor-pointer flex items-center justify-between ${
                                       isChecked
-                                        ? "bg-white border-[#332F32] shadow-2xs"
-                                        : "bg-[#FAF7EE] border-[#E5E0D5]"
+                                        ? "bg-[#FFF59D] shadow-[3px_3px_0px_#332F32]"
+                                        : "bg-[#FAF7EE] shadow-[2px_2px_0px_#332F32] hover:bg-white"
                                     }`}
                                   >
                                     <div className="flex items-center gap-2">
@@ -1279,12 +1314,14 @@ export default function PreviewCakesPage() {
                                         type="checkbox"
                                         checked={isChecked}
                                         onChange={() => {}}
-                                        className="w-3.5 h-3.5 accent-[#332F32]"
+                                        className="w-4 h-4 accent-[#332F32] cursor-pointer"
                                       />
                                       <TopIcon className="w-5 h-5" />
-                                      <span className="text-xs font-bold text-[#332F32]">{top.name}</span>
+                                      <span className="text-xs font-black text-[#332F32]">{top.name}</span>
                                     </div>
-                                    <span className="text-xs font-black text-[#FF5983]">+{top.priceDelta} kr</span>
+                                    <span className="text-xs font-black text-[#332F32] px-2 py-0.5 bg-[#FFA8C5] border border-[#332F32] shadow-[1px_1px_0px_#332F32]">
+                                      +{top.priceDelta} kr
+                                    </span>
                                   </div>
                                 );
                               })}
@@ -1297,11 +1334,11 @@ export default function PreviewCakesPage() {
                     {/* STEP 6: KALENDER & MERGED CONFIRMATION FORM */}
                     {currentStep === 6 && (
                       <div className="space-y-4">
-                        <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
+                        <div className="flex items-center justify-between border-b-2 border-[#332F32] pb-2">
                           <span className="font-black text-sm uppercase text-[#332F32]">
                             Steg 6 · Velg Hentedato (Min. 7 Dager)
                           </span>
-                          <span className="text-[10px] px-2 py-0.5 rounded bg-[#FFF59D] text-[#332F32] font-black uppercase border border-[#332F32]">
+                          <span className="text-[10px] px-2 py-0.5 bg-[#FFF59D] text-[#332F32] font-black uppercase border border-[#332F32] shadow-[1px_1px_0px_#332F32]">
                             7 dagers varsel
                           </span>
                         </div>
@@ -1309,7 +1346,7 @@ export default function PreviewCakesPage() {
                         {!isConfirmed ? (
                           <form onSubmit={handleBookingSubmit} className="space-y-3.5">
                             {/* Calendar Navigation & Month Matrix */}
-                            <div className="p-3 rounded-2xl bg-[#FAF7EE] border border-[#E5E0D5] space-y-2">
+                            <div className="p-3 bg-[#FAF7EE] border-2 border-[#332F32] shadow-[3px_3px_0px_#332F32] space-y-2.5">
                               <div className="flex items-center justify-between">
                                 <button
                                   type="button"
@@ -1318,23 +1355,23 @@ export default function PreviewCakesPage() {
                                     setCalMonth(calMonth === 0 ? 11 : calMonth - 1);
                                   }}
                                   disabled={calMonth === 9 && calYear === 2026}
-                                  className="p-1 rounded border border-[#332F32] bg-white text-[#332F32] disabled:opacity-30 cursor-pointer"
+                                  className="p-1 border-2 border-[#332F32] bg-white text-[#332F32] disabled:opacity-30 cursor-pointer shadow-[1.5px_1.5px_0px_#332F32]"
                                 >
                                   <FiChevronLeft size={16} />
                                 </button>
-                                <span className="font-black text-xs uppercase text-[#332F32]">
+                                <span className="font-black text-xs uppercase text-[#332F32] tracking-wider">
                                   {monthNames[calMonth]} {calYear}
                                 </span>
                                 <button
                                   type="button"
                                   onClick={() => setCalMonth(calMonth === 11 ? 0 : calMonth + 1)}
-                                  className="p-1 rounded border border-[#332F32] bg-white text-[#332F32] cursor-pointer"
+                                  className="p-1 border-2 border-[#332F32] bg-white text-[#332F32] cursor-pointer shadow-[1.5px_1.5px_0px_#332F32]"
                                 >
                                   <FiChevronRight size={16} />
                                 </button>
                               </div>
 
-                              <div className="grid grid-cols-7 gap-1 text-center font-bold text-[9px] text-[#777] uppercase">
+                              <div className="grid grid-cols-7 gap-1 text-center font-black text-[9px] text-[#555] uppercase">
                                 <div>Man</div><div>Tir</div><div>Ons</div><div>Tor</div><div>Fre</div><div>Lør</div><div>Søn</div>
                               </div>
 
@@ -1363,23 +1400,25 @@ export default function PreviewCakesPage() {
                                         d.setHours(0, 0, 0, 0);
                                         setSelectedDate(d);
                                       }}
-                                      className={`p-1.5 rounded-lg border text-center transition-all ${
+                                      className={`p-1.5 border-2 text-center transition-all ${
                                         isSelected
-                                          ? "bg-[#332F32] text-white border-[#332F32] font-black"
+                                          ? "bg-[#332F32] text-white border-[#332F32] font-black shadow-[2px_2px_0px_#FFF59D]"
                                           : isAllowed
-                                          ? "bg-white border-[#E5E0D5] text-[#332F32] font-bold hover:bg-[#FFA8C5]/30 cursor-pointer"
-                                          : "bg-stone-100 border-stone-200 text-stone-400 opacity-40 cursor-not-allowed line-through"
+                                          ? "bg-white border-[#332F32] text-[#332F32] font-bold hover:bg-[#FFA8C5] cursor-pointer shadow-[1px_1px_0px_#332F32]"
+                                          : "bg-stone-200 border-stone-300 text-stone-400 opacity-40 cursor-not-allowed line-through"
                                       }`}
                                     >
-                                      <span className="text-xs block">{dayNum}</span>
+                                      <span className="text-xs block font-black">{dayNum}</span>
                                     </button>
                                   );
                                 })}
                               </div>
 
-                              <div className="pt-1 flex items-center justify-between text-[11px] font-bold">
-                                <span className="text-[#332F32]">Valgt: {formattedSelectedDate}</span>
-                                <span className="text-emerald-800 text-[10px]">✓ Oppfyller 7 dagers varsel</span>
+                              <div className="pt-1 flex items-center justify-between text-[11px] font-bold border-t border-[#332F32]/20">
+                                <span className="text-[#332F32] font-black">Valgt: {formattedSelectedDate}</span>
+                                <span className="text-emerald-800 text-[10px] font-black px-1.5 py-0.5 bg-emerald-100 border border-emerald-700">
+                                  ✓ Min. 7 dager oppfylt
+                                </span>
                               </div>
                             </div>
 
@@ -1390,10 +1429,10 @@ export default function PreviewCakesPage() {
                                   key={time}
                                   type="button"
                                   onClick={() => setPickupTime(time)}
-                                  className={`p-2 rounded-lg border text-center text-xs transition-all cursor-pointer ${
+                                  className={`p-2 border-2 text-center text-xs transition-all cursor-pointer ${
                                     pickupTime === time
-                                      ? "bg-[#FFA8C5] border-[#332F32] text-[#332F32] font-black shadow-2xs"
-                                      : "bg-[#FAF7EE] border-[#E5E0D5] text-[#666]"
+                                      ? "bg-[#FFA8C5] border-[#332F32] text-[#332F32] font-black shadow-[3px_3px_0px_#332F32]"
+                                      : "bg-[#FAF7EE] border-[#332F32] text-[#332F32] hover:bg-white shadow-[1.5px_1.5px_0px_#332F32]"
                                   }`}
                                 >
                                   {time}
@@ -1406,10 +1445,10 @@ export default function PreviewCakesPage() {
                               <button
                                 type="button"
                                 onClick={() => setFulfillmentType("pickup")}
-                                className={`p-2.5 rounded-xl border text-center text-xs font-bold transition-all cursor-pointer ${
+                                className={`p-2.5 border-2 text-center text-xs font-black uppercase transition-all cursor-pointer ${
                                   fulfillmentType === "pickup"
-                                    ? "bg-[#FFA8C5] border-[#332F32] text-[#332F32]"
-                                    : "bg-[#FAF7EE] border-[#E5E0D5] text-[#666]"
+                                    ? "bg-[#FFA8C5] border-[#332F32] text-[#332F32] shadow-[3px_3px_0px_#332F32]"
+                                    : "bg-[#FAF7EE] border-[#332F32] text-[#332F32] hover:bg-white shadow-[1.5px_1.5px_0px_#332F32]"
                                 }`}
                               >
                                 Hentes på Grünerløkka (Gratis)
@@ -1417,10 +1456,10 @@ export default function PreviewCakesPage() {
                               <button
                                 type="button"
                                 onClick={() => setFulfillmentType("delivery")}
-                                className={`p-2.5 rounded-xl border text-center text-xs font-bold transition-all cursor-pointer ${
+                                className={`p-2.5 border-2 text-center text-xs font-black uppercase transition-all cursor-pointer ${
                                   fulfillmentType === "delivery"
-                                    ? "bg-[#FFA8C5] border-[#332F32] text-[#332F32]"
-                                    : "bg-[#FAF7EE] border-[#E5E0D5] text-[#666]"
+                                    ? "bg-[#FFA8C5] border-[#332F32] text-[#332F32] shadow-[3px_3px_0px_#332F32]"
+                                    : "bg-[#FAF7EE] border-[#332F32] text-[#332F32] hover:bg-white shadow-[1.5px_1.5px_0px_#332F32]"
                                 }`}
                               >
                                 Budlevering i Oslo (+150 kr)
@@ -1435,7 +1474,7 @@ export default function PreviewCakesPage() {
                                 value={customerName}
                                 onChange={(e) => setCustomerName(e.target.value)}
                                 placeholder="Ditt Navn"
-                                className="p-2.5 rounded-xl border border-[#E5E0D5] bg-[#FAF7EE] text-xs font-bold text-[#332F32]"
+                                className="p-2.5 border-2 border-[#332F32] bg-white text-xs font-mono font-bold text-[#332F32] shadow-[2px_2px_0px_#332F32] focus:outline-none focus:bg-[#FFF59D]/20"
                               />
                               <input
                                 type="tel"
@@ -1443,7 +1482,7 @@ export default function PreviewCakesPage() {
                                 value={customerPhone}
                                 onChange={(e) => setCustomerPhone(e.target.value)}
                                 placeholder="Mobil for Vipps &amp; SMS"
-                                className="p-2.5 rounded-xl border border-[#E5E0D5] bg-[#FAF7EE] text-xs font-bold text-[#332F32]"
+                                className="p-2.5 border-2 border-[#332F32] bg-white text-xs font-mono font-bold text-[#332F32] shadow-[2px_2px_0px_#332F32] focus:outline-none focus:bg-[#FFF59D]/20"
                               />
                               <input
                                 type="email"
@@ -1451,13 +1490,13 @@ export default function PreviewCakesPage() {
                                 value={customerEmail}
                                 onChange={(e) => setCustomerEmail(e.target.value)}
                                 placeholder="E-post for kvittering"
-                                className="p-2.5 rounded-xl border border-[#E5E0D5] bg-[#FAF7EE] text-xs font-bold text-[#332F32]"
+                                className="p-2.5 border-2 border-[#332F32] bg-white text-xs font-mono font-bold text-[#332F32] shadow-[2px_2px_0px_#332F32] focus:outline-none focus:bg-[#FFF59D]/20"
                               />
                             </div>
 
                             <button
                               type="submit"
-                              className="w-full py-3.5 px-4 rounded-xl bg-[#332F32] hover:bg-black text-white text-xs font-black uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                              className="w-full py-3.5 px-4 border-2 border-[#332F32] bg-[#332F32] hover:bg-black text-white text-xs font-black uppercase tracking-wider transition-all shadow-[4px_4px_0px_#FFF59D] hover:shadow-[6px_6px_0px_#FFF59D] flex items-center justify-center gap-2 cursor-pointer"
                             >
                               <span>BEKREFT RESERVASJON · {totalPrice} KR MED VIPPS</span>
                               <FiArrowRight size={14} />
@@ -1467,13 +1506,13 @@ export default function PreviewCakesPage() {
                           /* =================================================
                               MERGED CONFIGURATION + CONFIRMATION LUXURY PASS
                               ================================================= */
-                          <div className="p-5 sm:p-6 rounded-3xl border-2 border-[#332F32] bg-[#FAF7EE] space-y-4">
+                          <div className="p-5 sm:p-6 border-2 border-[#332F32] bg-white space-y-4 shadow-[8px_8px_0px_#332F32]">
                             {/* Voucher Header Bar */}
-                            <div className="flex items-center justify-between pb-3 border-b-2 border-dashed border-[#E5E0D5]">
+                            <div className="flex items-center justify-between pb-3 border-b-2 border-[#332F32]">
                               <div className="flex items-center gap-2.5">
                                 <LuffyCakesLogo className="w-7 h-7" />
                                 <div>
-                                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase inline-block">
+                                  <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase inline-block border border-emerald-700">
                                     ● RESERVASJON BEKREFTET
                                   </span>
                                   <h3 className="font-black text-sm text-[#332F32] uppercase">
@@ -1483,7 +1522,7 @@ export default function PreviewCakesPage() {
                               </div>
 
                               <div className="text-right">
-                                <span className="px-3.5 py-1 rounded-full bg-[#FFA8C5] text-[#332F32] font-black text-sm border border-[#332F32] inline-block shadow-2xs">
+                                <span className="px-3.5 py-1 bg-[#FFA8C5] text-[#332F32] font-black text-sm border-2 border-[#332F32] inline-block shadow-[2px_2px_0px_#332F32]">
                                   {totalPrice} kr
                                 </span>
                               </div>
@@ -1492,55 +1531,55 @@ export default function PreviewCakesPage() {
                             {/* Main Body: Merging Image Aspect & Specifications */}
                             <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
                               {/* Left: Framed Cake Image */}
-                              <div className="sm:col-span-5 relative aspect-square rounded-2xl overflow-hidden border-2 border-[#332F32] bg-white shadow-2xs">
+                              <div className="sm:col-span-5 relative aspect-square border-2 border-[#332F32] bg-[#FAF7EE] shadow-[4px_4px_0px_#332F32] overflow-hidden">
                                 <Image
                                   src={selectedFrosting.image}
                                   alt="Bestilt kake"
                                   fill
                                   className="object-cover"
                                 />
-                                <div className="absolute top-2 left-2 px-2 py-0.5 bg-white font-mono text-[9px] font-black uppercase border border-[#332F32]">
+                                <div className="absolute top-2 left-2 px-2 py-0.5 bg-white font-mono text-[9px] font-black uppercase border-2 border-[#332F32] shadow-[1.5px_1.5px_0px_#332F32]">
                                   {selectedSize.name}
                                 </div>
-                                <div className="absolute bottom-2 left-2 right-2 p-1 bg-white/95 text-[9px] font-bold text-center border border-[#E5E0D5] rounded">
+                                <div className="absolute bottom-2 left-2 right-2 p-1 bg-white font-mono text-[9px] font-black text-center border-2 border-[#332F32]">
                                   {selectedSize.portions}
                                 </div>
                               </div>
 
                               {/* Right: Clean, Structured Specs List (ZERO TRUNCATION) */}
                               <div className="sm:col-span-7 space-y-2 text-xs">
-                                <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
-                                  <span className="text-[9px] uppercase text-[#888] font-bold block">
+                                <div className="p-2.5 bg-[#FAF7EE] border-2 border-[#332F32] shadow-[2px_2px_0px_#332F32]">
+                                  <span className="text-[9px] uppercase text-[#666] font-black block">
                                     Hentedato &amp; Tid:
                                   </span>
                                   <span className="font-black text-[#332F32] block">
                                     {formattedSelectedDate}
                                   </span>
-                                  <span className="text-[11px] text-[#FF5983] font-bold">
+                                  <span className="text-[11px] text-[#332F32] font-black px-1.5 py-0.5 bg-[#FFF59D] border border-[#332F32] inline-block mt-0.5">
                                     kl. {pickupTime}
                                   </span>
                                 </div>
 
-                                <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
-                                  <span className="text-[9px] uppercase text-[#888] font-bold block">
+                                <div className="p-2.5 bg-[#FAF7EE] border-2 border-[#332F32] shadow-[2px_2px_0px_#332F32]">
+                                  <span className="text-[9px] uppercase text-[#666] font-black block">
                                     Smak &amp; Fyll:
                                   </span>
                                   <span className="font-black text-[#332F32] block">
                                     {selectedSponge.name}
                                   </span>
-                                  <span className="text-[11px] text-[#666]">
+                                  <span className="text-[11px] text-[#555] font-bold">
                                     med {selectedFilling.name.toLowerCase()}
                                   </span>
                                 </div>
 
-                                <div className="p-2.5 rounded-xl bg-white border border-[#E5E0D5]">
-                                  <span className="text-[9px] uppercase text-[#888] font-bold block">
+                                <div className="p-2.5 bg-[#FAF7EE] border-2 border-[#332F32] shadow-[2px_2px_0px_#332F32]">
+                                  <span className="text-[9px] uppercase text-[#666] font-black block">
                                     Dekorstil &amp; Hilsen:
                                   </span>
                                   <span className="font-black text-[#332F32] block">
                                     {selectedFrosting.name.split(" (")[0]}
                                   </span>
-                                  <span className="text-[11px] text-[#555] italic block">
+                                  <span className="text-[11px] text-[#555] italic block font-bold">
                                     &ldquo;{customInscription}&rdquo; ({candleCount})
                                   </span>
                                 </div>
@@ -1548,23 +1587,23 @@ export default function PreviewCakesPage() {
                             </div>
 
                             {/* Location & Order ID */}
-                            <div className="p-3 rounded-xl bg-white border border-[#E5E0D5] flex items-center justify-between text-xs">
+                            <div className="p-3 bg-[#FFA8C5]/20 border-2 border-[#332F32] shadow-[2px_2px_0px_#332F32] flex items-center justify-between text-xs">
                               <div>
-                                <span className="text-[9px] uppercase text-[#888] font-bold block">Hentested</span>
-                                <span className="font-bold text-[#332F32]">
+                                <span className="text-[9px] uppercase text-[#666] font-black block">Hentested</span>
+                                <span className="font-black text-[#332F32]">
                                   {fulfillmentType === "delivery"
                                     ? "Budlevering i Oslo (+150 kr inkludert)"
                                     : "Markveien 32, Grünerløkka, 0554 Oslo"}
                                 </span>
                               </div>
-                              <span className="font-black text-xs text-[#332F32] px-2.5 py-1 rounded bg-[#FAF7EE] border border-[#332F32]">
+                              <span className="font-black text-xs text-[#332F32] px-2.5 py-1 bg-white border-2 border-[#332F32] shadow-[1.5px_1.5px_0px_#332F32]">
                                 Ordre #LC-9165
                               </span>
                             </div>
 
                             {/* Footer SMS & Vipps Confirmation Note */}
-                            <div className="pt-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] border-t border-[#E5E0D5]">
-                              <span className="text-[#666]">
+                            <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] border-t-2 border-[#332F32]">
+                              <span className="text-[#555] font-bold">
                                 Vipps-krav og SMS-kvittering er sendt til {customerPhone}
                               </span>
                               <button
@@ -1582,12 +1621,12 @@ export default function PreviewCakesPage() {
 
                     {/* Integrated Next/Previous Actions Bar */}
                     {currentStep < 6 && (
-                      <div className="pt-3.5 mt-3.5 border-t border-[#E5E0D5] flex items-center justify-between">
+                      <div className="pt-3.5 mt-3.5 border-t-2 border-[#332F32] flex items-center justify-between">
                         <button
                           type="button"
                           disabled={currentStep === 1}
                           onClick={() => setCurrentStep((s) => Math.max(1, s - 1))}
-                          className="px-4 py-2 rounded-xl border border-[#332F32] text-[#332F32] text-xs font-bold disabled:opacity-30 disabled:pointer-events-none cursor-pointer hover:bg-[#FAF7EE]"
+                          className="px-4 py-2 border-2 border-[#332F32] bg-[#FAF7EE] text-[#332F32] text-xs font-black uppercase disabled:opacity-30 disabled:pointer-events-none cursor-pointer hover:bg-white shadow-[2px_2px_0px_#332F32]"
                         >
                           ← Forrige
                         </button>
@@ -1595,7 +1634,7 @@ export default function PreviewCakesPage() {
                         <button
                           type="button"
                           onClick={() => setCurrentStep((s) => Math.min(6, s + 1))}
-                          className="px-5 py-2.5 rounded-xl bg-[#332F32] hover:bg-black text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-xs"
+                          className="px-5 py-2.5 border-2 border-[#332F32] bg-[#332F32] hover:bg-black text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-[3px_3px_0px_#FFF59D]"
                         >
                           <span>Neste: {stepLabels[currentStep]} →</span>
                         </button>
@@ -1605,46 +1644,48 @@ export default function PreviewCakesPage() {
                 </div>
 
                 {/* Right Side: Sticky Live Preview Console (lg:col-span-5) */}
-                <div className="lg:col-span-5 sticky top-20 space-y-3">
-                  <div className="bg-white border-2 border-[#332F32] rounded-3xl p-4 shadow-sm space-y-3">
-                    <div className="flex items-center justify-between pb-2 border-b border-[#E5E0D5]">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-[#888]">
+                <div className="lg:col-span-5 sticky top-20 space-y-3 font-mono">
+                  <div className="bg-white border-2 border-[#332F32] p-4 shadow-[6px_6px_0px_#332F32] space-y-3">
+                    <div className="flex items-center justify-between pb-2 border-b-2 border-[#332F32]">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-[#332F32]">
                         DIN KAKE-KONFIGURASJON
                       </span>
-                      <span className="text-lg font-black text-[#FF5983]">{totalPrice} kr</span>
+                      <span className="text-base font-black text-[#332F32] px-2.5 py-0.5 bg-[#FFA8C5] border border-[#332F32] shadow-[1.5px_1.5px_0px_#332F32]">
+                        {totalPrice} kr
+                      </span>
                     </div>
 
                     {/* Cake Photo */}
-                    <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden border-2 border-[#332F32] bg-[#FAF7EE]">
+                    <div className="relative aspect-[4/3] w-full border-2 border-[#332F32] bg-[#FAF7EE] shadow-[3px_3px_0px_#332F32] overflow-hidden">
                       <Image
                         src={selectedFrosting.image}
                         alt="Kake Forhåndsvisning"
                         fill
                         className="object-cover"
                       />
-                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-white font-mono text-[9px] font-black uppercase border border-[#332F32]">
+                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-white font-mono text-[9px] font-black uppercase border-2 border-[#332F32] shadow-[1.5px_1.5px_0px_#332F32]">
                         {selectedSize.name} · {selectedSize.portions}
                       </div>
                     </div>
 
                     {/* Compact Specs Breakdown List */}
-                    <div className="space-y-1.5 text-xs divide-y divide-[#E5E0D5]">
+                    <div className="space-y-1.5 text-xs divide-y divide-[#332F32]/20">
                       <div className="flex justify-between items-center pt-1.5">
-                        <span className="text-[10px] text-[#777] uppercase">Kakebunn:</span>
-                        <span className="font-bold text-[#332F32]">{selectedSponge.name}</span>
+                        <span className="text-[10px] text-[#666] uppercase font-bold">Kakebunn:</span>
+                        <span className="font-black text-[#332F32]">{selectedSponge.name}</span>
                       </div>
                       <div className="flex justify-between items-center pt-1.5">
-                        <span className="text-[10px] text-[#777] uppercase">Kremfyll:</span>
-                        <span className="font-bold text-[#332F32]">{selectedFilling.name}</span>
+                        <span className="text-[10px] text-[#666] uppercase font-bold">Kremfyll:</span>
+                        <span className="font-black text-[#332F32]">{selectedFilling.name}</span>
                       </div>
                       <div className="flex justify-between items-center pt-1.5">
-                        <span className="text-[10px] text-[#777] uppercase">Dekorstil:</span>
-                        <span className="font-bold text-[#332F32]">{selectedFrosting.name.split(" (")[0]}</span>
+                        <span className="text-[10px] text-[#666] uppercase font-bold">Dekorstil:</span>
+                        <span className="font-black text-[#332F32]">{selectedFrosting.name.split(" (")[0]}</span>
                       </div>
                       {customInscription && (
                         <div className="flex justify-between items-center pt-1.5">
-                          <span className="text-[10px] text-[#777] uppercase">Tekst:</span>
-                          <span className="font-bold text-[#332F32] italic">&ldquo;{customInscription}&rdquo;</span>
+                          <span className="text-[10px] text-[#666] uppercase font-bold">Tekst:</span>
+                          <span className="font-black text-[#332F32] italic">&ldquo;{customInscription}&rdquo;</span>
                         </div>
                       )}
                     </div>
@@ -1654,7 +1695,7 @@ export default function PreviewCakesPage() {
                       <button
                         type="button"
                         onClick={() => setCurrentStep(6)}
-                        className="w-full py-2.5 px-3 rounded-xl bg-[#FFA8C5] hover:bg-[#FF9EBC] text-[#332F32] text-xs font-black uppercase tracking-wider border border-[#332F32] transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                        className="w-full py-2.5 px-3 border-2 border-[#332F32] bg-[#FFA8C5] hover:bg-[#FFF59D] text-[#332F32] text-xs font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 shadow-[3px_3px_0px_#332F32]"
                       >
                         <span>Gå Rett Til Bestilling →</span>
                       </button>
@@ -1669,34 +1710,35 @@ export default function PreviewCakesPage() {
         {/* =========================================================
             SECTION 3: DM vs STUDIO BOOKING (TIGHT COMPARISON)
             ========================================================= */}
-        <section id="comparison" className="py-10 sm:py-12 border-b border-[#E5E0D5] bg-[#FAF7EE]">
+        <section id="comparison" className="py-10 sm:py-12 border-b-2 border-[#332F32] bg-[#FAF7EE]">
           <div className="max-w-4xl mx-auto px-4 sm:px-8 space-y-4 font-mono">
             <div className="text-center space-y-1">
-              <span className="text-[10px] font-black uppercase tracking-widest text-[#FF5983]">
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#332F32] px-2.5 py-0.5 bg-[#FFF59D] border-2 border-[#332F32] shadow-[2px_2px_0px_#332F32] inline-block">
                 HVORFOR BRUKE DETTE I STEDET FOR &quot;SEND DM FOR BESTILLING&quot;?
               </span>
-              <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-[#332F32]">
+              <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-[#332F32] pt-1">
                 Slutt Å Bruke 3 Timer Om Dagen I Innboksen
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-              <div className="p-4 rounded-2xl bg-white/70 border border-red-200 space-y-2.5">
-                <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 text-red-800 font-bold uppercase inline-block">
+              <div className="p-4 bg-white border-2 border-[#332F32] shadow-[4px_4px_0px_#332F32] space-y-2.5">
+                <span className="text-[10px] px-2 py-0.5 bg-red-100 text-red-900 font-black uppercase inline-block border border-red-300">
                   ✕ Instagram DM (Før)
                 </span>
-                <ul className="space-y-1.5 text-[#555] leading-relaxed">
+                <ul className="space-y-1.5 text-[#555] font-bold leading-relaxed">
                   <li>• 12 meldinger fram og tilbake for å avklare dato og porsjoner.</li>
                   <li>• Kunder ghoster etter manuell prisberegning.</li>
                   <li>• Dobbelbookinger fordi datoer ligger spredt i innboksen.</li>
                 </ul>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border-2 border-[#332F32] shadow-xs space-y-2.5">
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold uppercase inline-block">
+              {/* Pink Card Layout for Studio */}
+              <div className="p-4 bg-[#FFA8C5] border-2 border-[#332F32] shadow-[6px_6px_0px_#332F32] space-y-2.5">
+                <span className="text-[10px] px-2 py-0.5 bg-white text-[#332F32] font-black uppercase inline-block border-2 border-[#332F32] shadow-[1.5px_1.5px_0px_#332F32]">
                   ✓ Studioside (Nå)
                 </span>
-                <ul className="space-y-1.5 text-[#332F32] font-bold leading-relaxed">
+                <ul className="space-y-1.5 text-[#332F32] font-black leading-relaxed">
                   <li>• Kunden ser prisen per størrelse umiddelbart og velger selv.</li>
                   <li>• Kalenderen håndhever 7 dagers forhåndsvarsel automatisk.</li>
                   <li>• Digitalt bestillingsbevis og betaling via Vipps.</li>
@@ -1709,55 +1751,79 @@ export default function PreviewCakesPage() {
         {/* =========================================================
             SECTION 4: REVIEWS (COMPACT 3-GRID)
             ========================================================= */}
-        <section id="reviews" className="py-10 sm:py-12 border-b border-[#E5E0D5]">
+        <section id="reviews" className="py-10 sm:py-12 border-b-2 border-[#332F32] bg-[#FAF7EE]">
           <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-5 font-mono text-xs">
-            <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-2">
+            <div className="flex items-center justify-between border-b-2 border-[#332F32] pb-2">
               <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-[#332F32]">
                 Hva Kundene Sier
               </h2>
-              <div className="flex items-center gap-1 text-amber-500">
-                {[...Array(5)].map((_, i) => (
-                  <FiStar key={i} size={14} fill="currentColor" />
-                ))}
+              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white border-2 border-[#332F32] shadow-[2px_2px_0px_#332F32]">
+                <div className="flex text-amber-500 gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <FiStar key={i} size={13} fill="currentColor" />
+                  ))}
+                </div>
                 <span className="text-xs font-black text-[#332F32] ml-1">5.0 / 5.0</span>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 bg-white border border-[#E5E0D5] rounded-2xl space-y-2">
-                <div className="flex text-amber-400 gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <FiStar key={i} size={11} fill="currentColor" />
-                  ))}
+              <div className="p-4 bg-white border-2 border-[#332F32] shadow-[4px_4px_0px_#332F32] hover:shadow-[6px_6px_0px_#332F32] transition-all space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex text-amber-400 gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <FiStar key={i} size={11} fill="currentColor" />
+                    ))}
+                  </div>
+                  <span className="text-[9px] font-black uppercase px-1.5 py-0.5 bg-[#FFF59D] border border-[#332F32]">
+                    Bursdag
+                  </span>
                 </div>
                 <p className="text-[#332F32] font-bold leading-relaxed">
                   &ldquo;Bursdagskaken var helt spektakulær! Så deilig å kunne bestille alt på nettsiden i stedet for å vente i timevis på svar i DM.&rdquo;
                 </p>
-                <div className="text-[10px] text-[#666]">Ingrid H. · Grünerløkka</div>
+                <div className="text-[10px] text-[#666] font-bold pt-1 border-t border-[#332F32]/10">
+                  Ingrid H. · Grünerløkka
+                </div>
               </div>
 
-              <div className="p-4 bg-white border border-[#E5E0D5] rounded-2xl space-y-2">
-                <div className="flex text-amber-400 gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <FiStar key={i} size={11} fill="currentColor" />
-                  ))}
+              {/* Pink Card Highlight Review */}
+              <div className="p-4 bg-[#FFA8C5] border-2 border-[#332F32] shadow-[5px_5px_0px_#332F32] hover:shadow-[7px_7px_0px_#332F32] transition-all space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex text-amber-500 gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <FiStar key={i} size={11} fill="currentColor" />
+                    ))}
+                  </div>
+                  <span className="text-[9px] font-black uppercase px-1.5 py-0.5 bg-white border border-[#332F32]">
+                    Bento
+                  </span>
                 </div>
-                <p className="text-[#332F32] font-bold leading-relaxed">
+                <p className="text-[#332F32] font-black leading-relaxed">
                   &ldquo;Bestilte en bento-kake til kjæresten min. Både utseendet og smaken var 10/10. Kommer garantert tilbake!&rdquo;
                 </p>
-                <div className="text-[10px] text-[#666]">Jonas K. · Majorstuen</div>
+                <div className="text-[10px] text-[#332F32]/80 font-black pt-1 border-t border-[#332F32]/20">
+                  Jonas K. · Majorstuen
+                </div>
               </div>
 
-              <div className="p-4 bg-white border border-[#E5E0D5] rounded-2xl space-y-2">
-                <div className="flex text-amber-400 gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <FiStar key={i} size={11} fill="currentColor" />
-                  ))}
+              <div className="p-4 bg-white border-2 border-[#332F32] shadow-[4px_4px_0px_#332F32] hover:shadow-[6px_6px_0px_#332F32] transition-all space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex text-amber-400 gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <FiStar key={i} size={11} fill="currentColor" />
+                    ))}
+                  </div>
+                  <span className="text-[9px] font-black uppercase px-1.5 py-0.5 bg-[#FFF59D] border border-[#332F32]">
+                    Lambeth
+                  </span>
                 </div>
                 <p className="text-[#332F32] font-bold leading-relaxed">
                   &ldquo;Lambeth-kaken var et kunstverk på dessertbordet. Håndskriften var nydelig og gjestene snakket om den i dagevis.&rdquo;
                 </p>
-                <div className="text-[10px] text-[#666]">Camilla &amp; Fredrik · Frogner</div>
+                <div className="text-[10px] text-[#666] font-bold pt-1 border-t border-[#332F32]/10">
+                  Camilla &amp; Fredrik · Frogner
+                </div>
               </div>
             </div>
           </div>
@@ -1766,18 +1832,18 @@ export default function PreviewCakesPage() {
         {/* =========================================================
             SECTION 5: FOOTER (COMPACT & CLEAN)
             ========================================================= */}
-        <footer className="py-8 bg-[#FAF7EE] border-t border-[#E5E0D5] font-mono text-xs text-[#332F32]">
+        <footer className="py-8 bg-[#FAF7EE] border-t-2 border-[#332F32] font-mono text-xs text-[#332F32]">
           <div className="max-w-6xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <LuffyCakesLogo />
-              <span className="text-[11px] text-[#666]">Markveien 32, 0554 Oslo</span>
+              <span className="text-[11px] text-[#666] font-bold">Markveien 32, 0554 Oslo</span>
             </div>
 
             <div className="flex items-center gap-4 text-[11px]">
-              <span className="text-[#888]">Utviklet av A.Gure</span>
+              <span className="text-[#888] font-bold">Utviklet av A.Gure</span>
               <Link
                 href="/contact?package=booking-drop"
-                className="px-3 py-1.5 rounded-lg bg-[#332F32] text-white font-bold hover:bg-black transition-colors"
+                className="px-3.5 py-2 border-2 border-[#332F32] bg-[#332F32] text-white font-black uppercase hover:bg-black transition-colors shadow-[2px_2px_0px_#FFF59D]"
               >
                 Få en slik side til ditt bakeri →
               </Link>

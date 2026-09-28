@@ -40,11 +40,17 @@ This document contains permanent preferences, design rules, tone-of-voice constr
   - Keep high-priority information scannable and visible immediately.
   - Use clean expandable toggles (`View more details ⌄` / `Hide extra details ⌃`) for secondary steps and fine print.
   - **Demos and live project examples must NEVER be hidden behind toggles**—they must stay permanently visible.
-- **Mobile-First Experience:**
+- **Mobile-First Experience & Copy Hygiene:**
   - Touch scrolling on mobile must pass through smoothly without getting trapped.
   - Interactive iframe/website views require an explicit pause button (`❚❚ PAUSE TO SCROLL`) before manual scrolling inside the frame is unlocked.
   - Status badges must remain pinned and stationary (`z-10`), never scrolling down with website imagery.
   - All containers and forms must fit cleanly inside 375px mobile screens without horizontal overflow.
+  - **The 1-to-2 Word Button Rule (Anti-Clutter):**
+    - ❌ NEVER put verbose copy or prices inside buttons (e.g. `Reserver Denne Stilen (750 kr) →`). On 375px mobile screens, this causes awkward multi-line text wrapping or ugly ellipsis truncations.
+    - ✅ Keep button text ultra-short and punchy: `Velg`, `Bestill`, `Reserver`, `Bekreft`. Put the price beside or above the button, not inside it.
+  - **Filter Pill Hygiene:** Filter pills must be 1 word whenever possible (`Alle`, `BIAB`, `Fransk`, `Krom`, `3D`), never multi-word phrases that wrap vertically.
+  - **Anti-Bloat Copy:** Eliminate unnecessary paragraphs and fluffy descriptions. Keep service items to a single crisp, scannable line.
+  - **Streamlined Booking:** Never build over-complicated booking matrixes with nested boxes. 1-tap service → 1-tap date/time pill → contact → confirm.
 
 ---
 
@@ -52,44 +58,60 @@ This document contains permanent preferences, design rules, tone-of-voice constr
 
 *Lessons learned from user feedback and design revisions across booking, customizer, and portfolio showcase flows. These principles must be applied proactively on the very first build to eliminate iterative friction.*
 
-### A. The "Zero-Scroll" Multi-Step Configurator
+### A. Domain-First Architecture (Products vs. Services)
+- **Critical Thinking Over Pattern Copying:**
+  - **Custom Physical Products (Cakes, Bouquets, Gift Boxes):** Multi-step configurators (size → sponge → filling → topping) with live 3D/preview counters make sense because the user is fabricating a tangible composite product.
+  - **Personal & Studio Services (Nail Ateliers, Lash Techs, Tooth Gems, Barbers, Clinics):** **NEVER build synthetic "assembly line" wizards for personal services.** Clients book based on:
+    1. **Visual Lookbook / Inspo Vault:** Browsing real sets/photos with tagged treatment & price.
+    2. **Scannable Service Menu & Art Tiers:** Clear primary treatments + optional art/repair add-ons.
+    3. **Live Availability (The Core Conversion Driver):** Fast date & slot matrix ("Ledige stoler denne uken").
+    4. **1-Tap Luxury Studio Pass / Voucher:** Instant booking confirmation with address, Vipps, and SMS.
+- **Leverage the Built-in Design & UI Component Library:**
+  - Draw thoughtfully from `src/components/library/` (e.g., `BookingDateStrip`, `BookingTimeMatrix`, `BookingBoardingPass`, `WeeklyAvailabilityTicker`, `EditorialGridBooking`, `GalleryFilmstrip`, `PricingEditorialLedger`, `ArtistProfileCard`, `NewspaperPolicyGrid`).
+
+### B. The "Zero-Scroll" Multi-Step Configurator (For Custom Products Only)
 - **Compact, High-Density Selection Grids:**
-  - Never design multi-step builders with tall, sprawling cards that force users to scroll hundreds of pixels down to see options and scroll back up or down to continue.
+  - When a product configurator IS appropriate, never design tall, sprawling cards that force endless vertical scrolling.
   - Keep option cards compact (2x2 or 2-column grids with swatches, badges, and 1-line notes) so all options fit within eye level in the viewport.
 - **Immediate Action Bar:**
-  - The navigation controls (`← Forrige` and `Neste Steg →`) must always sit directly beneath the compact options or remain sticky. Users must never have to search below the fold to advance.
+  - The navigation controls (`← Forrige` and `Neste Steg →`) must always sit directly beneath the compact options or remain sticky.
 - **Desktop Split Console:**
-  - On desktop, use a two-column layout: options grid on the left (`col-span-7`), sticky live product preview with real-time price counter and ingredient chips on the right (`col-span-5`).
+  - On desktop, use a two-column layout: options grid on the left (`col-span-7`), sticky live product preview with real-time price counter on the right (`col-span-5`).
 
-### B. Gallery Architecture (Carousels vs. Vertical Dumps)
+### C. Gallery Architecture (Carousels vs. Vertical Dumps)
 - **Prevent Endless Downward Stacking:**
   - Auxiliary galleries (lookbooks, past orders, style examples) must **default to horizontal swipeable carousels** (`overflow-x-auto snap-x snap-mandatory scrollbar-none` with `<` and `>` arrow buttons on desktop and touch-snap on mobile).
   - Vertical stacking is reserved only for primary 2–3 tier comparisons, never for galleries that bloat page scroll depth.
 - **Separate Lookbook from Choice Architecture:**
-  - Never use photos of completed custom products as buttons for sizing/tier selection (e.g. photos of finished cakes for choosing 10cm vs 20cm). Users assume these are fixed pre-made items.
+  - Never use photos of completed custom products as buttons for sizing/tier selection.
   - Use clean geometric diagrams or tier silhouettes for sizing, and dedicate photos strictly to an **Inspirasjonsgalleri / Lookbook**.
-
-### C. Dual-Path Customer Journeys (Custom vs. 1-Click)
-- Always provide two clear paths at the top of an ordering experience:
-  1. **Path A (The Customizer):** Guided step-by-step wizard for clients who want full control over each layer/spec.
-  2. **Path B (The Quick Pick):** 3–4 popular pre-assembled signature combinations that lock in selections and jump directly to date/checkout with 1 tap for time-pressed customers.
 
 ### D. Booking Logic & Real-World Domain Accuracy
 - **Realistic Advance Notice Rules:**
-  - Handcrafted, artisanal services (e.g. custom celebration cakes, couture nails, bridal henna) require realistic lead times (e.g. minimum 7 days notice, not 2 days).
+  - Handcrafted, artisanal services require realistic lead times.
 - **Interactive Calendar Integrity:**
-  - Use a full month calendar view with day headers (`Man – Søn`) and month navigation.
-  - Clearly disable and cross out dates that fail the advance notice rule or lie in the past.
-  - Show active confirmation badges when a valid date is picked (e.g. `✓ Oppfyller 7 dagers forhåndsvarsel`).
+  - Use a clean slot matrix or calendar view with day headers and real-time open/last/full statuses.
+  - Show active confirmation badges when a valid time is picked.
 
-### E. Voucher / Confirmation UX (Anti-"Monospace Dump")
-- **No Raw Text Dumps:**
+### E. Voucher / Confirmation UX (Anti-"Monospace Dump" & Merged Image Ticket)
+- **No Raw Text Dumps or Ellipsis Truncations:**
   - Order confirmation and reservation passes must never look like unstyled monospace logs or raw paragraphs.
-  - Structure confirmation vouchers like a genuine luxury ticket:
-    - Contained price pill badge (strictly bounded to prevent mobile overflow).
-    - Status badge (e.g. `● RESERVASJON BEKREFTET`).
-    - Structured 2x2 grid with sharp typographic hierarchy: tiny uppercase category labels over bold values.
-    - Clear pickup/delivery location card and Vipps payment confirmation.
+  - Never truncate text with ellipses (`...`) in order summaries—every spec (service, shape, art tier, add-ons) must be fully visible and readable.
+- **Structure confirmation vouchers like a genuine luxury ticket:**
+  - Seamlessly unite the real finished product/look photo with the reservation ticket voucher.
+  - Contained price pill badge (strictly bounded to prevent mobile overflow).
+  - Status badge (e.g. `● RESERVASJON BEKREFTET` / `● RESERVASJON MOTTATT`).
+  - Structured 2x2 grid with sharp typographic hierarchy: tiny uppercase category labels over bold values (Date, Time, Pickup/Studio Location, Total & Deposit).
+  - Clear studio location card and Vipps payment confirmation.
+
+### F. Dynamic Scroll-and-Lock Sticky Navigation
+- Sticky nav header remains pinned at the top as the user scrolls.
+- As the user scrolls past each section (Hero, Lookbook/Gallery, Menu/Pricing, Booking Calendar, Reviews), the center/active indicator in the nav dynamically updates to reflect the current section in view (e.g. `[GALLERI]`, `[PRISLISTE]`, `[RESERVER TIME]`).
+- Brand logo stays anchored on the left; direct action/booking CTA remains accessible on the right.
+
+### G. Bespoke Vector Icons (Flaticon-Style Aesthetic)
+- ❌ Never use generic, plain monochrome line icons for product choices, lengths, nail shapes, or design tiers.
+- ✅ Always use bespoke multi-tone SVG vector illustrations (Flaticon aesthetic: colored pastel fills, `#332F32` outlines, domain-accurate motifs) that instantly communicate the option at a glance.
 
 ---
 
@@ -130,10 +152,12 @@ This document contains permanent preferences, design rules, tone-of-voice constr
 
 ## 6. Workflow & Git Safety Rules
 
-- **Git Push Policy:**
-  - Standard updates, route additions, bug fixes, copy revisions, and visual refinements can be pushed automatically once verified with a clean `npm run build`.
-  - **Only ask for explicit permission before pushing** if the changes are **very critical, involve major architectural/database breaking changes, or touch a massive number of files**.
-- **Always Test Production Builds:**
-  - Always run `npm run build` to confirm 0 TypeScript / lint errors before pushing or declaring completion.
+- **Git Push Policy (STRICT):**
+  - ❌ **NEVER `git push` automatically after tweaks or edits.**
+  - ✅ **Only commit and `git push` when the user explicitly confirms they are satisfied and instructs to push.**
+- **Build Policy (Fast Iteration):**
+  - ❌ Do NOT run `npm run build` after every minor change or UI tweak (it slows down feedback and preview).
+  - ✅ Rely on the active local dev server and run lightweight TypeScript typechecks (`npx tsc --noEmit`) to verify zero errors during iteration.
+  - ✅ Only run full `npm run build` on very large structural changes or when preparing for final user-approved pushes.
 - **Visual Verification:**
   - Verify styling integrity (desktop light, desktop dark, mobile 375px) on all UI changes before declaring completion.

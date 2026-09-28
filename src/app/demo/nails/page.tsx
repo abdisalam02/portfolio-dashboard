@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import BookingDropTemplate from "@/components/demo/BookingDropTemplate";
+import StudioKloNailsView from "@/components/demo/StudioKloNailsView";
 
 export const metadata: Metadata = {
   title: "Studio Klō (Nails) · 2,000 kr Booking Drop Demo | A.GURE",
@@ -13,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function NailsDemoPage() {
-  return <BookingDropTemplate key="nails" niche="nails" />;
+  return <StudioKloNailsView />;
 }
