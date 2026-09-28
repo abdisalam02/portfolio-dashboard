@@ -1,829 +1,993 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FiCheck,
-  FiCalendar,
+  FiX,
+  FiPlus,
+  FiShoppingBag,
+  FiArrowRight,
   FiClock,
   FiMapPin,
-  FiX,
-  FiChevronLeft,
-  FiChevronRight,
-  FiPause,
-  FiPlay,
-  FiShoppingBag,
-  FiArrowDown,
+  FiStar,
+  FiChevronDown,
 } from "react-icons/fi";
 import PreviewShell from "@/components/preview/PreviewShell";
 
-// Bespoke Artisan Patisserie Brand Mark & Crest
-function MaisonChouxLogo({ className = "w-9 h-9" }: { className?: string }) {
+// ==========================================
+// BESPOKE LUFFY CAKES LOGO & STAMP
+// ==========================================
+function LuffyCakesLogo({ className = "w-7 h-7" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="20" cy="20" r="19" stroke="#8B263E" strokeWidth="1.5" />
-      <circle cx="20" cy="20" r="16.5" stroke="#8B263E" strokeWidth="0.6" strokeDasharray="1.5 1.5" />
-      {/* Tiered Gateau Silhouette */}
-      <rect x="13" y="24" width="14" height="4" rx="1" fill="#8B263E" />
-      <rect x="15" y="19" width="10" height="4" rx="1" fill="#8B263E" />
-      <rect x="17.5" y="15" width="5" height="3" rx="0.5" fill="#8B263E" />
-      <circle cx="20" cy="12.5" r="1.5" fill="#8B263E" />
-      {/* Delicate scalloped garland */}
-      <path d="M14 24Q17 26 20 24Q23 26 26 24" stroke="#FAF7F2" strokeWidth="0.8" fill="none" />
-    </svg>
+    <div className="flex items-center gap-2">
+      <div className="relative w-8 h-8 rounded-full bg-[#FFA8C5] border-2 border-[#332F32] flex items-center justify-center shadow-xs flex-shrink-0">
+        <svg viewBox="0 0 32 32" className="w-5 h-5">
+          {/* Tiered Cake Icon */}
+          <rect x="7" y="19" width="18" height="7" rx="1.5" fill="#FAF7EE" stroke="#332F32" strokeWidth="1.5" />
+          <rect x="10" y="13" width="12" height="6" rx="1.5" fill="#FAF7EE" stroke="#332F32" strokeWidth="1.5" />
+          {/* Piped Frills */}
+          <path d="M 7 21 Q 11.5 23 16 21 Q 20.5 23 25 21" stroke="#FFA8C5" strokeWidth="2" fill="none" />
+          <path d="M 10 15 Q 13 17 16 15 Q 19 17 22 15" stroke="#FFA8C5" strokeWidth="2" fill="none" />
+          {/* Candle & Flame */}
+          <line x1="16" y1="13" x2="16" y2="8" stroke="#332F32" strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="16" cy="6.5" r="1.5" fill="#FFF59D" stroke="#332F32" strokeWidth="0.8" />
+        </svg>
+      </div>
+      <div className="flex flex-col leading-none">
+        <span className="font-black text-xs sm:text-sm tracking-tight text-[#332F32]">
+          LUFFY
+        </span>
+        <span className="font-black text-[10px] sm:text-xs tracking-wider text-[#332F32]">
+          CAKES
+        </span>
+      </div>
+    </div>
   );
 }
 
-function PatisserieSeal({ className = "w-16 h-16" }: { className?: string }) {
+// Starburst sticker matching luffy-donuts-customizer
+function SunburstSticker({
+  text,
+  className = "",
+  textSize = "text-[9px]",
+}: {
+  text: string;
+  className?: string;
+  textSize?: string;
+}) {
   return (
-    <svg className={className} viewBox="0 0 60 60" fill="none">
-      <circle cx="30" cy="30" r="28" stroke="#8B263E" strokeWidth="1.2" opacity="0.6" />
-      <circle cx="30" cy="30" r="25" stroke="#8B263E" strokeWidth="0.6" strokeDasharray="2 2" opacity="0.6" />
-      <path d="M22 36L30 18L38 36" stroke="#8B263E" strokeWidth="1.2" strokeLinecap="round" />
-      <path d="M25 31H35" stroke="#8B263E" strokeWidth="1" />
-      <circle cx="30" cy="30" r="1.5" fill="#8B263E" />
-    </svg>
+    <div className={`relative inline-flex items-center justify-center ${className}`}>
+      <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#FFF59D] fill-current animate-pulse duration-1000">
+        <polygon points="50,0 63,22 88,10 82,35 100,50 82,65 88,90 63,78 50,100 37,78 12,90 18,65 0,50 18,35 12,10 37,22" />
+      </svg>
+      <div className={`absolute inset-0 flex items-center justify-center text-center p-2 font-black uppercase text-[#332F32] leading-tight ${textSize}`}>
+        {text}
+      </div>
+    </div>
   );
 }
 
-interface CakeFlavor {
+// Cake Product Item Interface
+interface CakeItem {
   id: string;
   name: string;
-  sponge: string;
-  accent: string;
-  dotColor: string;
+  price: number;
+  description: string;
+  image: string;
 }
 
-const FLAVORS: CakeFlavor[] = [
+const DAILY_CAKES: CakeItem[] = [
+  {
+    id: "pink-lambeth-heart",
+    name: "PINK LAMBETH HEART",
+    price: 380,
+    description: "FILLED WITH STRAWBERRY CREME",
+    image: "/demo/cakes/cake-1.jpg",
+  },
+  {
+    id: "valrhona-drip-gateau",
+    name: "VALRHONA DRIP GATEAU",
+    price: 520,
+    description: "FILLED WITH SALTED CARAMEL",
+    image: "/demo/cakes/cake-2.jpg",
+  },
   {
     id: "pistachio-raspberry",
-    name: "Sicilian Pistachio & Wild Raspberry",
-    sponge: "Roasted pistachio sponge · Fresh raspberry coulis",
-    accent: "White chocolate ganache",
-    dotColor: "#E05375",
+    name: "PISTACHIO RASPBERRY",
+    price: 480,
+    description: "WILD RASPBERRY & MASCARPONE",
+    image: "/demo/cakes/cake-4.jpg",
   },
   {
-    id: "valrhona-caramel",
-    name: "Valrhona Guanaja & Salted Caramel",
-    sponge: "70% dark cocoa sponge · Fleur de sel caramel",
-    accent: "Whipped dark ganache",
-    dotColor: "#6B3A2A",
-  },
-  {
-    id: "champagne-peach",
-    name: "Champagne Peach & Madagascar Vanilla",
-    sponge: "Vanilla bean chiffon · Summer peach curd",
-    accent: "Elderflower cream",
-    dotColor: "#E8A87C",
+    id: "midnight-bento-heart",
+    name: "MIDNIGHT BENTO HEART",
+    price: 240,
+    description: "VANILLA CHIFFON & CHANTILLY",
+    image: "/demo/cakes/cake-3.jpg",
   },
 ];
 
-interface CakeTier {
-  id: string;
-  name: string;
-  slicesCount: number;
-  servings: string;
-  diameter: string;
-  price: number;
-  costPerSlice: number;
-  sliceGraphicType: "petite" | "signature" | "grand";
-  badge?: string;
-}
-
-const TIERS: CakeTier[] = [
-  {
-    id: "petite",
-    name: "Petite Celebration",
-    slicesCount: 8,
-    servings: "6–8 portions",
-    diameter: "15 cm · Single Tier",
-    price: 650,
-    costPerSlice: 81,
-    sliceGraphicType: "petite",
-  },
-  {
-    id: "signature",
-    name: "Signature Tall Lambeth",
-    slicesCount: 15,
-    servings: "12–15 portions",
-    diameter: "20 cm · Double Height",
-    price: 950,
-    costPerSlice: 63,
-    sliceGraphicType: "signature",
-    badge: "Most Ordered",
-  },
-  {
-    id: "grand",
-    name: "Grand Mariage Tiered",
-    slicesCount: 45,
-    servings: "30–45 portions",
-    diameter: "2 Stacked Tiers",
-    price: 2800,
-    costPerSlice: 62,
-    sliceGraphicType: "grand",
-  },
-];
-
-const DATES = [
-  { day: "Fri", date: "24", full: "Friday, May 24" },
-  { day: "Sat", date: "25", full: "Saturday, May 25" },
-  { day: "Sun", date: "26", full: "Sunday, May 26" },
-  { day: "Fri", date: "31", full: "Friday, May 31" },
-  { day: "Sat", date: "01", full: "Saturday, June 01" },
-];
+// Interactive Cake Constructor Options
+const CONSTRUCTOR_OPTIONS = {
+  sizes: [
+    { id: "bento", label: "BENTO MINI (10CM · 2–3 SERVINGS)", price: 240 },
+    { id: "petite", label: "PETITE GATEAU (15CM · 6–8 SERVINGS)", price: 480 },
+    { id: "signature", label: "SIGNATURE TIER (20CM · 12–16 SERVINGS)", price: 780 },
+    { id: "grand", label: "TWO-TIER GRAND (25CM · 24–30 SERVINGS)", price: 1480 },
+  ],
+  sponges: [
+    { id: "vanilla", label: "MADAGASCAR VANILLA CHIFFON" },
+    { id: "chocolate", label: "VALRHONA 70% DARK COCOA" },
+    { id: "pistachio", label: "SICILIAN ROASTED PISTACHIO" },
+    { id: "red-velvet", label: "RED VELVET BUTTERMILK" },
+    { id: "lemon", label: "LEMON POPPYSEED CRUMB" },
+  ],
+  fillings: [
+    { id: "raspberry", label: "WILD NORDIC RASPBERRY COULIS" },
+    { id: "caramel", label: "SALTED FLEUR DE SEL CARAMEL" },
+    { id: "ganache", label: "WHIPPED BELGIAN GANACHE" },
+    { id: "passion", label: "PASSIONFRUIT & MANGO CURD" },
+    { id: "mascarpone", label: "VANILLA BEAN MASCARPONE" },
+  ],
+  frostings: [
+    { id: "pink-buttercream", label: "PASTEL PINK SWISS BUTTERCREAM", preview: "/demo/cakes/cake-1.jpg" },
+    { id: "chocolate-drip", label: "DARK CHOCOLATE DRIP & ROSETTES", preview: "/demo/cakes/cake-2.jpg" },
+    { id: "white-chantilly", label: "PURE WHITE CANDLELIT CHANTILLY", preview: "/demo/cakes/cake-3.jpg" },
+    { id: "pistachio-glaze", label: "PISTACHIO GLAZE & NORDIC BERRIES", preview: "/demo/cakes/cake-4.jpg" },
+    { id: "tiered-roses", label: "GRAND TIER WITH ENGLISH ROSES", preview: "/demo/cakes/cake-5.jpg" },
+  ],
+  toppings: [
+    { id: "piped-frills", label: "VINTAGE LAMBETH PIPED FRILLS" },
+    { id: "berries", label: "FRESH RASPBERRIES & ROSE PETALS" },
+    { id: "gold-pearls", label: "EDIBLE 24K GOLD LEAF & PEARLS" },
+    { id: "macarons", label: "FRENCH MACARON CROWN (4 PCS)" },
+  ],
+};
 
 export default function PreviewCakesPage() {
-  const [selectedTier, setSelectedTier] = useState<CakeTier>(TIERS[1]);
-  const [selectedFlavor, setSelectedFlavor] = useState<CakeFlavor>(FLAVORS[0]);
-  const [selectedDate, setSelectedDate] = useState(DATES[1]);
-  const [inscription, setInscription] = useState("Happy Birthday Camilla");
-  const [clientName, setClientName] = useState("Camilla");
-  const [clientPhone, setClientPhone] = useState("+47 912 34 567");
-  const [confirmed, setConfirmed] = useState(false);
-  const [activePhotoModal, setActivePhotoModal] = useState<string | null>(null);
+  // Cart State
+  const [cart, setCart] = useState<{ id: string; name: string; price: number; count: number }[]>([
+    { id: "pink-lambeth-heart", name: "PINK LAMBETH HEART", price: 380, count: 1 },
+  ]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [addedToast, setAddedToast] = useState<string | null>(null);
 
-  // Auto-scroll gallery state & ref
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
+  // Constructor State
+  const [selectedSize, setSelectedSize] = useState(CONSTRUCTOR_OPTIONS.sizes[1]);
+  const [selectedSponge, setSelectedSponge] = useState(CONSTRUCTOR_OPTIONS.sponges[0]);
+  const [selectedFilling, setSelectedFilling] = useState(CONSTRUCTOR_OPTIONS.fillings[0]);
+  const [selectedFrosting, setSelectedFrosting] = useState(CONSTRUCTOR_OPTIONS.frostings[0]);
+  const [selectedTopping, setSelectedTopping] = useState(CONSTRUCTOR_OPTIONS.toppings[0]);
 
-  // Tight Masonry Trio sequence - Substantially enlarged & visually commanding
-  const tightMasonryBakes = [
-    { src: "/demo/cakes/cake-1.jpg", title: "Vintage Lambeth Garlands", num: "01. LAMBETH", hClass: "h-72 sm:h-96" },
-    { src: "/demo/cakes/cake-2.jpg", title: "Pearl Beaded Heart Tier", num: "02. PERLE", hClass: "h-56 sm:h-72 mt-8 sm:mt-12" },
-    { src: "/demo/cakes/cake-3.jpg", title: "Garden Pressed Violet Cake", num: "03. BOTANIQUE", hClass: "h-64 sm:h-84 mt-3 sm:mt-5" },
-    { src: "/demo/cakes/cake-4.jpg", title: "Pure White French Piping", num: "04. PUR BLANC", hClass: "h-72 sm:h-96" },
-    { src: "/demo/cakes/cake-5.jpg", title: "Wild Raspberry & Ganache", num: "05. FRAMBOISE", hClass: "h-54 sm:h-70 mt-7 sm:mt-10" },
-    { src: "/demo/cakes/cake-6.jpg", title: "Grand 2-Tier Celebration", num: "06. MARIAGE", hClass: "h-64 sm:h-84 mt-2 sm:mt-4" },
-    { src: "/demo/cakes/cake-1.jpg", title: "Vintage Lambeth Garlands", num: "07. LAMBETH", hClass: "h-72 sm:h-96" },
-    { src: "/demo/cakes/cake-2.jpg", title: "Pearl Beaded Heart Tier", num: "08. PERLE", hClass: "h-56 sm:h-72 mt-8 sm:mt-12" },
-    { src: "/demo/cakes/cake-3.jpg", title: "Pressed Flora Sponge", num: "09. BOTANIQUE", hClass: "h-64 sm:h-84 mt-3 sm:mt-5" },
-  ];
+  // Dropdown Open Toggles for Constructor
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-  // Continuous Auto-Scroll Effect
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+  // Checkout State
+  const [checkoutStep, setCheckoutStep] = useState<"cart" | "confirmed">("cart");
+  const [orderDate, setOrderDate] = useState("Saturday 2 Nov (12:00)");
+  const [customerName, setCustomerName] = useState("Mathilde V.");
+  const [customerPhone, setCustomerPhone] = useState("+47 905 43 210");
+  const [customInscription, setCustomInscription] = useState("Happy 25th Sofia!");
 
-    let animId: number;
-    const scrollStep = () => {
-      if (!isPaused && el) {
-        if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 4) {
-          el.scrollLeft = 0;
-        } else {
-          el.scrollLeft += 0.7;
-        }
+  const totalCartCount = cart.reduce((acc, item) => acc + item.count, 0);
+  const totalCartPrice = cart.reduce((acc, item) => acc + item.price * item.count, 0);
+
+  const addToCart = (name: string, price: number, id: string) => {
+    setCart((prev) => {
+      const existing = prev.find((item) => item.id === id);
+      if (existing) {
+        return prev.map((item) => (item.id === id ? { ...item, count: item.count + 1 } : item));
       }
-      animId = requestAnimationFrame(scrollStep);
-    };
-
-    animId = requestAnimationFrame(scrollStep);
-    return () => cancelAnimationFrame(animId);
-  }, [isPaused]);
-
-  // Smooth scroll to confirmation pass when order is confirmed
-  useEffect(() => {
-    if (confirmed) {
-      const timer = setTimeout(() => {
-        const pass = document.getElementById("cake-order-pass");
-        if (pass) {
-          pass.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-      }, 70);
-      return () => clearTimeout(timer);
-    }
-  }, [confirmed]);
-
-  const handleManualScroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const offset = direction === "left" ? -340 : 340;
-      scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
-    }
+      return [...prev, { id, name, price, count: 1 }];
+    });
+    setAddedToast(name);
+    setTimeout(() => setAddedToast(null), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setConfirmed(true);
+  const addConstructedToCart = () => {
+    const customId = `custom-cake-${selectedSize.id}-${Date.now()}`;
+    const customName = `CUSTOM CAKE: ${selectedSize.label.split(" ")[0]} (${selectedFrosting.label.split(" ")[0]} + ${selectedFilling.label.split(" ")[0]})`;
+    addToCart(customName, selectedSize.price, customId);
+    setCartOpen(true);
   };
 
   return (
     <PreviewShell
-      nicheTitle="Maison Choux Patisserie"
-      nicheSubtitle="Artisan Celebration Cakes · Grünerløkka"
-      accentColor="#8B263E"
+      nicheTitle="Luffy Cakes Oslo"
+      nicheSubtitle="Custom Celebration Cakes &amp; Constructor · Inspo: luffy-donuts-customizer"
+      accentColor="#FFA8C5"
     >
-      <div className="text-[#4A1521] min-h-screen overflow-x-hidden">
-        {/* BAND 1: HEADER & HERO (Warm Linen Cream Background) */}
-        <section className="bg-[#FAF7F2] border-b border-[#EBD6DC]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 py-5 sm:py-8 space-y-8 sm:space-y-10">
-            {/* Header Strapped with Logo Icon */}
-            <header className="w-full pb-4 border-b border-[#EBD6DC] flex items-center justify-between">
-              <div className="flex items-center gap-2.5 sm:gap-3">
-                <MaisonChouxLogo className="w-8 h-8 sm:w-9 sm:h-9 text-[#8B263E] flex-shrink-0" />
-                <div>
-                  <span className="font-serif text-base sm:text-xl font-bold text-[#4A1521] tracking-wide block leading-tight">
-                    MAISON CHOUX
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] uppercase font-mono tracking-widest text-[#8B263E] block">
-                    Pâtisserie Fine · Oslo
-                  </span>
+      <div className="min-h-screen bg-[#FAF7EE] text-[#332F32] font-sans selection:bg-[#FFA8C5] selection:text-[#332F32] overflow-x-hidden">
+        {/* =========================================================
+            HEADER: RECTANGULAR CELL-BORDERED GRID BAR (EXACT INSP)
+            ========================================================= */}
+        <header className="sticky top-0 z-40 bg-[#FAF7EE] border-b border-[#E5E0D5]">
+          <div className="max-w-6xl mx-auto flex items-stretch divide-x divide-[#E5E0D5] text-xs font-mono font-bold uppercase tracking-wider text-[#332F32]">
+            {/* Cell 1: Logo */}
+            <div className="p-3 sm:px-6 flex items-center flex-shrink-0">
+              <LuffyCakesLogo />
+            </div>
+
+            {/* Cell 2: Menu */}
+            <a
+              href="#menu"
+              className="hidden md:flex items-center px-5 hover:bg-[#FFA8C5]/20 transition-colors"
+            >
+              MENU
+            </a>
+
+            {/* Cell 3: Special Order */}
+            <a
+              href="#constructor"
+              className="hidden md:flex items-center px-5 hover:bg-[#FFA8C5]/20 transition-colors text-[#332F32]"
+            >
+              SPECIAL ORDER
+            </a>
+
+            {/* Cell 4: About */}
+            <a
+              href="#about"
+              className="hidden lg:flex items-center px-5 hover:bg-[#FFA8C5]/20 transition-colors"
+            >
+              ABOUT
+            </a>
+
+            {/* Cell 5: Reviews */}
+            <a
+              href="#reviews"
+              className="hidden lg:flex items-center px-5 hover:bg-[#FFA8C5]/20 transition-colors"
+            >
+              REVEIWS
+            </a>
+
+            {/* Cell 6: Contacts */}
+            <a
+              href="#contacts"
+              className="hidden sm:flex items-center px-5 hover:bg-[#FFA8C5]/20 transition-colors"
+            >
+              CONTACTS
+            </a>
+
+            {/* Cell 7: Cart / Profile Icon Pill */}
+            <div className="ml-auto flex items-center px-4 sm:px-6 gap-3">
+              <button
+                type="button"
+                onClick={() => setCartOpen(true)}
+                className="relative flex items-center gap-1.5 p-2 rounded-lg bg-[#FFA8C5]/20 hover:bg-[#FFA8C5] transition-colors text-[#332F32] cursor-pointer"
+                title="View Cake Box"
+              >
+                <FiShoppingBag size={16} />
+                <span className="font-black text-xs">{totalCartCount}</span>
+                {totalCartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#FF5983]" />
+                )}
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* =========================================================
+            SECTION 1: HERO (EXACT 50/50 SPLIT SCREEN ADAPTED FOR CAKES)
+            ========================================================= */}
+        <section className="border-b border-[#E5E0D5]">
+          <div className="grid grid-cols-1 md:grid-cols-12 min-h-[480px] sm:min-h-[560px]">
+            {/* Left 50%: Solid Bubblegum Pink Box (#FFA8C5) */}
+            <div className="md:col-span-6 bg-[#FFA8C5] p-8 sm:p-14 lg:p-20 flex flex-col justify-center space-y-6 sm:space-y-8 border-b md:border-b-0 md:border-r border-[#E5E0D5]">
+              <div className="space-y-1">
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-[#332F32] tracking-tighter leading-[0.92]">
+                  LUFFY
+                </h1>
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-[#332F32] tracking-tighter leading-[0.92]">
+                  CAKES
+                </h1>
+              </div>
+
+              <p className="font-mono text-xs sm:text-sm uppercase font-bold tracking-wider text-[#332F32]/85 max-w-md leading-relaxed">
+                TRY THE BEST ARTISANAL CELEBRATION CAKES IN OSLO WITH FREE DELIVERY! YOU CAN COMBINE YOUR OWN UNIQUE TASTE WITH OUR CAKE CONSTRUCTOR
+              </p>
+
+              {/* Exact Button with Pale Yellow Offset Box Shadow */}
+              <div>
+                <a
+                  href="#menu"
+                  className="inline-block px-10 py-3.5 bg-white text-[#332F32] font-mono font-black text-xs uppercase tracking-widest transition-transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                  style={{
+                    boxShadow: "6px 6px 0px #FFF59D",
+                  }}
+                >
+                  MENU
+                </a>
+              </div>
+            </div>
+
+            {/* Right 50%: Solid Cream Canvas with Signature Cake Showcase */}
+            <div className="md:col-span-6 bg-[#FAF7EE] p-8 sm:p-12 flex items-center justify-center relative overflow-hidden">
+              <div className="relative w-full max-w-[340px] sm:max-w-[420px] aspect-[4/5] flex items-center justify-center rounded-3xl overflow-hidden shadow-2xl border-2 border-[#E5E0D5]">
+                <Image
+                  src="/demo/cakes/cake-1.jpg"
+                  alt="Luffy Pink Lambeth Celebration Cake"
+                  fill
+                  className="object-cover hover:scale-104 transition-transform duration-700 ease-out"
+                  priority
+                />
+                <div className="absolute top-4 right-4 px-3 py-1 bg-white/95 font-mono text-[10px] font-black text-[#332F32] uppercase tracking-wider border border-[#332F32] shadow-xs">
+                  ● SIGNATURE BENTO
+                </div>
+                <div className="absolute bottom-4 left-4 right-4 p-3 bg-white/95 backdrop-blur-xs font-mono text-xs flex justify-between items-center border border-[#E5E0D5]">
+                  <div>
+                    <span className="font-black text-[#332F32] block">Vintage Heart Lambeth</span>
+                    <span className="text-[10px] text-[#666]">Swiss Meringue &amp; Chiffon</span>
+                  </div>
+                  <span className="font-black text-[#FF5983] text-sm">380 kr</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 2: "TRY THEM TODAY!" CAKE SHOWCASE
+            ========================================================= */}
+        <section id="menu" className="py-12 sm:py-20 border-b border-[#E5E0D5]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-8">
+            {/* Header with Title + Yellow Sunburst Sticker */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="space-y-0.5">
+                  <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-[#332F32] leading-none">
+                    TRY THEM
+                  </h2>
+                  <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-[#332F32] leading-none">
+                    TODAY!
+                  </h2>
+                </div>
+
+                {/* Sunburst Sticker */}
+                <SunburstSticker
+                  text="FREE DELIVERY OVER 500 KR"
+                  className="scale-90 sm:scale-100"
+                  textSize="text-[8px]"
+                />
+              </div>
+
+              <a
+                href="#menu"
+                className="font-mono text-xs font-bold uppercase tracking-wider text-[#332F32] underline underline-offset-4 hover:opacity-80"
+              >
+                SEE ALL (6 CAKES)
+              </a>
+            </div>
+
+            {/* 4-Column Cake Grid with Hairline Borders */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {DAILY_CAKES.map((item) => (
+                <div
+                  key={item.id}
+                  className="border border-[#E5E0D5] bg-[#FAF7EE] p-4 flex flex-col justify-between hover:border-[#332F32] transition-colors group"
+                >
+                  {/* High-res Cake Photography */}
+                  <div className="relative aspect-square w-full mb-4 rounded-xl overflow-hidden border border-[#E5E0D5] flex items-center justify-center">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="object-cover group-hover:scale-106 transition-transform duration-500 ease-out"
+                    />
+                  </div>
+
+                  {/* Metadata Row matching exact image layout */}
+                  <div className="space-y-2 border-t border-[#E5E0D5] pt-3 font-mono">
+                    <div className="flex items-baseline justify-between">
+                      <span className="font-black text-xs tracking-tight text-[#332F32] truncate max-w-[140px]">
+                        {item.name}
+                      </span>
+                      {/* Coral Pink Price text */}
+                      <span className="font-black text-sm text-[#FF5983]">
+                        {item.price} kr
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] text-[#666] uppercase tracking-wider truncate max-w-[150px]">
+                        {item.description}
+                      </span>
+                      {/* Square Plus Button */}
+                      <button
+                        type="button"
+                        onClick={() => addToCart(item.name, item.price, item.id)}
+                        className="w-6 h-6 border border-[#E5E0D5] hover:border-[#332F32] hover:bg-[#FFA8C5] flex items-center justify-center text-[#332F32] transition-colors cursor-pointer"
+                        title={`Add ${item.name} to order`}
+                      >
+                        <FiPlus size={12} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 3: "CREATE YOUR SPECIAL TASTE!"
+            (INTERACTIVE CAKE CONSTRUCTOR ENGINE)
+            ========================================================= */}
+        <section id="constructor" className="py-12 sm:py-20 border-b border-[#E5E0D5] bg-[#FAF7EE]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-8">
+            {/* Header + Note Sticker */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              <div className="md:col-span-6 space-y-0.5">
+                <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-[#332F32] leading-none">
+                  CREATE YOUR
+                </h2>
+                <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-[#332F32] leading-none">
+                  SPECIAL TASTE!
+                </h2>
+              </div>
+
+              <div className="md:col-span-6 flex items-center gap-3">
+                <SunburstSticker
+                  text="IMPORTANT NOTE!:"
+                  className="scale-90 flex-shrink-0"
+                  textSize="text-[8px]"
+                />
+                <p className="font-mono text-[10px] uppercase font-bold text-[#666] leading-relaxed">
+                  YOU CAN MAKE SPECIAL PRE-ORDER ONLY AT LEAST 2 DAYS IN ADVANCE! IF YOU WANT TO GET YOUR CAKE EARLIER, YOU CAN SEE ALL THE AVAILABLE SIZES FROM OUR DAILY BAKERY MENU
+                </p>
+              </div>
+            </div>
+
+            {/* Constructor Core: Dropdown Table (Left) + Dynamic Cake Render (Right) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              {/* Left: Dropdown Matrix (Exact Image Table Adapted for Cakes) */}
+              <div className="lg:col-span-7 border border-[#E5E0D5] divide-y divide-[#E5E0D5] font-mono text-xs bg-[#FAF7EE]">
+                {/* Row 1: SIZE / TIERS */}
+                <div className="relative flex items-stretch justify-between">
+                  <div className="p-4 w-32 font-black uppercase tracking-wider text-[#332F32] border-r border-[#E5E0D5] flex items-center">
+                    SIZE
+                  </div>
+                  <div className="p-4 flex-1 font-bold text-[#332F32] flex items-center">
+                    {selectedSize.label}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setOpenDropdown(openDropdown === "size" ? null : "size")}
+                    className="w-14 bg-[#FFA8C5] hover:bg-[#FF9EBC] flex items-center justify-center text-[#332F32] transition-colors cursor-pointer"
+                  >
+                    <FiChevronDown size={18} />
+                  </button>
+
+                  {/* Size Dropdown Menu */}
+                  {openDropdown === "size" && (
+                    <div className="absolute top-full left-0 right-0 z-30 bg-[#FAF7EE] border-2 border-[#332F32] shadow-xl p-2 space-y-1">
+                      {CONSTRUCTOR_OPTIONS.sizes.map((s) => (
+                        <button
+                          key={s.id}
+                          onClick={() => {
+                            setSelectedSize(s);
+                            setOpenDropdown(null);
+                          }}
+                          className="w-full p-2.5 text-left flex justify-between hover:bg-[#FFA8C5]/20 font-bold"
+                        >
+                          <span>{s.label}</span>
+                          <span className="text-[#FF5983]">{s.price} kr</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Row 2: SPONGE BASE */}
+                <div className="relative flex items-stretch justify-between">
+                  <div className="p-4 w-32 font-black uppercase tracking-wider text-[#332F32] border-r border-[#E5E0D5] flex items-center">
+                    SPONGE
+                  </div>
+                  <div className="p-4 flex-1 font-bold text-[#332F32] flex items-center">
+                    {selectedSponge.label}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setOpenDropdown(openDropdown === "sponge" ? null : "sponge")}
+                    className="w-14 bg-[#FFA8C5] hover:bg-[#FF9EBC] flex items-center justify-center text-[#332F32] transition-colors cursor-pointer"
+                  >
+                    <FiChevronDown size={18} />
+                  </button>
+
+                  {/* Sponge Dropdown Menu */}
+                  {openDropdown === "sponge" && (
+                    <div className="absolute top-full left-0 right-0 z-30 bg-[#FAF7EE] border-2 border-[#332F32] shadow-xl p-2 space-y-1">
+                      {CONSTRUCTOR_OPTIONS.sponges.map((sp) => (
+                        <button
+                          key={sp.id}
+                          onClick={() => {
+                            setSelectedSponge(sp);
+                            setOpenDropdown(null);
+                          }}
+                          className="w-full p-2.5 text-left hover:bg-[#FFA8C5]/20 font-bold"
+                        >
+                          {sp.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Row 3: FILLING / CORE */}
+                <div className="relative flex items-stretch justify-between">
+                  <div className="p-4 w-32 font-black uppercase tracking-wider text-[#332F32] border-r border-[#E5E0D5] flex items-center">
+                    FILLING
+                  </div>
+                  <div className="p-4 flex-1 font-bold text-[#332F32] flex items-center">
+                    {selectedFilling.label}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setOpenDropdown(openDropdown === "filling" ? null : "filling")}
+                    className="w-14 bg-[#FFA8C5] hover:bg-[#FF9EBC] flex items-center justify-center text-[#332F32] transition-colors cursor-pointer"
+                  >
+                    <FiChevronDown size={18} />
+                  </button>
+
+                  {/* Filling Dropdown Menu */}
+                  {openDropdown === "filling" && (
+                    <div className="absolute top-full left-0 right-0 z-30 bg-[#FAF7EE] border-2 border-[#332F32] shadow-xl p-2 space-y-1">
+                      {CONSTRUCTOR_OPTIONS.fillings.map((f) => (
+                        <button
+                          key={f.id}
+                          onClick={() => {
+                            setSelectedFilling(f);
+                            setOpenDropdown(null);
+                          }}
+                          className="w-full p-2.5 text-left hover:bg-[#FFA8C5]/20 font-bold"
+                        >
+                          {f.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Row 4: FROSTING & FINISH */}
+                <div className="relative flex items-stretch justify-between">
+                  <div className="p-4 w-32 font-black uppercase tracking-wider text-[#332F32] border-r border-[#E5E0D5] flex items-center">
+                    FROSTING
+                  </div>
+                  <div className="p-4 flex-1 font-bold text-[#332F32] flex items-center">
+                    {selectedFrosting.label}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setOpenDropdown(openDropdown === "frosting" ? null : "frosting")}
+                    className="w-14 bg-[#FFA8C5] hover:bg-[#FF9EBC] flex items-center justify-center text-[#332F32] transition-colors cursor-pointer"
+                  >
+                    <FiChevronDown size={18} />
+                  </button>
+
+                  {/* Frosting Dropdown Menu */}
+                  {openDropdown === "frosting" && (
+                    <div className="absolute top-full left-0 right-0 z-30 bg-[#FAF7EE] border-2 border-[#332F32] shadow-xl p-2 space-y-1">
+                      {CONSTRUCTOR_OPTIONS.frostings.map((fr) => (
+                        <button
+                          key={fr.id}
+                          onClick={() => {
+                            setSelectedFrosting(fr);
+                            setOpenDropdown(null);
+                          }}
+                          className="w-full p-2.5 text-left hover:bg-[#FFA8C5]/20 font-bold flex items-center justify-between"
+                        >
+                          <span>{fr.label}</span>
+                          <span className="w-3 h-3 rounded-full bg-[#FFA8C5]" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Row 5: TOPPING */}
+                <div className="relative flex items-stretch justify-between">
+                  <div className="p-4 w-32 font-black uppercase tracking-wider text-[#332F32] border-r border-[#E5E0D5] flex items-center">
+                    TOPPING
+                  </div>
+                  <div className="p-4 flex-1 font-bold text-[#332F32] flex items-center">
+                    {selectedTopping.label}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setOpenDropdown(openDropdown === "topping" ? null : "topping")}
+                    className="w-14 bg-[#FFA8C5] hover:bg-[#FF9EBC] flex items-center justify-center text-[#332F32] transition-colors cursor-pointer"
+                  >
+                    <FiChevronDown size={18} />
+                  </button>
+
+                  {/* Topping Dropdown Menu */}
+                  {openDropdown === "topping" && (
+                    <div className="absolute top-full left-0 right-0 z-30 bg-[#FAF7EE] border-2 border-[#332F32] shadow-xl p-2 space-y-1">
+                      {CONSTRUCTOR_OPTIONS.toppings.map((t) => (
+                        <button
+                          key={t.id}
+                          onClick={() => {
+                            setSelectedTopping(t);
+                            setOpenDropdown(null);
+                          }}
+                          className="w-full p-2.5 text-left hover:bg-[#FFA8C5]/20 font-bold"
+                        >
+                          {t.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 sm:gap-6 text-xs">
-                <a href="#gallery" className="text-[#783648] hover:text-[#4A1521] font-medium hidden sm:inline">
-                  Recent Bakes
-                </a>
-                <a href="#portions" className="text-[#783648] hover:text-[#4A1521] font-medium hidden sm:inline">
-                  Slices &amp; Cost
-                </a>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const el = document.getElementById("order-desk");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#8B263E] text-white hover:bg-[#731F33] transition-colors font-medium text-xs shadow-xs cursor-pointer"
-                >
-                  Order Cake ↓
-                </button>
+              {/* Right: Live Dynamic Render of Custom Constructed Cake */}
+              <div className="lg:col-span-5 border border-[#E5E0D5] bg-[#FAF7EE] p-6 flex flex-col justify-between relative group">
+                <div className="relative aspect-square w-full max-w-[300px] mx-auto rounded-2xl overflow-hidden border border-[#E5E0D5] shadow-lg flex items-center justify-center">
+                  <Image
+                    src={selectedFrosting.preview}
+                    alt="Custom Crafted Cake"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3 px-2.5 py-1 bg-white/95 font-mono text-[9px] font-black uppercase border border-[#332F32]">
+                    ● {selectedSize.label.split(" ")[0]}
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-[#E5E0D5] flex items-center justify-between font-mono">
+                  <div>
+                    <span className="text-[10px] text-[#666] uppercase block">
+                      TOTAL CONSTRUCTED PRICE:
+                    </span>
+                    <span className="font-black text-xl text-[#FF5983]">
+                      {selectedSize.price} kr
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={addConstructedToCart}
+                    className="px-5 py-2.5 bg-[#FFA8C5] hover:bg-[#FF9EBC] border border-[#332F32] font-black text-xs uppercase tracking-wider text-[#332F32] flex items-center gap-1.5 shadow-xs transition-all cursor-pointer"
+                  >
+                    <span>ADD TO CAKE BOX</span>
+                    <FiPlus size={14} />
+                  </button>
+                </div>
               </div>
-            </header>
+            </div>
+          </div>
+        </section>
 
-            {/* Fluid Editorial Hero */}
-            <div className="pt-1 sm:pt-4 pb-4">
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
-                <div className="md:col-span-7 space-y-3.5 sm:space-y-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#8B263E] font-bold">
-                      CELEBRATION PATISSERIE · GRÜNERLØKKA
-                    </span>
-                  </div>
-
-                  <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-[#4A1521] leading-[1.14] font-semibold tracking-tight">
-                    Handcrafted celebration cakes, baked fresh in Oslo.
-                  </h1>
-
-                  <p className="text-xs sm:text-sm text-[#783648] leading-relaxed max-w-lg">
-                    Vintage Lambeth garlands, organic berry curd, and real Madagascar vanilla bean. Baked to order for birthdays, weddings, and weekend tables.
+        {/* =========================================================
+            SECTION 4: ABOUT OUR CRAFT (MAKING UP MISSING COMPONENT)
+            ========================================================= */}
+        <section id="about" className="py-12 sm:py-20 border-b border-[#E5E0D5] bg-[#FAF7EE]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-8">
+            <div className="p-8 sm:p-12 bg-[#FFA8C5] border-2 border-[#332F32] shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div className="md:col-span-7 space-y-4">
+                  <span className="px-3 py-1 bg-white text-[#332F32] font-mono text-[10px] font-black uppercase tracking-widest inline-block">
+                    HAND-BAKED FROM SCRATCH IN OSLO
+                  </span>
+                  <h3 className="text-3xl sm:text-4xl font-black uppercase text-[#332F32] tracking-tight leading-tight">
+                    Pure Butter. 0% Fondant Fluff. Real Berry Coulis.
+                  </h3>
+                  <p className="font-mono text-xs uppercase text-[#332F32]/85 leading-relaxed font-bold">
+                    We bake from scratch every morning in our Grünerløkka atelier. Chilled crumb-coating, Swiss meringue buttercream that isn’t sickeningly sweet, and pure Madagascar vanilla beans.
                   </p>
+                </div>
 
-                  <div className="pt-1 flex flex-wrap gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] font-mono">
-                    <span className="px-2.5 sm:px-3 py-1 rounded-full border border-[#EBD6DC] bg-white/70 text-[#6D1B2F]">
-                      ✦ Fresh organic berries
-                    </span>
-                    <span className="px-2.5 sm:px-3 py-1 rounded-full border border-[#EBD6DC] bg-white/70 text-[#6D1B2F]">
-                      ✦ 48h notice
-                    </span>
-                    <span className="px-2.5 sm:px-3 py-1 rounded-full border border-[#EBD6DC] bg-white/70 text-[#6D1B2F]">
-                      ✦ Thorvald Meyers gate 42
-                    </span>
+                <div className="md:col-span-5 grid grid-cols-2 gap-3 font-mono text-xs">
+                  <div className="p-3 bg-white border border-[#332F32] text-center space-y-1">
+                    <span className="font-black text-xl text-[#332F32] block">100%</span>
+                    <span className="text-[9px] uppercase tracking-wider text-[#666] block">Norwegian Butter</span>
+                  </div>
+                  <div className="p-3 bg-white border border-[#332F32] text-center space-y-1">
+                    <span className="font-black text-xl text-[#332F32] block">0%</span>
+                    <span className="text-[9px] uppercase tracking-wider text-[#666] block">Stiff Fondant</span>
+                  </div>
+                  <div className="p-3 bg-white border border-[#332F32] text-center space-y-1">
+                    <span className="font-black text-xl text-[#332F32] block">2 DAGER</span>
+                    <span className="text-[9px] uppercase tracking-wider text-[#666] block">Forhåndsbestilling</span>
+                  </div>
+                  <div className="p-3 bg-white border border-[#332F32] text-center space-y-1">
+                    <span className="font-black text-xl text-[#332F32] block">4.9★</span>
+                    <span className="text-[9px] uppercase tracking-wider text-[#666] block">Oslo Reviews</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 5: REVIEWS (CELL 5 "REVEIWS" IN NAV)
+            ========================================================= */}
+        <section id="reviews" className="py-12 sm:py-20 border-b border-[#E5E0D5]">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-8">
+            <div className="flex items-center justify-between border-b border-[#E5E0D5] pb-3">
+              <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-[#332F32]">
+                WHAT CAKE LOVERS SAY
+              </h2>
+              <span className="font-mono text-xs font-bold text-[#FF5983]">
+                4.9 / 5.0 (OSLO)
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+              <div className="p-5 border border-[#E5E0D5] bg-[#FAF7EE] space-y-3">
+                <div className="flex text-[#FF5983]">
+                  {[...Array(5)].map((_, i) => (
+                    <FiStar key={i} className="fill-[#FF5983]" size={14} />
+                  ))}
+                </div>
+                <p className="font-bold text-[#332F32] leading-relaxed">
+                  &ldquo;The Pink Lambeth heart cake made Sofia’s 25th birthday unforgettable. Not too sweet, fluffy vanilla chiffon, and looks stunning in photos.&rdquo;
+                </p>
+                <span className="text-[10px] text-[#888] block uppercase">
+                  — Mathilde V., Frogner
+                </span>
+              </div>
+
+              <div className="p-5 border border-[#E5E0D5] bg-[#FAF7EE] space-y-3">
+                <div className="flex text-[#FF5983]">
+                  {[...Array(5)].map((_, i) => (
+                    <FiStar key={i} className="fill-[#FF5983]" size={14} />
+                  ))}
+                </div>
+                <p className="font-bold text-[#332F32] leading-relaxed">
+                  &ldquo;The cake constructor was so fun to use. We chose dark cocoa sponge with salted caramel drip. Delivery to Grünerløkka was right on time.&rdquo;
+                </p>
+                <span className="text-[10px] text-[#888] block uppercase">
+                  — Henrik S., Grünerløkka
+                </span>
+              </div>
+
+              <div className="p-5 border border-[#E5E0D5] bg-[#FAF7EE] space-y-3">
+                <div className="flex text-[#FF5983]">
+                  {[...Array(5)].map((_, i) => (
+                    <FiStar key={i} className="fill-[#FF5983]" size={14} />
+                  ))}
+                </div>
+                <p className="font-bold text-[#332F32] leading-relaxed">
+                  &ldquo;Finally an Oslo bakery that skips heavy American sugar bombs and focuses on French Swiss buttercream balance.&rdquo;
+                </p>
+                <span className="text-[10px] text-[#888] block uppercase">
+                  — Camilla N., Barcode Oslo
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 6: FOOTER (MATCHING CELL GRID STRUCTURE)
+            ========================================================= */}
+        <footer id="contacts" className="border-t border-[#E5E0D5] bg-[#FAF7EE]">
+          <div className="max-w-6xl mx-auto divide-y divide-[#E5E0D5] font-mono text-xs">
+            <div className="p-6 sm:p-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <LuffyCakesLogo />
+                <p className="text-[11px] text-[#666] pt-2">
+                  Artisanal Celebration Cakes, Bento Hearts &amp; Custom Cake Constructor in Oslo.
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <span className="font-black text-[#332F32] block uppercase tracking-wider">
+                  VISIT OUR CAKE ATELIER
+                </span>
+                <p className="text-[#666]">Markveien 32, 0554 Oslo (Grünerløkka)</p>
+                <p className="text-[#666]">Tir–Søn: 10:00 – 18:00 (eller tomt)</p>
+              </div>
+
+              <div className="space-y-1">
+                <span className="font-black text-[#332F32] block uppercase tracking-wider">
+                  ORDER SUPPORT &amp; VIPPS
+                </span>
+                <p className="text-[#666]">hello@luffycakes.no</p>
+                <p className="text-[#666]">Vipps Bedrift: #89210</p>
+                <p className="text-[#332F32] font-bold">@luffycakes.oslo</p>
+              </div>
+            </div>
+
+            <div className="p-4 text-center text-[10px] text-[#888] uppercase tracking-wider">
+              © 2026 LUFFY CAKES OSLO · ALL RIGHTS RESERVED
+            </div>
+          </div>
+        </footer>
+
+        {/* =========================================================
+            SLIDE-OUT CART & PRE-ORDER CHECKOUT DRAWER
+            ========================================================= */}
+        <AnimatePresence>
+          {cartOpen && (
+            <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs">
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="w-full max-w-md bg-[#FAF7EE] border-l-2 border-[#332F32] h-full flex flex-col justify-between font-mono text-xs p-6 shadow-2xl overflow-y-auto"
+              >
+                <div>
+                  <div className="flex items-center justify-between pb-4 border-b border-[#E5E0D5]">
+                    <div className="flex items-center gap-2">
+                      <FiShoppingBag size={18} className="text-[#FF5983]" />
+                      <span className="font-black text-sm uppercase text-[#332F32]">
+                        YOUR CAKE BOX ({totalCartCount})
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setCartOpen(false)}
+                      className="p-1 text-[#332F32] hover:opacity-70 cursor-pointer"
+                    >
+                      <FiX size={18} />
+                    </button>
                   </div>
 
-                  <div className="pt-2 sm:pt-3 flex items-center gap-3">
+                  {checkoutStep === "cart" ? (
+                    <div className="py-4 space-y-4">
+                      {cart.length === 0 ? (
+                        <p className="py-8 text-center text-[#888]">Your cake box is currently empty.</p>
+                      ) : (
+                        <div className="divide-y divide-[#E5E0D5]">
+                          {cart.map((item) => (
+                            <div key={item.id} className="py-3 flex items-center justify-between">
+                              <div>
+                                <span className="font-bold text-[#332F32] block">{item.name}</span>
+                                <span className="text-[10px] text-[#666]">
+                                  {item.price} kr × {item.count}
+                                </span>
+                              </div>
+                              <span className="font-black text-[#FF5983]">
+                                {item.price * item.count} kr
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="pt-4 border-t border-[#E5E0D5] space-y-3">
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-[#332F32] block mb-1">
+                            PICKUP / DELIVERY DATE (MIN. 2 DAYS IN ADVANCE):
+                          </label>
+                          <input
+                            type="text"
+                            value={orderDate}
+                            onChange={(e) => setOrderDate(e.target.value)}
+                            className="w-full p-2.5 border border-[#E5E0D5] bg-white text-[#332F32] font-bold"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-[#332F32] block mb-1">
+                            CUSTOM CAKE INSCRIPTION (E.G. &quot;HAPPY BIRTHDAY SOFIA&quot;):
+                          </label>
+                          <input
+                            type="text"
+                            value={customInscription}
+                            onChange={(e) => setCustomInscription(e.target.value)}
+                            className="w-full p-2.5 border border-[#E5E0D5] bg-white text-[#332F32]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-[#332F32] block mb-1">
+                            NAME:
+                          </label>
+                          <input
+                            type="text"
+                            value={customerName}
+                            onChange={(e) => setCustomerName(e.target.value)}
+                            className="w-full p-2.5 border border-[#E5E0D5] bg-white text-[#332F32]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-[#332F32] block mb-1">
+                            MOBILE FOR VIPPS CONFIRMATION:
+                          </label>
+                          <input
+                            type="tel"
+                            value={customerPhone}
+                            onChange={(e) => setCustomerPhone(e.target.value)}
+                            className="w-full p-2.5 border border-[#E5E0D5] bg-white text-[#332F32]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Order Confirmed Pass */
+                    <div className="py-6 space-y-4">
+                      <div className="p-4 bg-[#FFA8C5] border-2 border-[#332F32] text-center space-y-2">
+                        <span className="text-2xl">🎂</span>
+                        <h4 className="font-black text-base uppercase text-[#332F32]">
+                          CAKE RESERVATION CONFIRMED!
+                        </h4>
+                        <p className="text-[10px] uppercase font-bold text-[#332F32]">
+                          Vipps payment request sent to {customerPhone}
+                        </p>
+                      </div>
+
+                      <div className="p-4 border border-[#E5E0D5] bg-white space-y-2 text-[11px]">
+                        <div className="flex justify-between">
+                          <span className="text-[#666]">Recipient:</span>
+                          <span className="font-bold text-[#332F32]">{customerName}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-[#666]">Pickup Date:</span>
+                          <span className="font-bold text-[#332F32]">{orderDate}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-[#666]">Inscription:</span>
+                          <span className="font-bold text-[#332F32]">&ldquo;{customInscription}&rdquo;</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-[#666]">Atelier:</span>
+                          <span className="font-bold text-[#332F32]">Markveien 32, Grünerløkka</span>
+                        </div>
+                        <div className="flex justify-between border-t border-[#E5E0D5] pt-2 font-black text-[#FF5983]">
+                          <span>Total Paid:</span>
+                          <span>{totalCartPrice} kr</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  {checkoutStep === "cart" ? (
+                    <div className="space-y-3 pt-4 border-t border-[#E5E0D5]">
+                      <div className="flex justify-between text-sm font-black text-[#332F32]">
+                        <span>TOTAL:</span>
+                        <span className="text-[#FF5983]">{totalCartPrice} kr</span>
+                      </div>
+                      <button
+                        type="button"
+                        disabled={cart.length === 0}
+                        onClick={() => setCheckoutStep("confirmed")}
+                        className="w-full py-4 bg-[#332F32] text-white hover:bg-black font-black uppercase tracking-wider text-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                      >
+                        <span>CONFIRM WITH VIPPS · {totalCartPrice} KR</span>
+                        <FiArrowRight size={14} />
+                      </button>
+                    </div>
+                  ) : (
                     <button
                       type="button"
                       onClick={() => {
-                        const el = document.getElementById("portions");
-                        if (el) el.scrollIntoView({ behavior: "smooth" });
+                        setCheckoutStep("cart");
+                        setCartOpen(false);
                       }}
-                      className="px-4 sm:px-5 py-2.5 rounded-full bg-[#8B263E] text-white hover:bg-[#731F33] font-medium text-xs transition-colors shadow-xs cursor-pointer flex items-center gap-2"
+                      className="w-full py-3 border border-[#332F32] bg-white font-bold text-xs uppercase cursor-pointer"
                     >
-                      <span>Choose Size &amp; Slices</span>
-                      <FiArrowDown size={14} />
+                      CLOSE VOUCHER
                     </button>
-                    <span className="text-xs font-mono text-[#8B263E]">From 650 kr</span>
-                  </div>
-                </div>
-
-                {/* Appetizing Hero Photo Card */}
-                <div className="md:col-span-5 relative aspect-[4/3] sm:aspect-square rounded-2xl overflow-hidden border border-[#EBD6DC] shadow-sm group">
-                  <Image
-                    src="/demo/cakes/cake-1.jpg"
-                    alt="Fresh Vintage Lambeth Cake"
-                    fill
-                    className="object-cover group-hover:scale-104 transition-transform duration-700 ease-out"
-                    priority
-                  />
-                  <div className="absolute top-3 right-3">
-                    <PatisserieSeal className="w-12 h-12" />
-                  </div>
-                  <div className="absolute bottom-3 left-3 right-3 p-2.5 bg-white/95 backdrop-blur-xs rounded-xl border border-[#EBD6DC] flex items-center justify-between text-xs">
-                    <span className="font-serif font-bold text-[#4A1521]">Signature Lambeth Tier</span>
-                    <span className="text-[#8B263E] font-semibold font-mono">950 kr · 15 Slices</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* BAND 2: RECENT BAKES GALLERY (Enlarged Tight Masonry Trio, Clean Background, No "Auto-Scrolling" badge) */}
-        <section id="gallery" className="bg-[#F4E2E8] border-b border-[#E8CAD2] py-10 sm:py-16 scroll-mt-10 overflow-hidden">
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 space-y-4">
-            <div className="flex items-center justify-between text-xs px-1 border-b border-[#E0BDC7] pb-3">
-              <span className="font-serif text-base sm:text-lg font-bold text-[#4A1521]">
-                Recent Bakes
-              </span>
-
-              {/* Controls */}
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => setIsPaused(!isPaused)}
-                  className="p-1.5 rounded-md border border-[#E0BDC7] bg-white/80 hover:bg-white text-[#8B263E] text-xs transition-colors"
-                  title={isPaused ? "Play" : "Pause"}
-                >
-                  {isPaused ? <FiPlay size={11} /> : <FiPause size={11} />}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleManualScroll("left")}
-                  className="p-1.5 rounded-md border border-[#E0BDC7] bg-white/80 hover:bg-white text-[#8B263E] text-xs transition-colors"
-                >
-                  <FiChevronLeft size={13} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleManualScroll("right")}
-                  className="p-1.5 rounded-md border border-[#E0BDC7] bg-white/80 hover:bg-white text-[#8B263E] text-xs transition-colors"
-                >
-                  <FiChevronRight size={13} />
-                </button>
-              </div>
-            </div>
-
-            {/* Seamless Enlarged Tight Masonry Trio Track */}
-            <div
-              ref={scrollRef}
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-              onTouchStart={() => setIsPaused(true)}
-              onTouchEnd={() => setIsPaused(false)}
-              className="overflow-x-auto no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing py-3"
-            >
-              <div className="flex gap-4 sm:gap-6 items-start min-w-[1700px]">
-                {tightMasonryBakes.map((item, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => setActivePhotoModal(item.src)}
-                    className={`relative w-60 sm:w-80 ${item.hClass} flex-shrink-0 rounded-2xl overflow-hidden border border-[#E0BDC7] bg-white/50 cursor-pointer group shadow-sm hover:shadow-md transition-all duration-300`}
-                  >
-                    <Image
-                      src={item.src}
-                      alt={item.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3.5">
-                      <span className="text-white text-xs sm:text-sm font-serif leading-tight">
-                        {item.title}
-                      </span>
-                    </div>
-                    <span className="absolute bottom-2.5 left-2.5 px-2 py-0.5 rounded-md bg-white/95 text-[9px] font-mono font-bold text-[#8B263E] border border-[#E0BDC7] shadow-xs">
-                      {item.num}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* BAND 3: SIZES & SLICES (Normal Warm Linen Cream #FAF7F2) */}
-        <section id="portions" className="bg-[#FAF7F2] border-b border-[#EBD6DC] py-10 sm:py-16 scroll-mt-10">
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 space-y-4">
-            <div className="flex justify-between items-baseline px-1 border-b border-[#EBD6DC] pb-2">
-              <div>
-                <span className="font-serif text-base font-bold text-[#4A1521] block">
-                  Select Size &amp; Slices
-                </span>
-                <span className="text-xs text-[#783648]">Tap any tier to calculate portions and start order</span>
-              </div>
-              <span className="text-[11px] font-mono text-[#8B263E] font-semibold">
-                Cost Per Slice
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-1">
-              {TIERS.map((tier) => {
-                const isSelected = selectedTier.id === tier.id;
-                return (
-                  <div
-                    key={tier.id}
-                    onClick={() => {
-                      setSelectedTier(tier);
-                      const el = document.getElementById("order-desk");
-                      if (el) el.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className={`p-4 sm:p-5 rounded-xl border-2 bg-white/90 cursor-pointer transition-all duration-200 shadow-xs flex flex-col justify-between relative ${
-                      isSelected
-                        ? "border-[#8B263E] bg-[#FDF7F8] ring-2 ring-[#8B263E]/20 shadow-md"
-                        : "border-[#EBD6DC] hover:border-[#8B263E]/50"
-                    }`}
-                  >
-                    {tier.badge && (
-                      <span className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-[#8B263E] text-white text-[9px] font-semibold tracking-wide">
-                        {tier.badge}
-                      </span>
-                    )}
-
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <span className="text-[10px] text-[#783648] font-mono uppercase block font-semibold">
-                            {tier.diameter}
-                          </span>
-                          <h4 className="font-serif text-base font-bold text-[#4A1521]">
-                            {tier.name}
-                          </h4>
-                        </div>
-                        {isSelected && (
-                          <span className="w-5 h-5 rounded-full bg-[#8B263E] text-white flex items-center justify-center text-[10px]">
-                            ✓
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Cake Slice SVG Diagrams */}
-                      <div className="py-2 flex items-center justify-center">
-                        {tier.sliceGraphicType === "petite" && (
-                          <svg className="w-20 h-20" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="40" fill="#FDF7F8" stroke="#8B263E" strokeWidth="2.5" />
-                            <line x1="50" y1="10" x2="50" y2="90" stroke="#8B263E" strokeWidth="1.5" strokeDasharray="3,3" />
-                            <line x1="10" y1="50" x2="90" y2="50" stroke="#8B263E" strokeWidth="1.5" strokeDasharray="3,3" />
-                            <line x1="22" y1="22" x2="78" y2="78" stroke="#8B263E" strokeWidth="1.5" strokeDasharray="3,3" />
-                            <line x1="78" y1="22" x2="22" y2="78" stroke="#8B263E" strokeWidth="1.5" strokeDasharray="3,3" />
-                            <path d="M 50 50 L 50 10 A 40 40 0 0 1 78 22 Z" fill="#8B263E" opacity="0.3" />
-                            {[0, 45, 90, 135, 180, 225, 270, 315].map((ang, i) => {
-                              const rad = (ang * Math.PI) / 180;
-                              const x = 50 + 36 * Math.cos(rad);
-                              const y = 50 + 36 * Math.sin(rad);
-                              return <circle key={i} cx={x} cy={y} r="2.5" fill="#8B263E" />;
-                            })}
-                            <circle cx="50" cy="50" r="5" fill="#8B263E" />
-                          </svg>
-                        )}
-
-                        {tier.sliceGraphicType === "signature" && (
-                          <svg className="w-20 h-20" viewBox="0 0 100 100">
-                            <rect x="22" y="34" width="56" height="46" rx="5" fill="#FDF7F8" stroke="#8B263E" strokeWidth="2.5" />
-                            <line x1="36" y1="34" x2="36" y2="80" stroke="#8B263E" strokeWidth="1.5" strokeDasharray="3,3" />
-                            <line x1="50" y1="34" x2="50" y2="80" stroke="#8B263E" strokeWidth="1.5" strokeDasharray="3,3" />
-                            <line x1="64" y1="34" x2="64" y2="80" stroke="#8B263E" strokeWidth="1.5" strokeDasharray="3,3" />
-                            <ellipse cx="50" cy="34" rx="28" ry="11" fill="#FFFFFF" stroke="#8B263E" strokeWidth="2.5" />
-                            <path d="M 24 50 Q 36 60 50 50 Q 64 60 76 50" fill="none" stroke="#8B263E" strokeWidth="2" />
-                            <circle cx="50" cy="30" r="4" fill="#8B263E" />
-                          </svg>
-                        )}
-
-                        {tier.sliceGraphicType === "grand" && (
-                          <svg className="w-20 h-20" viewBox="0 0 100 100">
-                            <rect x="16" y="52" width="68" height="34" rx="4" fill="#FDF7F8" stroke="#8B263E" strokeWidth="2.5" />
-                            <line x1="33" y1="52" x2="33" y2="86" stroke="#8B263E" strokeWidth="1" strokeDasharray="2,2" />
-                            <line x1="50" y1="52" x2="50" y2="86" stroke="#8B263E" strokeWidth="1" strokeDasharray="2,2" />
-                            <line x1="67" y1="52" x2="67" y2="86" stroke="#8B263E" strokeWidth="1" strokeDasharray="2,2" />
-                            <rect x="28" y="24" width="44" height="28" rx="4" fill="#FFFFFF" stroke="#8B263E" strokeWidth="2" />
-                            <line x1="50" y1="24" x2="50" y2="52" stroke="#8B263E" strokeWidth="1" strokeDasharray="2,2" />
-                            <circle cx="50" cy="18" r="4" fill="#8B263E" />
-                          </svg>
-                        )}
-                      </div>
-
-                      {/* Slices & Cost Info */}
-                      <div className="space-y-1 text-center font-mono">
-                        <span className="text-xs font-semibold text-[#4A1521] block">
-                          {tier.servings}
-                        </span>
-                        <div className="inline-block px-2.5 py-0.5 rounded-full bg-[#FAF7F2] border border-[#EBD6DC] text-[11px] text-[#8B263E] font-bold">
-                          ~{tier.costPerSlice} kr / slice
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-3 pt-2.5 border-t border-[#EBD6DC] flex justify-between items-center text-xs font-mono">
-                      <span className="text-[#783648]">Total:</span>
-                      <span className="text-base font-bold text-[#8B263E]">
-                        {tier.price} kr
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* BAND 4: FLAVORS TASTING MENU (Picnic Mat Accent Band: Warm Almond Brioche #F1E6DC) */}
-        <section className="bg-[#F1E6DC] border-b border-[#E3D3C5] py-10 sm:py-14">
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 space-y-3">
-            <span className="font-serif text-base font-bold text-[#4A1521] block px-1 border-b border-[#E3D3C5] pb-2">
-              Patisserie Flavors
-            </span>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-              {FLAVORS.map((f) => {
-                const isSelected = selectedFlavor.id === f.id;
-                return (
-                  <div
-                    key={f.id}
-                    onClick={() => setSelectedFlavor(f)}
-                    className={`p-3.5 rounded-xl border bg-white/80 cursor-pointer transition-all ${
-                      isSelected
-                        ? "border-[#8B263E] bg-[#FAF7F2] ring-1 ring-[#8B263E]"
-                        : "border-[#E3D3C5] hover:border-[#8B263E]/40"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <span
-                        className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: f.dotColor }}
-                      />
-                      <h4 className="font-serif text-xs font-bold text-[#4A1521] truncate">
-                        {f.name}
-                      </h4>
-                    </div>
-                    <p className="text-[11px] text-[#783648] leading-snug">
-                      {f.sponge}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* BAND 5: ORDER DESK (Normal Warm Linen Cream #FAF7F2) */}
-        <section id="order-desk" className="bg-[#FAF7F2] py-10 sm:py-16 scroll-mt-10">
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 space-y-5">
-            <div className="flex items-center justify-between border-b border-[#EBD6DC] pb-2">
-              <div className="flex items-center gap-2.5">
-                <MaisonChouxLogo className="w-5 h-5 text-[#8B263E]" />
-                <span className="font-serif text-base font-bold text-[#4A1521]">
-                  ORDER YOUR CAKE
-                </span>
-              </div>
-              <span className="text-xs font-mono text-[#783648]">Thorvald Meyers gate 42</span>
-            </div>
-
-            <div className="space-y-6">
-              {!confirmed ? (
-                <form onSubmit={handleSubmit} className="space-y-5 text-xs">
-                  {/* Step 1: Selected Size & Price Summary */}
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#8B263E] block">
-                      1. Chosen Format
-                    </label>
-                    <div className="p-3.5 rounded-xl border border-[#8B263E] bg-white/90 flex justify-between items-center shadow-xs">
-                      <div>
-                        <span className="font-serif text-sm font-bold text-[#4A1521] block">
-                          {selectedTier.name} ({selectedTier.servings})
-                        </span>
-                        <span className="text-[11px] text-[#783648] font-mono">
-                          {selectedTier.diameter} · ~{selectedTier.costPerSlice} kr / slice
-                        </span>
-                      </div>
-                      <span className="text-base font-bold text-[#8B263E] font-mono">
-                        {selectedTier.price} kr
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Step 2: Flavor Choice */}
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#8B263E] block">
-                      2. Flavor Profile
-                    </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      {FLAVORS.map((f) => {
-                        const isSelected = selectedFlavor.id === f.id;
-                        return (
-                          <button
-                            key={f.id}
-                            type="button"
-                            onClick={() => setSelectedFlavor(f)}
-                            className={`p-2.5 rounded-lg border text-left transition-all ${
-                              isSelected
-                                ? "border-[#8B263E] bg-[#FDF7F8] font-bold text-[#4A1521]"
-                                : "border-[#EBD6DC] bg-white/70 text-[#783648] hover:bg-white"
-                            }`}
-                          >
-                            <span className="block truncate">{f.name}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Step 3: Piped Fondant Inscription */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between items-center">
-                      <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#8B263E] block">
-                        3. Piped Inscription on Cake
-                      </label>
-                      <span className="text-[10px] text-[#783648] font-mono">Live cursive preview</span>
-                    </div>
-
-                    <input
-                      type="text"
-                      value={inscription}
-                      onChange={(e) => setInscription(e.target.value)}
-                      placeholder="e.g. Happy Birthday Camilla"
-                      maxLength={32}
-                      className="w-full p-2.5 border border-[#EBD6DC] rounded-lg bg-white text-[#4A1521] font-medium outline-none focus:border-[#8B263E] shadow-2xs"
-                    />
-
-                    {/* Live French Calligraphy Fondant Preview */}
-                    <div className="p-3.5 rounded-lg border border-[#EBD6DC] bg-white/70 text-center">
-                      <span className="text-[10px] text-[#783648] uppercase tracking-wider font-mono block mb-1">
-                        Piped in French Calligraphy:
-                      </span>
-                      <span className="font-serif italic text-xl text-[#8B263E] block">
-                        &ldquo;{inscription || "Your Message"}&rdquo;
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Step 4: Pick Up Date */}
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#8B263E] block">
-                      4. Pick Up Date (Grünerløkka)
-                    </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 font-mono">
-                      {DATES.map((d) => {
-                        const isSelected = selectedDate.full === d.full;
-                        return (
-                          <button
-                            key={d.full}
-                            type="button"
-                            onClick={() => setSelectedDate(d)}
-                            className={`p-2.5 rounded-lg border text-center transition-all ${
-                              isSelected
-                                ? "bg-[#8B263E] text-white border-[#8B263E] font-bold shadow-xs"
-                                : "bg-white/70 border-[#EBD6DC] text-[#4A1521] hover:border-[#8B263E]/40"
-                            }`}
-                          >
-                            <span className="text-[10px] block opacity-80">{d.day}</span>
-                            <span className="text-sm font-bold block">{d.date}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Step 5: Name & Vipps Contact */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                    <div>
-                      <label className="text-[10px] text-[#783648] block mb-1 font-mono">Your Name</label>
-                      <input
-                        type="text"
-                        required
-                        value={clientName}
-                        onChange={(e) => setClientName(e.target.value)}
-                        placeholder="Camilla"
-                        className="w-full p-2.5 border border-[#EBD6DC] rounded-lg bg-white text-[#4A1521] outline-none focus:border-[#8B263E]"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] text-[#783648] block mb-1 font-mono">Mobile for Vipps Confirmation</label>
-                      <input
-                        type="tel"
-                        required
-                        value={clientPhone}
-                        onChange={(e) => setClientPhone(e.target.value)}
-                        placeholder="+47 912 34 567"
-                        className="w-full p-2.5 border border-[#EBD6DC] rounded-lg bg-white text-[#4A1521] outline-none focus:border-[#8B263E]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Submit Order Button */}
-                  <button
-                    type="submit"
-                    className="w-full py-3.5 px-6 rounded-xl bg-[#8B263E] hover:bg-[#731F33] text-white font-medium text-sm transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <FiShoppingBag size={15} />
-                    <span>Confirm Order · Vipps {selectedTier.price} kr</span>
-                  </button>
-                </form>
-              ) : (
-                /* Confirmed Bakery Collection Slip (Smooth scroll target) */
-                <motion.div
-                  id="cake-order-pass"
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="p-5 sm:p-6 rounded-2xl border-2 border-[#8B263E] bg-[#FDF7F8] space-y-4 shadow-sm"
-                >
-                  <div className="flex justify-between items-start border-b border-[#EBD6DC] pb-3">
-                    <div className="flex items-center gap-2.5 sm:gap-3">
-                      <MaisonChouxLogo className="w-8 h-8 sm:w-10 sm:h-10 text-[#8B263E] flex-shrink-0" />
-                      <div>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold inline-block mb-1">
-                          ● ORDER CONFIRMED
-                        </span>
-                        <h3 className="font-serif text-base sm:text-lg font-bold text-[#4A1521]">
-                          Maison Choux Collection Pass
-                        </h3>
-                        <span className="text-xs text-[#783648]">Reserved for {clientName}</span>
-                      </div>
-                    </div>
-                    <span className="text-base sm:text-lg font-bold text-[#8B263E] font-mono">
-                      {selectedTier.price} kr
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 text-xs">
-                    <div>
-                      <span className="text-[10px] text-[#783648] font-mono block">Format:</span>
-                      <span className="font-semibold text-[#4A1521]">
-                        {selectedTier.name} ({selectedTier.servings})
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-[#783648] font-mono block">Flavor:</span>
-                      <span className="font-semibold text-[#4A1521]">
-                        {selectedFlavor.name}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-[#783648] font-mono block">Pick Up Date:</span>
-                      <span className="font-semibold text-[#4A1521]">
-                        {selectedDate.full} (10:00 – 16:00)
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-[#783648] font-mono block">Atelier Location:</span>
-                      <span className="font-semibold text-[#4A1521]">
-                        Thorvald Meyers gate 42, Oslo
-                      </span>
-                    </div>
-                  </div>
-
-                  {inscription && (
-                    <div className="p-3 rounded-lg border border-[#EBD6DC] bg-white text-center">
-                      <span className="text-[10px] text-[#783648] font-mono block">Fondant Script:</span>
-                      <span className="font-serif italic text-base text-[#8B263E]">
-                        &ldquo;{inscription}&rdquo;
-                      </span>
-                    </div>
                   )}
-
-                  <div className="pt-2 flex justify-between items-center text-xs">
-                    <span className="text-[10px] sm:text-[11px] text-[#783648]">Vipps receipt sent to {clientPhone}</span>
-                    <button
-                      type="button"
-                      onClick={() => setConfirmed(false)}
-                      className="text-[#8B263E] underline font-medium hover:text-[#731F33]"
-                    >
-                      Modify Order
-                    </button>
-                  </div>
-                </motion.div>
-              )}
+                </div>
+              </motion.div>
             </div>
-          </div>
-        </section>
+          )}
+        </AnimatePresence>
 
-        {/* BAND 6: FOOTER (Deep Heritage Burgundy Accent Band #4A1521) */}
-        <footer className="bg-[#4A1521] text-[#FAF7F2] py-8 border-t border-[#3B111A]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 text-center space-y-2">
-            <div className="flex justify-center items-center gap-2">
-              <MaisonChouxLogo className="w-5 h-5 text-[#FAF7F2]" />
-              <span className="font-serif font-bold text-white tracking-wider">MAISON CHOUX</span>
-            </div>
-            <p className="font-mono text-[10px] sm:text-[11px] text-[#FAF7F2]/80">Thorvald Meyers gate 42, 0555 Oslo · Tuesday – Sunday 09:00–17:00</p>
-          </div>
-        </footer>
+        {/* Floating Added Toast */}
+        <AnimatePresence>
+          {addedToast && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="fixed bottom-6 right-6 z-50 px-4 py-2.5 bg-[#332F32] text-white border-2 border-[#FFA8C5] shadow-xl font-mono text-xs font-bold uppercase flex items-center gap-2"
+            >
+              <span>🎂 Added to Box:</span>
+              <span className="text-[#FFA8C5]">{addedToast}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {activePhotoModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActivePhotoModal(null)}
-            className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 backdrop-blur-xs"
-          >
-            <div className="relative max-w-lg w-full aspect-square rounded-xl overflow-hidden border border-white/20">
-              <Image
-                src={activePhotoModal}
-                alt="Enlarged Cake"
-                fill
-                className="object-cover"
-              />
-              <button
-                type="button"
-                onClick={() => setActivePhotoModal(null)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-black/70 text-white hover:bg-black"
-              >
-                <FiX size={18} />
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </PreviewShell>
   );
 }
