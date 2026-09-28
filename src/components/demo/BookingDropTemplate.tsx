@@ -36,7 +36,6 @@ import {
   nailsDemoConfig,
   weddingDemoConfig,
   decorationsDemoConfig,
-  hennaDemoConfig,
   DemoNiche,
   PaletteTheme,
   ServiceItem,
@@ -55,8 +54,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
       ? weddingDemoConfig
       : niche === "decorations"
       ? decorationsDemoConfig
-      : niche === "henna"
-      ? hennaDemoConfig
       : cakesDemoConfig;
 
   const flagshipService =
@@ -64,8 +61,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
       ? config.services.find((s) => s.id === "full-bespoke-wedding")
       : config.id === "decorations"
       ? config.services.find((s) => s.id === "full-wedding-stage")
-      : config.id === "henna"
-      ? config.services.find((s) => s.id === "grand-bridal-suite")
       : null;
 
   // Active Theme / Palette - Synchronizes immediately when route / niche changes
@@ -429,9 +424,9 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         )}
 
         {/* -------------------------------------------------------------
-            ARCHETYPE C: EDITORIAL EXHIBITION (WEDDINGS / DECOR / HENNA)
+            ARCHETYPE C: EDITORIAL EXHIBITION (WEDDINGS / DECOR)
             ------------------------------------------------------------- */}
-        {(config.id === "wedding" || config.id === "decorations" || config.id === "henna") && (
+        {(config.id === "wedding" || config.id === "decorations") && (
           <section
             id="brand-hero"
             className="text-center space-y-5 pt-2 pb-6 border-b scroll-mt-20"
@@ -489,9 +484,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 <span>
                   {config.id === "wedding"
                     ? "Inquire for 2025"
-                    : config.id === "decorations"
-                    ? "Check Event Date"
-                    : "Reserve Mendhi Chair"}
+                    : "Check Event Date"}
                 </span>
               </button>
               <button
@@ -507,7 +500,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 }}
               >
                 <span>
-                  {config.id === "decorations" ? "View Setups" : config.id === "henna" ? "View Lookbook" : "View Portfolio"}
+                  {config.id === "decorations" ? "View Setups" : "View Portfolio"}
                 </span>
                 <FiChevronRight size={13} />
               </button>
@@ -641,9 +634,9 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         )}
 
         {/* -------------------------------------------------------------
-            METHOD C (WEDDING / DECOR / HENNA): CURATED LOOKBOOK EXHIBITION
+            METHOD C (WEDDING / DECOR): CURATED LOOKBOOK EXHIBITION
             ------------------------------------------------------------- */}
-        {(config.id === "wedding" || config.id === "decorations" || config.id === "henna") && (
+        {(config.id === "wedding" || config.id === "decorations") && (
           <section id="lookbook-gallery" className="space-y-4 pt-6 border-t scroll-mt-20" style={{ borderColor: activePalette.border }}>
             {/* Striking Section Kicker */}
             <div className="flex items-center gap-2">
@@ -655,10 +648,10 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                   color: activePalette.accent,
                 }}
               >
-                01 · {config.id === "wedding" ? "Portfolio & Commissions" : config.id === "decorations" ? "Lookbook & Installations" : "Mendhi & Art Lookbook"}
+                01 · {config.id === "wedding" ? "Portfolio & Commissions" : "Lookbook & Installations"}
               </span>
               <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase" style={{ color: activePalette.muted }}>
-                {config.id === "wedding" ? "Oslo & Surrounding Venues" : config.id === "decorations" ? "Oslo Zone 1 & Viken" : "Torggata 22 & On-Site Oslo"}
+                {config.id === "wedding" ? "Oslo & Surrounding Venues" : "Oslo Zone 1 & Viken"}
               </span>
             </div>
 
@@ -670,10 +663,10 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 className="text-2xl sm:text-3xl font-light tracking-wide uppercase"
                 style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
               >
-                {config.id === "wedding" ? "Signature Floral Works" : config.id === "decorations" ? "Event Backdrops & Arches" : "Artisan Mendhi Portfolio"}
+                {config.id === "wedding" ? "Signature Floral Works" : "Event Backdrops & Arches"}
               </h2>
               <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
-                {config.id === "wedding" ? "Curated Editorial Commissions" : config.id === "decorations" ? "6 Signature Styles · Oslo" : "Fine-Line & Rajasthani Henna"}
+                {config.id === "wedding" ? "Curated Editorial Commissions" : "6 Signature Styles · Oslo"}
               </span>
             </div>
 
@@ -1054,9 +1047,9 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
         )}
 
         {/* -------------------------------------------------------------
-            MENU C: ARCHITECTURAL MONOGRAPH COMMISSION GUIDE (WEDDING / DECOR / HENNA)
+            MENU C: ARCHITECTURAL MONOGRAPH COMMISSION GUIDE (WEDDING / DECOR)
             ------------------------------------------------------------- */}
-        {(config.id === "wedding" || config.id === "decorations" || config.id === "henna") && (
+        {(config.id === "wedding" || config.id === "decorations") && (
           <section id="services-menu" className="space-y-6 pt-6 border-t scroll-mt-20" style={{ borderColor: activePalette.border }}>
             {/* Striking Section Kicker */}
             <div className="flex items-center gap-2">
@@ -1068,10 +1061,10 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                   color: activePalette.accent,
                 }}
               >
-                02 · {config.id === "wedding" ? "Investment & Packages" : config.id === "decorations" ? "Setups & Event Suites" : "Mendhi Menu & Bridal Suites"}
+                02 · {config.id === "wedding" ? "Investment & Packages" : "Setups & Event Suites"}
               </span>
               <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase" style={{ color: activePalette.muted }}>
-                {config.id === "wedding" ? "Floral Suites & Day-Of Styling" : config.id === "decorations" ? "On-Site Rigging & Tear-Down" : "Torggata Studio & On-Site Oslo"}
+                {config.id === "wedding" ? "Floral Suites & Day-Of Styling" : "On-Site Rigging & Tear-Down"}
               </span>
             </div>
 
@@ -1083,10 +1076,10 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 className="text-2xl sm:text-3xl font-light tracking-wide uppercase"
                 style={{ fontFamily: config.fontFamilyHeading, color: activePalette.text }}
               >
-                {config.id === "wedding" ? "Packages & Investment" : config.id === "decorations" ? "Setups & Rates" : "Services & Rates"}
+                {config.id === "wedding" ? "Packages & Investment" : "Setups & Rates"}
               </h2>
               <span className="text-[11px] sm:text-xs font-mono" style={{ color: activePalette.muted }}>
-                {config.id === "wedding" ? "Oslo & Surrounding Venues" : config.id === "decorations" ? "Oslo Zone 1 · Setup Included" : "Natural Henna & Jagua · NOK"}
+                {config.id === "wedding" ? "Oslo & Surrounding Venues" : "Oslo Zone 1 · Setup Included"}
               </span>
             </div>
 
@@ -1294,8 +1287,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 ? "02 · Chair Reservation Slip"
                 : config.id === "decorations"
                 ? "03 · Event Setup Slip"
-                : config.id === "henna"
-                ? "03 · Mendhi Chair Slip"
                 : "03 · Consultation & Inquiry"}
             </span>
             <span className="text-[10px] font-mono tracking-wider opacity-60 uppercase" style={{ color: activePalette.muted }}>
@@ -1305,8 +1296,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 ? "Grünerløkka Studio 4B"
                 : config.id === "decorations"
                 ? "Oslo Zone 1 Delivery & Styling"
-                : config.id === "henna"
-                ? "Torggata 22 Studio & On-Site"
                 : "2025/2026 Calendar"}
             </span>
           </div>
@@ -1811,8 +1800,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                   <h3 className="text-xl sm:text-2xl font-light font-heading tracking-wide" style={{ color: activePalette.text }}>
                     {config.id === "decorations"
                       ? "Event Styling & Backdrop Inquiry"
-                      : config.id === "henna"
-                      ? "Mendhi Studio / On-Site Booking"
                       : "Wedding Commission Inquiry"}
                   </h3>
                   <p className="text-xs font-mono" style={{ color: activePalette.muted }}>
@@ -1823,7 +1810,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 {/* 1. Consultation Format / Setting */}
                 <div className="space-y-2">
                   <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
-                    1. {config.id === "decorations" ? "Setup Category" : config.id === "henna" ? "Appointment Location" : "Consultation Format"}
+                    1. {config.id === "decorations" ? "Setup Category" : "Consultation Format"}
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button
@@ -1841,15 +1828,11 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                         <span className="font-bold block text-xs font-mono">
                           {config.id === "decorations"
                             ? "Indoor Venue / Ballroom"
-                            : config.id === "henna"
-                            ? "Studio Chair (Torggata 22)"
                             : "In-Studio Coffee & Moodboard"}
                         </span>
                         <span className="text-[10px] font-mono opacity-70">
                           {config.id === "decorations"
                             ? "Hotel, banquet hall, or private loft"
-                            : config.id === "henna"
-                            ? "Private 1-on-1 studio session"
                             : "Oscars gate atelier, Frogner Oslo"}
                         </span>
                       </div>
@@ -1870,15 +1853,11 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                         <span className="font-bold block text-xs font-mono">
                           {config.id === "decorations"
                             ? "Outdoor / Marquee Garden"
-                            : config.id === "henna"
-                            ? "On-Site / Bridal Venue"
                             : "Online Video Consultation"}
                         </span>
                         <span className="text-[10px] font-mono opacity-70">
                           {config.id === "decorations"
                             ? "Weather-protected lawn or tent"
-                            : config.id === "henna"
-                            ? "We travel to your home/venue in Oslo"
                             : "Google Meet link provided"}
                         </span>
                       </div>
@@ -1889,7 +1868,7 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 {/* 2. Venue & Region */}
                 <div className="space-y-2">
                   <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
-                    2. {config.id === "decorations" ? "Event Venue Name & Oslo Address *" : config.id === "henna" ? "Your Area in Oslo / Studio *" : "Ceremony & Reception Venue Location *"}
+                    2. {config.id === "decorations" ? "Event Venue Name & Oslo Address *" : "Ceremony & Reception Venue Location *"}
                   </label>
                   <input
                     type="text"
@@ -1899,8 +1878,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     placeholder={
                       config.id === "decorations"
                         ? "e.g. 'Gamle Logen Oslo / Bølgen & Moi Tjuvholmen'"
-                        : config.id === "henna"
-                        ? "e.g. 'Studio appointment / Majorstuen residence'"
                         : "e.g. 'Villa Eckbo, Frogner / Losby Gods / Hadeland Glassverk'"
                     }
                     className="w-full px-4 py-2.5 rounded-xl border text-xs font-mono focus:outline-none"
@@ -1915,13 +1892,13 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                 {/* 3. Estimated Guest Count Scale */}
                 <div className="space-y-2">
                   <label className="text-xs font-mono font-semibold uppercase tracking-wider block" style={{ color: activePalette.text }}>
-                    3. {config.id === "decorations" ? "Event Scale" : config.id === "henna" ? "Appointment Size" : "Estimated Guest Count Scale"}
+                    3. {config.id === "decorations" ? "Event Scale" : "Estimated Guest Count Scale"}
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     {[
-                      { id: "<40", label: config.id === "henna" ? "Solo Guest" : "Intimate (<40)" },
-                      { id: "40-80", label: config.id === "henna" ? "Bride + 1" : "Classic (40–80)" },
-                      { id: "80-150+", label: config.id === "henna" ? "Group (3+)" : "Grand (80–150+)" },
+                      { id: "<40", label: "Intimate (<40)" },
+                      { id: "40-80", label: "Classic (40–80)" },
+                      { id: "80-150+", label: "Grand (80–150+)" },
                     ].map((count) => {
                       const isSelected = weddingGuestCount === count.id;
                       return (
@@ -2072,8 +2049,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     <span>
                       {config.id === "decorations"
                         ? `Submit Event Booking · ${selectedService.price.toLocaleString("no-NO")} kr`
-                        : config.id === "henna"
-                        ? `Confirm Mendhi Booking · ${selectedService.price.toLocaleString("no-NO")} kr`
                         : `Submit Wedding Inquiry · ${selectedService.price > 0 ? `${selectedService.price.toLocaleString("no-NO")} kr` : "Complimentary Consultation"}`}
                     </span>
                   </button>
@@ -2102,8 +2077,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     ? "Wedding Commission Inquiry Received"
                     : config.id === "decorations"
                     ? "Aura Decor Event Booking Confirmed"
-                    : config.id === "henna"
-                    ? "Noor Henna Chair Reservation Confirmed"
                     : config.id === "nails"
                     ? "Studio Klō Digital Booking Pass"
                     : "Bon de Commande Reçu"}
@@ -2162,16 +2135,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
                     <span style={{ color: activePalette.muted }}>Venue &amp; Location:</span>
                     <span className="font-bold text-right" style={{ color: activePalette.text }}>
                       {weddingVenue} ({weddingGuestCount})
-                    </span>
-                  </div>
-                )}
-
-                {/* Henna Specs Summary */}
-                {config.id === "henna" && (
-                  <div className="flex justify-between border-b pb-2" style={{ borderColor: activePalette.border }}>
-                    <span style={{ color: activePalette.muted }}>Henna Care:</span>
-                    <span className="font-bold text-right" style={{ color: activePalette.accent }}>
-                      Organic Rajasthani Paste &amp; Balm Included
                     </span>
                   </div>
                 )}
@@ -2235,8 +2198,6 @@ export default function BookingDropTemplate({ niche = "cakes" }: BookingDropTemp
             ? "Studio 4B · Grünerløkka · 48h Cancellation Notice"
             : config.id === "decorations"
             ? "On-Site Installation · Oslo Zone 1 · Free Cancellation up to 7 Days"
-            : config.id === "henna"
-            ? "Studio Torggata 22 · 100% Organic Henna · 48h Notice"
             : "By Appointment Only · Oslo & Surrounding Venues"}
         </p>
         <div className="h-px w-12 mx-auto" style={{ backgroundColor: activePalette.border }} />

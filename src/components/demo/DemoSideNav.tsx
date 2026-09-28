@@ -34,13 +34,6 @@ export default function DemoSideNav({ currentDemo, palette }: DemoSideNavProps) 
           { id: "services-menu", label: "Suites", icon: FiBookOpen },
           { id: "booking-form-section", label: "Reserve", icon: FiCalendar },
         ]
-      : currentDemo === "henna"
-      ? [
-          { id: "brand-hero", label: "Atelier", icon: FiCompass },
-          { id: "lookbook-gallery", label: "Mendhi", icon: FiImage },
-          { id: "services-menu", label: "Packages", icon: FiBookOpen },
-          { id: "booking-form-section", label: "Book", icon: FiCalendar },
-        ]
       : [
           { id: "brand-hero", label: "Studio", icon: FiCompass },
           { id: "lookbook-gallery", label: "Works", icon: FiImage },

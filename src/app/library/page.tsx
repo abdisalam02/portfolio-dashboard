@@ -174,6 +174,12 @@ export default function UILibraryPage() {
               <span className="px-2 py-0.5 bg-foreground text-background text-[10px] font-mono font-bold">
                 197 COMPONENTS
               </span>
+              <Link
+                href="/inspo"
+                className="px-2 py-0.5 border border-card-border text-[10px] font-mono font-bold uppercase text-muted hover:text-foreground hover:border-foreground transition-colors"
+              >
+                INSPO VAULT (61)
+              </Link>
               <span className="text-muted text-xs hidden lg:inline">·</span>
               <span className="text-xs font-mono text-muted hidden lg:inline">
                 {filteredItems.length} matching styles
@@ -373,8 +379,144 @@ export default function UILibraryPage() {
         )}
       </header>
 
+      {/* Curated Assembled Live Showcases Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-8 mt-5 mb-8">
+        <div className="p-4 sm:p-5 border-2 border-foreground bg-card shadow-sm font-mono text-xs">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-card-border">
+            <div>
+              <span className="text-[10px] uppercase font-bold text-emerald-600 tracking-wider block">
+                ● LIVE SHOWCASES READY
+              </span>
+              <h2 className="font-heading font-black text-base sm:text-lg uppercase text-foreground">
+                2 Curated Websites Assembled Directly From This Vault
+              </h2>
+            </div>
+            <span className="text-[11px] text-muted">
+              Built with fluid deceleration, visual treatment selectors, and instant booking slips
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+            <Link
+              href="/preview/nails"
+              className="p-4 border border-card-border hover:border-foreground bg-background hover:shadow-xs transition-all group rounded-none"
+            >
+              <div className="flex items-center justify-between text-sm font-bold text-foreground">
+                <span>💅 1. Atelier Klō Studio Nails</span>
+                <span className="text-muted group-hover:translate-x-0.5 transition-transform">→</span>
+              </div>
+              <span className="text-xs text-muted block mt-1">
+                Scandinavian Natural BIAB Atelier · Visual Treatment Booking &amp; Frogner Studio
+              </span>
+              <div className="flex items-center gap-2 mt-3">
+                <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono inline-block">
+                  CLEAN NAIL ATELIER
+                </span>
+                <span className="text-[9px] text-muted font-mono">
+                  From 550 kr · Quiet Chair Option
+                </span>
+              </div>
+            </Link>
+
+            <Link
+              href="/preview/cakes"
+              className="p-4 border border-card-border hover:border-foreground bg-background hover:shadow-xs transition-all group rounded-none"
+            >
+              <div className="flex items-center justify-between text-sm font-bold text-foreground">
+                <span>🍰 2. Maison Choux Patisserie</span>
+                <span className="text-muted group-hover:translate-x-0.5 transition-transform">→</span>
+              </div>
+              <span className="text-xs text-muted block mt-1">
+                Artisan Celebration Cakes · Auto-Scroll Gallery, Slice Graphics &amp; Fondant Script
+              </span>
+              <div className="flex items-center gap-2 mt-3">
+                <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono inline-block">
+                  CELEBRATION CAKES
+                </span>
+                <span className="text-[9px] text-muted font-mono">
+                  From 650 kr · Fresh in Grünerløkka
+                </span>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Extracted Inspo Components Showcase */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-8 mb-8">
+        <div className="p-4 sm:p-5 border border-card-border bg-card font-mono text-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-4 border-b border-card-border">
+            <div>
+              <span className="text-[10px] uppercase font-bold text-[#C86D51] tracking-wider block">
+                EXTRACTED FROM INSPO VAULT
+              </span>
+              <h2 className="font-heading font-black text-base sm:text-lg uppercase text-foreground">
+                4 Signature Components Pulled From Pinterest References
+              </h2>
+            </div>
+            <Link
+              href="/inspo"
+              className="text-[11px] text-muted hover:text-foreground underline underline-offset-2"
+            >
+              Browse all 61 references →
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-4 border border-card-border bg-background">
+              <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
+                BOOKING
+              </span>
+              <h3 className="text-sm font-bold text-foreground mt-2">Weekly Availability Ticker</h3>
+              <p className="text-[11px] text-muted mt-1">
+                Marquee tape with status pills (Open / Last Place / Closed). Retro newspaper style.
+              </p>
+              <span className="text-[9px] text-muted mt-2 block">
+                Source: 704461566760527104_sp0_b0.jpg
+              </span>
+            </div>
+            <div className="p-4 border border-card-border bg-background">
+              <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
+                BOOKING
+              </span>
+              <h3 className="text-sm font-bold text-foreground mt-2">Editorial Grid Booking</h3>
+              <p className="text-[11px] text-muted mt-1">
+                Luxury date/time grid with hairline borders and serif headings. Warm cream palette.
+              </p>
+              <span className="text-[9px] text-muted mt-2 block">
+                Source: 704461566760527113_sp0_b0.jpg
+              </span>
+            </div>
+            <div className="p-4 border border-card-border bg-background">
+              <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
+                BIO
+              </span>
+              <h3 className="text-sm font-bold text-foreground mt-2">Artist Profile Card</h3>
+              <p className="text-[11px] text-muted mt-1">
+                Bio card with 4-service photo pills, business hours, location, and contact strip.
+              </p>
+              <span className="text-[9px] text-muted mt-2 block">
+                Source: 704461566760527119.jpg
+              </span>
+            </div>
+            <div className="p-4 border border-card-border bg-background">
+              <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
+                POLICIES
+              </span>
+              <h3 className="text-sm font-bold text-foreground mt-2">Newspaper Policy Grid</h3>
+              <p className="text-[11px] text-muted mt-1">
+                4-column retro policy cards — Payment, Rescheduling, Late Arrival, Cancellation.
+              </p>
+              <span className="text-[9px] text-muted mt-2 block">
+                Source: 704461566760527122_sp0_b0.jpg
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Main Component Display Canvas */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-8 mt-6">
+      <section className="max-w-7xl mx-auto px-4 sm:px-8">
         {filteredItems.length === 0 ? (
           <div className="w-full py-20 text-center border border-dashed border-card-border font-mono text-xs text-muted">
             No UI components match &quot;{searchQuery}&quot; under vibe &quot;{selectedVibe}&quot;.
