@@ -24,6 +24,10 @@ import {
   FiChevronUp,
   FiZap
 } from "react-icons/fi";
+import WeeklyAvailabilityTicker from "@/components/library/extracted/WeeklyAvailabilityTicker";
+import EditorialGridBooking from "@/components/library/extracted/EditorialGridBooking";
+import ArtistProfileCard from "@/components/library/extracted/ArtistProfileCard";
+import NewspaperPolicyGrid from "@/components/library/extracted/NewspaperPolicyGrid";
 
 const CATEGORIES: { id: ComponentCategory; label: string; count: number }[] = [
   { id: "all", label: "ALL COMPONENTS", count: 197 },
@@ -462,54 +466,113 @@ export default function UILibraryPage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 border border-card-border bg-background">
-              <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
-                BOOKING
-              </span>
-              <h3 className="text-sm font-bold text-foreground mt-2">Weekly Availability Ticker</h3>
-              <p className="text-[11px] text-muted mt-1">
-                Marquee tape with status pills (Open / Last Place / Closed). Retro newspaper style.
-              </p>
-              <span className="text-[9px] text-muted mt-2 block">
-                Source: 704461566760527104_sp0_b0.jpg
-              </span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* 1. Weekly Availability Ticker */}
+            <div className="border border-card-border bg-background flex flex-col justify-between overflow-hidden">
+              <div className="p-3.5 border-b border-card-border bg-card/40 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
+                    BOOKING
+                  </span>
+                  <h3 className="text-xs font-bold text-foreground font-mono">Weekly Availability Ticker</h3>
+                </div>
+                <Link
+                  href="/inspo?pin=704461566760527104_sp0_b0.jpg"
+                  className="text-[10px] text-muted hover:text-foreground font-mono underline underline-offset-2"
+                >
+                  Pin Reference ↗
+                </Link>
+              </div>
+              <div className="p-4 bg-card/30 flex-1 flex items-center justify-center overflow-hidden">
+                <div className="w-full">
+                  <WeeklyAvailabilityTicker />
+                </div>
+              </div>
+              <div className="px-3.5 py-2 border-t border-card-border/60 bg-muted/5 flex items-center justify-between text-[10px] text-muted font-mono">
+                <span>Retro Newspaper · Continuous Marquee</span>
+                <span className="font-bold text-foreground">Status Pills (Open / Last / Closed)</span>
+              </div>
             </div>
-            <div className="p-4 border border-card-border bg-background">
-              <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
-                BOOKING
-              </span>
-              <h3 className="text-sm font-bold text-foreground mt-2">Editorial Grid Booking</h3>
-              <p className="text-[11px] text-muted mt-1">
-                Luxury date/time grid with hairline borders and serif headings. Warm cream palette.
-              </p>
-              <span className="text-[9px] text-muted mt-2 block">
-                Source: 704461566760527113_sp0_b0.jpg
-              </span>
+
+            {/* 2. Editorial Grid Booking */}
+            <div className="border border-card-border bg-background flex flex-col justify-between overflow-hidden">
+              <div className="p-3.5 border-b border-card-border bg-card/40 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
+                    BOOKING
+                  </span>
+                  <h3 className="text-xs font-bold text-foreground font-mono">Editorial Grid Booking</h3>
+                </div>
+                <Link
+                  href="/inspo?pin=704461566760527113_sp0_b0.jpg"
+                  className="text-[10px] text-muted hover:text-foreground font-mono underline underline-offset-2"
+                >
+                  Pin Reference ↗
+                </Link>
+              </div>
+              <div className="p-4 bg-card/30 flex-1 flex items-center justify-center">
+                <div className="w-full max-w-sm">
+                  <EditorialGridBooking />
+                </div>
+              </div>
+              <div className="px-3.5 py-2 border-t border-card-border/60 bg-muted/5 flex items-center justify-between text-[10px] text-muted font-mono">
+                <span>Luxury Editorial · Hairline Borders</span>
+                <span className="font-bold text-foreground">Interactive Date &amp; Slot Picker</span>
+              </div>
             </div>
-            <div className="p-4 border border-card-border bg-background">
-              <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
-                BIO
-              </span>
-              <h3 className="text-sm font-bold text-foreground mt-2">Artist Profile Card</h3>
-              <p className="text-[11px] text-muted mt-1">
-                Bio card with 4-service photo pills, business hours, location, and contact strip.
-              </p>
-              <span className="text-[9px] text-muted mt-2 block">
-                Source: 704461566760527119.jpg
-              </span>
+
+            {/* 3. Artist Profile Card */}
+            <div className="border border-card-border bg-background flex flex-col justify-between overflow-hidden">
+              <div className="p-3.5 border-b border-card-border bg-card/40 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
+                    BIO
+                  </span>
+                  <h3 className="text-xs font-bold text-foreground font-mono">Artist Profile Card</h3>
+                </div>
+                <Link
+                  href="/inspo?pin=704461566760527119.jpg"
+                  className="text-[10px] text-muted hover:text-foreground font-mono underline underline-offset-2"
+                >
+                  Pin Reference ↗
+                </Link>
+              </div>
+              <div className="p-4 bg-card/30 flex-1 flex items-center justify-center">
+                <div className="w-full max-w-sm">
+                  <ArtistProfileCard />
+                </div>
+              </div>
+              <div className="px-3.5 py-2 border-t border-card-border/60 bg-muted/5 flex items-center justify-between text-[10px] text-muted font-mono">
+                <span>Acuity Template · Bio &amp; Hours</span>
+                <span className="font-bold text-foreground">4-Service Photo Category Pills</span>
+              </div>
             </div>
-            <div className="p-4 border border-card-border bg-background">
-              <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
-                POLICIES
-              </span>
-              <h3 className="text-sm font-bold text-foreground mt-2">Newspaper Policy Grid</h3>
-              <p className="text-[11px] text-muted mt-1">
-                4-column retro policy cards — Payment, Rescheduling, Late Arrival, Cancellation.
-              </p>
-              <span className="text-[9px] text-muted mt-2 block">
-                Source: 704461566760527122_sp0_b0.jpg
-              </span>
+
+            {/* 4. Newspaper Policy Grid */}
+            <div className="border border-card-border bg-background flex flex-col justify-between overflow-hidden">
+              <div className="p-3.5 border-b border-card-border bg-card/40 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] px-2 py-0.5 bg-foreground/10 text-foreground font-mono font-bold uppercase">
+                    POLICIES
+                  </span>
+                  <h3 className="text-xs font-bold text-foreground font-mono">Newspaper Policy Grid</h3>
+                </div>
+                <Link
+                  href="/inspo?pin=704461566760527122_sp0_b0.jpg"
+                  className="text-[10px] text-muted hover:text-foreground font-mono underline underline-offset-2"
+                >
+                  Pin Reference ↗
+                </Link>
+              </div>
+              <div className="p-4 bg-card/30 flex-1 flex items-center justify-center">
+                <div className="w-full max-w-sm">
+                  <NewspaperPolicyGrid />
+                </div>
+              </div>
+              <div className="px-3.5 py-2 border-t border-card-border/60 bg-muted/5 flex items-center justify-between text-[10px] text-muted font-mono">
+                <span>Grunge Editorial · Bold Hairlines</span>
+                <span className="font-bold text-foreground">4-Rule Client Protection Blocks</span>
+              </div>
             </div>
           </div>
         </div>

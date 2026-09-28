@@ -1,10 +1,15 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import inspoData from "@/data/inspo-index.json";
-import { FiSearch, FiX, FiCopy, FiCheck } from "react-icons/fi";
+import { FiSearch, FiX, FiCopy, FiCheck, FiArrowRight, FiZap } from "react-icons/fi";
+
+import WeeklyAvailabilityTicker from "@/components/library/extracted/WeeklyAvailabilityTicker";
+import EditorialGridBooking from "@/components/library/extracted/EditorialGridBooking";
+import ArtistProfileCard from "@/components/library/extracted/ArtistProfileCard";
+import NewspaperPolicyGrid from "@/components/library/extracted/NewspaperPolicyGrid";
 
 type InspoItem = {
   file: string;
@@ -18,6 +23,32 @@ type InspoItem = {
 };
 
 const items = inspoData as InspoItem[];
+
+const EXTRACTED_MAP: Record<
+  string,
+  { name: string; category: string; component: React.ComponentType }
+> = {
+  "704461566760527104_sp0_b0.jpg": {
+    name: "Weekly Availability Ticker",
+    category: "BOOKING",
+    component: WeeklyAvailabilityTicker,
+  },
+  "704461566760527113_sp0_b0.jpg": {
+    name: "Editorial Grid Booking",
+    category: "BOOKING",
+    component: EditorialGridBooking,
+  },
+  "704461566760527119.jpg": {
+    name: "Artist Profile Card",
+    category: "BIO",
+    component: ArtistProfileCard,
+  },
+  "704461566760527122_sp0_b0.jpg": {
+    name: "Newspaper Policy Grid",
+    category: "POLICIES",
+    component: NewspaperPolicyGrid,
+  },
+};
 
 const NICHES = [
   "all",
@@ -65,17 +96,23 @@ function Pill({
   label,
   active,
   onClick,
+  accent,
 }: {
   label: string;
   active: boolean;
   onClick: () => void;
+  accent?: boolean;
 }) {
   return (
     <button
       onClick={onClick}
       className={`px-2.5 py-1 text-[10px] font-mono whitespace-nowrap transition-all flex-shrink-0 uppercase tracking-wider ${
         active
-          ? "bg-foreground text-background font-bold"
+          ? accent
+            ? "bg-[#C86D51] text-white font-bold"
+            : "bg-foreground text-background font-bold"
+          : accent
+          ? "border border-[#C86D51]/50 text-[#C86D51] hover:bg-[#C86D51]/10 font-bold"
           : "border border-card-border text-muted hover:text-foreground hover:border-foreground"
       }`}
     >
@@ -92,6 +129,10 @@ function InspectModal({
   onClose: () => void;
 }) {
   const [copied, setCopied] = useState(false);
+  const [viewTab, setViewTab] = useState<"reference" | "component">("reference");
+
+  const extracted = EXTRACTED_MAP[item.file];
+  const ExtractedComponent = extracted?.component;
 
   const copyPrompt = useCallback(() => {
     navigator.clipboard.writeText(item.suggestedPrompt);
@@ -101,18 +142,25 @@ function InspectModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-xs"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-background border border-card-border shadow-2xl"
+        className="w-full max-w-3xl max-h-[92vh] overflow-y-auto bg-background border border-card-border shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 z-10 bg-background border-b border-card-border p-4 flex items-center justify-between">
           <div>
-            <p className="text-[10px] font-mono uppercase tracking-wider text-muted">
-              {item.niche} · {item.componentType} · {item.aesthetic}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-[10px] font-mono uppercase tracking-wider text-muted">
+                {item.niche} · {item.componentType} · {item.aesthetic}
+              </p>
+              {extracted && (
+                <span className="px-1.5 py-0.2 bg-[#C86D51] text-white text-[8px] font-mono font-bold uppercase">
+                  ⚡ EXTRACTED
+                </span>
+              )}
+            </div>
             <p className="text-xs font-mono text-foreground mt-0.5 truncate max-w-[280px]">
               {item.file}
             </p>
@@ -125,16 +173,71 @@ function InspectModal({
           </button>
         </div>
 
-        <div className="p-4 sm:p-6">
-          <div className="relative w-full aspect-[3/4] sm:aspect-auto sm:h-[500px] bg-card border border-card-border mb-6">
-            <Image
-              src={`/abdisalamqlayout/${item.file}`}
-              alt={item.layoutNotes}
-              fill
-              className="object-contain"
-              sizes="(max-width: 768px) 100vw, 700px"
-            />
+        {/* View Switcher if component was extracted */}
+        {extracted && (
+          <div className="flex border-b border-card-border bg-card/60 px-4 py-2 gap-2">
+            <button
+              onClick={() => setViewTab("reference")}
+              className={`px-3 py-1 text-xs font-mono uppercase font-bold transition-all ${
+                viewTab === "reference"
+                  ? "bg-foreground text-background"
+                  : "border border-card-border text-muted hover:text-foreground"
+              }`}
+            >
+              Pin Reference Photo
+            </button>
+            <button
+              onClick={() => setViewTab("component")}
+              className={`px-3 py-1 text-xs font-mono uppercase font-bold transition-all flex items-center gap-1.5 ${
+                viewTab === "component"
+                  ? "bg-[#C86D51] text-white"
+                  : "border border-[#C86D51]/50 text-[#C86D51] hover:bg-[#C86D51]/10"
+              }`}
+            >
+              <FiZap size={12} />
+              <span>Live Extracted Component</span>
+            </button>
           </div>
+        )}
+
+        <div className="p-4 sm:p-6">
+          {viewTab === "component" && ExtractedComponent ? (
+            <div className="mb-6 space-y-4">
+              <div className="p-3 border border-[#C86D51]/30 bg-[#C86D51]/5 flex items-center justify-between">
+                <div>
+                  <span className="text-[9px] font-mono font-bold uppercase text-[#C86D51] tracking-wider block">
+                    CODE REPRODUCTION READY
+                  </span>
+                  <span className="text-sm font-bold font-mono text-foreground">
+                    {extracted.name}
+                  </span>
+                </div>
+                <Link
+                  href="/library"
+                  className="px-3 py-1 bg-foreground text-background text-xs font-mono font-bold uppercase hover:opacity-90 flex items-center gap-1"
+                >
+                  <span>UI Vault</span>
+                  <FiArrowRight size={12} />
+                </Link>
+              </div>
+
+              <div className="p-6 border border-card-border bg-card/80 flex items-center justify-center overflow-x-auto min-h-[220px]">
+                <div className="w-full">
+                  <ExtractedComponent />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="relative w-full aspect-[3/4] sm:aspect-auto sm:h-[500px] bg-card border border-card-border mb-6">
+              <Image
+                src={`/abdisalamqlayout/${item.file}`}
+                alt={item.layoutNotes}
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 700px"
+              />
+            </div>
+          )}
 
           <div className="space-y-5">
             <div>
@@ -222,10 +325,24 @@ export default function InspoVaultPage() {
   const [componentType, setComponentType] = useState("all");
   const [aesthetic, setAesthetic] = useState("all");
   const [search, setSearch] = useState("");
+  const [showExtractedOnly, setShowExtractedOnly] = useState(false);
   const [inspecting, setInspecting] = useState<InspoItem | null>(null);
+
+  // Auto-open pin if deep linked from library
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const pinParam = params.get("pin");
+      if (pinParam) {
+        const match = items.find((i) => i.file === pinParam);
+        if (match) setInspecting(match);
+      }
+    }
+  }, []);
 
   const filtered = useMemo(() => {
     return items.filter((item) => {
+      if (showExtractedOnly && !EXTRACTED_MAP[item.file]) return false;
       if (niche !== "all" && item.niche !== niche) return false;
       if (componentType !== "all" && item.componentType !== componentType)
         return false;
@@ -237,7 +354,7 @@ export default function InspoVaultPage() {
       }
       return true;
     });
-  }, [niche, componentType, aesthetic, search]);
+  }, [showExtractedOnly, niche, componentType, aesthetic, search]);
 
   const nicheCounts = useMemo(() => {
     const m: Record<string, number> = {};
@@ -266,6 +383,12 @@ export default function InspoVaultPage() {
               <span className="px-2 py-0.5 bg-foreground text-background text-[10px] font-mono font-bold">
                 {items.length} PINS
               </span>
+              <Link
+                href="/library"
+                className="px-2 py-0.5 border border-card-border text-[10px] font-mono font-bold uppercase text-muted hover:text-foreground hover:border-foreground transition-colors hidden sm:inline"
+              >
+                ← Back to UI Vault
+              </Link>
               <span className="text-muted text-xs hidden lg:inline">·</span>
               <span className="text-xs font-mono text-muted hidden lg:inline">
                 {filtered.length} showing
@@ -293,7 +416,30 @@ export default function InspoVaultPage() {
           </div>
 
           <div className="space-y-1.5">
+            {/* Quick Filter Row */}
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+              <span className="text-[9px] font-mono text-muted uppercase font-bold flex-shrink-0 mr-1 hidden sm:inline">
+                Focus:
+              </span>
+              <Pill
+                label="All (61)"
+                active={!showExtractedOnly && niche === "all" && componentType === "all" && aesthetic === "all"}
+                onClick={() => {
+                  setShowExtractedOnly(false);
+                  setNiche("all");
+                  setComponentType("all");
+                  setAesthetic("all");
+                }}
+              />
+              <Pill
+                label="⚡ Extracted to React (4)"
+                active={showExtractedOnly}
+                onClick={() => setShowExtractedOnly(!showExtractedOnly)}
+                accent
+              />
+            </div>
+
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 border-t border-card-border/40">
               <span className="text-[9px] font-mono text-muted uppercase font-bold flex-shrink-0 mr-1 hidden sm:inline">
                 Niche:
               </span>
@@ -301,7 +447,7 @@ export default function InspoVaultPage() {
                 <Pill
                   key={n}
                   label={
-                    n === "all" ? `All (${items.length})` : `${n}${nicheCounts[n] ? ` (${nicheCounts[n]})` : ""}`
+                    n === "all" ? "All Niches" : `${n}${nicheCounts[n] ? ` (${nicheCounts[n]})` : ""}`
                   }
                   active={niche === n}
                   onClick={() => setNiche(n)}
@@ -309,7 +455,7 @@ export default function InspoVaultPage() {
               ))}
             </div>
 
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 border-t border-card-border/40">
               <span className="text-[9px] font-mono text-muted uppercase font-bold flex-shrink-0 mr-1 hidden sm:inline">
                 Type:
               </span>
@@ -323,7 +469,7 @@ export default function InspoVaultPage() {
               ))}
             </div>
 
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 border-t border-card-border/40">
               <span className="text-[9px] font-mono text-muted uppercase font-bold flex-shrink-0 mr-1 hidden sm:inline">
                 Vibe:
               </span>
@@ -347,6 +493,7 @@ export default function InspoVaultPage() {
             <br />
             <button
               onClick={() => {
+                setShowExtractedOnly(false);
                 setNiche("all");
                 setComponentType("all");
                 setAesthetic("all");
@@ -359,44 +506,63 @@ export default function InspoVaultPage() {
           </div>
         ) : (
           <div className="columns-2 lg:columns-3 gap-4 space-y-4">
-            {filtered.map((item) => (
-              <div
-                key={item.file}
-                className="break-inside-avoid cursor-pointer group border border-card-border hover:border-foreground transition-colors bg-card"
-                onClick={() => setInspecting(item)}
-              >
-                <div className="relative w-full overflow-hidden">
-                  <Image
-                    src={`/abdisalamqlayout/${item.file}`}
-                    alt={item.layoutNotes}
-                    width={400}
-                    height={600}
-                    className="w-full h-auto"
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                </div>
-                <div className="p-2.5">
-                  <div className="flex flex-wrap gap-1 mb-1">
-                    <span className="text-[8px] font-mono uppercase tracking-wider px-1.5 py-0.5 bg-foreground text-background font-bold">
-                      {item.niche}
-                    </span>
-                    <span className="text-[8px] font-mono uppercase tracking-wider px-1.5 py-0.5 border border-card-border text-muted">
-                      {item.componentType}
-                    </span>
+            {filtered.map((item) => {
+              const isExtracted = Boolean(EXTRACTED_MAP[item.file]);
+              return (
+                <div
+                  key={item.file}
+                  className={`break-inside-avoid cursor-pointer group border transition-all bg-card ${
+                    isExtracted
+                      ? "border-[#C86D51] ring-1 ring-[#C86D51]/30 hover:ring-[#C86D51]"
+                      : "border-card-border hover:border-foreground"
+                  }`}
+                  onClick={() => setInspecting(item)}
+                >
+                  <div className="relative w-full overflow-hidden">
+                    <Image
+                      src={`/abdisalamqlayout/${item.file}`}
+                      alt={item.layoutNotes}
+                      width={400}
+                      height={600}
+                      className="w-full h-auto"
+                      sizes="(max-width: 768px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+
+                    {isExtracted && (
+                      <div className="absolute top-2 right-2 px-2 py-0.5 bg-[#C86D51] text-white text-[9px] font-mono font-bold uppercase tracking-wider shadow-sm flex items-center gap-1">
+                        <FiZap size={10} />
+                        <span>EXTRACTED</span>
+                      </div>
+                    )}
                   </div>
-                  <div className="flex gap-1 mt-1.5">
-                    {item.palette.slice(0, 5).map((hex) => (
-                      <span
-                        key={hex}
-                        className="w-3 h-3 border border-black/10 flex-shrink-0"
-                        style={{ backgroundColor: hex }}
-                      />
-                    ))}
+                  <div className="p-2.5">
+                    <div className="flex flex-wrap items-center gap-1 mb-1">
+                      <span className="text-[8px] font-mono uppercase tracking-wider px-1.5 py-0.5 bg-foreground text-background font-bold">
+                        {item.niche}
+                      </span>
+                      <span className="text-[8px] font-mono uppercase tracking-wider px-1.5 py-0.5 border border-card-border text-muted">
+                        {item.componentType}
+                      </span>
+                      {isExtracted && (
+                        <span className="text-[8px] font-mono uppercase tracking-wider px-1.5 py-0.5 text-[#C86D51] font-bold">
+                          ⚡ React Code
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex gap-1 mt-1.5">
+                      {item.palette.slice(0, 5).map((hex) => (
+                        <span
+                          key={hex}
+                          className="w-3 h-3 border border-black/10 flex-shrink-0"
+                          style={{ backgroundColor: hex }}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>
