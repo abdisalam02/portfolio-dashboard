@@ -4,7 +4,7 @@ import React, { useState, useMemo, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import inspoData from "@/data/inspo-index.json";
-import { FiSearch, FiX, FiCopy, FiCheck, FiArrowRight, FiZap } from "react-icons/fi";
+import { FiSearch, FiX, FiCopy, FiCheck, FiArrowRight, FiZap, FiHash } from "react-icons/fi";
 
 import WeeklyAvailabilityTicker from "@/components/library/extracted/WeeklyAvailabilityTicker";
 import EditorialGridBooking from "@/components/library/extracted/EditorialGridBooking";
@@ -12,6 +12,8 @@ import ArtistProfileCard from "@/components/library/extracted/ArtistProfileCard"
 import NewspaperPolicyGrid from "@/components/library/extracted/NewspaperPolicyGrid";
 
 type InspoItem = {
+  id: string;
+  title: string;
   file: string;
   niche: string;
   componentType: string;
@@ -128,7 +130,8 @@ function InspectModal({
   item: InspoItem;
   onClose: () => void;
 }) {
-  const [copied, setCopied] = useState(false);
+  const [copiedPrompt, setCopiedPrompt] = useState(false);
+  const [copiedId, setCopiedId] = useState(false);
   const [viewTab, setViewTab] = useState<"reference" | "component">("reference");
 
   const extracted = EXTRACTED_MAP[item.file];
@@ -136,9 +139,15 @@ function InspectModal({
 
   const copyPrompt = useCallback(() => {
     navigator.clipboard.writeText(item.suggestedPrompt);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopiedPrompt(true);
+    setTimeout(() => setCopiedPrompt(false), 2000);
   }, [item.suggestedPrompt]);
+
+  const copyId = useCallback(() => {
+    navigator.clipboard.writeText(item.id);
+    setCopiedId(true);
+    setTimeout(() => setCopiedId(false), 2000);
+  }, [item.id]);
 
   return (
     <div
@@ -151,19 +160,30 @@ function InspectModal({
       >
         <div className="sticky top-0 z-10 bg-background border-b border-card-border p-4 flex items-center justify-between">
           <div>
-            <div className="flex items-center gap-2">
-              <p className="text-[10px] font-mono uppercase tracking-wider text-muted">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-muted">
                 {item.niche} · {item.componentType} · {item.aesthetic}
-              </p>
+              </span>
               {extracted && (
                 <span className="px-1.5 py-0.2 bg-[#C86D51] text-white text-[8px] font-mono font-bold uppercase">
                   ⚡ EXTRACTED
                 </span>
               )}
             </div>
-            <p className="text-xs font-mono text-foreground mt-0.5 truncate max-w-[280px]">
-              {item.file}
-            </p>
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-bold font-heading text-foreground">
+                {item.title}
+              </h3>
+              <button
+                onClick={copyId}
+                className="px-2 py-0.5 border border-card-border text-[10px] font-mono text-muted hover:text-foreground hover:border-foreground transition-colors flex items-center gap-1"
+                title="Copy reference ID to paste in chat"
+              >
+                <FiHash size={10} />
+                <span>{item.id}</span>
+                {copiedId ? <FiCheck size={10} className="text-emerald-500" /> : <FiCopy size={9} />}
+              </button>
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -298,7 +318,7 @@ function InspectModal({
                   onClick={copyPrompt}
                   className="flex items-center gap-1 text-[10px] font-mono text-muted hover:text-foreground transition-colors"
                 >
-                  {copied ? (
+                  {copiedPrompt ? (
                     <>
                       <FiCheck size={10} /> Copied
                     </>
@@ -328,13 +348,13 @@ export default function InspoVaultPage() {
   const [showExtractedOnly, setShowExtractedOnly] = useState(false);
   const [inspecting, setInspecting] = useState<InspoItem | null>(null);
 
-  // Auto-open pin if deep linked from library
+  // Auto-open pin if deep linked by file or ID
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const pinParam = params.get("pin");
       if (pinParam) {
-        const match = items.find((i) => i.file === pinParam);
+        const match = items.find((i) => i.file === pinParam || i.id === pinParam);
         if (match) setInspecting(match);
       }
     }
@@ -349,7 +369,7 @@ export default function InspoVaultPage() {
       if (aesthetic !== "all" && item.aesthetic !== aesthetic) return false;
       if (search) {
         const q = search.toLowerCase();
-        const haystack = `${item.niche} ${item.componentType} ${item.aesthetic} ${item.layoutNotes} ${item.uxFeatures.join(" ")} ${item.suggestedPrompt}`.toLowerCase();
+        const haystack = `${item.title} ${item.id} ${item.niche} ${item.componentType} ${item.aesthetic} ${item.layoutNotes} ${item.uxFeatures.join(" ")} ${item.suggestedPrompt}`.toLowerCase();
         if (!haystack.includes(q)) return false;
       }
       return true;
@@ -399,7 +419,7 @@ export default function InspoVaultPage() {
               <FiSearch className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted text-xs" />
               <input
                 type="text"
-                placeholder="Search inspo..."
+                placeholder="Search inspo (e.g. pilates, nail, id)..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full pl-7 pr-7 py-1.5 border border-card-border bg-card text-foreground font-mono text-xs outline-none focus:border-foreground"
@@ -521,7 +541,7 @@ export default function InspoVaultPage() {
                   <div className="relative w-full overflow-hidden">
                     <Image
                       src={`/abdisalamqlayout/${item.file}`}
-                      alt={item.layoutNotes}
+                      alt={item.title}
                       width={400}
                       height={600}
                       className="w-full h-auto"
@@ -536,8 +556,18 @@ export default function InspoVaultPage() {
                       </div>
                     )}
                   </div>
-                  <div className="p-2.5">
-                    <div className="flex flex-wrap items-center gap-1 mb-1">
+                  <div className="p-3">
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <h4 className="font-heading font-bold text-xs text-foreground truncate">
+                        {item.title}
+                      </h4>
+                    </div>
+                    <div className="flex items-center justify-between text-[9px] font-mono text-muted mb-2">
+                      <span className="truncate">#{item.id}</span>
+                      <span className="uppercase">{item.aesthetic}</span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-1 mb-2">
                       <span className="text-[8px] font-mono uppercase tracking-wider px-1.5 py-0.5 bg-foreground text-background font-bold">
                         {item.niche}
                       </span>
@@ -550,7 +580,7 @@ export default function InspoVaultPage() {
                         </span>
                       )}
                     </div>
-                    <div className="flex gap-1 mt-1.5">
+                    <div className="flex gap-1">
                       {item.palette.slice(0, 5).map((hex) => (
                         <span
                           key={hex}
