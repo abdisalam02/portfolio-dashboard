@@ -1,6 +1,6 @@
 # Developer & Design Guidelines (User Preferences)
 
-This document contains permanent preferences, design rules, tone-of-voice constraints, and workflow requirements extracted from direct user feedback. The agent must strictly adhere to these guidelines across all tasks in this repository.
+This document contains permanent preferences, design rules, tone-of-voice constraints, and workflow requirements extracted from direct user feedback and retrospectives. The agent must strictly adhere to these guidelines across all tasks in this repository.
 
 ---
 
@@ -48,7 +48,63 @@ This document contains permanent preferences, design rules, tone-of-voice constr
 
 ---
 
-## 3. Pricing & Product Structure
+## 3. Interaction Design & Usability (The "First-Build Standard")
+
+*Lessons learned from user feedback and design revisions across booking, customizer, and portfolio showcase flows. These principles must be applied proactively on the very first build to eliminate iterative friction.*
+
+### A. The "Zero-Scroll" Multi-Step Configurator
+- **Compact, High-Density Selection Grids:**
+  - Never design multi-step builders with tall, sprawling cards that force users to scroll hundreds of pixels down to see options and scroll back up or down to continue.
+  - Keep option cards compact (2x2 or 2-column grids with swatches, badges, and 1-line notes) so all options fit within eye level in the viewport.
+- **Immediate Action Bar:**
+  - The navigation controls (`← Forrige` and `Neste Steg →`) must always sit directly beneath the compact options or remain sticky. Users must never have to search below the fold to advance.
+- **Desktop Split Console:**
+  - On desktop, use a two-column layout: options grid on the left (`col-span-7`), sticky live product preview with real-time price counter and ingredient chips on the right (`col-span-5`).
+
+### B. Gallery Architecture (Carousels vs. Vertical Dumps)
+- **Prevent Endless Downward Stacking:**
+  - Auxiliary galleries (lookbooks, past orders, style examples) must **default to horizontal swipeable carousels** (`overflow-x-auto snap-x snap-mandatory scrollbar-none` with `<` and `>` arrow buttons on desktop and touch-snap on mobile).
+  - Vertical stacking is reserved only for primary 2–3 tier comparisons, never for galleries that bloat page scroll depth.
+- **Separate Lookbook from Choice Architecture:**
+  - Never use photos of completed custom products as buttons for sizing/tier selection (e.g. photos of finished cakes for choosing 10cm vs 20cm). Users assume these are fixed pre-made items.
+  - Use clean geometric diagrams or tier silhouettes for sizing, and dedicate photos strictly to an **Inspirasjonsgalleri / Lookbook**.
+
+### C. Dual-Path Customer Journeys (Custom vs. 1-Click)
+- Always provide two clear paths at the top of an ordering experience:
+  1. **Path A (The Customizer):** Guided step-by-step wizard for clients who want full control over each layer/spec.
+  2. **Path B (The Quick Pick):** 3–4 popular pre-assembled signature combinations that lock in selections and jump directly to date/checkout with 1 tap for time-pressed customers.
+
+### D. Booking Logic & Real-World Domain Accuracy
+- **Realistic Advance Notice Rules:**
+  - Handcrafted, artisanal services (e.g. custom celebration cakes, couture nails, bridal henna) require realistic lead times (e.g. minimum 7 days notice, not 2 days).
+- **Interactive Calendar Integrity:**
+  - Use a full month calendar view with day headers (`Man – Søn`) and month navigation.
+  - Clearly disable and cross out dates that fail the advance notice rule or lie in the past.
+  - Show active confirmation badges when a valid date is picked (e.g. `✓ Oppfyller 7 dagers forhåndsvarsel`).
+
+### E. Voucher / Confirmation UX (Anti-"Monospace Dump")
+- **No Raw Text Dumps:**
+  - Order confirmation and reservation passes must never look like unstyled monospace logs or raw paragraphs.
+  - Structure confirmation vouchers like a genuine luxury ticket:
+    - Contained price pill badge (strictly bounded to prevent mobile overflow).
+    - Status badge (e.g. `● RESERVASJON BEKREFTET`).
+    - Structured 2x2 grid with sharp typographic hierarchy: tiny uppercase category labels over bold values.
+    - Clear pickup/delivery location card and Vipps payment confirmation.
+
+---
+
+## 4. Asset Integrity & Visual QA Protocol
+
+- **Mandatory Visual Sanity Check:**
+  - Never blindly map image filenames (e.g. `cake-6.jpg`) without confirming that the image content matches the niche and description. (e.g. Never put a croissant image on a celebration cake page).
+  - Only use high-quality, verified photos that reflect the artisanal niche.
+- **375px Mobile Boundary Enforcement:**
+  - Check that all floating price tags, action buttons, and table rows remain strictly contained inside card borders on small mobile screens.
+  - Never use fixed pixel widths that cause horizontal scrolling or text overlap.
+
+---
+
+## 5. Pricing & Product Structure
 
 - **Structure:** 2 Core Tiers + Modular Add-ons:
   1. **Tier 1: The Booking Drop (2,000 kr · One-Time · 48h to 1 Week)**
@@ -72,7 +128,7 @@ This document contains permanent preferences, design rules, tone-of-voice constr
 
 ---
 
-## 4. Workflow & Git Safety Rules
+## 6. Workflow & Git Safety Rules
 
 - **Git Push Policy:**
   - Standard updates, route additions, bug fixes, copy revisions, and visual refinements can be pushed automatically once verified with a clean `npm run build`.
