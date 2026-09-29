@@ -249,14 +249,38 @@ interface DayOption {
   slots: string[];
 }
 
-const DAYS_SCHEDULE: DayOption[] = [
-  { day: "Man", date: "28. okt", slots: ["12:00", "14:30", "16:30"] },
-  { day: "Tir", date: "29. okt", slots: ["10:00", "14:00", "16:00"] },
-  { day: "Ons", date: "30. okt", slots: ["10:00", "12:00", "16:00"] },
-  { day: "Tor", date: "31. okt", slots: ["10:00", "12:00", "14:00"] },
-  { day: "Fre", date: "1. nov", slots: ["10:00", "14:00", "16:00"] },
-  { day: "Lør", date: "2. nov", slots: ["11:00", "13:00", "17:00"] },
+const SLOT_PATTERNS: string[][] = [
+  ["12:00", "14:30", "16:30"],
+  ["10:00", "14:00", "16:00"],
+  ["10:00", "12:00", "16:00"],
+  ["10:00", "12:00", "14:00"],
+  ["10:00", "14:00", "16:00"],
+  ["11:00", "13:00", "17:00"],
 ];
+
+const NO_DAY_NAMES = ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"];
+const NO_MONTH_NAMES = [
+  "jan", "feb", "mar", "apr", "mai", "jun",
+  "jul", "aug", "sep", "okt", "nov", "des",
+];
+
+function buildSchedule(): DayOption[] {
+  const schedule: DayOption[] = [];
+  const base = new Date();
+  base.setDate(base.getDate() + 1);
+  for (let i = 0; i < 6; i++) {
+    const d = new Date(base);
+    d.setDate(base.getDate() + i);
+    schedule.push({
+      day: NO_DAY_NAMES[d.getDay()],
+      date: `${d.getDate()}. ${NO_MONTH_NAMES[d.getMonth()]}`,
+      slots: SLOT_PATTERNS[i],
+    });
+  }
+  return schedule;
+}
+
+const DAYS_SCHEDULE: DayOption[] = buildSchedule();
 
 export default function StudioKloNailsView() {
   // Theme State
@@ -647,7 +671,7 @@ export default function StudioKloNailsView() {
                         {activeLook.title}
                       </span>
                       <span className="text-[10px] font-mono text-[var(--klo-muted)] block mt-0.5">
-                        {activeLook.duration} · Bygdin gate 4
+                      {activeLook.duration}
                       </span>
                     </div>
 
@@ -839,7 +863,7 @@ export default function StudioKloNailsView() {
                     24t Fleksibel Avbestilling
                   </h4>
                   <p className="text-[11px] text-[var(--klo-muted)] mt-0.5 leading-relaxed font-sans">
-                    Flytt eller avbestill kostnadsfritt inntil 24 timer før oppmøte direkte via lenken i din SMS-bekreftelse.
+                    Flytt eller avbestill kostnadsfritt inntil 24 timer før oppmøte.
                   </p>
                 </div>
               </div>
@@ -994,7 +1018,7 @@ export default function StudioKloNailsView() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="Mobil (SMS/Vipps)"
+                    placeholder="Mobil"
                     className="p-2.5 rounded-xl border border-[var(--klo-border)] bg-[var(--klo-card)] text-[var(--klo-text)] outline-none focus:border-[var(--klo-accent)]"
                   />
                 </div>
@@ -1068,7 +1092,7 @@ export default function StudioKloNailsView() {
                 </div>
 
                 <div className="text-[10px] text-[var(--klo-muted)] flex justify-between items-center">
-                  <span>Bygdin gate 4, Frogner</span>
+                  <span>Eksempelgata 12, Oslo</span>
                   <span>Betales via Vipps</span>
                 </div>
 
@@ -1091,8 +1115,8 @@ export default function StudioKloNailsView() {
               KONTAKT &amp; STED
             </span>
             <div className="flex justify-between items-center text-[11px]">
-              <span>Adresse: Bygdin gate 4, Frogner</span>
-              <span className="text-[var(--klo-muted)]">Trikk 12</span>
+              <span>Adresse: Eksempelgata 12, Oslo</span>
+              <span className="text-[var(--klo-muted)]">T-bane / Trikk</span>
             </div>
             <div className="flex justify-between items-center text-[11px]">
               <span>Åpningstider: Tir–Lør 10:00–18:00</span>
@@ -1109,8 +1133,9 @@ export default function StudioKloNailsView() {
         </main>
 
         {/* Minimal Footer */}
-        <footer className="py-6 border-t border-[var(--klo-border)] text-center font-mono text-[10px] text-[var(--klo-muted)]">
-          STUDIO KLØ · FROGNER ATELIER · 2026
+        <footer className="py-6 border-t border-[var(--klo-border)] text-center font-mono text-[10px] text-[var(--klo-muted)] space-y-1">
+          <div>STUDIO KLØ · FROGNER ATELIER · 2026</div>
+          <div className="text-[9px] opacity-60">Demo — fiktiv virksomhet</div>
         </footer>
       </div>
 

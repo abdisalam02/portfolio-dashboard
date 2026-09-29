@@ -47,6 +47,8 @@ export default function PricingPage() {
             <span>PRICING</span>
             <span className="w-1 h-1 rounded-full bg-card-border" />
             <span>OSLO 2026</span>
+            <span className="w-1 h-1 rounded-full bg-card-border" />
+            <span>Not VAT-registered</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-heading tracking-tight uppercase leading-[0.92]">
@@ -54,8 +56,8 @@ export default function PricingPage() {
           </h1>
 
           <p className="text-base sm:text-lg text-muted font-body max-w-2xl leading-relaxed pt-1">
-            Clear prices for clean websites. No monthly fees, no agency fluff.
-            Just fast sites that turn visitors into paying clients.
+            Clear prices for clean websites. No platform fees. Optional care plan from 149 kr/mo.
+            Fast builds that turn visitors into paying clients.
           </p>
         </div>
 
@@ -98,7 +100,7 @@ export default function PricingPage() {
                 </div>
                 <div className="flex items-center gap-1.5 text-xs font-mono text-muted pt-1">
                   <FiClock size={13} />
-                  <span>Turnaround: 48 hours to 1 week</span>
+                  <span>Target turnaround: 1–2 weeks</span>
                 </div>
               </div>
 
@@ -156,10 +158,13 @@ export default function PricingPage() {
                   {expandedTier === "booking-drop" && (
                     <div className="mt-4 pt-3 border-t border-card-border/40 text-xs text-muted space-y-2 font-body leading-relaxed">
                       <p>
-                        <strong>How it works:</strong> You fill out a quick questionnaire where you pick what you want—your layout style, colors, service menu, and upload 6 photos. I build your site in 48 hours to 1 week, you test it on your phone, and we launch.
+                        <strong>How it works:</strong> You fill out a short questionnaire where you pick your layout style, colors, service menu, and upload 6 photos. I build your site (target: 1–2 weeks), you test it on your phone, and we launch.
                       </p>
                       <p>
-                        <strong>Hosting &amp; Domain:</strong> Included with a fast online link ready to paste right into your bio. If you want your own custom address like <code>yourstudio.no</code>, I can set that up as an add-on.
+                        <strong>Hosting &amp; Domain:</strong> Included with a fast online link ready to paste right into your bio. If you want your own custom address like <code>yourstudio.no</code>, I register it in your name as an add-on — you pay the yearly domain fee directly.
+                      </p>
+                      <p>
+                        <strong>Ownership:</strong> Du eier det ferdige nettstedet og innholdet ditt. Open source og lisensierte ressurser beholder sine egne lisenser.
                       </p>
                       <p>
                         <strong>Payment:</strong> 50% deposit before I start, 50% only when the site is live and you&apos;re completely happy.
@@ -338,8 +343,8 @@ export default function PricingPage() {
               {/* How the price range works */}
               <div className="p-3.5 rounded-lg bg-card/60 border border-card-border/70 text-xs text-muted space-y-1 font-mono">
                 <div className="font-bold text-foreground">How the price works:</div>
-                <div>• Clean multi-page studio (like By Gangina): ~6,000 kr</div>
-                <div>• Custom 3D flagship site (like MNO.CRM): ~12,500 kr</div>
+                <div>• Multi-page studio site: projects like this start at 6,000 kr</div>
+                <div>• Custom flagship site: projects like this start at 12,500 kr</div>
               </div>
 
               {/* CTA Button */}
@@ -409,20 +414,21 @@ export default function PricingPage() {
                 </div>
               </div>
 
+              {/* TODO-VERIFY: Replace with real project name + client permission before publishing */}
               {/* Real Project Demos — ALWAYS VISIBLE OUTSIDE THE DETAILS TOGGLE */}
               <div className="space-y-3">
                 <div className="text-xs font-mono text-muted uppercase tracking-wider">
-                  Real websites I&apos;ve built:
+                  Projects I&apos;ve built:
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* By Gangina */}
+                  {/* Project 1 — permission pending */}
                   <div className="bg-card/30 border border-card-border rounded-xl p-4 flex flex-col justify-between space-y-3 hover:border-foreground/30 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="relative w-14 h-20 rounded-md bg-black border border-card-border overflow-hidden flex-shrink-0">
                         <Image
                           src="/showcase/noire_mobile.png"
-                          alt="By Gangina"
+                          alt="Studio booking site — in development"
                           fill
                           sizes="60px"
                           className="object-cover object-top"
@@ -430,10 +436,10 @@ export default function PricingPage() {
                       </div>
                       <div className="min-w-0 space-y-0.5">
                         <div className="text-[10px] font-mono text-muted uppercase">
-                          Studio Tier (~6,000 kr)
+                          Studio Tier
                         </div>
                         <h4 className="text-sm font-bold font-heading uppercase text-foreground truncate">
-                          By Gangina
+                          In development
                         </h4>
                         <p className="text-[11px] text-muted font-mono truncate">
                           Tooth Gems · Oslo
@@ -458,13 +464,13 @@ export default function PricingPage() {
                     </div>
                   </div>
 
-                  {/* MNO.CRM */}
+                  {/* Project 2 — permission pending */}
                   <div className="bg-card/30 border border-card-border rounded-xl p-4 flex flex-col justify-between space-y-3 hover:border-foreground/30 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="relative w-14 h-20 rounded-md bg-black border border-card-border overflow-hidden flex-shrink-0">
                         <Image
                           src="/showcase/grillz_mobile.png"
-                          alt="MNO.CRM"
+                          alt="Custom flagship site — in development"
                           fill
                           sizes="60px"
                           className="object-cover object-top"
@@ -472,10 +478,10 @@ export default function PricingPage() {
                       </div>
                       <div className="min-w-0 space-y-0.5">
                         <div className="text-[10px] font-mono text-muted uppercase">
-                          Flagship Tier (~12,500 kr)
+                          Flagship Tier
                         </div>
                         <h4 className="text-sm font-bold font-heading uppercase text-foreground truncate">
-                          MNO.CRM
+                          In development
                         </h4>
                         <p className="text-[11px] text-muted font-mono truncate">
                           Custom Grillz · Oslo
@@ -528,7 +534,7 @@ export default function PricingPage() {
                 </span>
               </div>
               <p className="text-xs text-muted font-body leading-relaxed">
-                Take deposits when clients book so they actually show up. Supports Vipps, Apple Pay, and cards.
+                Take deposits when clients book so they actually show up. Requires your own Vipps Bedrift agreement or Stripe account.
               </p>
             </div>
 
@@ -573,7 +579,7 @@ export default function PricingPage() {
                 </span>
               </div>
               <p className="text-xs text-muted font-body leading-relaxed">
-                I register and connect your custom web address so you never have to deal with DNS settings.
+                Domenet registreres i ditt navn. Du betaler årsavgiften direkte. Jeg setter opp tilkoblingen.
               </p>
             </div>
 
@@ -604,19 +610,19 @@ export default function PricingPage() {
               No middleman. Direct 1-on-1 building.
             </h3>
             <p className="text-sm text-muted font-body leading-relaxed">
-              I&apos;m 24, I work solo, and I talk straight. Agencies in Oslo charge 40,000+ kr and hand you off to account managers for weeks. When you work with me, we talk directly, we build in days, and you own everything 100%.
+              I&apos;m 24, I work solo, and I talk straight. When you work with me, we talk directly, we build in days, and you own the finished site and your content outright.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row md:flex-col gap-3 flex-shrink-0 text-xs font-mono">
             <div className="px-4 py-2 rounded-lg bg-background border border-card-border text-foreground">
-              48 hours to 1 week turnaround
+              Target 1–2 weeks turnaround
             </div>
             <div className="px-4 py-2 rounded-lg bg-background border border-card-border text-foreground">
               Direct 1-on-1 with me
             </div>
             <div className="px-4 py-2 rounded-lg bg-background border border-card-border text-foreground">
-              100% your code &amp; domain
+              You own the site and your content
             </div>
           </div>
         </div>
@@ -674,7 +680,7 @@ export default function PricingPage() {
                 Do I actually own the website once it&apos;s done?
               </h4>
               <p className="text-sm text-muted font-body leading-relaxed">
-                Yes, 100%. All the code, design, and domain are yours. There are no monthly platform fees and no lock-in contracts.
+                Yes. You own the finished site and your content. Open-source and licensed assets keep their own licences. No platform fees. Optional care plan from 149 kr/mo if you want ongoing updates.
               </p>
             </div>
 
@@ -683,7 +689,7 @@ export default function PricingPage() {
                 How do online deposits and Vipps work?
               </h4>
               <p className="text-sm text-muted font-body leading-relaxed">
-                We can add automatic card/Vipps deposits through Stripe for +1,200 kr. Or, if you want zero transaction fees, I can set up a direct Vipps payment prompt on the booking form with your Vipps number.
+                Automatic card or Vipps deposits via Stripe are available as an add-on (+1,200 kr). This requires a Vipps Bedrift agreement or Stripe account in your own name — I set up the integration.
               </p>
             </div>
           </div>

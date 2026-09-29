@@ -1,163 +1,75 @@
-# Developer & Design Guidelines (User Preferences)
+# GEMINI.md: A.Gure workspace rules
 
-This document contains permanent preferences, design rules, tone-of-voice constraints, and workflow requirements extracted from direct user feedback and retrospectives. The agent must strictly adhere to these guidelines across all tasks in this repository.
+Always-on core. Keep it short. Details live in `docs/` and load only when the task needs them.
 
----
+| File | Read when |
+|---|---|
+| `docs/DESIGN.md` | changing UI, layout, components |
+| `docs/PRICING.md` | touching prices, offers, packages, marketing copy |
+| `docs/ASSETS.md` | adding or changing any image, icon, font, logo, 3D model |
+| `docs/CHANGE_PLAN.md` | active task list: tick items, don't rewrite it |
 
-## 1. Identity & Tone of Voice
+## 0. Working rules (save tokens)
+1. Search first (grep/glob), then open files by line range. Never load whole folders, lockfiles or build output.
+2. Edit in place with minimal diffs. Never regenerate a whole file to change a few lines.
+3. Plan in at most 10 lines, then work. Final reply at most 8 lines: what changed, which files, open items.
+4. Verify with `npx tsc --noEmit` and `npm run check:legal`. No `npm run build` or screenshots unless the change is structural or I ask.
+5. Don't paste long code or diffs into chat. Point to paths.
+6. If blocked by a stop gate (section 3), ask one question. Otherwise state your assumption in one line and continue.
+7. If a rule here conflicts with a request, follow the rule, say so in one line, and offer the compliant option.
 
-- **Persona:** 24-year-old independent freelance web developer & designer based in Oslo, Norway.
-- **Name:** Strictly use **A.Gure** (or **A.GURE**). Never use "Abdisalam" or "Abdisalam Gure".
-- **Domain & Email:** **agure.space** and **hello@agure.space**.
-- **Tier 1 Demo Route:** **agure.space/demo**.
-- **Target Audience:** Solo creatives, small Instagram businesses, studios, lash techs, tooth gem artists, barbers, nail artists, and independent brands.
-- **Voice & Tone:**
-  - Casual, straight-talking, authentic, confident, and humble.
-  - Talk directly as a 1-on-1 builder: *"I build your site in a few days, keep it simple, and you talk directly with me."*
-  - **Banned Words & Corporate AI Jargon:**
-    - ❌ Do NOT use: *"Rates and Deliverables"*, *"100% Code Ownership"*, *"Bespoke Architecture"*, *"Magazine-grade Typography"*, *"A La Carte Upgrades"*, *"Turnkey Solutions"*, *"Industry standard"*, *"Empower your brand"*.
-    - ✅ Use instead: *"What you get"*, *"Simple pricing"*, *"Add-ons"*, *"Real websites I've built"*, *"Why work with me?"*, *"No monthly fees"*.
-- **Hosting Phrasing:**
-  - Do NOT say "Vercel hosting" or mention specific cloud vendor names to clients.
-  - Say: *"Live online link ready for your bio (or connect your own custom domain)"*.
+## 1. Identity & voice
+- Name: **A.Gure** only. Domain `agure.space` (canonical), email `hello@agure.space`. Oslo, Norway. Freelance sole proprietor.
+- Legal details (name, address, org number, mva status) come from `src/config/legal.ts`. Never hardcode them per page.
+- Voice: casual, direct, 1-on-1 builder. Short sentences. Client sites and demos in Norwegian (bokmål). Portfolio in English with a Norwegian option.
+- Avoid: "Rates and Deliverables", "100% Code Ownership", "Bespoke Architecture", "Magazine-grade", "A La Carte", "Turnkey", "Industry standard", "Empower your brand".
+- Prefer: "What you get", "Simple pricing", "Add-ons", "Real websites I've built", "Why work with me?".
+- Marketing copy doesn't name hosting vendors ("live link for your bio, or your own domain"). Privacy policy and contracts must name the real sub-processors.
 
----
+## 2. Honesty & claims (non-negotiable)
+- Never invent: testimonials, reviews, clients, results, stats, awards, "as seen in", prices a client paid, addresses, phone numbers, org numbers.
+- Every factual claim on a page must be true and provable on publish day. Otherwise remove it or mark `TODO-VERIFY` and list it in your reply.
+- No comparative or superlative claims ("agencies charge 40,000+", "fastest", "guaranteed") without a source in a code comment beside the claim.
+- Call a site **live** only if it is publicly launched and the client gave written permission to show it. Otherwise label it "In development" or "Demo".
+- "No monthly fees" only where it is true for that package. Use: "No platform fees. Optional care plan from X kr/mo."
+- Ownership wording: "You own the finished site and your content. Open-source and licensed assets keep their own licences."
+- Turnaround wording: "Target 1-2 weeks." No "48 hours" until timed builds prove it.
+- A "launch price" must point to a real normal price I will charge, with an end condition (for example "first 5 studios").
+- Health, safety, certification or product claims ("safe for enamel", "HEMA-free", "certified") only if the client supplied proof. In demos use neutral fictional wording.
+- Prices in NOK. Show mva status ("Not VAT-registered" until that changes).
 
-## 2. Design Aesthetic & Visual Philosophy
+## 3. Stop gates (ask before doing)
+- `git push`, deploys, or publishing anything.
+- Adding any third-party script, pixel, analytics, embed (Instagram, TikTok, YouTube, Maps), CDN font or widget.
+- Using any image, logo, icon or model not listed in `docs/ASSETS.md`.
+- Changing prices, terms, privacy text or any legal wording.
+- Collecting new personal data, or touching payments (Vipps/Stripe).
+- Deleting files.
 
-- **Zero "AI Design" / Generic SaaS Tropes:**
-  - ❌ Never use neon gradients, rainbow glowing borders, 3-box generic bento grids, oversized checkmark comparison tables, or generic tech-bro illustrations.
-  - ✅ Always use clean, grounded, Scandinavian editorial design:
-    - Generous whitespace and architectural breathing room.
-    - Hairline borders (`border-card-border` / subtle dividers).
-    - Monochrome & warm paper palettes (`#f6f5f2` paper background, `#111113` deep ink typography).
-    - High contrast text, minimal noise.
-- **Theme Precedence:**
-  - **Light Mode (`theme-paper`) is the DEFAULT** for all first-time visitors.
-  - Dual-mode toggle (`☾ DARK` / `☼ LIGHT`) must always remain functional, stored in `localStorage` (`ag_theme`).
-  - Inputs, cards, and text in light mode must NEVER render with dark boxes or unreadable contrast.
-- **Information Hierarchy (No Info Dumps):**
-  - Keep high-priority information scannable and visible immediately.
-  - Use clean expandable toggles (`View more details ⌄` / `Hide extra details ⌃`) for secondary steps and fine print.
-  - **Demos and live project examples must NEVER be hidden behind toggles**—they must stay permanently visible.
-- **Mobile-First Experience & Copy Hygiene:**
-  - Touch scrolling on mobile must pass through smoothly without getting trapped.
-  - Interactive iframe/website views require an explicit pause button (`❚❚ PAUSE TO SCROLL`) before manual scrolling inside the frame is unlocked.
-  - Status badges must remain pinned and stationary (`z-10`), never scrolling down with website imagery.
-  - All containers and forms must fit cleanly inside 375px mobile screens without horizontal overflow.
-  - **The 1-to-2 Word Button Rule (Anti-Clutter):**
-    - ❌ NEVER put verbose copy or prices inside buttons (e.g. `Reserver Denne Stilen (750 kr) →`). On 375px mobile screens, this causes awkward multi-line text wrapping or ugly ellipsis truncations.
-    - ✅ Keep button text ultra-short and punchy: `Velg`, `Bestill`, `Reserver`, `Bekreft`. Put the price beside or above the button, not inside it.
-  - **Filter Pill Hygiene:** Filter pills must be 1 word whenever possible (`Alle`, `BIAB`, `Fransk`, `Krom`, `3D`), never multi-word phrases that wrap vertically.
-  - **Anti-Bloat Copy:** Eliminate unnecessary paragraphs and fluffy descriptions. Keep service items to a single crisp, scannable line.
-  - **Streamlined Booking:** Never build over-complicated booking matrixes with nested boxes. 1-tap service → 1-tap date/time pill → contact → confirm.
+## 4. Assets & licensing
+- Allowed: my own photos; client photos with written permission; AI-generated images (no real people, brands or celebrities); stock with a licence that allows commercial web use.
+- Forbidden: Pinterest, Instagram, Google Images, TikTok, other people's sites, or hotlinking any third-party image host. No celebrity names or likenesses in copy or service names. No Flaticon/Freepik downloads unless licence and attribution are recorded (draw originals instead).
+- Every image, font, icon set, logo or 3D model needs a row in `docs/ASSETS.md`: file | source | licence | attribution | permission proof | date.
+- Keep CC-BY attribution visible (title, author, link, licence link).
+- Don't name files after their source (`pin-*.jpg`). Rename only after rights are cleared.
+- Demos are fictional businesses: `hello@example.com`, "+47 000 00 000", no real address, handle or org number. Show a "Demo, fictional business" label.
 
----
+## 5. Legal, privacy & security defaults (every site)
+- Footer legal block on every page: business name, address, email, org number, mva status (Norwegian e-commerce law).
+- Privacy page, plus a short notice beside every form. Collect the minimum and say who receives it.
+- No non-essential cookies or trackers by default. Self-host fonts. A theme choice in `localStorage` (`ag_theme`) is fine. Anything else needs my approval and a consent solution.
+- Forms: honeypot plus rate limit (or Turnstile), server-side validation, escape all user text in emails and HTML.
+- Dev tools never ship: customizer panels, "Vault", "Record", mode toggles. Gate them behind `NEXT_PUBLIC_DEMO === '1'`. Also never ship `href="#"`, invalid `mailto:` links or placeholder data.
+- Secrets never in client code or the repo. Passcodes and tokens live server-side, hashed. OTPs expire and have an attempt limit. Accept/Decline email links open a confirm page and change state only on POST.
+- Vipps: businesses need their own Vipps business agreement. Never suggest a personal Vipps number. Cards via Stripe on the client's own account.
+- Booking terms (cancellation, deposit, refunds) belong to the client. Use `TODO-CLIENT` placeholders. Any legal text I generate is a draft marked "Review before use".
+- Internal note: client sites need hosting whose terms allow commercial use.
+- Accessibility basics: `lang="nb"`, alt text, contrast at least 4.5:1, visible focus, labelled inputs.
 
-## 3. Interaction Design & Usability (The "First-Build Standard")
+## 6. Git & build
+- Never `git push` unless I explicitly say so. Commit only when I ask.
+- No `npm run build` after small edits. Use the dev server and `npx tsc --noEmit`. Full build only for big structural changes or approved pushes.
+- Check desktop light, desktop dark and 375px mobile before saying a UI change is done.
 
-*Lessons learned from user feedback and design revisions across booking, customizer, and portfolio showcase flows. These principles must be applied proactively on the very first build to eliminate iterative friction.*
-
-### A. Domain-First Architecture (Products vs. Services)
-- **Critical Thinking Over Pattern Copying:**
-  - **Custom Physical Products (Cakes, Bouquets, Gift Boxes):** Multi-step configurators (size → sponge → filling → topping) with live 3D/preview counters make sense because the user is fabricating a tangible composite product.
-  - **Personal & Studio Services (Nail Ateliers, Lash Techs, Tooth Gems, Barbers, Clinics):** **NEVER build synthetic "assembly line" wizards for personal services.** Clients book based on:
-    1. **Visual Lookbook / Inspo Vault:** Browsing real sets/photos with tagged treatment & price.
-    2. **Scannable Service Menu & Art Tiers:** Clear primary treatments + optional art/repair add-ons.
-    3. **Live Availability (The Core Conversion Driver):** Fast date & slot matrix ("Ledige stoler denne uken").
-    4. **1-Tap Luxury Studio Pass / Voucher:** Instant booking confirmation with address, Vipps, and SMS.
-- **Leverage the Built-in Design & UI Component Library:**
-  - Draw thoughtfully from `src/components/library/` (e.g., `BookingDateStrip`, `BookingTimeMatrix`, `BookingBoardingPass`, `WeeklyAvailabilityTicker`, `EditorialGridBooking`, `GalleryFilmstrip`, `PricingEditorialLedger`, `ArtistProfileCard`, `NewspaperPolicyGrid`).
-
-### B. The "Zero-Scroll" Multi-Step Configurator (For Custom Products Only)
-- **Compact, High-Density Selection Grids:**
-  - When a product configurator IS appropriate, never design tall, sprawling cards that force endless vertical scrolling.
-  - Keep option cards compact (2x2 or 2-column grids with swatches, badges, and 1-line notes) so all options fit within eye level in the viewport.
-- **Immediate Action Bar:**
-  - The navigation controls (`← Forrige` and `Neste Steg →`) must always sit directly beneath the compact options or remain sticky.
-- **Desktop Split Console:**
-  - On desktop, use a two-column layout: options grid on the left (`col-span-7`), sticky live product preview with real-time price counter on the right (`col-span-5`).
-
-### C. Gallery Architecture (Carousels vs. Vertical Dumps)
-- **Prevent Endless Downward Stacking:**
-  - Auxiliary galleries (lookbooks, past orders, style examples) must **default to horizontal swipeable carousels** (`overflow-x-auto snap-x snap-mandatory scrollbar-none` with `<` and `>` arrow buttons on desktop and touch-snap on mobile).
-  - Vertical stacking is reserved only for primary 2–3 tier comparisons, never for galleries that bloat page scroll depth.
-- **Separate Lookbook from Choice Architecture:**
-  - Never use photos of completed custom products as buttons for sizing/tier selection.
-  - Use clean geometric diagrams or tier silhouettes for sizing, and dedicate photos strictly to an **Inspirasjonsgalleri / Lookbook**.
-
-### D. Booking Logic & Real-World Domain Accuracy
-- **Realistic Advance Notice Rules:**
-  - Handcrafted, artisanal services require realistic lead times.
-- **Interactive Calendar Integrity:**
-  - Use a clean slot matrix or calendar view with day headers and real-time open/last/full statuses.
-  - Show active confirmation badges when a valid time is picked.
-
-### E. Voucher / Confirmation UX (Anti-"Monospace Dump" & Merged Image Ticket)
-- **No Raw Text Dumps or Ellipsis Truncations:**
-  - Order confirmation and reservation passes must never look like unstyled monospace logs or raw paragraphs.
-  - Never truncate text with ellipses (`...`) in order summaries—every spec (service, shape, art tier, add-ons) must be fully visible and readable.
-- **Structure confirmation vouchers like a genuine luxury ticket:**
-  - Seamlessly unite the real finished product/look photo with the reservation ticket voucher.
-  - Contained price pill badge (strictly bounded to prevent mobile overflow).
-  - Status badge (e.g. `● RESERVASJON BEKREFTET` / `● RESERVASJON MOTTATT`).
-  - Structured 2x2 grid with sharp typographic hierarchy: tiny uppercase category labels over bold values (Date, Time, Pickup/Studio Location, Total & Deposit).
-  - Clear studio location card and Vipps payment confirmation.
-
-### F. Dynamic Scroll-and-Lock Sticky Navigation
-- Sticky nav header remains pinned at the top as the user scrolls.
-- As the user scrolls past each section (Hero, Lookbook/Gallery, Menu/Pricing, Booking Calendar, Reviews), the center/active indicator in the nav dynamically updates to reflect the current section in view (e.g. `[GALLERI]`, `[PRISLISTE]`, `[RESERVER TIME]`).
-- Brand logo stays anchored on the left; direct action/booking CTA remains accessible on the right.
-
-### G. Bespoke Vector Icons (Flaticon-Style Aesthetic)
-- ❌ Never use generic, plain monochrome line icons for product choices, lengths, nail shapes, or design tiers.
-- ✅ Always use bespoke multi-tone SVG vector illustrations (Flaticon aesthetic: colored pastel fills, `#332F32` outlines, domain-accurate motifs) that instantly communicate the option at a glance.
-
----
-
-## 4. Asset Integrity & Visual QA Protocol
-
-- **Mandatory Visual Sanity Check:**
-  - Never blindly map image filenames (e.g. `cake-6.jpg`) without confirming that the image content matches the niche and description. (e.g. Never put a croissant image on a celebration cake page).
-  - Only use high-quality, verified photos that reflect the artisanal niche.
-- **375px Mobile Boundary Enforcement:**
-  - Check that all floating price tags, action buttons, and table rows remain strictly contained inside card borders on small mobile screens.
-  - Never use fixed pixel widths that cause horizontal scrolling or text overlap.
-
----
-
-## 5. Pricing & Product Structure
-
-- **Structure:** 2 Core Tiers + Modular Add-ons:
-  1. **Tier 1: The Booking Drop (2,000 kr · One-Time · 48h to 1 Week)**
-     - Strictly a 1-page mobile site targeted to Instagram creators & solo artists.
-     - Client fills out a short questionnaire picking what they want (layout, colors, services, photos).
-     - Replaces "DM to book" with a transparent price list, 1-tap booking, and 6-photo lookbook.
-     - Extra pages or custom domains are explicit add-ons.
-  2. **Tier 2: The Studio Website (5,500 – 12,500 kr · Scope Range · 1–2 Weeks)**
-     - Multi-page custom site for established studios, clinics, and luxury ataliers.
-     - Transparent range: Standard Studio (~6,000 kr, e.g. *By Gangina*) up to Custom Flagship (~12,500 kr, e.g. *MNO.CRM*).
-  3. **Add-Ons:**
-     - Deposit Payments (Vipps / Cards): `+1,200 kr`
-     - Admin Page to Manage Hours: `+1,500 kr`
-     - Extra Dedicated Page: `+800 kr`
-     - Custom Domain (.no / .com): `+600 kr`
-     - Monthly Updates: `+250 kr / mo`
-- **Contact Sync:**
-  - Package links must synchronize directly to `/contact?package=...` and pre-select the appropriate tier pill.
-- **Professional Contact:**
-  - Always route inquiries to `hello@agure.space`.
-
----
-
-## 6. Workflow & Git Safety Rules
-
-- **Git Push Policy (STRICT):**
-  - ❌ **NEVER `git push` automatically after tweaks or edits.**
-  - ✅ **Only commit and `git push` when the user explicitly confirms they are satisfied and instructs to push.**
-- **Build Policy (Fast Iteration):**
-  - ❌ Do NOT run `npm run build` after every minor change or UI tweak (it slows down feedback and preview).
-  - ✅ Rely on the active local dev server and run lightweight TypeScript typechecks (`npx tsc --noEmit`) to verify zero errors during iteration.
-  - ✅ Only run full `npm run build` on very large structural changes or when preparing for final user-approved pushes.
-- **Visual Verification:**
-  - Verify styling integrity (desktop light, desktop dark, mobile 375px) on all UI changes before declaring completion.
+## 7. Done means
+Type check passes, `npm run check:legal` passes, and every `TODO-VERIFY` / `TODO-CLIENT` item is listed in the reply.

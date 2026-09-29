@@ -210,9 +210,10 @@ export default function PreviewShell({
 
       {/* 
         FLOATING RECORD & NAV CONTROLS
+        Only renders when NEXT_PUBLIC_DEMO=1 — never ships to production without it.
         COMPLETELY DISAPPEARS when recording or in countdown so the video is 100% clean!
       */}
-      {!isRecording && countdown === null && (
+      {process.env.NEXT_PUBLIC_DEMO === "1" && !isRecording && countdown === null && (
         <aside
           aria-label="Demo Floating Controls"
           className="fixed bottom-4 right-4 z-[9999] transition-all"

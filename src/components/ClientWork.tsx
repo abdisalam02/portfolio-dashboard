@@ -17,10 +17,12 @@ interface Project {
   mobileImg: string;
 }
 
+// TODO-VERIFY: Restore real client names (by Gangina, MNO.CRM) once written
+// permission to display is confirmed per CHANGE_PLAN.md Phase 0.3.
 const projects: Project[] = [
   {
     id: "noire",
-    name: "by Gangina",
+    name: "In development",
     category: "Tooth Gems & Custom Jewelry · Oslo",
     year: "2026",
     logoSrc: "/showcase/noire/double-layer-star.png",
@@ -33,7 +35,7 @@ const projects: Project[] = [
   },
   {
     id: "grillz",
-    name: "MNO.CRM",
+    name: "In development",
     category: "Custom Grillz Atelier · Oslo",
     year: "2026",
     logoSrc: "/showcase/grillz/LOGO_CHROME_2.png",

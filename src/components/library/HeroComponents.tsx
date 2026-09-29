@@ -127,7 +127,7 @@ export function HeroNewspaperBroadside() {
             THE BOOKING DROP
           </h3>
           <p className="text-neutral-700 leading-relaxed text-[11px]">
-            A custom 1-page mobile site built in 48 hours to 1 week. Flat 2,000 kr one-time.
+            A custom 1-page mobile site. Target 1–2 weeks. Flat 2,000 kr one-time.
           </p>
         </div>
         <div className="pt-4 sm:pt-0 sm:pl-4 flex flex-col justify-between">

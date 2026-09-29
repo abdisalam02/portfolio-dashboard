@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FiArrowUp } from "react-icons/fi";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
+import LegalFooter from "@/components/LegalFooter";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -32,6 +33,9 @@ export default function Footer() {
           </Link>
           <Link href="/contact" className="hover:text-foreground transition-colors">
             Contact
+          </Link>
+          <Link href="/privacy" className="hover:text-foreground transition-colors">
+            Privacy
           </Link>
           <a
             href="https://github.com/abdisalam02"
@@ -66,11 +70,14 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Copyright */}
+      {/* Bottom Copyright + Legal Block */}
       <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-muted font-body gap-4">
         <span>© {new Date().getFullYear()} A.Gure. All rights reserved.</span>
         <span>Oslo, Norway</span>
       </div>
+
+      <LegalFooter />
     </footer>
   );
 }
+

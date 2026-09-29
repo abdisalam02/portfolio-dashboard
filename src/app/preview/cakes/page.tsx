@@ -1481,7 +1481,7 @@ export default function PreviewCakesPage() {
                                 required
                                 value={customerPhone}
                                 onChange={(e) => setCustomerPhone(e.target.value)}
-                                placeholder="Mobil for Vipps &amp; SMS"
+                                placeholder="Mobil"
                                 className="p-2.5 border-2 border-[#332F32] bg-white text-xs font-mono font-bold text-[#332F32] shadow-[2px_2px_0px_#332F32] focus:outline-none focus:bg-[#FFF59D]/20"
                               />
                               <input
@@ -1604,7 +1604,7 @@ export default function PreviewCakesPage() {
                             {/* Footer SMS & Vipps Confirmation Note */}
                             <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] border-t-2 border-[#332F32]">
                               <span className="text-[#555] font-bold">
-                                Vipps-krav og SMS-kvittering er sendt til {customerPhone}
+                                Bestillingsforespørsel mottatt. Vi tar kontakt for å bekrefte.
                               </span>
                               <button
                                 type="button"

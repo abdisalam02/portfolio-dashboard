@@ -28,6 +28,8 @@ function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // Honeypot — bots fill this, humans don't. Checked before submitting.
+  const [honeypot, setHoneypot] = useState("");
 
   useEffect(() => {
     if (pkg === "booking-drop") {
@@ -49,6 +51,11 @@ function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Honeypot: if filled, it's a bot — silently pretend it worked
+    if (honeypot) {
+      setIsSuccess(true);
+      return;
+    }
     setIsSubmitting(true);
     setErrorMessage(null);
 
@@ -194,6 +201,18 @@ function ContactForm() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="divide-y divide-card-border">
+              {/* Honeypot — must remain visually hidden and tab-unreachable */}
+              <input
+                type="text"
+                name="_trap"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                className="hidden"
+                tabIndex={-1}
+                aria-hidden="true"
+                autoComplete="off"
+              />
+
               {/* Error Banner if any */}
               {errorMessage && (
                 <div className="px-5 py-3 bg-red-500/10 border-b border-red-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-red-400">
@@ -262,7 +281,7 @@ function ContactForm() {
                   {selectedType === "The Instagram Booking Drop (2,000 kr)" && (
                     <div className="w-full pt-1.5 text-[11px] font-mono text-muted flex items-start gap-1.5 leading-relaxed">
                       <span className="text-foreground">↳</span>
-                      <span>Next step: You&apos;ll fill out a short questionnaire to pick your layout style, colors, services, and upload 6 photos. Ready in 48 hours to 1 week.</span>
+                      <span>Next step: You&apos;ll fill out a short questionnaire to pick your layout style, colors, services, and upload 6 photos. Target turnaround: 1–2 weeks.</span>
                     </div>
                   )}
                 </div>
@@ -325,8 +344,11 @@ I'm looking to build/redesign a website. Here are a few details about what I hav
                   </button>
                 </div>
 
-                <div className="text-[11px] font-mono text-muted">
-                  Direct inbox • Response within 24h
+                <div className="text-[11px] font-mono text-muted leading-relaxed">
+                  Vi bruker opplysningene kun for å svare deg.{" "}
+                  <a href="/privacy" className="underline hover:text-foreground transition-colors">
+                    Personvernerklæring
+                  </a>
                 </div>
               </div>
             </form>
