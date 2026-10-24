@@ -67,14 +67,6 @@ export default function Hero() {
             <span>ALL PROJECTS (03)</span>
             <FiArrowUpRight className="text-sm text-accent" />
           </Link>
-
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-card border border-card-border text-foreground text-xs font-mono hover:border-accent transition-all active:scale-95"
-          >
-            <span>CONTACT ME</span>
-            <FiArrowUpRight className="text-sm text-accent" />
-          </Link>
         </motion.div>
       </div>
 

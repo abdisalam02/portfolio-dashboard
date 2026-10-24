@@ -3,8 +3,8 @@
 Updated: 2026-10-24
 
 ## Now
-- Task: Set persistent RootLayout 15s (Theme) / 10s (Font) auto-roulette with occasional Dark/Light flips synced to Header button, removed nav theme list, expanded to 30 palettes (60 light/dark combos) + 26 font pairings.
-- Uncommitted changes: ready to commit & push
+- Task: Removed top "Contact Me" button from Hero on main page.
+- Uncommitted changes: Hero.tsx
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher
