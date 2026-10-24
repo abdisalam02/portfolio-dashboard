@@ -86,15 +86,15 @@ export default function Header() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between">
-          {/* Brand Name */}
+          {/* Brand Name (Fixed height box so font changes never shift the navbar) */}
           <Link
             href="/"
             className="flex flex-col group"
           >
-            <span className="text-base sm:text-lg font-black tracking-tight font-heading group-hover:opacity-80 transition-opacity">
+            <span className="text-base sm:text-lg font-black tracking-tight font-heading h-[1.15em] leading-none inline-flex items-center group-hover:opacity-80 transition-opacity">
               A.GURE
             </span>
-            <span className="text-[10px] font-mono text-muted">
+            <span className="text-[10px] font-mono text-muted leading-none mt-1">
               Oslo
             </span>
           </Link>

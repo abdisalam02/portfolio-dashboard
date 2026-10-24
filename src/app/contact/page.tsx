@@ -4,6 +4,7 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FlippingWordSwap from "@/components/ui/flipping-word-swap";
 import { FiArrowLeft, FiSend, FiCopy, FiCheck, FiMail } from "react-icons/fi";
 
 const projectTypes = [
@@ -141,7 +142,7 @@ function ContactForm() {
         {/* Page Headline */}
         <div className="mb-10 space-y-3">
           <h1 className="text-4xl sm:text-6xl font-black font-heading tracking-tight">
-            GET IN TOUCH
+            <FlippingWordSwap word1="GET IN TOUCH" />
           </h1>
           <p className="text-sm sm:text-base text-muted font-body leading-relaxed max-w-xl">
             Have a project in mind or want to discuss a new website? Drop a message below and I&apos;ll get back to you.

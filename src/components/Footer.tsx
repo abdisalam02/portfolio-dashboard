@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FiArrowUp, FiArrowUpRight } from "react-icons/fi";
 import LegalFooter from "@/components/LegalFooter";
 import InkSignature from "@/components/InkSignature";
+import FlippingWordSwap from "@/components/ui/flipping-word-swap";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -16,7 +17,7 @@ export default function Footer() {
       <div className="pb-14 border-b border-card-border flex flex-col md:flex-row md:items-end justify-between gap-10">
         <div className="space-y-4">
           <h2 className="text-6xl sm:text-8xl md:text-9xl font-black font-heading tracking-tighter leading-[0.88] text-foreground">
-            LET&apos;S TALK
+            <FlippingWordSwap word1="LET'S TALK" />
           </h2>
           <div className="flex flex-wrap items-center gap-6 pt-2 text-sm font-mono">
             <a

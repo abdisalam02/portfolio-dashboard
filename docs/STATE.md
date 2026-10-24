@@ -3,8 +3,8 @@
 Updated: 2026-10-24
 
 ## Now
-- Task: Removed top "Contact Me" button from Hero on main page.
-- Uncommitted changes: Hero.tsx
+- Task: Isolated `applyFontOnly` vs `applyPaletteOnly` outside `setSecondsLeft` updater (fixing React `StrictMode` double-invocation that triggered both font & theme switches at once) and locked `--font-body`/`--font-mono` + fixed `em` heading heights so zero layout shift occurs when fonts change.
+- Uncommitted changes: ready to commit & push
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher

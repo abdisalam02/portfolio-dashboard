@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FiCopy, FiCheck, FiArrowUpRight, FiMail } from "react-icons/fi";
+import FlippingWordSwap from "@/components/ui/flipping-word-swap";
 
 export default function ContactSection() {
   const [copied, setCopied] = useState(false);
@@ -20,7 +21,7 @@ export default function ContactSection() {
         {/* Left Column: Human Casual Invitation */}
         <div className="lg:col-span-7 space-y-4">
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading tracking-tight">
-            GOT A PROJECT IN MIND?
+            <FlippingWordSwap word1="GOT A PROJECT IN MIND?" />
           </h2>
           <p className="text-base sm:text-lg text-muted font-body max-w-xl leading-relaxed">
             Need a new website, a redesign, or have an idea you want to discuss? Reach out directly and I will get back to you.

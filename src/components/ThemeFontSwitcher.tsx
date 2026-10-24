@@ -915,11 +915,11 @@ export const FONT_PAIRINGS: FontPairing[] = [
   {
     id: "14",
     code: "14",
-    name: "Wide Extended Brutalist",
-    subtitle: "Panchang + IBM Plex Mono",
-    headingVar: "var(--font-panchang)",
-    bodyVar: "var(--font-ibm-mono)",
-    monoVar: "var(--font-ibm-mono)",
+    name: "Classical Garalde",
+    subtitle: "Cormorant Garamond + Inter", // design-ok
+    headingVar: "var(--font-cormorant)",
+    bodyVar: "var(--font-inter)",
+    monoVar: "var(--font-jetbrains)",
   },
   {
     id: "15",
@@ -1005,11 +1005,11 @@ export const FONT_PAIRINGS: FontPairing[] = [
   {
     id: "24",
     code: "24",
-    name: "Electronic Matrix",
-    subtitle: "Array + IBM Plex Mono",
-    headingVar: "var(--font-array)",
-    bodyVar: "var(--font-ibm-mono)",
-    monoVar: "var(--font-ibm-mono)",
+    name: "General Geometric",
+    subtitle: "General Sans + Inter", // design-ok
+    headingVar: "var(--font-general)",
+    bodyVar: "var(--font-inter)",
+    monoVar: "var(--font-jetbrains)",
   },
   {
     id: "25",
@@ -1027,15 +1027,11 @@ export const FONT_PAIRINGS: FontPairing[] = [
 const THEME_INTERVAL_SECONDS = 15;
 const FONT_INTERVAL_SECONDS = 10;
 
-export function applyPaletteAndFonts(
-  paletteId: string,
-  fontId: string,
-  isDarkMode?: boolean
-) {
+export function applyPaletteOnly(paletteId: string, isDarkMode?: boolean) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
-  const palette = WADA_PALETTES.find((p) => p.id === paletteId) || WADA_PALETTES[0];
-  const font = FONT_PAIRINGS.find((f) => f.id === fontId) || FONT_PAIRINGS[0];
+  const palette =
+    WADA_PALETTES.find((p) => p.id === paletteId) || WADA_PALETTES[0];
 
   const darkActive =
     typeof isDarkMode === "boolean"
@@ -1065,12 +1061,30 @@ export function applyPaletteAndFonts(
   root.style.setProperty("--text-ink", tone.fg);
   root.style.setProperty("--text-muted", tone.muted);
   root.style.setProperty("--border-line", tone.cardBorder);
+}
 
+export function applyFontOnly(fontId: string) {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  const font =
+    FONT_PAIRINGS.find((f) => f.id === fontId) || FONT_PAIRINGS[0];
+
+  // Only change the display/heading font variable; keep body & mono metrics 100% locked
+  // so paragraphs, buttons, tags, and containers never reflow or shift around.
   root.style.setProperty("--font-heading", font.headingVar);
-  root.style.setProperty("--font-body", font.bodyVar);
-  root.style.setProperty("--font-mono", font.monoVar);
   root.style.setProperty("--font-display", font.headingVar);
-  root.style.setProperty("--font-sans", font.bodyVar);
+  root.style.setProperty("--font-body", "var(--font-inter)");
+  root.style.setProperty("--font-sans", "var(--font-inter)");
+  root.style.setProperty("--font-mono", "var(--font-jetbrains)");
+}
+
+export function applyPaletteAndFonts(
+  paletteId: string,
+  fontId: string,
+  isDarkMode?: boolean
+) {
+  applyPaletteOnly(paletteId, isDarkMode);
+  applyFontOnly(fontId);
 }
 
 /**
@@ -1146,13 +1160,12 @@ export default function ThemeFontSwitcher() {
     } = stateRef.current;
 
     if (kind === "theme") {
+      // Strictly change ONLY the color palette (never touch the font)
       const candidates = WADA_PALETTES.filter((p) => p.id !== curP);
       const picked =
         candidates[Math.floor(Math.random() * candidates.length)] ||
         WADA_PALETTES[0];
 
-      // Occasional random dark/light mode flip (~25% chance on theme changes)
-      // When that happens, notify Header.tsx so the top button switches to LIGHT / DARK accordingly
       let nextLight = curLight;
       if (Math.random() < 0.25) {
         nextLight = !curLight;
@@ -1167,35 +1180,56 @@ export default function ThemeFontSwitcher() {
 
       setPaletteId(picked.id);
       localStorage.setItem("ag_wada_palette", picked.id);
-      applyPaletteAndFonts(picked.id, curF, !nextLight);
+      applyPaletteOnly(picked.id, !nextLight);
     } else {
+      // Strictly change ONLY the heading font (never touch the color palette)
+      const prevFontObj =
+        FONT_PAIRINGS.find((f) => f.id === curF) || FONT_PAIRINGS[0];
       const candidates = FONT_PAIRINGS.filter((f) => f.id !== curF);
       const picked =
         candidates[Math.floor(Math.random() * candidates.length)] ||
         FONT_PAIRINGS[0];
+
+      window.dispatchEvent(
+        new CustomEvent("ag-font-change", {
+          detail: {
+            fontId: picked.id,
+            prevFontVar: prevFontObj.headingVar,
+            nextFontVar: picked.headingVar,
+          },
+        })
+      );
+
       setFontId(picked.id);
       localStorage.setItem("ag_font_pair", picked.id);
-      applyPaletteAndFonts(curP, picked.id, !curLight);
+      applyFontOnly(picked.id);
     }
   }, []);
 
+  const secondsRef = useRef(THEME_INTERVAL_SECONDS);
+
   // Persistent 1s tick in RootLayout: 15s for Theme -> 10s for Font -> 15s for Theme
+  // Side effects run outside React setState updater so StrictMode never double-fires both theme & font!
   useEffect(() => {
     if (!autoCycleEnabled) return;
 
     const timer = window.setInterval(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          const currentKind = stateRef.current.nextKind;
-          triggerRandomSwitch(currentKind);
-          const upcomingKind = currentKind === "theme" ? "font" : "theme";
-          setNextKind(upcomingKind);
-          return upcomingKind === "theme"
+      if (secondsRef.current <= 1) {
+        const currentKind = stateRef.current.nextKind;
+        triggerRandomSwitch(currentKind);
+        const upcomingKind = currentKind === "theme" ? "font" : "theme";
+        stateRef.current.nextKind = upcomingKind;
+        setNextKind(upcomingKind);
+        const nextDuration =
+          upcomingKind === "theme"
             ? THEME_INTERVAL_SECONDS
             : FONT_INTERVAL_SECONDS;
-        }
-        return prev - 1;
-      });
+        secondsRef.current = nextDuration;
+        setSecondsLeft(nextDuration);
+      } else {
+        secondsRef.current -= 1;
+        setSecondsLeft(secondsRef.current);
+      }
     }, 1000);
 
     return () => window.clearInterval(timer);
@@ -1210,43 +1244,29 @@ export default function ThemeFontSwitcher() {
     return null;
   }
 
-  const currentPalette =
-    WADA_PALETTES.find((p) => p.id === paletteId) || WADA_PALETTES[0];
-  const currentFont =
-    FONT_PAIRINGS.find((f) => f.id === fontId) || FONT_PAIRINGS[0];
-
   return (
     <div
-      className="fixed top-16 right-4 sm:right-8 z-50 w-72 rounded-xl border border-card-border p-3 shadow-md transition-opacity duration-200"
+      className="fixed bottom-4 right-4 sm:bottom-5 sm:right-6 z-50 rounded-lg border border-card-border/60 px-3 py-1.5 transition-all duration-300 flex items-center gap-3"
       style={{
-        backgroundColor: "var(--card-bg)",
+        backgroundColor: "color-mix(in srgb, var(--card-bg) 72%, transparent)",
         color: "var(--fg)",
       }}
     >
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
-          <span className="text-xs font-mono font-bold truncate">
-            {nextKind === "theme" ? "Theme change" : "Font change"} in{" "}
-            <span className="text-accent">{secondsLeft}</span>
-          </span>
-        </div>
-
-        <button
-          type="button"
-          onClick={handleDisable}
-          className="px-2.5 py-1 rounded bg-accent text-accent-fg text-[10px] font-mono font-bold hover:opacity-90 transition-opacity flex-shrink-0"
-        >
-          DISABLE
-        </button>
-      </div>
-
-      <div className="mt-1.5 flex items-center justify-between text-[10px] font-mono text-muted">
-        <span className="truncate">
-          {currentPalette.name.split("·")[1]?.trim() || currentPalette.name} ·{" "}
-          {currentFont.name}
+      <div className="flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
+        <span className="text-[11px] font-mono font-medium whitespace-nowrap">
+          {nextKind === "theme" ? "Theme change" : "Font change"} in{" "}
+          <span className="text-accent font-bold">{secondsLeft}</span>
         </span>
       </div>
+
+      <button
+        type="button"
+        onClick={handleDisable}
+        className="px-2 py-0.5 rounded bg-accent/90 text-accent-fg text-[9px] font-mono font-bold hover:opacity-100 opacity-85 transition-opacity flex-shrink-0"
+      >
+        DISABLE
+      </button>
     </div>
   );
 }

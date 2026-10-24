@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
 import AutoScrollFrame from "./AutoScrollFrame";
 import SadijaReelPreview from "./SadijaReelPreview";
+import FlippingWordSwap from "./ui/flipping-word-swap";
 
 interface Project {
   id: string;
@@ -85,13 +86,13 @@ export default function ClientWork({
   const countFormatted = `0${visibleProjects.length}`;
 
   return (
-    <section id="work" className="py-20 md:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
-      {/* Monumental Editorial Section Header */}
-      <div className="border-t border-b border-card-border py-8 sm:py-12 mb-12 md:mb-16">
+    <section id="work" className="py-16 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+      {/* Monumental Editorial Section Header with 3D Font-Flip on Title */}
+      <div className="border-t border-b border-card-border py-8 sm:py-10 mb-8 md:mb-12">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="flex items-start gap-2 sm:gap-3">
             <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black font-heading tracking-tighter leading-[0.88] text-foreground">
-              {headingTitle}
+              <FlippingWordSwap word1={headingTitle} />
             </h2>
             <sup className="text-base sm:text-2xl font-mono font-bold text-accent pt-1 sm:pt-2">
               {countFormatted}
@@ -118,24 +119,24 @@ export default function ClientWork({
           </div>
         </div>
 
-        {/* Expanded Editorial Details Strip on the Dedicated /work Page */}
+        {/* Dedicated /work Page: Tightly Connected 3-Column Editorial Strip (Zero Scroll-Jacking, Zero Blank Gap) */}
         {isWorkPage && (
-          <div className="mt-8 pt-8 border-t border-card-border grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-xs">
-            <div className="p-4 rounded-xl bg-card border border-card-border space-y-2">
+          <div className="mt-8 pt-6 border-t border-card-border grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-xs">
+            <div className="p-4 rounded-xl bg-card border border-card-border space-y-1.5">
               <span className="font-mono text-accent font-bold block">01 / WHAT I BUILD</span>
               <p className="font-body text-foreground/90 leading-relaxed">
                 Custom websites, automated booking calendars, 3D product showcases, and mobile-first bio experiences built around how customers actually act on their phones.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-card border border-card-border space-y-2">
+            <div className="p-4 rounded-xl bg-card border border-card-border space-y-1.5">
               <span className="font-mono text-accent font-bold block">02 / APPROACH</span>
               <p className="font-body text-foreground/90 leading-relaxed">
                 1-on-1 design and code from start to finish. No bloated page builders or generic templates. Fast load times, clean typography, and direct ownership.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-card border border-card-border space-y-2">
+            <div className="p-4 rounded-xl bg-card border border-card-border space-y-1.5">
               <span className="font-mono text-accent font-bold block">03 / ARCHIVE INDEX</span>
               <div className="flex flex-col space-y-1 font-mono pt-0.5">
                 {visibleProjects.map((p, i) => (
@@ -147,7 +148,7 @@ export default function ClientWork({
                     <span>
                       0{i + 1} / {p.name}
                     </span>
-                    <span className="text-accent">{p.year} ↗</span>
+                    <span className="text-accent">{p.year} ↓</span>
                   </a>
                 ))}
               </div>
@@ -156,7 +157,7 @@ export default function ClientWork({
         )}
       </div>
 
-      {/* Editorial Hairline Project Index Rows */}
+      {/* Editorial Hairline Project Index Rows (Immediately Connected Below Header) */}
       <div className="divide-y divide-card-border border-b border-card-border">
         {visibleProjects.map((project, idx) => {
           const displayIndex = `0${idx + 1}`;
@@ -164,7 +165,7 @@ export default function ClientWork({
             <article
               key={project.id}
               id={`project-${project.id}`}
-              className="py-14 md:py-24 first:pt-4 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center"
+              className="py-12 md:py-20 first:pt-2 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center"
             >
               {/* Left Column: Outlined Index Number, Human Story & Circular Action Button */}
               <div className="lg:col-span-5 flex flex-col justify-between space-y-6 order-2 lg:order-1">
@@ -172,7 +173,7 @@ export default function ClientWork({
                   {/* Outlined Index Number + Year/Category Row */}
                   <div className="flex items-baseline justify-between border-b border-card-border pb-4">
                     <span
-                      className="outline-index text-5xl sm:text-6xl font-black font-heading leading-none select-none text-accent"
+                      className="outline-index text-5xl sm:text-6xl font-black font-heading h-[1.05em] inline-flex items-center leading-none select-none text-accent"
                       aria-hidden="true"
                     >
                       {displayIndex}
@@ -187,7 +188,7 @@ export default function ClientWork({
                     </div>
                   </div>
 
-                  {/* Brand Mark, Title & Circular ↗ Launch Icon */}
+                  {/* Brand Mark, Title (with FlippingWordSwap) & Circular ↗ Launch Icon */}
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                       <div className="relative w-9 h-9 rounded-lg bg-card border border-card-border flex items-center justify-center p-1.5 flex-shrink-0">
@@ -200,7 +201,7 @@ export default function ClientWork({
                         />
                       </div>
                       <h3 className="text-3xl sm:text-4xl font-black font-heading tracking-tight text-foreground">
-                        {project.name}
+                        <FlippingWordSwap word1={project.name} />
                       </h3>
                     </div>
 
