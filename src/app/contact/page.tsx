@@ -124,7 +124,7 @@ function ContactForm() {
   };
 
   return (
-    <main className="relative min-h-dvh bg-background text-foreground bento-grid-bg">
+    <main className="relative min-h-svh bg-background text-foreground bento-grid-bg">
       <Header />
 
       <div className="pt-32 pb-20 md:pt-40 md:pb-28 px-4 sm:px-8 max-w-4xl mx-auto">

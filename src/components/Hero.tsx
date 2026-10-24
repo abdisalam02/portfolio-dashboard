@@ -14,8 +14,9 @@ export default function Hero() {
     }
   };
 
+  // svh, not dvh: dvh re-measures as the mobile address bar collapses, resizing the hero and shifting everything below mid-scroll
   return (
-    <section className="relative min-h-dvh flex flex-col justify-between pt-28 pb-8 sm:pt-36 sm:pb-10 md:pt-40 md:pb-12 px-4 sm:px-8 max-w-7xl mx-auto">
+    <section className="relative min-h-svh flex flex-col justify-between pt-28 pb-8 sm:pt-36 sm:pb-10 md:pt-40 md:pb-12 px-4 sm:px-8 max-w-7xl mx-auto">
       {/* Top Main Typographic Core: Larger Handwritten Ink Signature */}
       <div className="flex flex-col space-y-8 md:space-y-10 my-auto">
         <div className="space-y-4 sm:space-y-5">

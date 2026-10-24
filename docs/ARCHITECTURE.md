@@ -5,7 +5,7 @@ Read this before searching. Open files by line range. Never read a "Big file" wh
 ## Routes
 | URL | Entry (lines) | UI lives in (lines) |
 |---|---|---|
-| / | src/app/page.tsx (19) | src/components/Header.tsx (221)<br>src/components/Hero.tsx (81)<br>src/components/ClientWork.tsx (306) |
+| / | src/app/page.tsx (19) | src/components/Header.tsx (221)<br>src/components/Hero.tsx (82)<br>src/components/ClientWork.tsx (306) |
 | /api/auth-pin | src/app/api/auth-pin/route.ts (21) | API handler |
 | /api/generate-pitch | src/app/api/generate-pitch/route.ts (256) | API handler |
 | /api/send-email | src/app/api/send-email/route.ts (321) | API handler |

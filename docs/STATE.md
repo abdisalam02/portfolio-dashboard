@@ -4,7 +4,7 @@ Updated: 2026-10-24
 
 ## Now
 - Task: Clamped mobile headings (`GOT A PROJECT IN MIND?`, etc.) to prevent horizontal overflow on font switch; fixed homepage scroll fighting (`overflowAnchor: none`, native scroll); sorted Wada palettes by luminance for smooth +1/-1 brightness stepping; locked `/library`, `/customizer`, `/inspo`, `/demo/*`, `/preview/*`, and `/studio` behind server-verified `StudioPinGate`.
-- Uncommitted changes: ready to commit & push
+- Uncommitted changes: Hero/body/page heights `dvh` -> `svh` to stop mobile address-bar resize jitter. Decision: page-level heights use `svh` (overrides the global "use dvh" rule for this case).
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher

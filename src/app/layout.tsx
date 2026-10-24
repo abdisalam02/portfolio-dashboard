@@ -208,7 +208,7 @@ export default function RootLayout({
           href="https://api.fontshare.com/v2/css?f[]=comico@400&f[]=clash-display@600,700&f[]=cabinet-grotesk@700,800&f[]=zodiak@400,700&f[]=boska@500,700&f[]=gambarino@400&f[]=panchang@600,700&f[]=satoshi@500,700&f[]=general-sans@500,600&f[]=telma@500,700&f[]=khand@600,700&f[]=chillax@500,600&f[]=ranade@500,700&f[]=sentient@500,700&f[]=supreme@500,700&f[]=technor@600,700&f[]=array@400,700&f[]=stardom@400&display=swap"
         />
       </head>
-      <body className="antialiased min-h-dvh selection:bg-foreground selection:text-background">
+      <body className="antialiased min-h-svh selection:bg-foreground selection:text-background">
         <ThemeFontSwitcher />
         <SmoothScroll>
           {children}
