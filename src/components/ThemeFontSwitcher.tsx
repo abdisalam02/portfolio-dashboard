@@ -63,15 +63,15 @@ export const WADA_PALETTES: WadaPalette[] = [
     code: "01",
     name: "Wada #012 · Grenadine & Ink",
     subtitle: "Vermilion, Carbon & Warm Cream",
-    swatches: ["#D94E34", "#141312", "#F4EFE6"],
+    swatches: ["#F2E5DF", "#141312", "#D94E34"],
     light: {
-      bg: "#D94E34",
-      fg: "#141312",
-      cardBg: "#C64229",
-      cardBorder: "rgba(20, 19, 18, 0.26)",
-      muted: "#2D1E1B",
-      accent: "#F4EFE6",
-      accentFg: "#141312",
+      bg: "#F2E5DF",
+      fg: "#181312",
+      cardBg: "#E6D4CB",
+      cardBorder: "rgba(24, 19, 18, 0.2)",
+      muted: "#5E433D",
+      accent: "#D94E34",
+      accentFg: "#FAF6F4",
     },
     dark: {
       bg: "#19110F",
@@ -762,15 +762,15 @@ export const WADA_PALETTES: WadaPalette[] = [
     id: "29",
     code: "29",
     name: "Swiss Poster Yellow & Pitch",
-    subtitle: "Signal Yellow, Pitch Black & Paper",
-    swatches: ["#F2CA27", "#111111", "#FAF8F0"],
+    subtitle: "Warm Buttercream, Pitch & Ochre",
+    swatches: ["#F4EED7", "#111111", "#C99B0E"],
     light: {
-      bg: "#F2CA27",
+      bg: "#F4EED7",
       fg: "#111111",
-      cardBg: "#E3BA14",
-      cardBorder: "rgba(17, 17, 17, 0.25)",
-      muted: "#383008",
-      accent: "#111111",
+      cardBg: "#E7DFC0",
+      cardBorder: "rgba(17, 17, 17, 0.2)",
+      muted: "#574E29",
+      accent: "#B88B06",
       accentFg: "#FAF8F0",
     },
     dark: {
@@ -784,6 +784,28 @@ export const WADA_PALETTES: WadaPalette[] = [
     },
   },
 ];
+
+function getHexLuminance(hex: string): number {
+  const clean = hex.replace("#", "").trim();
+  if (clean.length !== 6) return 0.5;
+  const r = parseInt(clean.slice(0, 2), 16) / 255;
+  const g = parseInt(clean.slice(2, 4), 16) / 255;
+  const b = parseInt(clean.slice(4, 6), 16) / 255;
+  const toLinear = (c: number) =>
+    c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+}
+
+// Pre-computed brightness-sorted palette sequences (brightest -> deepest)
+// so theme transitions step gently to the nearest neighbor in brightness (+1 then -1)
+// and never flashbang the viewer.
+const LIGHT_BRIGHTNESS_ORDER = [...WADA_PALETTES]
+  .sort((a, b) => getHexLuminance(b.light.bg) - getHexLuminance(a.light.bg))
+  .map((p) => p.id);
+
+const DARK_BRIGHTNESS_ORDER = [...WADA_PALETTES]
+  .sort((a, b) => getHexLuminance(a.dark.bg) - getHexLuminance(b.dark.bg))
+  .map((p) => p.id);
 
 export const FONT_PAIRINGS: FontPairing[] = [
   {
@@ -1152,6 +1174,8 @@ export default function ThemeFontSwitcher() {
       window.removeEventListener("ag-manual-theme-toggle", onManualModeChange);
   }, []);
 
+  const themeStepDirRef = useRef<1 | -1>(1);
+
   const triggerRandomSwitch = useCallback((kind: "theme" | "font") => {
     const {
       paletteId: curP,
@@ -1160,27 +1184,24 @@ export default function ThemeFontSwitcher() {
     } = stateRef.current;
 
     if (kind === "theme") {
-      // Strictly change ONLY the color palette (never touch the font)
-      const candidates = WADA_PALETTES.filter((p) => p.id !== curP);
-      const picked =
-        candidates[Math.floor(Math.random() * candidates.length)] ||
-        WADA_PALETTES[0];
+      // Step smoothly (+1 or -1) along the brightness-sorted palette sequence
+      // so adjacent palettes have nearly identical luminance and never flashbang the eyes.
+      const order = curLight ? LIGHT_BRIGHTNESS_ORDER : DARK_BRIGHTNESS_ORDER;
+      const currentIndex = Math.max(0, order.indexOf(curP));
+      let nextIndex = currentIndex + themeStepDirRef.current;
 
-      let nextLight = curLight;
-      if (Math.random() < 0.25) {
-        nextLight = !curLight;
-        setIsLightMode(nextLight);
-        localStorage.setItem("ag_theme", nextLight ? "light" : "dark");
-        window.dispatchEvent(
-          new CustomEvent("ag-auto-theme-mode-change", {
-            detail: { isLightMode: nextLight },
-          })
-        );
+      if (nextIndex >= order.length) {
+        themeStepDirRef.current = -1;
+        nextIndex = Math.max(0, order.length - 2);
+      } else if (nextIndex < 0) {
+        themeStepDirRef.current = 1;
+        nextIndex = Math.min(order.length - 1, 1);
       }
 
-      setPaletteId(picked.id);
-      localStorage.setItem("ag_wada_palette", picked.id);
-      applyPaletteOnly(picked.id, !nextLight);
+      const nextPaletteId = order[nextIndex] || "00";
+      setPaletteId(nextPaletteId);
+      localStorage.setItem("ag_wada_palette", nextPaletteId);
+      applyPaletteOnly(nextPaletteId, !curLight);
     } else {
       // Strictly change ONLY the heading font (never touch the color palette)
       const prevFontObj =

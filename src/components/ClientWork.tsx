@@ -90,11 +90,11 @@ export default function ClientWork({
       {/* Monumental Editorial Section Header with 3D Font-Flip on Title */}
       <div className="border-t border-b border-card-border py-8 sm:py-10 mb-8 md:mb-12">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div className="flex items-start gap-2 sm:gap-3">
-            <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black font-heading tracking-tighter leading-[0.88] text-foreground">
+          <div className="flex items-start gap-2 sm:gap-3 min-w-0 max-w-full overflow-hidden">
+            <h2 className="text-[clamp(2.25rem,10vw,6.5rem)] font-black font-heading tracking-tighter leading-[0.88] text-foreground max-w-full overflow-hidden">
               <FlippingWordSwap word1={headingTitle} />
             </h2>
-            <sup className="text-base sm:text-2xl font-mono font-bold text-accent pt-1 sm:pt-2">
+            <sup className="text-base sm:text-2xl font-mono font-bold text-accent pt-1 sm:pt-2 flex-shrink-0">
               {countFormatted}
             </sup>
           </div>

@@ -19,8 +19,8 @@ export default function ContactSection() {
     <section id="contact" className="py-20 md:py-32 px-4 sm:px-8 max-w-7xl mx-auto border-t border-card-border">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
         {/* Left Column: Human Casual Invitation */}
-        <div className="lg:col-span-7 space-y-4">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading tracking-tight">
+        <div className="lg:col-span-7 space-y-4 min-w-0 max-w-full overflow-hidden">
+          <h2 className="text-[clamp(1.15rem,4.8vw,3.5rem)] font-black font-heading tracking-tight max-w-full overflow-hidden">
             <FlippingWordSwap word1="GOT A PROJECT IN MIND?" />
           </h2>
           <p className="text-base sm:text-lg text-muted font-body max-w-xl leading-relaxed">

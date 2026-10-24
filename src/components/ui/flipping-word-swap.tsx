@@ -60,13 +60,13 @@ export function FlippingWordSwap({
 
   return (
     <span
-      className={`relative inline-grid h-[1.08em] leading-none items-center select-none align-bottom overflow-hidden whitespace-nowrap [perspective:800px] ${className}`}
+      className={`relative inline-grid max-w-full h-[1.08em] leading-none items-center select-none align-bottom overflow-hidden whitespace-nowrap [perspective:800px] ${className}`}
       style={style}
     >
       {/* Outgoing Font Layer */}
       <span
         aria-hidden={isFlipping ? "true" : undefined}
-        className="col-start-1 row-start-1 inline-flex items-center h-[1.08em] leading-none [backface-visibility:hidden]"
+        className="col-start-1 row-start-1 inline-flex items-center max-w-full h-[1.08em] leading-none overflow-hidden text-ellipsis [backface-visibility:hidden]"
         style={{
           fontFamily: outgoingFont ? `${outgoingFont}, sans-serif` : undefined,
           transformOrigin: "center top",
@@ -83,7 +83,7 @@ export function FlippingWordSwap({
       {/* Incoming Font Layer */}
       <span
         aria-hidden="true"
-        className="col-start-1 row-start-1 inline-flex items-center h-[1.08em] leading-none [backface-visibility:hidden]"
+        className="col-start-1 row-start-1 inline-flex items-center max-w-full h-[1.08em] leading-none overflow-hidden text-ellipsis [backface-visibility:hidden]"
         style={{
           fontFamily: incomingFont ? `${incomingFont}, sans-serif` : undefined,
           transformOrigin: "center bottom",

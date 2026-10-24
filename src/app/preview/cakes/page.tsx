@@ -1,7 +1,12 @@
 "use client";
 
 import LuffyCakesView from "@/components/demo/LuffyCakesView";
+import StudioPinGate from "@/components/StudioPinGate";
 
 export default function PreviewCakesPage() {
-  return <LuffyCakesView />;
+  return (
+    <StudioPinGate title="Luffy Cakes Preview">
+      <LuffyCakesView />
+    </StudioPinGate>
+  );
 }

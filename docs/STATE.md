@@ -3,7 +3,7 @@
 Updated: 2026-10-24
 
 ## Now
-- Task: Isolated `applyFontOnly` vs `applyPaletteOnly` outside `setSecondsLeft` updater (fixing React `StrictMode` double-invocation that triggered both font & theme switches at once) and locked `--font-body`/`--font-mono` + fixed `em` heading heights so zero layout shift occurs when fonts change.
+- Task: Clamped mobile headings (`GOT A PROJECT IN MIND?`, etc.) to prevent horizontal overflow on font switch; fixed homepage scroll fighting (`overflowAnchor: none`, native scroll); sorted Wada palettes by luminance for smooth +1/-1 brightness stepping; locked `/library`, `/customizer`, `/inspo`, `/demo/*`, `/preview/*`, and `/studio` behind server-verified `StudioPinGate`.
 - Uncommitted changes: ready to commit & push
 
 ## Next (max 3)

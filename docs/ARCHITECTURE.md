@@ -5,49 +5,49 @@ Read this before searching. Open files by line range. Never read a "Big file" wh
 ## Routes
 | URL | Entry (lines) | UI lives in (lines) |
 |---|---|---|
-| / | src/app/page.tsx (19) | src/components/Header.tsx (221)<br>src/components/Hero.tsx (81)<br>src/components/ClientWork.tsx (277) |
+| / | src/app/page.tsx (19) | src/components/Header.tsx (221)<br>src/components/Hero.tsx (81)<br>src/components/ClientWork.tsx (306) |
 | /api/auth-pin | src/app/api/auth-pin/route.ts (21) | API handler |
 | /api/generate-pitch | src/app/api/generate-pitch/route.ts (256) | API handler |
 | /api/send-email | src/app/api/send-email/route.ts (321) | API handler |
 | /contact | src/app/contact/page.tsx (348) | src/components/Header.tsx (221)<br>src/components/Footer.tsx (102) |
-| /customizer | src/app/customizer/page.tsx (12) | src/app/library/page.tsx (769) |
-| /demo | src/app/demo/page.tsx (105) | src/components/Header.tsx (221)<br>src/components/Footer.tsx (102) |
-| /demo/cakes | src/app/demo/cakes/page.tsx (18) | src/components/demo/LuffyCakesView.tsx (1857) |
-| /demo/nails | src/app/demo/nails/page.tsx (18) | src/components/demo/StudioKloNailsView.tsx (1168) |
+| /customizer | src/app/customizer/page.tsx (12) | src/app/library/page.tsx (778) |
+| /demo | src/app/demo/page.tsx (102) | src/components/Header.tsx (221)<br>src/components/Footer.tsx (102)<br>src/components/StudioPinGate.tsx (149) |
+| /demo/cakes | src/app/demo/cakes/page.tsx (17) | src/components/demo/LuffyCakesView.tsx (1857)<br>src/components/StudioPinGate.tsx (149) |
+| /demo/nails | src/app/demo/nails/page.tsx (17) | src/components/demo/StudioKloNailsView.tsx (1168)<br>src/components/StudioPinGate.tsx (149) |
 | /estimate | src/app/estimate/page.tsx (6) | self-contained |
-| /inspo | src/app/inspo/page.tsx (609) | src/data/inspo-index.json (1432)<br>src/components/library/extracted/WeeklyAvailabilityTicker.tsx (54)<br>src/components/library/extracted/EditorialGridBooking.tsx (93) |
-| /library | src/app/library/page.tsx (769) | src/components/library/registry.ts (2234)<br>src/components/library/ComponentCard.tsx (152)<br>src/components/library/types.ts (62) |
+| /inspo | src/app/inspo/page.tsx (618) | src/data/inspo-index.json (1432)<br>src/components/library/extracted/WeeklyAvailabilityTicker.tsx (54)<br>src/components/library/extracted/EditorialGridBooking.tsx (93) |
+| /library | src/app/library/page.tsx (778) | src/components/library/registry.ts (2234)<br>src/components/library/ComponentCard.tsx (152)<br>src/components/library/types.ts (62) |
 | /planner | src/app/planner/page.tsx (6) | self-contained |
-| /preview/cakes | src/app/preview/cakes/page.tsx (8) | src/components/demo/LuffyCakesView.tsx (1857) |
-| /preview/nails | src/app/preview/nails/page.tsx (8) | src/components/demo/StudioKloNailsView.tsx (1168) |
+| /preview/cakes | src/app/preview/cakes/page.tsx (13) | src/components/demo/LuffyCakesView.tsx (1857)<br>src/components/StudioPinGate.tsx (149) |
+| /preview/nails | src/app/preview/nails/page.tsx (13) | src/components/demo/StudioKloNailsView.tsx (1168)<br>src/components/StudioPinGate.tsx (149) |
 | /pricing | src/app/pricing/page.tsx (6) | self-contained |
 | /privacy | src/app/privacy/page.tsx (135) | src/components/Header.tsx (221)<br>src/components/Footer.tsx (102)<br>src/config/legal.ts (19) |
-| /studio | src/app/studio/page.tsx (1425) | self-contained |
-| /work | src/app/work/page.tsx (19) | src/components/Header.tsx (221)<br>src/components/ClientWork.tsx (277)<br>src/components/Footer.tsx (102) |
+| /studio | src/app/studio/page.tsx (1426) | self-contained |
+| /work | src/app/work/page.tsx (19) | src/components/Header.tsx (221)<br>src/components/ClientWork.tsx (306)<br>src/components/Footer.tsx (102) |
 
 ## Big files (over 500 lines: use these ranges)
 ### src/components/library/registry.ts (2234 lines)
 Mostly data or one block. Split it or add an index before editing.
 ### src/components/demo/LuffyCakesView.tsx (1857 lines)
 LuffyCakesLogo L26-56; GALLERY_CAKES L243-293; SIGNATURE_PRESETS L294-359; FROSTING_OPTIONS L393-425; LuffyCakesView L434-1857
-### src/app/studio/page.tsx (1425 lines)
-generateCuratedPitch L29-162; StudioPage L163-1425
-### src/components/ThemeFontSwitcher.tsx (1252 lines)
-WADA_PALETTES L35-787; FONT_PAIRINGS L788-1026; applyPaletteAndFonts L1030-1087; ThemeFontSwitcher L1088-1252
+### src/app/studio/page.tsx (1426 lines)
+generateCuratedPitch L29-162; StudioPage L163-1426
+### src/components/ThemeFontSwitcher.tsx (1294 lines)
+WADA_PALETTES L35-787; FONT_PAIRINGS L810-1048; applyPaletteOnly L1052-1087; ThemeFontSwitcher L1116-1294
 ### src/components/demo/StudioKloNailsView.tsx (1168 lines)
 PALETTES L34-97; SERVICES L139-181; LOOKBOOK L182-245; StudioKloNailsView L285-1168
 ### src/components/library/HeroComponents.tsx (916 lines)
 HeroBigInk L18-42; HeroSplitScreen L43-80; HeroPortraitVignette L81-108; HeroNewspaperBroadside L109-148; HeroCinematicCover L149-180; HeroBrutalistWireframe L181-212; HeroSequentialLedger L213-244; HeroProductFocus L245-279; HeroAsymmetricBleed L280-306; HeroSingleInput L307-349; HeroQuadMasonry L350-387; HeroStudioDossier L388-426; HeroBusinessCard L427-456; HeroKineticHeadline L457-484; HeroTerracottaPottery L485-518; HeroVintagePatisserie L519-545; HeroZenMatchaNails L546-590; HeroCyberStreetwear L591-623; HeroNeoBrutalistY2K L624-654; HeroAceternityLampGlow L655-681; HeroFineJewelryNoir L682-714; HeroWeddingDocumentary L715-750; HeroBarberIndustrial L751-783; HeroArtisanFloralBoutique L784-815; HeroNeoMintWellness L816-844; HeroDarkBotanicalApothecary L845-880; HeroJapaneseIndigoArtisan L881-916
-### src/app/library/page.tsx (769 lines)
-AESTHETIC_VIBES L45-68; UILibraryPage L69-769
+### src/app/library/page.tsx (778 lines)
+AESTHETIC_VIBES L46-69; UILibraryInner L70-770
 ### src/components/library/BookingComponents.tsx (735 lines)
 BookingDateStrip L19-63; BookingTimeMatrix L64-103; BookingBoardingPass L104-142; BookingVippsDeposit L143-180; BookingSelectorChips L181-231; BookingThreeField L232-270; BookingMobileBottomPill L271-290; BookingMonoTerminal L291-323; BookingIntakeCard L324-356; BookingInstaLauncher L357-386; BookingTerracottaWheel L387-422; BookingCakeTastingDate L423-445; BookingZenMatchaCalendar L446-467; BookingCyberGrillzImpression L468-491; BookingNeoPopStickerBooking L492-520; BookingMagicFloatingAction L521-540; BookingLuxuryJewelryPrivate L541-569; BookingWeddingContractInquiry L570-594; BookingBarberLiveQueue L595-616; BookingArtisanFridayDelivery L617-637; BookingY2KAcidSlip L638-672; BookingJapaneseSashikoPass L673-703; BookingSwissLinearBar L704-735
 ### src/components/library/GalleryComponents.tsx (685 lines)
 GalleryFilmstrip L8-49; GalleryEditorialDuo L50-83; GalleryMasonryTrio L84-109; GalleryPolaroidSpecimen L110-135; GalleryVerticalStacker L136-158; GalleryHoverZoom L159-200; GallerySixGrid L201-227; GalleryBeforeAfter L245-282; GalleryBlueprintReveal L283-312; GalleryCircularFraming L313-332; GalleryFocusTrio L333-358; GalleryTerracottaUrns L359-381; GalleryCakeFlavorsGrid L382-408; GalleryZenMatchaNails L409-436; GalleryCyberChromeGrillz L437-462; GalleryNeoPopStickerPinboard L463-496; GalleryMagicParallaxStack L497-528; GalleryLuxuryGoldJewels L529-552; GalleryWedding35mmFilm L553-576; GalleryBarberFadeGrid L577-602; GalleryEspressoPolaroidStrip L622-651; GalleryRetroSunsetMosaic L652-685
 ### src/components/library/DropdownComponents.tsx (655 lines)
 AccordionHairlineRule L16-48; AccordionBrutalistCell L49-81; AccordionNumberedDossier L82-117; AccordionSideBySide L118-158; AccordionPlusMinus L159-184; AccordionFloatingCards L185-215; AccordionServicePrice L216-245; AccordionTabPills L246-275; AccordionCodeInspector L276-310; AccordionChevronSnap L311-334; AccordionNestedDrilldown L335-380; AccordionBorderlessGhost L381-408; AccordionTerracottaPill L409-432; AccordionPatisserieFlavors L433-464; AccordionWabiSabiTea L465-486; AccordionCyberTerminal L487-508; AccordionNeoPopChunky L509-532; AccordionMagicGlassGlow L533-557; AccordionLuxuryGoldAtelier L558-584; AccordionWeddingTimeline L585-610; AccordionBarberQueueCheck L611-634; AccordionBotanicalCare L635-655
-### src/app/inspo/page.tsx (609 lines)
-EXTRACTED_MAP L29-54; Pill L97-125; InspectModal L126-342; InspoVaultPage L343-609
+### src/app/inspo/page.tsx (618 lines)
+EXTRACTED_MAP L30-55; Pill L98-126; InspectModal L127-343; InspoVaultInner L344-610
 ### src/components/library/NavComponents.tsx (605 lines)
 NavEditorialSplit L20-39; NavBrutalistGrid L40-60; NavFloatingPill L61-84; NavTerminalHud L85-105; NavMagazineStack L106-127; NavUnderlineRule L128-155; NavCornerAnchors L156-176; NavBottomDock L177-213; NavMarqueeTicker L214-234; NavAtelierCart L235-254; NavDotDrawer L255-294; NavFolderTabs L329-359; NavTerracottaEarthy L360-379; NavNeoBrutalistPop L437-456; NavMagicFloatingDock L457-478; NavStreetwearBadge L516-535; NavNordicCobaltPill L555-578; NavY2KChromeMarquee L579-605
 ### src/components/library/PricingComponents.tsx (549 lines)

@@ -28,6 +28,7 @@ import WeeklyAvailabilityTicker from "@/components/library/extracted/WeeklyAvail
 import EditorialGridBooking from "@/components/library/extracted/EditorialGridBooking";
 import ArtistProfileCard from "@/components/library/extracted/ArtistProfileCard";
 import NewspaperPolicyGrid from "@/components/library/extracted/NewspaperPolicyGrid";
+import StudioPinGate from "@/components/StudioPinGate";
 
 const CATEGORIES: { id: ComponentCategory; label: string; count: number }[] = [
   { id: "all", label: "ALL COMPONENTS", count: 197 },
@@ -66,7 +67,7 @@ const AESTHETIC_VIBES: { id: AestheticVibe; dotColor?: string }[] = [
   { id: "Solar Amber / Industrial", dotColor: "#F59E0B" },
 ];
 
-export default function UILibraryPage() {
+function UILibraryInner() {
   const [activeCategory, setActiveCategory] = useState<ComponentCategory>("all");
   const [selectedVibe, setSelectedVibe] = useState<AestheticVibe>("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -764,5 +765,13 @@ export default function UILibraryPage() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function UILibraryPage() {
+  return (
+    <StudioPinGate title="UI Component Library">
+      <UILibraryInner />
+    </StudioPinGate>
   );
 }

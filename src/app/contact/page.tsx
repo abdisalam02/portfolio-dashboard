@@ -140,8 +140,8 @@ function ContactForm() {
         </div>
 
         {/* Page Headline */}
-        <div className="mb-10 space-y-3">
-          <h1 className="text-4xl sm:text-6xl font-black font-heading tracking-tight">
+        <div className="mb-10 space-y-3 min-w-0 max-w-full overflow-hidden">
+          <h1 className="text-[clamp(1.75rem,7.5vw,3.75rem)] font-black font-heading tracking-tight max-w-full overflow-hidden">
             <FlippingWordSwap word1="GET IN TOUCH" />
           </h1>
           <p className="text-sm sm:text-base text-muted font-body leading-relaxed max-w-xl">

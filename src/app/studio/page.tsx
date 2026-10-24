@@ -222,18 +222,16 @@ export default function StudioPage() {
   useEffect(() => {
     try {
       const searchParams = new URLSearchParams(window.location.search);
-      const urlPin = searchParams.get("pin");
       const urlChannel = searchParams.get("channel");
-      const savedPin = localStorage.getItem("ag_studio_auth");
+      const unlocked =
+        sessionStorage.getItem("ag_studio_unlocked") === "1" ||
+        localStorage.getItem("ag_studio_unlocked") === "1";
 
       if (urlChannel && ["instagram", "whatsapp", "email", "sms"].includes(urlChannel)) {
         setChannel(urlChannel as DeliveryChannel);
       }
 
-      if (urlPin === "2026") {
-        setIsAuthenticated(true);
-        localStorage.setItem("ag_studio_auth", "2026");
-      } else if (savedPin === "2026") {
+      if (unlocked) {
         setIsAuthenticated(true);
       }
 
@@ -287,7 +285,8 @@ export default function StudioPage() {
       const data = await res.json();
       if (data.success) {
         setIsAuthenticated(true);
-        localStorage.setItem("ag_studio_auth", pinInput);
+        sessionStorage.setItem("ag_studio_unlocked", "1");
+        localStorage.setItem("ag_studio_unlocked", "1");
       } else {
         setAuthError(data.error || "Incorrect PIN");
       }
@@ -297,6 +296,8 @@ export default function StudioPage() {
   };
 
   const handleLogout = () => {
+    sessionStorage.removeItem("ag_studio_unlocked");
+    localStorage.removeItem("ag_studio_unlocked");
     localStorage.removeItem("ag_studio_auth");
     setIsAuthenticated(false);
     setPinInput("");

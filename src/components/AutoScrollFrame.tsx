@@ -25,26 +25,28 @@ export default function AutoScrollFrame({
     if (!container) return;
 
     let lastTime = performance.now();
-    const speed = 40;
+    const speed = 38;
     let isResetting = false;
+    let subpixelScroll = container.scrollTop;
 
     const step = (now: number) => {
-      const delta = (now - lastTime) / 1000;
+      const delta = Math.min(0.05, (now - lastTime) / 1000);
       lastTime = now;
 
       if (!isPaused && !isResetting && container) {
-        if (container.scrollTop + container.clientHeight >= container.scrollHeight - 3) {
+        const maxScroll = container.scrollHeight - container.clientHeight;
+        if (maxScroll > 0 && subpixelScroll >= maxScroll - 3) {
           isResetting = true;
           setTimeout(() => {
             if (container) {
-              container.scrollTo({ top: 0, behavior: "smooth" });
-              setTimeout(() => {
-                isResetting = false;
-              }, 1200);
+              subpixelScroll = 0;
+              container.scrollTop = 0;
+              isResetting = false;
             }
-          }, 2000);
-        } else {
-          container.scrollTop += speed * delta;
+          }, 1600);
+        } else if (maxScroll > 0) {
+          subpixelScroll += speed * delta;
+          container.scrollTop = subpixelScroll;
         }
       }
 
@@ -61,16 +63,20 @@ export default function AutoScrollFrame({
   return (
     <div
       className="relative group"
+      style={{ overflowAnchor: "none" }}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Clean Frameless Desktop Viewport */}
       <div className="rounded-xl bg-card border border-card-border overflow-hidden">
-        <div className="relative w-full h-[440px] sm:h-[500px] overflow-hidden bg-black/60 select-none">
+        <div
+          className="relative w-full h-[440px] sm:h-[500px] overflow-hidden bg-black/60 select-none"
+          style={{ overflowAnchor: "none" }}
+        >
           <div
             ref={containerRef}
-            className="w-full h-full overflow-y-auto pointer-events-none select-none"
-            style={{ scrollbarWidth: "none" }}
+            className="w-full h-full overflow-y-hidden pointer-events-none select-none"
+            style={{ scrollbarWidth: "none", overflowAnchor: "none" }}
           >
             <div className="w-full relative pointer-events-none">
               <Image

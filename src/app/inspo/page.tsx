@@ -10,6 +10,7 @@ import WeeklyAvailabilityTicker from "@/components/library/extracted/WeeklyAvail
 import EditorialGridBooking from "@/components/library/extracted/EditorialGridBooking";
 import ArtistProfileCard from "@/components/library/extracted/ArtistProfileCard";
 import NewspaperPolicyGrid from "@/components/library/extracted/NewspaperPolicyGrid";
+import StudioPinGate from "@/components/StudioPinGate";
 
 type InspoItem = {
   id: string;
@@ -166,7 +167,7 @@ function InspectModal({
               </span>
               {extracted && (
                 <span className="px-1.5 py-0.2 bg-[#C86D51] text-white text-[8px] font-mono font-bold uppercase">
-                  ⚡ EXTRACTED
+                  EXTRACTED
                 </span>
               )}
             </div>
@@ -340,7 +341,7 @@ function InspectModal({
   );
 }
 
-export default function InspoVaultPage() {
+function InspoVaultInner() {
   const [niche, setNiche] = useState("all");
   const [componentType, setComponentType] = useState("all");
   const [aesthetic, setAesthetic] = useState("all");
@@ -452,7 +453,7 @@ export default function InspoVaultPage() {
                 }}
               />
               <Pill
-                label="⚡ Extracted to React (4)"
+                label="Extracted to React (4)"
                 active={showExtractedOnly}
                 onClick={() => setShowExtractedOnly(!showExtractedOnly)}
                 accent
@@ -604,5 +605,13 @@ export default function InspoVaultPage() {
         />
       )}
     </main>
+  );
+}
+
+export default function InspoVaultPage() {
+  return (
+    <StudioPinGate title="Inspiration Vault">
+      <InspoVaultInner />
+    </StudioPinGate>
   );
 }

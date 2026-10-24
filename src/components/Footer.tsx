@@ -15,8 +15,8 @@ export default function Footer() {
     <footer className="border-t border-card-border pt-16 pb-14 px-4 sm:px-8 max-w-7xl mx-auto">
       {/* Bold Full-Width LET'S TALK + Scroll-Triggered Handwritten Signature (Re-runs every scroll) */}
       <div className="pb-14 border-b border-card-border flex flex-col md:flex-row md:items-end justify-between gap-10">
-        <div className="space-y-4">
-          <h2 className="text-6xl sm:text-8xl md:text-9xl font-black font-heading tracking-tighter leading-[0.88] text-foreground">
+        <div className="space-y-4 min-w-0 max-w-full overflow-hidden">
+          <h2 className="text-[clamp(2.35rem,11vw,7.5rem)] font-black font-heading tracking-tighter leading-[0.88] text-foreground max-w-full overflow-hidden">
             <FlippingWordSwap word1="LET'S TALK" />
           </h2>
           <div className="flex flex-wrap items-center gap-6 pt-2 text-sm font-mono">

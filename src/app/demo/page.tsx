@@ -2,17 +2,12 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StudioPinGate from "@/components/StudioPinGate";
 import { FiArrowUpRight } from "react-icons/fi";
 
 export const metadata: Metadata = {
-  title: "Live 2,000 kr Booking Drop Demos · Studio Klō & Luffy Cakes | A.GURE",
-  description:
-    "Explore 2 live interactive demonstrations of the 2,000 kr mobile booking drop: Studio Klō (salon & beauty) and Luffy Cakes (custom patisserie & bakery) in Oslo.",
-  openGraph: {
-    title: "2,000 kr Booking Drop Demos · A.GURE",
-    description: "Interactive mobile booking sites for solo studios and creators.",
-    url: "https://agure.space/demo",
-  },
+  title: "Interactive Studio Prototypes | A.GURE",
+  robots: { index: false, follow: false },
 };
 
 const DEMOS = [
@@ -40,16 +35,17 @@ const DEMOS = [
 
 export default function DemoPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground flex flex-col justify-between">
-      <Header />
+    <StudioPinGate title="Interactive Demo Sandbox">
+      <main className="min-h-dvh bg-background text-foreground flex flex-col justify-between">
+        <Header />
 
-      <div className="pt-28 sm:pt-36 md:pt-40 pb-20 px-4 sm:px-8 max-w-5xl mx-auto w-full">
-        <div className="space-y-3 mb-12 border-b border-card-border pb-8">
-          <div className="flex items-center gap-3 text-xs font-mono text-muted uppercase">
-            <span>Live Demonstrations</span>
-            <span className="w-1 h-1 rounded-full bg-card-border" />
-            <span>2,000 kr Booking Drop</span>
-          </div>
+        <div className="pt-28 sm:pt-36 md:pt-40 pb-20 px-4 sm:px-8 max-w-5xl mx-auto w-full">
+          <div className="space-y-3 mb-12 border-b border-card-border pb-8">
+            <div className="flex items-center gap-3 text-xs font-mono text-muted uppercase">
+              <span>Internal Demo Sandbox</span>
+              <span className="w-1 h-1 rounded-full bg-card-border" />
+              <span>Demo, fictional business</span>
+            </div>
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-black font-heading tracking-tight uppercase">
             Live Demos
           </h1>
@@ -99,6 +95,7 @@ export default function DemoPage() {
       </div>
 
       <Footer />
-    </main>
+      </main>
+    </StudioPinGate>
   );
 }
