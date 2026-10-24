@@ -16,6 +16,7 @@ export default {
         "card-border": "var(--card-border)",
         muted: "var(--muted)",
         accent: "var(--accent)",
+        "accent-fg": "var(--accent-fg)",
       },
       fontFamily: {
         heading: ["var(--font-heading)", "sans-serif"],

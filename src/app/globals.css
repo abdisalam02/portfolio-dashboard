@@ -8,11 +8,12 @@
   .theme-paper {
     --bg: #f6f5f2;
     --fg: #111113;
-    --card-bg: #ffffff;
-    --card-border: rgba(0, 0, 0, 0.09);
-    --card-hover-border: rgba(0, 0, 0, 0.28);
-    --muted: #66666e;
-    --accent: #000000;
+    --card-bg: #eceae4;
+    --card-border: rgba(17, 17, 19, 0.14);
+    --card-hover-border: rgba(17, 17, 19, 0.32);
+    --muted: #5a5a62;
+    --accent: #111113;
+    --accent-fg: #f6f5f2;
     --pill-bg: rgba(0, 0, 0, 0.04);
     --tag-border: rgba(0, 0, 0, 0.15);
   }
@@ -21,11 +22,12 @@
   .theme-obsidian {
     --bg: #08080a;
     --fg: #f4f4f5;
-    --card-bg: #121215;
-    --card-border: rgba(255, 255, 255, 0.08);
-    --card-hover-border: rgba(255, 255, 255, 0.22);
-    --muted: #71717a;
-    --accent: #ffffff;
+    --card-bg: #141418;
+    --card-border: rgba(255, 255, 255, 0.12);
+    --card-hover-border: rgba(255, 255, 255, 0.25);
+    --muted: #8e8e98;
+    --accent: #f4f4f5;
+    --accent-fg: #08080a;
     --pill-bg: rgba(255, 255, 255, 0.05);
     --tag-border: rgba(255, 255, 255, 0.12);
   }
@@ -63,10 +65,32 @@
   }
 
   /* Typography mode mappings */
+  :root,
+  .font-pair-0,
   .font-pair-1 {
     --font-heading: var(--font-space);
     --font-body: var(--font-inter);
     --font-mono: var(--font-jetbrains);
+    --font-display: var(--font-space);
+    --font-sans: var(--font-inter);
+    --font-comico: "Comico", cursive;
+    --font-clash: "Clash Display", sans-serif;
+    --font-cabinet: "Cabinet Grotesk", sans-serif;
+    --font-zodiak: "Zodiak", serif;
+    --font-boska: "Boska", serif;
+    --font-gambarino: "Gambarino", serif;
+    --font-panchang: "Panchang", sans-serif;
+    --font-satoshi: "Satoshi", sans-serif;
+    --font-general: "General Sans", sans-serif;
+    --font-telma: "Telma", cursive;
+    --font-khand: "Khand", sans-serif;
+    --font-chillax: "Chillax", sans-serif;
+    --font-ranade: "Ranade", sans-serif;
+    --font-sentient: "Sentient", serif;
+    --font-supreme: "Supreme", sans-serif;
+    --font-technor: "Technor", sans-serif;
+    --font-array: "Array", sans-serif;
+    --font-stardom: "Stardom", serif;
   }
 
   .font-pair-2 {
@@ -89,10 +113,60 @@
     font-family: var(--font-mono), monospace;
   }
 
+  .font-signature {
+    font-family: var(--font-signature), "Mrs Saint Delafield", cursive;
+  }
+
+  /* Outlined / Hollow Index Numbers (Ref 1: VIDEOS 01, 03, 04) */
+  .outline-index {
+    color: transparent; /* design-ok */
+    -webkit-text-stroke: 1.5px currentColor;
+  }
+
   ::selection {
     background-color: var(--accent);
     color: var(--bg);
   }
+}
+
+/* Handwritten Signature Ink Write & Underline Flourish (from Sadija) */
+@keyframes signature-write {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    opacity: 0.25;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    clip-path: polygon(0 0, 114% 0, 100% 100%, 0 100%);
+    opacity: 1;
+  }
+}
+
+@keyframes signature-ink-draw {
+  0% {
+    stroke-dashoffset: 240;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.85;
+  }
+}
+
+.signature-write {
+  display: inline-block;
+  animation: signature-write 1.3s cubic-bezier(0.33, 1, 0.68, 1) 0.1s both;
+}
+
+.signature-underline {
+  stroke-dasharray: 240;
+  stroke-dashoffset: 240;
+  animation: signature-ink-draw 0.75s cubic-bezier(0.33, 1, 0.68, 1) 0.9s both;
 }
 
 /* Chrome shine effect utility */

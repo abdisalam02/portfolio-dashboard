@@ -1,27 +1,23 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { FiArrowLeft, FiSend, FiCopy, FiCheck, FiMail, FiPaperclip } from "react-icons/fi";
+import { FiArrowLeft, FiSend, FiCopy, FiCheck, FiMail } from "react-icons/fi";
 
 const projectTypes = [
-  "The Instagram Booking Drop (2,000 kr)",
-  "The Bespoke Studio (5,500 – 12,500 kr)",
+  "New Custom Website",
   "Website Redesign",
-  "Add-ons / Custom Upgrades",
+  "Booking System / E-Commerce",
+  "Creator Lookbook / Portfolio",
   "General Inquiry",
 ];
 
 function ContactForm() {
-  const searchParams = useSearchParams();
-  const pkg = searchParams.get("package");
-
   const [senderEmail, setSenderEmail] = useState("");
   const [senderName, setSenderName] = useState("");
-  const [selectedType, setSelectedType] = useState("The Instagram Booking Drop (2,000 kr)");
+  const [selectedType, setSelectedType] = useState("New Custom Website");
   const [subject, setSubject] = useState("Project Inquiry");
   const [message, setMessage] = useState("");
   const [copied, setCopied] = useState(false);
@@ -30,16 +26,6 @@ function ContactForm() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   // Honeypot — bots fill this, humans don't. Checked before submitting.
   const [honeypot, setHoneypot] = useState("");
-
-  useEffect(() => {
-    if (pkg === "booking-drop") {
-      setSelectedType("The Instagram Booking Drop (2,000 kr)");
-      setSubject("Inquiry: The Instagram Booking Drop (2,000 kr)");
-    } else if (pkg === "studio" || pkg === "flagship") {
-      setSelectedType("The Bespoke Studio (5,500 – 12,500 kr)");
-      setSubject("Inquiry: The Bespoke Studio (5,500 – 12,500 kr)");
-    }
-  }, [pkg]);
 
   const recipientEmail = "hello@agure.space";
 
@@ -51,7 +37,6 @@ function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Honeypot: if filled, it's a bot — silently pretend it worked
     if (honeypot) {
       setIsSuccess(true);
       return;
@@ -60,7 +45,6 @@ function ContactForm() {
     setErrorMessage(null);
 
     try {
-      // 1. Send directly via Resend to hello@agure.space
       const apiResponse = await fetch("/api/send-email", {
         method: "POST",
         headers: {
@@ -71,11 +55,10 @@ function ContactForm() {
           customerEmail: senderEmail,
           customerName: senderName,
           subject: `Inquiry: ${selectedType} - ${senderName}`,
-          htmlBody: `Name: ${senderName}\nEmail: ${senderEmail}\nPackage / Type: ${selectedType}\nSubject: ${subject}\n\nMessage:\n${message}`,
+          htmlBody: `Name: ${senderName}\nEmail: ${senderEmail}\nType: ${selectedType}\nSubject: ${subject}\n\nMessage:\n${message}`,
         }),
       });
 
-      // 2. Also send to Formspree as backup
       fetch("https://formspree.io/f/xvgzbbqa", {
         method: "POST",
         headers: {
@@ -98,7 +81,6 @@ function ContactForm() {
         setSenderEmail("");
         setMessage("");
       } else {
-        // Fallback to Formspree check if direct API returned non-ok
         const formspreeRes = await fetch("https://formspree.io/f/xvgzbbqa", {
           method: "POST",
           headers: {
@@ -123,7 +105,7 @@ function ContactForm() {
           throw new Error("Could not send email automatically");
         }
       }
-    } catch (err: any) {
+    } catch {
       setErrorMessage(
         "Could not send automatically. Please copy the email or use your email client below."
       );
@@ -141,7 +123,7 @@ function ContactForm() {
   };
 
   return (
-    <main className="relative min-h-screen bg-background text-foreground bento-grid-bg">
+    <main className="relative min-h-dvh bg-background text-foreground bento-grid-bg">
       <Header />
 
       <div className="pt-32 pb-20 md:pt-40 md:pb-28 px-4 sm:px-8 max-w-4xl mx-auto">
@@ -158,16 +140,16 @@ function ContactForm() {
 
         {/* Page Headline */}
         <div className="mb-10 space-y-3">
-          <h1 className="text-4xl sm:text-6xl font-black font-heading tracking-tight uppercase">
-            Get in Touch
+          <h1 className="text-4xl sm:text-6xl font-black font-heading tracking-tight">
+            GET IN TOUCH
           </h1>
           <p className="text-sm sm:text-base text-muted font-body leading-relaxed max-w-xl">
-            Have a project in mind or just want to chat? Drop a message below and I&apos;ll get back to you.
+            Have a project in mind or want to discuss a new website? Drop a message below and I&apos;ll get back to you.
           </p>
         </div>
 
         {/* Editorial Direct Inquiry Canvas */}
-        <div className="rounded-2xl bg-card border border-card-border shadow-2xl overflow-hidden">
+        <div className="rounded-xl bg-card border border-card-border overflow-hidden">
           {/* Clean Header Bar */}
           <div className="px-5 py-3.5 bg-background/80 border-b border-card-border/70 flex items-center justify-between gap-4 text-xs font-mono text-muted">
             <span>Send a Message</span>
@@ -181,8 +163,8 @@ function ContactForm() {
                 <FiCheck />
               </div>
               <div className="space-y-2 max-w-md mx-auto">
-                <h3 className="text-2xl font-bold font-heading uppercase text-foreground">
-                  Message Sent!
+                <h3 className="text-2xl font-bold font-heading text-foreground">
+                  Message Sent
                 </h3>
                 <p className="text-sm text-muted font-body leading-relaxed">
                   Thanks for reaching out. Your message has been sent directly to{" "}
@@ -201,7 +183,7 @@ function ContactForm() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="divide-y divide-card-border">
-              {/* Honeypot — must remain visually hidden and tab-unreachable */}
+              {/* Honeypot */}
               <input
                 type="text"
                 name="_trap"
@@ -243,7 +225,7 @@ function ContactForm() {
                 <div className="flex-1 flex flex-col sm:flex-row gap-2 w-full min-w-0">
                   <input
                     type="text"
-                    placeholder="Your Name / Company"
+                    placeholder="Your Name / Studio"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
                     className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-all flex-1 min-w-0 w-full"
@@ -262,7 +244,7 @@ function ContactForm() {
 
               {/* PROJECT TYPE Field */}
               <div className="px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4 text-xs font-mono">
-                <span className="text-muted w-14 flex-shrink-0 pt-1.5">Type:</span>
+                <span className="text-muted w-14 flex-shrink-0 pt-1.5">Focus:</span>
                 <div className="flex-1 flex flex-wrap gap-2 w-full min-w-0">
                   {projectTypes.map((type) => (
                     <button
@@ -271,19 +253,13 @@ function ContactForm() {
                       onClick={() => setSelectedType(type)}
                       className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
                         selectedType === type
-                          ? "bg-foreground text-background font-bold shadow-sm"
+                          ? "bg-foreground text-background font-bold"
                           : "bg-background border border-card-border text-muted hover:text-foreground hover:border-foreground"
                       }`}
                     >
                       {type}
                     </button>
                   ))}
-                  {selectedType === "The Instagram Booking Drop (2,000 kr)" && (
-                    <div className="w-full pt-1.5 text-[11px] font-mono text-muted flex items-start gap-1.5 leading-relaxed">
-                      <span className="text-foreground">↳</span>
-                      <span>Next step: You&apos;ll fill out a short questionnaire to pick your layout style, colors, services, and upload 6 photos. Target turnaround: 1–2 weeks.</span>
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -307,7 +283,7 @@ function ContactForm() {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Hi A.Gure,
 
-I'm looking to build/redesign a website. Here are a few details about what I have in mind..."
+I'm looking to build or redesign a website. Here are a few details about what I have in mind..."
                   className="w-full bg-transparent text-sm text-foreground font-body placeholder:text-muted/60 focus:outline-none resize-none leading-relaxed"
                   required
                 />
@@ -319,7 +295,7 @@ I'm looking to build/redesign a website. Here are a few details about what I hav
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background text-xs font-mono font-bold tracking-wider hover:opacity-90 transition-all active:scale-95 shadow-md disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background text-xs font-mono font-bold hover:opacity-90 transition-all active:scale-95 disabled:opacity-50"
                   >
                     <FiSend size={13} />
                     <span>{isSubmitting ? "SENDING..." : "SEND MESSAGE"}</span>
@@ -328,7 +304,7 @@ I'm looking to build/redesign a website. Here are a few details about what I hav
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl bg-card border border-card-border text-foreground text-xs font-mono tracking-wider hover:border-foreground transition-all active:scale-95"
+                    className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl bg-card border border-card-border text-foreground text-xs font-mono hover:border-foreground transition-all active:scale-95"
                   >
                     {copied ? (
                       <>
@@ -363,7 +339,7 @@ I'm looking to build/redesign a website. Here are a few details about what I hav
 
 export default function ContactPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+    <Suspense fallback={<div className="min-h-dvh bg-background" />}>
       <ContactForm />
     </Suspense>
   );

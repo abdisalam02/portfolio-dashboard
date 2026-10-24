@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiArrowUpRight, FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
+import { applyPaletteAndFonts } from "./ThemeFontSwitcher";
 
 const navLinks = [
-  { label: "Work", href: "/#work" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Work", href: "/work" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -20,7 +20,7 @@ export default function Header() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -31,25 +31,37 @@ export default function Header() {
       document.documentElement.classList.remove("theme-paper");
       document.documentElement.classList.add("theme-obsidian");
     } else {
-      // Default to Warm Paper Light Mode
       setIsLightMode(true);
       document.documentElement.classList.remove("theme-obsidian");
       document.documentElement.classList.add("theme-paper");
     }
+
+    // Stay in sync when the automatic roulette occasionally flips Dark / Light mode
+    const onAutoModeChange = (e: Event) => {
+      const custom = e as CustomEvent<{ isLightMode: boolean }>;
+      if (custom.detail && typeof custom.detail.isLightMode === "boolean") {
+        setIsLightMode(custom.detail.isLightMode);
+      }
+    };
+    window.addEventListener("ag-auto-theme-mode-change", onAutoModeChange);
+    return () =>
+      window.removeEventListener("ag-auto-theme-mode-change", onAutoModeChange);
   }, []);
 
   const toggleTheme = () => {
-    const next = !isLightMode;
-    setIsLightMode(next);
-    if (next) {
-      document.documentElement.classList.remove("theme-obsidian");
-      document.documentElement.classList.add("theme-paper");
-      localStorage.setItem("ag_theme", "light");
-    } else {
-      document.documentElement.classList.remove("theme-paper");
-      document.documentElement.classList.add("theme-obsidian");
-      localStorage.setItem("ag_theme", "dark");
-    }
+    const nextLight = !isLightMode;
+    setIsLightMode(nextLight);
+    localStorage.setItem("ag_theme", nextLight ? "light" : "dark");
+
+    const savedPalette = localStorage.getItem("ag_wada_palette") || "00";
+    const savedFont = localStorage.getItem("ag_font_pair") || "00";
+    applyPaletteAndFonts(savedPalette, savedFont, !nextLight);
+
+    window.dispatchEvent(
+      new CustomEvent("ag-manual-theme-toggle", {
+        detail: { isLightMode: nextLight },
+      })
+    );
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -69,7 +81,7 @@ export default function Header() {
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? "py-3 bg-background/90 backdrop-blur-xl border-b border-card-border"
+            ? "py-3 bg-background/95 border-b border-card-border"
             : "py-5 bg-transparent"
         }`}
       >
@@ -82,12 +94,12 @@ export default function Header() {
             <span className="text-base sm:text-lg font-black tracking-tight font-heading group-hover:opacity-80 transition-opacity">
               A.GURE
             </span>
-            <span className="text-[10px] font-mono tracking-widest text-muted uppercase">
-              Freelancer
+            <span className="text-[10px] font-mono text-muted">
+              Oslo
             </span>
           </Link>
 
-          {/* Desktop Nav Links & Theme Toggle */}
+          {/* Desktop Nav Links & Light/Dark Toggle */}
           <div className="hidden md:flex items-center gap-8">
             <nav className="flex items-center gap-8">
               {navLinks.map((link) => (
@@ -95,40 +107,52 @@ export default function Header() {
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-xs font-mono tracking-wider text-muted hover:text-foreground transition-colors"
+                  className="text-xs font-mono text-muted hover:text-foreground transition-colors"
                 >
                   {link.label}
                 </Link>
               ))}
             </nav>
 
-            {/* Theme Toggle Button */}
+            {/* Light/Dark Variant Toggle for Active Palette */}
             <button
               onClick={toggleTheme}
-              className="px-3 py-1.5 rounded-full bg-card border border-card-border text-foreground hover:border-foreground transition-all flex items-center gap-1.5 text-xs font-mono"
-              title={isLightMode ? "Switch to Dark Mode" : "Switch to Light Mode"}
-              aria-label="Toggle theme"
+              className="px-3 py-1.5 rounded-full bg-card border border-card-border text-foreground hover:border-accent transition-all flex items-center gap-1.5 text-xs font-mono"
+              title={
+                isLightMode
+                  ? "Switch active palette to Dark Mode"
+                  : "Switch active palette to Light Mode"
+              }
+              aria-label="Toggle palette light or dark mode"
             >
-              {isLightMode ? <FiMoon size={13} /> : <FiSun size={13} className="text-amber-400" />}
-              <span className="uppercase text-[10px] tracking-wider font-semibold">
+              {isLightMode ? (
+                <FiMoon size={13} />
+              ) : (
+                <FiSun size={13} className="text-accent" />
+              )}
+              <span className="text-[10px] font-semibold">
                 {isLightMode ? "DARK" : "LIGHT"}
               </span>
             </button>
           </div>
 
-          {/* Mobile Right Controls: Theme Toggle & Hamburger Button */}
+          {/* Mobile Right Controls */}
           <div className="flex md:hidden items-center gap-2">
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-lg bg-card border border-card-border text-foreground hover:border-foreground transition-colors flex items-center justify-center"
-              aria-label="Toggle theme"
+              className="p-2 rounded-lg bg-card border border-card-border text-foreground hover:border-accent transition-colors flex items-center justify-center"
+              aria-label="Toggle palette light or dark mode"
             >
-              {isLightMode ? <FiMoon size={17} /> : <FiSun size={17} className="text-amber-400" />}
+              {isLightMode ? (
+                <FiMoon size={16} />
+              ) : (
+                <FiSun size={16} className="text-accent" />
+              )}
             </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-lg bg-card border border-card-border text-foreground hover:border-foreground transition-colors"
+              className="p-2 rounded-lg bg-card border border-card-border text-foreground hover:border-accent transition-colors"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
@@ -153,7 +177,7 @@ export default function Header() {
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-5xl font-black font-heading tracking-tight hover:text-muted transition-colors py-2"
+                  className="text-5xl font-black font-heading tracking-tight hover:text-accent transition-colors py-2"
                 >
                   {link.label}
                 </Link>
@@ -163,16 +187,22 @@ export default function Header() {
             <div className="space-y-4 pt-8 border-t border-card-border">
               <button
                 onClick={toggleTheme}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-card border border-card-border text-foreground text-xs font-mono font-bold tracking-wider uppercase mb-2"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-card border border-card-border text-foreground text-xs font-mono font-bold mb-2"
               >
-                {isLightMode ? <FiMoon size={15} /> : <FiSun size={15} className="text-amber-400" />}
-                <span>SWITCH TO {isLightMode ? "DARK MODE" : "LIGHT MODE"}</span>
+                {isLightMode ? (
+                  <FiMoon size={15} />
+                ) : (
+                  <FiSun size={15} className="text-accent" />
+                )}
+                <span>
+                  SWITCH PALETTE TO {isLightMode ? "DARK MODE" : "LIGHT MODE"}
+                </span>
               </button>
 
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-foreground text-background text-xs font-mono font-bold tracking-wider"
+                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-accent text-accent-fg text-xs font-mono font-bold"
               >
                 <span>GET IN TOUCH</span>
                 <FiArrowUpRight size={16} />

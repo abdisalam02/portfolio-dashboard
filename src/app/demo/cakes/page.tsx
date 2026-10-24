@@ -1,17 +1,17 @@
 import { Metadata } from "next";
-import BookingDropTemplate from "@/components/demo/BookingDropTemplate";
+import LuffyCakesView from "@/components/demo/LuffyCakesView";
 
 export const metadata: Metadata = {
-  title: "Maison Sucre (Bakery) · 2,000 kr Booking Drop Demo | A.GURE",
+  title: "Luffy Cakes Oslo · Artisanal Cake Pre-orders | A.GURE Demo",
   description:
-    "Live demonstration of the 2,000 kr one-page booking site for artisanal bakeries and cake creators in Oslo. Pre-order schedule, flavor lookbook, and pickup request form.",
+    "Live demonstration of the 2,000 kr mobile booking drop for artisanal bakeries and cake creators in Oslo. Custom cake configurator and pickup reservation.",
   openGraph: {
-    title: "Maison Sucre Cakes · 2,000 kr Booking Drop Demo",
+    title: "Luffy Cakes · 2,000 kr Booking Drop Demo",
     description: "Live 1-page mobile booking drop built by A.Gure for solo bakeries.",
     url: "https://agure.space/demo/cakes",
   },
 };
 
 export default function CakesDemoPage() {
-  return <BookingDropTemplate key="cakes" niche="cakes" />;
+  return <LuffyCakesView />;
 }

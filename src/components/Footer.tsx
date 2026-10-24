@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { FiArrowUp } from "react-icons/fi";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { FiArrowUp, FiArrowUpRight } from "react-icons/fi";
 import LegalFooter from "@/components/LegalFooter";
+import InkSignature from "@/components/InkSignature";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -11,73 +11,90 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-card-border py-14 px-4 sm:px-8 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-card-border">
-        {/* Brand & Location */}
-        <div className="space-y-1">
-          <span className="text-xl font-black font-heading tracking-tight text-foreground">
-            A.GURE
-          </span>
-          <p className="text-sm text-muted font-body">
-            Web Developer &amp; Designer · Oslo, Norway
-          </p>
+    <footer className="border-t border-card-border pt-16 pb-14 px-4 sm:px-8 max-w-7xl mx-auto">
+      {/* Bold Full-Width LET'S TALK + Scroll-Triggered Handwritten Signature (Re-runs every scroll) */}
+      <div className="pb-14 border-b border-card-border flex flex-col md:flex-row md:items-end justify-between gap-10">
+        <div className="space-y-4">
+          <h2 className="text-6xl sm:text-8xl md:text-9xl font-black font-heading tracking-tighter leading-[0.88] text-foreground">
+            LET&apos;S TALK
+          </h2>
+          <div className="flex flex-wrap items-center gap-6 pt-2 text-sm font-mono">
+            <a
+              href="mailto:hello@agure.space"
+              className="inline-flex items-center gap-1.5 text-accent hover:opacity-75 transition-opacity border-b border-accent pb-0.5 font-bold"
+            >
+              <span>hello@agure.space</span>
+              <FiArrowUpRight size={14} />
+            </a>
+            <a
+              href="https://instagram.com/a.gure"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-muted hover:text-foreground transition-colors"
+            >
+              <span>Instagram (@a.gure)</span>
+              <FiArrowUpRight size={14} />
+            </a>
+          </div>
         </div>
 
-        {/* Navigation & Contact Links */}
-        <div className="flex flex-wrap items-center gap-6 text-xs text-muted font-body">
-          <Link href="/#work" className="hover:text-foreground transition-colors">
-            Work
-          </Link>
-          <Link href="/pricing" className="hover:text-foreground transition-colors">
-            Pricing
-          </Link>
-          <Link href="/contact" className="hover:text-foreground transition-colors">
-            Contact
-          </Link>
-          <Link href="/privacy" className="hover:text-foreground transition-colors">
-            Privacy
-          </Link>
-          <a
-            href="https://github.com/abdisalam02"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground transition-colors flex items-center gap-1.5"
-          >
-            <FaGithub /> GitHub
-          </a>
-          <a
-            href="https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground transition-colors flex items-center gap-1.5"
-          >
-            <FaLinkedin /> LinkedIn
-          </a>
-          <a
-            href="mailto:hello@agure.space"
-            className="hover:text-foreground transition-colors font-mono"
-          >
-            hello@agure.space
-          </a>
+        {/* Scroll-Animated Ink Signature (Replays Every Time You Scroll Down) + Back to Top */}
+        <div className="flex items-end justify-between md:justify-end gap-6">
+          <InkSignature size="footer" replayEveryScroll={true} />
+
           <button
             onClick={scrollToTop}
-            className="p-2 rounded-lg bg-card border border-card-border text-foreground hover:border-foreground transition-colors ml-2"
+            className="p-3 rounded-full bg-card border border-card-border text-foreground hover:border-accent hover:text-accent transition-colors mb-2"
             title="Back to Top"
             aria-label="Back to top"
           >
-            <FiArrowUp size={14} />
+            <FiArrowUp size={16} />
           </button>
         </div>
       </div>
 
-      {/* Bottom Copyright + Legal Block */}
-      <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-muted font-body gap-4">
-        <span>© {new Date().getFullYear()} A.Gure. All rights reserved.</span>
-        <span>Oslo, Norway</span>
+      {/* Compartmentalized 1px Hairline Footer Bar */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 border-b border-l border-card-border text-xs font-mono text-muted bg-card/40">
+        <div className="p-3.5 border-r border-t border-card-border font-bold text-foreground">
+          A.Gure
+        </div>
+        <div className="p-3.5 border-r border-t border-card-border text-accent font-semibold">
+          © 2026
+        </div>
+        <div className="p-3.5 border-r border-t border-card-border">
+          Oslo, Norway
+        </div>
+        <a
+          href="mailto:hello@agure.space"
+          className="p-3.5 border-r border-t border-card-border hover:text-accent transition-colors truncate"
+        >
+          hello@agure.space
+        </a>
+        <Link
+          href="/work"
+          className="p-3.5 border-r border-t border-card-border hover:text-accent transition-colors"
+        >
+          Work
+        </Link>
+        <a
+          href="https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-3.5 border-r border-t border-card-border hover:text-accent transition-colors"
+        >
+          LinkedIn
+        </a>
+        <a
+          href="https://github.com/abdisalam02"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-3.5 border-r border-t border-card-border hover:text-accent transition-colors"
+        >
+          GitHub
+        </a>
       </div>
 
       <LegalFooter />
     </footer>
   );
 }
-
