@@ -21,8 +21,18 @@ const DURATION: Record<Shape, number> = { circle: 0.9, rectangle: 0.8, polygon: 
 // forced to normal, otherwise the two opaque pages add up towards white.
 // The fixed header is captured in its own group: mobile Chrome otherwise pulls
 // fixed elements into the transition layer, which is what made the page jump.
-const BASE = `
+//
+// On phones the snapshot containing block also includes the retractable URL bar,
+// so the snapshots sit above the visual viewport by the bar's maximum height.
+// `getSnapshotOffset()` measures that difference (100lvh - 100svh) and the groups
+// are translated by it so the captured page lines up with the live viewport.
+const baseCss = (snapshotOffset: number) => `
   ::view-transition { isolation: isolate; }
+  ::view-transition-group(root),
+  ::view-transition-group(site-header) {
+    animation-name: none;
+    transform: translateY(${snapshotOffset}px);
+  }
   ::view-transition-group(root) { z-index: 1; }
   ::view-transition-old(root) { animation: none; z-index: 0; mix-blend-mode: normal; }
   ::view-transition-new(root) { z-index: 1; mix-blend-mode: normal; }
@@ -31,6 +41,27 @@ const BASE = `
   ::view-transition-old(site-header),
   ::view-transition-new(site-header) { mix-blend-mode: normal; }
 `;
+
+function getSnapshotOffset() {
+  if (typeof document === "undefined" || typeof navigator === "undefined") return 0;
+  const ua = navigator.userAgent;
+  // Samsung Internet (which defaults to a bottom URL bar) mis-places the
+  // snapshot containing block by the bar height in older Chromium builds.
+  // Chrome itself already handles it, so only touch Samsung there.
+  if (!/SamsungBrowser/i.test(ua)) return 0;
+  const chromium = Number(ua.match(/Chrome\/(\d+)/)?.[1] ?? 0);
+  if (chromium >= 142) return 0;
+  const heightOf = (unit: string) => {
+    const probe = document.createElement("div");
+    probe.style.cssText = `position:absolute;top:0;left:0;width:1px;height:100${unit};visibility:hidden;pointer-events:none;`;
+    document.body.appendChild(probe);
+    const height = probe.getBoundingClientRect().height;
+    probe.remove();
+    return height;
+  };
+  // Small viewport = toolbar shown, large viewport = toolbar retracted.
+  return Math.max(0, Math.round(heightOf("lvh") - heightOf("svh")));
+}
 
 function circleCss({ x, y }: Point) {
   // Reach the farthest corner exactly so the final frames are not spent growing
@@ -92,7 +123,6 @@ let nextIndex = 0;
 let running = false;
 let lastScrollAt = 0;
 let listening = false;
-let viewportListening = false;
 let activeTransition: ViewTransitionLike | null = null;
 
 function watchScroll() {
@@ -108,16 +138,6 @@ function watchScroll() {
     },
     { passive: true }
   );
-}
-
-// Mobile toolbars resize the visual viewport. If that happens while a snapshot is
-// running, the frozen frame no longer matches the page; finish immediately instead.
-function watchViewport() {
-  if (viewportListening) return;
-  viewportListening = true;
-  const finish = () => activeTransition?.skipTransition?.();
-  window.addEventListener("resize", finish, { passive: true });
-  window.visualViewport?.addEventListener("resize", finish, { passive: true });
 }
 
 function getStyleEl() {
@@ -167,7 +187,6 @@ export function runThemeTransition(apply: () => void, options: Options = {}) {
   }
 
   watchScroll();
-  watchViewport();
 
   const doc = document as DocWithVT;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -184,7 +203,9 @@ export function runThemeTransition(apply: () => void, options: Options = {}) {
   nextIndex = (nextIndex + 1) % SEQUENCE.length;
 
   const style = getStyleEl();
-  style.textContent = BASE + getShapeCss(shape, getOrigin(options.trigger));
+  style.textContent =
+    baseCss(getSnapshotOffset()) +
+    getShapeCss(shape, getOrigin(options.trigger));
   running = true;
   // The body colour fade would be captured mid-way by the new snapshot, so it is switched off for the run.
   document.documentElement.classList.add("theme-vt");
