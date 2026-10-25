@@ -1202,9 +1202,12 @@ export default function ThemeFontSwitcher() {
       const nextPaletteId = order[nextIndex] || "00";
       setPaletteId(nextPaletteId);
       localStorage.setItem("ag_wada_palette", nextPaletteId);
+      const nextPalette =
+        WADA_PALETTES.find((item) => item.id === nextPaletteId) || WADA_PALETTES[0];
+      const nextBg = curLight ? nextPalette.light.bg : nextPalette.dark.bg;
       runThemeTransition(
         () => applyPaletteOnly(nextPaletteId, !curLight),
-        { skipWhenScrolling: true }
+        { skipWhenScrolling: true, nextBg }
       );
     } else {
       // Strictly change ONLY the heading font (never touch the color palette)

@@ -5,7 +5,7 @@ Updated: 2026-10-25
 ## Now
 - Task: Theme changes (auto roulette + Header toggle) reveal via View Transitions (`components/theme-transition.ts`, Skiper26). Circle starts at the clicked button, 0.9s; rectangle 0.8s; polygon 0.8s; `cubic-bezier(0.4,0,0.2,1)` so the travel is visible. Manual clicks ignore the scroll guard; auto roulette keeps it; scrolling mid-reveal calls `skipTransition`.
 - Uncommitted changes: this plus title/cards/nav work. The font flip (`ui/letter-3d-swap.tsx`) now holds the outgoing face until the incoming font is loaded and its fitted size is measured; on the roll's first frame it applies the new size and hands layout width to the incoming face, so neither the type size nor the title box changes after the flip. TODO-VERIFY: Fancy Components licence (Skiper UI free licence needs attribution, added in Footer); neither is in `docs/ASSETS.md`. Titles must sit in a `flex-1 min-w-0` or block parent or the fit logic can't measure.
-- Mobile keeps the View Transition reveal. The fixed header is snapshotted in its own group (mobile Chrome otherwise pulls fixed elements into the transition layer), touch scrolling is locked for the run, and Samsung Internet gets a snapshot offset by the URL-bar height because its older Chromium mis-places the snapshot containing block. Home-page project counts removed; mobile nav icon is now the animated line/dot button.
+- Mobile keeps the View Transition reveal. The fixed header is snapshotted in its own group and touch scrolling is locked for the run. The old Samsung `+lvh-svh` offset is removed: it over-corrected and pushed the page down. `components/theme-transition.ts` now has selectable debug modes, and an on-screen panel (`components/vt-debug.tsx`, only with `?vtdebug=1`) records SCB/probe/pseudo geometry; see `docs/VT-DEBUG.md` for the hypothesis ranking, test URLs and reading table. Home-page project counts removed; mobile nav icon is now the animated line/dot button.
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher
@@ -18,6 +18,7 @@ Updated: 2026-10-25
 - Global vs Workspace: `~/.gemini/GEMINI.md` is universal; repo `GEMINI.md` governs this project and wins on conflict.
 
 ## Open items
+- Samsung Internet 30 VT jitter: deploy, open `?vtdebug=1&vtmode=ua-freeze` then `vtmode=measured`, tap STOP AUTO + the theme button, send the COPY JSON output. Details in `docs/VT-DEBUG.md`.
 - CSP `style-src 'self' 'unsafe-inline'` blocks the Fontshare stylesheet (`api.fontshare.com`), so every Fontshare heading falls back to sans-serif. Needs a self-host or allowlist decision.
 - TODO-VERIFY: Sole proprietorship registration in `src/config/legal.ts`.
 - TODO-VERIFY: Written client permissions for Gangina and MNO.CRM.

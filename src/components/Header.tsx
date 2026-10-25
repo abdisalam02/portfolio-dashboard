@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FiSun, FiMoon } from "react-icons/fi";
-import { applyPaletteAndFonts } from "./ThemeFontSwitcher";
+import { applyPaletteAndFonts, WADA_PALETTES } from "./ThemeFontSwitcher";
 import { runThemeTransition } from "./theme-transition";
 import { TextRoll } from "./ui/text-roll";
 import InkSignature from "./InkSignature";
@@ -89,6 +89,9 @@ export default function Header() {
 
     const savedPalette = localStorage.getItem("ag_wada_palette") || "00";
     const savedFont = localStorage.getItem("ag_font_pair") || "00";
+    const palette =
+      WADA_PALETTES.find((item) => item.id === savedPalette) || WADA_PALETTES[0];
+    const nextBg = nextLight ? palette.light.bg : palette.dark.bg;
 
     runThemeTransition(() => {
       applyPaletteAndFonts(savedPalette, savedFont, !nextLight);
@@ -98,7 +101,7 @@ export default function Header() {
           detail: { isLightMode: nextLight },
         })
       );
-    }, { trigger: event.currentTarget });
+    }, { trigger: event.currentTarget, nextBg });
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

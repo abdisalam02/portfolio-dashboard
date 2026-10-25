@@ -70,6 +70,11 @@
     touch-action: none;
   }
 
+  /* Debug-only comparison: does scroll chaining move Samsung's toolbars mid-reveal? */
+  html.theme-vt.vt-overscroll body {
+    overscroll-behavior: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     body {
       transition: none;

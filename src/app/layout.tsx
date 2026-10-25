@@ -21,6 +21,7 @@ import {
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ThemeFontSwitcher from "@/components/ThemeFontSwitcher";
+import VtDebug from "@/components/vt-debug";
 
 const spaceGrotesk = Space_Grotesk({ // design-ok
   subsets: ["latin"],
@@ -210,6 +211,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased min-h-svh selection:bg-foreground selection:text-background">
         <ThemeFontSwitcher />
+        <VtDebug />
         <SmoothScroll>
           {children}
         </SmoothScroll>
