@@ -91,8 +91,8 @@ export default function ClientWork({
       {/* Monumental Editorial Section Header with 3D Font-Flip on Title */}
       <div className="border-t border-b border-card-border py-8 sm:py-10 mb-8 md:mb-12">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div className="flex items-start gap-2 sm:gap-3 min-w-0 max-w-full overflow-hidden">
-            <h2 className="text-[clamp(2.25rem,10vw,6.5rem)] font-black font-heading tracking-tighter leading-[0.88] text-foreground max-w-full overflow-hidden">
+          <div className="flex items-start gap-2 sm:gap-3 min-w-0 max-w-full flex-1">
+            <h2 className="min-w-0 flex-1 text-[clamp(2.25rem,10vw,6.5rem)] font-black font-heading tracking-tighter leading-[0.88] text-foreground">
               <FlippingWordSwap word1={headingTitle} />
             </h2>
             <sup className="text-base sm:text-2xl font-mono font-bold text-accent pt-1 sm:pt-2 flex-shrink-0">
@@ -120,41 +120,95 @@ export default function ClientWork({
           </div>
         </div>
 
-        {/* Dedicated /work page: three cards that stack as you scroll. Each slot is only one card tall, so the whole effect adds about three card heights of scroll and no blank gap. */}
+        {/* Dedicated /work page: three cards that stack as you scroll. Each slot is one card tall, so the effect adds about three card heights of scroll and no blank gap. Each card has its own layout: ledger, matrix, index. */}
         {isWorkPage && (
           <StackingCards totalCards={3} className="mt-8 pt-6 border-t border-card-border">
-            <StackingCardItem index={0} className="h-[12rem] sm:h-[10rem] pb-3 z-[1]">
-              <div className="h-full p-4 sm:p-5 rounded-xl bg-card border border-card-border space-y-1.5 overflow-hidden">
-                <span className="font-mono text-xs text-accent font-bold block">01 / WHAT I BUILD</span>
-                <p className="text-sm font-body text-foreground/90 leading-relaxed max-w-3xl">
-                  Custom websites, automated booking calendars, 3D product showcases, and mobile-first bio experiences built around how customers actually act on their phones.
-                </p>
+            {/* 01: ledger. Hollow index left, ruled list right, each row points at the site it came from. */}
+            <StackingCardItem index={0} className="h-[15rem] sm:h-[12.5rem] pb-3 z-[1]">
+              <div className="h-full p-4 sm:p-5 rounded-xl bg-card border border-card-border overflow-hidden grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-8">
+                <div className="sm:col-span-4 flex sm:flex-col items-center sm:items-start justify-between sm:justify-between">
+                  <span
+                    className="outline-index text-5xl sm:text-7xl font-black font-heading h-[1.05em] inline-flex items-center leading-none select-none text-accent"
+                    aria-hidden="true"
+                  >
+                    01
+                  </span>
+                  <span className="font-mono text-[11px] text-muted uppercase tracking-wide">
+                    What I build
+                  </span>
+                </div>
+                <ul className="sm:col-span-8 divide-y divide-card-border font-body text-sm text-foreground/90">
+                  {[
+                    ["Custom websites", "From scratch"],
+                    ["Booking calendars", "Noire"],
+                    ["3D product showcases", "Grillz"],
+                    ["Mobile-first bio sites", "Sadija"],
+                  ].map(([what, where]) => (
+                    <li key={what} className="flex items-baseline justify-between gap-3 py-1.5 first:pt-0 last:pb-0">
+                      <span>{what}</span>
+                      <span className="font-mono text-[11px] text-muted flex-shrink-0">{where}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </StackingCardItem>
 
-            <StackingCardItem index={1} className="h-[12rem] sm:h-[10rem] pb-3 z-[2]">
-              <div className="h-full p-4 sm:p-5 rounded-xl bg-card border border-card-border space-y-1.5 overflow-hidden">
-                <span className="font-mono text-xs text-accent font-bold block">02 / APPROACH</span>
-                <p className="text-sm font-body text-foreground/90 leading-relaxed max-w-3xl">
-                  1-on-1 design and code from start to finish. No bloated page builders or generic templates. Fast load times, clean typography, and direct ownership.
-                </p>
+            {/* 02: matrix. Four ruled cells, one fact each. */}
+            <StackingCardItem index={1} className="h-[15rem] sm:h-[12.5rem] pb-3 z-[2]">
+              <div className="h-full rounded-xl bg-card border border-card-border overflow-hidden flex flex-col">
+                <div className="flex items-center justify-between px-4 sm:px-5 py-2.5 border-b border-card-border">
+                  <span className="font-mono text-[11px] text-muted uppercase tracking-wide">Approach</span>
+                  <span
+                    className="outline-index text-2xl font-black font-heading h-[1.05em] inline-flex items-center leading-none select-none text-accent"
+                    aria-hidden="true"
+                  >
+                    02
+                  </span>
+                </div>
+                <dl className="flex-1 grid grid-cols-2 sm:grid-cols-4 divide-x divide-card-border [&>div:nth-child(n+3)]:border-t sm:[&>div:nth-child(n+3)]:border-t-0 [&>div]:border-card-border">
+                  {[
+                    ["1-on-1", "Design and code, start to finish."],
+                    ["No templates", "No page builders or generic themes."],
+                    ["Light pages", "Fast load times, clean type."],
+                    ["Yours", "You own the finished site and your content."],
+                  ].map(([term, detail], i) => (
+                    <div key={term} className="p-3 sm:p-4 flex flex-col justify-between gap-1">
+                      <dt className="font-mono text-[11px] text-accent font-bold">
+                        {String.fromCharCode(97 + i)} / {term}
+                      </dt>
+                      <dd className="font-body text-xs text-foreground/85 leading-snug">{detail}</dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
             </StackingCardItem>
 
-            <StackingCardItem index={2} className="h-[12rem] sm:h-[10rem] pb-3 z-[3]">
-              <div className="h-full p-4 sm:p-5 rounded-xl bg-card border border-card-border space-y-1.5 overflow-hidden">
-                <span className="font-mono text-xs text-accent font-bold block">03 / ARCHIVE INDEX</span>
-                <div className="flex flex-col font-mono text-xs">
+            {/* 03: index. Inverted card so the stack ends on a solid block; rows jump to each project. */}
+            <StackingCardItem index={2} className="h-[15rem] sm:h-[12.5rem] pb-3 z-[3]">
+              <div className="h-full p-4 sm:p-5 rounded-xl bg-accent text-accent-fg overflow-hidden flex flex-col">
+                <div className="flex items-center justify-between pb-2 border-b border-accent-fg/30">
+                  <span className="font-mono text-[11px] uppercase tracking-wide opacity-80">Archive index</span>
+                  <span className="font-mono text-[11px] opacity-80">03</span>
+                </div>
+                <div className="flex-1 flex flex-col justify-around">
                   {visibleProjects.map((p, i) => (
                     <a
                       key={p.id}
                       href={`#project-${p.id}`}
-                      className="flex items-center justify-between py-1.5 border-b border-card-border/60 last:border-b-0 hover:text-accent text-foreground/85 transition-colors"
+                      className="group flex items-center justify-between gap-3 py-1.5 border-b border-accent-fg/20 last:border-b-0"
                     >
-                      <span>
-                        0{i + 1} / {p.name}
+                      <span className="flex items-baseline gap-3 min-w-0">
+                        <span className="font-mono text-[11px] opacity-70">0{i + 1}</span>
+                        <span className="font-body text-base font-bold truncate group-hover:underline underline-offset-4">
+                          {p.name}
+                        </span>
                       </span>
-                      <span className="text-accent">{p.year} ↓</span>
+                      <span className="flex items-center gap-2 flex-shrink-0">
+                        <span className="font-mono text-[11px] opacity-70">{p.year}</span>
+                        <span className="w-7 h-7 rounded-full border border-accent-fg/50 flex items-center justify-center group-hover:bg-accent-fg group-hover:text-accent transition-colors">
+                          <FiArrowUpRight size={13} className="rotate-90" />
+                        </span>
+                      </span>
                     </a>
                   ))}
                 </div>
@@ -197,7 +251,7 @@ export default function ClientWork({
 
                   {/* Brand Mark, Title (with FlippingWordSwap) & Circular ↗ Launch Icon */}
                   <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
                       <div className="relative w-9 h-9 rounded-lg bg-card border border-card-border flex items-center justify-center p-1.5 flex-shrink-0">
                         <Image
                           src={project.logoSrc}
@@ -207,7 +261,7 @@ export default function ClientWork({
                           className="object-contain p-1"
                         />
                       </div>
-                      <h3 className="text-3xl sm:text-4xl font-black font-heading tracking-tight text-foreground">
+                      <h3 className="min-w-0 flex-1 text-3xl sm:text-4xl font-black font-heading tracking-tight text-foreground">
                         <FlippingWordSwap word1={project.name} />
                       </h3>
                     </div>

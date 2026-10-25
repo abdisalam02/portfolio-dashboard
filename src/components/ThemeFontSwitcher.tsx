@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { runThemeTransition } from "./theme-transition";
 
 export interface PaletteTone {
   bg: string;
@@ -1201,7 +1202,10 @@ export default function ThemeFontSwitcher() {
       const nextPaletteId = order[nextIndex] || "00";
       setPaletteId(nextPaletteId);
       localStorage.setItem("ag_wada_palette", nextPaletteId);
-      applyPaletteOnly(nextPaletteId, !curLight);
+      runThemeTransition(
+        () => applyPaletteOnly(nextPaletteId, !curLight),
+        { skipWhenScrolling: true }
+      );
     } else {
       // Strictly change ONLY the heading font (never touch the color palette)
       const prevFontObj =

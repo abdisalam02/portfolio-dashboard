@@ -1,10 +1,10 @@
 # STATE.md: resume point (read first, keep under 30 lines)
 
-Updated: 2026-10-24
+Updated: 2026-10-25
 
 ## Now
-- Task: Nav now uses Skiper58-style `TextRoll` (`ui/text-roll.tsx`) with Home/Work/Contact + small Personvern, drawer auto-rolls on a timer; `/work` cards use Fancy `StackingCards` (`ui/stacking-cards.tsx`, framer-motion, no new deps).
-- Uncommitted changes: this nav + cards work. TODO-VERIFY licences for Skiper UI and Fancy Components code (not yet in `docs/ASSETS.md`).
+- Task: Theme changes (auto roulette + Header toggle) reveal via View Transitions (`components/theme-transition.ts`, Skiper26). Circle starts at the clicked button, 0.9s; rectangle 0.8s; polygon 0.8s; `cubic-bezier(0.4,0,0.2,1)` so the travel is visible. Manual clicks ignore the scroll guard; auto roulette keeps it; scrolling mid-reveal calls `skipTransition`.
+- Uncommitted changes: this plus title/cards/nav work. The font flip (`ui/letter-3d-swap.tsx`) now holds the outgoing face until the incoming font is loaded and its fitted size is measured; on the roll's first frame it applies the new size and hands layout width to the incoming face, so neither the type size nor the title box changes after the flip. TODO-VERIFY: Fancy Components licence (Skiper UI free licence needs attribution, added in Footer); neither is in `docs/ASSETS.md`. Titles must sit in a `flex-1 min-w-0` or block parent or the fit logic can't measure.
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher
@@ -17,6 +17,7 @@ Updated: 2026-10-24
 - Global vs Workspace: `~/.gemini/GEMINI.md` is universal; repo `GEMINI.md` governs this project and wins on conflict.
 
 ## Open items
+- CSP `style-src 'self' 'unsafe-inline'` blocks the Fontshare stylesheet (`api.fontshare.com`), so every Fontshare heading falls back to sans-serif. Needs a self-host or allowlist decision.
 - TODO-VERIFY: Sole proprietorship registration in `src/config/legal.ts`.
 - TODO-VERIFY: Written client permissions for Gangina and MNO.CRM.
 - TODO-VERIFY: Clear rights for Pinterest demo images in `docs/ASSETS.md`.

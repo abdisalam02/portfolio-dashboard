@@ -15,8 +15,8 @@ export default function Footer() {
     <footer className="border-t border-card-border pt-16 pb-14 px-4 sm:px-8 max-w-7xl mx-auto">
       {/* Bold Full-Width LET'S TALK + Scroll-Triggered Handwritten Signature (Re-runs every scroll) */}
       <div className="pb-14 border-b border-card-border flex flex-col md:flex-row md:items-end justify-between gap-10">
-        <div className="space-y-4 min-w-0 max-w-full overflow-hidden">
-          <h2 className="text-[clamp(2.35rem,11vw,7.5rem)] font-black font-heading tracking-tighter leading-[0.88] text-foreground max-w-full overflow-hidden">
+        <div className="space-y-4 min-w-0 flex-1 max-w-full">
+          <h2 className="text-[clamp(2.35rem,11vw,7.5rem)] font-black font-heading tracking-tighter leading-[0.88] text-foreground max-w-full">
             <FlippingWordSwap word1="LET'S TALK" />
           </h2>
           <div className="flex flex-wrap items-center gap-6 pt-2 text-sm font-mono">
@@ -96,6 +96,29 @@ export default function Footer() {
       </div>
 
       <LegalFooter />
+
+      {/* Skiper UI's free licence requires attribution; Fancy Components credited alongside */}
+      <p className="pt-4 text-[10px] font-mono text-muted/70">
+        Motion effects adapted from{" "}
+        <a
+          href="https://skiper-ui.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2 hover:text-foreground transition-colors"
+        >
+          Skiper UI
+        </a>{" "}
+        and{" "}
+        <a
+          href="https://fancycomponents.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2 hover:text-foreground transition-colors"
+        >
+          Fancy Components
+        </a>
+        .
+      </p>
     </footer>
   );
 }

@@ -64,6 +64,17 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* The reveal captures the new page state, so the colour fade has to be off while it runs */
+  html.theme-vt body {
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body {
+      transition: none;
+    }
+  }
+
   /* Typography mode mappings */
   :root,
   .font-pair-0,

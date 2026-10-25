@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { FiArrowUpRight, FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
+import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 import { applyPaletteAndFonts } from "./ThemeFontSwitcher";
+import { runThemeTransition } from "./theme-transition";
 import { TextRoll } from "./ui/text-roll";
+import InkSignature from "./InkSignature";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -77,20 +79,23 @@ export default function Header() {
       window.removeEventListener("ag-auto-theme-mode-change", onAutoModeChange);
   }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = (event: React.MouseEvent<HTMLButtonElement>) => {
     const nextLight = !isLightMode;
     setIsLightMode(nextLight);
     localStorage.setItem("ag_theme", nextLight ? "light" : "dark");
 
     const savedPalette = localStorage.getItem("ag_wada_palette") || "00";
     const savedFont = localStorage.getItem("ag_font_pair") || "00";
-    applyPaletteAndFonts(savedPalette, savedFont, !nextLight);
 
-    window.dispatchEvent(
-      new CustomEvent("ag-manual-theme-toggle", {
-        detail: { isLightMode: nextLight },
-      })
-    );
+    runThemeTransition(() => {
+      applyPaletteAndFonts(savedPalette, savedFont, !nextLight);
+
+      window.dispatchEvent(
+        new CustomEvent("ag-manual-theme-toggle", {
+          detail: { isLightMode: nextLight },
+        })
+      );
+    }, { trigger: event.currentTarget });
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -219,13 +224,10 @@ export default function Header() {
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
                   aria-current={pathname === link.href ? "page" : undefined}
-                  className={`flex items-start gap-3 py-3 border-b border-card-border transition-colors ${
+                  className={`block py-3 border-b border-card-border transition-colors ${
                     pathname === link.href ? "text-accent" : "text-foreground"
                   }`}
                 >
-                  <span className="font-mono text-xs text-accent pt-1.5 w-6 flex-shrink-0">
-                    0{idx + 1}
-                  </span>
                   <TextRoll
                     center
                     active={pulseIndex === idx}
@@ -246,33 +248,9 @@ export default function Header() {
               </Link>
             </div>
 
-            <div className="space-y-4 pt-8 border-t border-card-border">
-              <button
-                onClick={toggleTheme}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-card border border-card-border text-foreground text-xs font-mono font-bold mb-2"
-              >
-                {isLightMode ? (
-                  <FiMoon size={15} />
-                ) : (
-                  <FiSun size={15} className="text-accent" />
-                )}
-                <span>
-                  SWITCH PALETTE TO {isLightMode ? "DARK MODE" : "LIGHT MODE"}
-                </span>
-              </button>
-
-              <Link
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-accent text-accent-fg text-xs font-mono font-bold"
-              >
-                <span>GET IN TOUCH</span>
-                <FiArrowUpRight size={16} />
-              </Link>
-
-              <div className="text-center text-xs font-mono text-muted pt-2">
-                hello@agure.space
-              </div>
+            {/* Translucent signature replaces the old theme/contact buttons so the drawer stays quiet */}
+            <div className="flex justify-center opacity-35 pointer-events-none select-none">
+              <InkSignature size="footer" replayEveryScroll={false} />
             </div>
           </motion.div>
         )}

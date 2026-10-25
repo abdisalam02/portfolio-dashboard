@@ -5,13 +5,13 @@ Read this before searching. Open files by line range. Never read a "Big file" wh
 ## Routes
 | URL | Entry (lines) | UI lives in (lines) |
 |---|---|---|
-| / | src/app/page.tsx (19) | src/components/Header.tsx (283)<br>src/components/Hero.tsx (82)<br>src/components/ClientWork.tsx (313) |
+| / | src/app/page.tsx (19) | src/components/Header.tsx (261)<br>src/components/Hero.tsx (82)<br>src/components/ClientWork.tsx (367) |
 | /api/auth-pin | src/app/api/auth-pin/route.ts (21) | API handler |
 | /api/generate-pitch | src/app/api/generate-pitch/route.ts (256) | API handler |
 | /api/send-email | src/app/api/send-email/route.ts (321) | API handler |
-| /contact | src/app/contact/page.tsx (348) | src/components/Header.tsx (283)<br>src/components/Footer.tsx (102) |
+| /contact | src/app/contact/page.tsx (348) | src/components/Header.tsx (261)<br>src/components/Footer.tsx (125) |
 | /customizer | src/app/customizer/page.tsx (12) | src/app/library/page.tsx (778) |
-| /demo | src/app/demo/page.tsx (102) | src/components/Header.tsx (283)<br>src/components/Footer.tsx (102)<br>src/components/StudioPinGate.tsx (149) |
+| /demo | src/app/demo/page.tsx (102) | src/components/Header.tsx (261)<br>src/components/Footer.tsx (125)<br>src/components/StudioPinGate.tsx (149) |
 | /demo/cakes | src/app/demo/cakes/page.tsx (17) | src/components/demo/LuffyCakesView.tsx (1857)<br>src/components/StudioPinGate.tsx (149) |
 | /demo/nails | src/app/demo/nails/page.tsx (17) | src/components/demo/StudioKloNailsView.tsx (1168)<br>src/components/StudioPinGate.tsx (149) |
 | /estimate | src/app/estimate/page.tsx (6) | self-contained |
@@ -21,9 +21,9 @@ Read this before searching. Open files by line range. Never read a "Big file" wh
 | /preview/cakes | src/app/preview/cakes/page.tsx (13) | src/components/demo/LuffyCakesView.tsx (1857)<br>src/components/StudioPinGate.tsx (149) |
 | /preview/nails | src/app/preview/nails/page.tsx (13) | src/components/demo/StudioKloNailsView.tsx (1168)<br>src/components/StudioPinGate.tsx (149) |
 | /pricing | src/app/pricing/page.tsx (6) | self-contained |
-| /privacy | src/app/privacy/page.tsx (135) | src/components/Header.tsx (283)<br>src/components/Footer.tsx (102)<br>src/config/legal.ts (19) |
+| /privacy | src/app/privacy/page.tsx (135) | src/components/Header.tsx (261)<br>src/components/Footer.tsx (125)<br>src/config/legal.ts (19) |
 | /studio | src/app/studio/page.tsx (1426) | self-contained |
-| /work | src/app/work/page.tsx (19) | src/components/Header.tsx (283)<br>src/components/ClientWork.tsx (313)<br>src/components/Footer.tsx (102) |
+| /work | src/app/work/page.tsx (19) | src/components/Header.tsx (261)<br>src/components/ClientWork.tsx (367)<br>src/components/Footer.tsx (125) |
 
 ## Big files (over 500 lines: use these ranges)
 ### src/components/library/registry.ts (2234 lines)
@@ -32,8 +32,8 @@ Mostly data or one block. Split it or add an index before editing.
 LuffyCakesLogo L26-56; GALLERY_CAKES L243-293; SIGNATURE_PRESETS L294-359; FROSTING_OPTIONS L393-425; LuffyCakesView L434-1857
 ### src/app/studio/page.tsx (1426 lines)
 generateCuratedPitch L29-162; StudioPage L163-1426
-### src/components/ThemeFontSwitcher.tsx (1294 lines)
-WADA_PALETTES L35-787; FONT_PAIRINGS L810-1048; applyPaletteOnly L1052-1087; ThemeFontSwitcher L1116-1294
+### src/components/ThemeFontSwitcher.tsx (1295 lines)
+WADA_PALETTES L36-788; FONT_PAIRINGS L811-1049; applyPaletteOnly L1053-1088; ThemeFontSwitcher L1117-1295
 ### src/components/demo/StudioKloNailsView.tsx (1168 lines)
 PALETTES L34-97; SERVICES L139-181; LOOKBOOK L182-245; StudioKloNailsView L285-1168
 ### src/components/library/HeroComponents.tsx (916 lines)
