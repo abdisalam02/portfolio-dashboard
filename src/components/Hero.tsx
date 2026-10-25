@@ -65,15 +65,14 @@ export default function Hero() {
             href="/work"
             className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-card border border-card-border text-foreground text-xs font-mono hover:border-accent transition-all active:scale-95"
           >
-            <span>ALL PROJECTS (03)</span>
+            <span>ALL PROJECTS</span>
             <FiArrowUpRight className="text-sm text-accent" />
           </Link>
         </motion.div>
       </div>
 
       {/* Subtle bottom hint indicating to scroll down */}
-      <div className="flex items-center justify-between text-[11px] font-mono text-muted/70 pt-4 border-t border-card-border">
-        <span>SCROLL TO EXPLORE</span>
+      <div className="flex items-center justify-end pt-4 border-t border-card-border">
         <FiArrowDown className="text-accent" />
       </div>
     </section>

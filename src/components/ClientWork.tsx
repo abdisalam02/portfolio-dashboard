@@ -84,8 +84,6 @@ export default function ClientWork({
     ? allProjects
     : allProjects.filter((p) => p.id !== "sadija");
 
-  const countFormatted = `0${visibleProjects.length}`;
-
   return (
     <section id="work" className="py-16 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto">
       {/* Monumental Editorial Section Header with 3D Font-Flip on Title */}
@@ -95,9 +93,6 @@ export default function ClientWork({
             <h2 className="min-w-0 flex-1 text-[clamp(2.25rem,10vw,6.5rem)] font-black font-heading tracking-tighter leading-[0.88] text-foreground">
               <FlippingWordSwap word1={headingTitle} />
             </h2>
-            <sup className="text-base sm:text-2xl font-mono font-bold text-accent pt-1 sm:pt-2 flex-shrink-0">
-              {countFormatted}
-            </sup>
           </div>
 
           <div className="max-w-md space-y-2 lg:text-right">
@@ -112,7 +107,7 @@ export default function ClientWork({
                   href="/work"
                   className="inline-flex items-center gap-1.5 text-xs font-mono text-accent hover:opacity-80 transition-opacity underline underline-offset-4"
                 >
-                  <span>View full archive including Sadija (03)</span>
+                  <span>View full archive including Sadija</span>
                   <FiArrowUpRight size={13} />
                 </Link>
               </div>

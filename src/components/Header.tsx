@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
+import { FiSun, FiMoon } from "react-icons/fi";
 import { applyPaletteAndFonts } from "./ThemeFontSwitcher";
 import { runThemeTransition } from "./theme-transition";
 import { TextRoll } from "./ui/text-roll";
@@ -25,6 +25,9 @@ export default function Header() {
   const [pulseIndex, setPulseIndex] = useState<number | null>(null);
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
+  const iconTransition = reduceMotion
+    ? { duration: 0 }
+    : { duration: 0.32, ease: "easeOut" as const };
 
   // Touch screens have no hover, so the drawer rolls one link at a time on a slow timer.
   // Only runs while the drawer is open so it costs nothing the rest of the time.
@@ -198,10 +201,36 @@ export default function Header() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg bg-card border border-card-border text-foreground hover:border-accent transition-colors"
+              className="relative p-2.5 rounded-full bg-card border border-card-border text-foreground hover:border-accent active:scale-95 transition-all"
               aria-label="Toggle Navigation Menu"
+              aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+              <motion.span
+                aria-hidden="true"
+                className="relative block h-4 w-5"
+              >
+                <motion.span
+                  className="absolute left-0 top-0 h-[1.5px] w-5 origin-center rounded-full bg-current"
+                  animate={mobileMenuOpen ? { y: 7, rotate: 45 } : { y: 0, rotate: 0 }}
+                  transition={iconTransition}
+                />
+                <motion.span
+                  className="absolute left-0 top-[7px] h-[1.5px] w-3.5 origin-left rounded-full bg-current"
+                  animate={mobileMenuOpen ? { opacity: 0, scaleX: 0.3 } : { opacity: 1, scaleX: 1 }}
+                  transition={iconTransition}
+                />
+                <motion.span
+                  className="absolute bottom-0 left-0 h-[1.5px] w-5 origin-center rounded-full bg-current"
+                  animate={mobileMenuOpen ? { y: -7, rotate: -45 } : { y: 0, rotate: 0 }}
+                  transition={iconTransition}
+                />
+              </motion.span>
+              <motion.span
+                aria-hidden="true"
+                className="absolute right-1.5 top-1.5 h-1 w-1 rounded-full bg-accent"
+                animate={mobileMenuOpen ? { opacity: 0, scale: 0 } : { opacity: 1, scale: 1 }}
+                transition={iconTransition}
+              />
             </button>
           </div>
         </div>

@@ -151,11 +151,18 @@ export function runThemeTransition(apply: () => void, options: Options = {}) {
 
   const doc = document as DocWithVT;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Phones and tablets resize their viewport as the browser toolbar collapses,
+  // and a view-transition snapshot frozen at the old height makes the page look
+  // like it jumps. Keep the colour fade on touch layouts; the shape reveal stays
+  // on desktop where the viewport is stable.
+  const touchLayout =
+    window.matchMedia("(max-width: 767px)").matches ||
+    window.matchMedia("(pointer: coarse)").matches;
   const scrolling =
     options.skipWhenScrolling === true &&
     performance.now() - lastScrollAt < SCROLL_QUIET_MS;
 
-  if (!doc.startViewTransition || reduceMotion || scrolling || running) {
+  if (!doc.startViewTransition || reduceMotion || touchLayout || scrolling || running) {
     apply();
     return;
   }
