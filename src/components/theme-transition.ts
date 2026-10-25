@@ -28,12 +28,11 @@ const DURATION: Record<Shape, number> = { circle: 0.9, rectangle: 0.8, polygon: 
 // are translated by it so the captured page lines up with the live viewport.
 const baseCss = (snapshotOffset: number) => `
   ::view-transition { isolation: isolate; }
-  ::view-transition-group(root),
-  ::view-transition-group(site-header) {
+  ::view-transition-group(root) {
     animation-name: none;
     transform: translateY(${snapshotOffset}px);
+    z-index: 1;
   }
-  ::view-transition-group(root) { z-index: 1; }
   ::view-transition-old(root) { animation: none; z-index: 0; mix-blend-mode: normal; }
   ::view-transition-new(root) { z-index: 1; mix-blend-mode: normal; }
   header { view-transition-name: site-header; }
@@ -45,12 +44,11 @@ const baseCss = (snapshotOffset: number) => `
 function getSnapshotOffset() {
   if (typeof document === "undefined" || typeof navigator === "undefined") return 0;
   const ua = navigator.userAgent;
-  // Samsung Internet (which defaults to a bottom URL bar) mis-places the
-  // snapshot containing block by the bar height in older Chromium builds.
-  // Chrome itself already handles it, so only touch Samsung there.
+  // Chrome/Safari place the snapshots correctly. Samsung Internet has a second,
+  // dynamic toolbar at the bottom and its Chromium build measures the snapshot
+  // containing block against both bars, so the page snapshot sits above the
+  // viewport by the dynamic bar height. `lvh - svh` is that bar height.
   if (!/SamsungBrowser/i.test(ua)) return 0;
-  const chromium = Number(ua.match(/Chrome\/(\d+)/)?.[1] ?? 0);
-  if (chromium >= 142) return 0;
   const heightOf = (unit: string) => {
     const probe = document.createElement("div");
     probe.style.cssText = `position:absolute;top:0;left:0;width:1px;height:100${unit};visibility:hidden;pointer-events:none;`;
@@ -59,7 +57,7 @@ function getSnapshotOffset() {
     probe.remove();
     return height;
   };
-  // Small viewport = toolbar shown, large viewport = toolbar retracted.
+  // Small viewport = toolbars shown, large viewport = toolbars retracted.
   return Math.max(0, Math.round(heightOf("lvh") - heightOf("svh")));
 }
 
