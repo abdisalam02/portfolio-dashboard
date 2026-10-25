@@ -67,6 +67,7 @@
   /* The reveal captures the new page state, so the colour fade has to be off while it runs */
   html.theme-vt body {
     transition: none;
+    touch-action: none;
   }
 
   @media (prefers-reduced-motion: reduce) {

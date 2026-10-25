@@ -19,9 +19,17 @@ const DURATION: Record<Shape, number> = { circle: 0.9, rectangle: 0.8, polygon: 
 
 // Only the incoming snapshot animates. Old stays put underneath and blend mode is
 // forced to normal, otherwise the two opaque pages add up towards white.
+// The fixed header is captured in its own group: mobile Chrome otherwise pulls
+// fixed elements into the transition layer, which is what made the page jump.
 const BASE = `
-  ::view-transition-old(root) { animation: none; z-index: -1; mix-blend-mode: normal; }
-  ::view-transition-new(root) { mix-blend-mode: normal; }
+  ::view-transition { isolation: isolate; }
+  ::view-transition-group(root) { z-index: 1; }
+  ::view-transition-old(root) { animation: none; z-index: 0; mix-blend-mode: normal; }
+  ::view-transition-new(root) { z-index: 1; mix-blend-mode: normal; }
+  header { view-transition-name: site-header; }
+  ::view-transition-group(site-header) { z-index: 2; animation-duration: 0.9s; }
+  ::view-transition-old(site-header),
+  ::view-transition-new(site-header) { mix-blend-mode: normal; }
 `;
 
 function circleCss({ x, y }: Point) {
@@ -84,6 +92,7 @@ let nextIndex = 0;
 let running = false;
 let lastScrollAt = 0;
 let listening = false;
+let viewportListening = false;
 let activeTransition: ViewTransitionLike | null = null;
 
 function watchScroll() {
@@ -99,6 +108,16 @@ function watchScroll() {
     },
     { passive: true }
   );
+}
+
+// Mobile toolbars resize the visual viewport. If that happens while a snapshot is
+// running, the frozen frame no longer matches the page; finish immediately instead.
+function watchViewport() {
+  if (viewportListening) return;
+  viewportListening = true;
+  const finish = () => activeTransition?.skipTransition?.();
+  window.addEventListener("resize", finish, { passive: true });
+  window.visualViewport?.addEventListener("resize", finish, { passive: true });
 }
 
 function getStyleEl() {
@@ -148,21 +167,15 @@ export function runThemeTransition(apply: () => void, options: Options = {}) {
   }
 
   watchScroll();
+  watchViewport();
 
   const doc = document as DocWithVT;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // Phones and tablets resize their viewport as the browser toolbar collapses,
-  // and a view-transition snapshot frozen at the old height makes the page look
-  // like it jumps. Keep the colour fade on touch layouts; the shape reveal stays
-  // on desktop where the viewport is stable.
-  const touchLayout =
-    window.matchMedia("(max-width: 767px)").matches ||
-    window.matchMedia("(pointer: coarse)").matches;
   const scrolling =
     options.skipWhenScrolling === true &&
     performance.now() - lastScrollAt < SCROLL_QUIET_MS;
 
-  if (!doc.startViewTransition || reduceMotion || touchLayout || scrolling || running) {
+  if (!doc.startViewTransition || reduceMotion || scrolling || running) {
     apply();
     return;
   }
