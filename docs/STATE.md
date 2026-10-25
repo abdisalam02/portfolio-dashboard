@@ -3,8 +3,8 @@
 Updated: 2026-10-24
 
 ## Now
-- Task: Clamped mobile headings (`GOT A PROJECT IN MIND?`, etc.) to prevent horizontal overflow on font switch; fixed homepage scroll fighting (`overflowAnchor: none`, native scroll); sorted Wada palettes by luminance for smooth +1/-1 brightness stepping; locked `/library`, `/customizer`, `/inspo`, `/demo/*`, `/preview/*`, and `/studio` behind server-verified `StudioPinGate`.
-- Uncommitted changes: Hero/body/page heights `dvh` -> `svh` to stop mobile address-bar resize jitter. Decision: page-level heights use `svh` (overrides the global "use dvh" rule for this case).
+- Task: Nav now uses Skiper58-style `TextRoll` (`ui/text-roll.tsx`) with Home/Work/Contact + small Personvern, drawer auto-rolls on a timer; `/work` cards use Fancy `StackingCards` (`ui/stacking-cards.tsx`, framer-motion, no new deps).
+- Uncommitted changes: this nav + cards work. TODO-VERIFY licences for Skiper UI and Fancy Components code (not yet in `docs/ASSETS.md`).
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher

@@ -6,6 +6,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 import AutoScrollFrame from "./AutoScrollFrame";
 import SadijaReelPreview from "./SadijaReelPreview";
 import FlippingWordSwap from "./ui/flipping-word-swap";
+import StackingCards, { StackingCardItem } from "./ui/stacking-cards";
 
 interface Project {
   id: string;
@@ -119,41 +120,47 @@ export default function ClientWork({
           </div>
         </div>
 
-        {/* Dedicated /work Page: Tightly Connected 3-Column Editorial Strip (Zero Scroll-Jacking, Zero Blank Gap) */}
+        {/* Dedicated /work page: three cards that stack as you scroll. Each slot is only one card tall, so the whole effect adds about three card heights of scroll and no blank gap. */}
         {isWorkPage && (
-          <div className="mt-8 pt-6 border-t border-card-border grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-xs">
-            <div className="p-4 rounded-xl bg-card border border-card-border space-y-1.5">
-              <span className="font-mono text-accent font-bold block">01 / WHAT I BUILD</span>
-              <p className="font-body text-foreground/90 leading-relaxed">
-                Custom websites, automated booking calendars, 3D product showcases, and mobile-first bio experiences built around how customers actually act on their phones.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-card border border-card-border space-y-1.5">
-              <span className="font-mono text-accent font-bold block">02 / APPROACH</span>
-              <p className="font-body text-foreground/90 leading-relaxed">
-                1-on-1 design and code from start to finish. No bloated page builders or generic templates. Fast load times, clean typography, and direct ownership.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-card border border-card-border space-y-1.5">
-              <span className="font-mono text-accent font-bold block">03 / ARCHIVE INDEX</span>
-              <div className="flex flex-col space-y-1 font-mono pt-0.5">
-                {visibleProjects.map((p, i) => (
-                  <a
-                    key={p.id}
-                    href={`#project-${p.id}`}
-                    className="flex items-center justify-between py-1 border-b border-card-border/60 hover:text-accent text-foreground/85 transition-colors"
-                  >
-                    <span>
-                      0{i + 1} / {p.name}
-                    </span>
-                    <span className="text-accent">{p.year} ↓</span>
-                  </a>
-                ))}
+          <StackingCards totalCards={3} className="mt-8 pt-6 border-t border-card-border">
+            <StackingCardItem index={0} className="h-[12rem] sm:h-[10rem] pb-3 z-[1]">
+              <div className="h-full p-4 sm:p-5 rounded-xl bg-card border border-card-border space-y-1.5 overflow-hidden">
+                <span className="font-mono text-xs text-accent font-bold block">01 / WHAT I BUILD</span>
+                <p className="text-sm font-body text-foreground/90 leading-relaxed max-w-3xl">
+                  Custom websites, automated booking calendars, 3D product showcases, and mobile-first bio experiences built around how customers actually act on their phones.
+                </p>
               </div>
-            </div>
-          </div>
+            </StackingCardItem>
+
+            <StackingCardItem index={1} className="h-[12rem] sm:h-[10rem] pb-3 z-[2]">
+              <div className="h-full p-4 sm:p-5 rounded-xl bg-card border border-card-border space-y-1.5 overflow-hidden">
+                <span className="font-mono text-xs text-accent font-bold block">02 / APPROACH</span>
+                <p className="text-sm font-body text-foreground/90 leading-relaxed max-w-3xl">
+                  1-on-1 design and code from start to finish. No bloated page builders or generic templates. Fast load times, clean typography, and direct ownership.
+                </p>
+              </div>
+            </StackingCardItem>
+
+            <StackingCardItem index={2} className="h-[12rem] sm:h-[10rem] pb-3 z-[3]">
+              <div className="h-full p-4 sm:p-5 rounded-xl bg-card border border-card-border space-y-1.5 overflow-hidden">
+                <span className="font-mono text-xs text-accent font-bold block">03 / ARCHIVE INDEX</span>
+                <div className="flex flex-col font-mono text-xs">
+                  {visibleProjects.map((p, i) => (
+                    <a
+                      key={p.id}
+                      href={`#project-${p.id}`}
+                      className="flex items-center justify-between py-1.5 border-b border-card-border/60 last:border-b-0 hover:text-accent text-foreground/85 transition-colors"
+                    >
+                      <span>
+                        0{i + 1} / {p.name}
+                      </span>
+                      <span className="text-accent">{p.year} ↓</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </StackingCardItem>
+          </StackingCards>
         )}
       </div>
 

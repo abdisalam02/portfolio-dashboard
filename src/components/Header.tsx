@@ -2,19 +2,48 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FiArrowUpRight, FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 import { applyPaletteAndFonts } from "./ThemeFontSwitcher";
+import { TextRoll } from "./ui/text-roll";
 
 const navLinks = [
+  { label: "Home", href: "/" },
   { label: "Work", href: "/work" },
   { label: "Contact", href: "/contact" },
 ];
+
+const legalLink = { label: "Personvern", href: "/privacy" };
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isLightMode, setIsLightMode] = useState(true);
+  const [pulseIndex, setPulseIndex] = useState<number | null>(null);
+  const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
+
+  // Touch screens have no hover, so the drawer rolls one link at a time on a slow timer.
+  // Only runs while the drawer is open so it costs nothing the rest of the time.
+  useEffect(() => {
+    if (!mobileMenuOpen || reduceMotion) return;
+    let step = 0;
+    let offTimer: number | undefined;
+    const run = () => {
+      setPulseIndex(step % navLinks.length);
+      step += 1;
+      offTimer = window.setTimeout(() => setPulseIndex(null), 1100);
+    };
+    const firstTimer = window.setTimeout(run, 700);
+    const interval = window.setInterval(run, 3200);
+    return () => {
+      window.clearTimeout(firstTimer);
+      window.clearInterval(interval);
+      if (offTimer) window.clearTimeout(offTimer);
+      setPulseIndex(null);
+    };
+  }, [mobileMenuOpen, reduceMotion]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -107,11 +136,23 @@ export default function Header() {
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-xs font-mono text-muted hover:text-foreground transition-colors"
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  className={`text-xs font-mono transition-colors ${
+                    pathname === link.href
+                      ? "text-foreground"
+                      : "text-muted hover:text-foreground"
+                  }`}
                 >
-                  {link.label}
+                  <TextRoll center>{link.label}</TextRoll>
                 </Link>
               ))}
+              <Link
+                href={legalLink.href}
+                aria-current={pathname === legalLink.href ? "page" : undefined}
+                className="text-[10px] font-mono text-muted/70 hover:text-foreground transition-colors"
+              >
+                <TextRoll center>{legalLink.label}</TextRoll>
+              </Link>
             </nav>
 
             {/* Light/Dark Variant Toggle for Active Palette */}
@@ -171,17 +212,38 @@ export default function Header() {
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 pt-28 px-6 bg-background md:hidden flex flex-col justify-between pb-12"
           >
-            <div className="flex flex-col space-y-6 pt-4">
-              {navLinks.map((link) => (
+            <div className="flex flex-col pt-4">
+              {navLinks.map((link, idx) => (
                 <Link
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-5xl font-black font-heading tracking-tight hover:text-accent transition-colors py-2"
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  className={`flex items-start gap-3 py-3 border-b border-card-border transition-colors ${
+                    pathname === link.href ? "text-accent" : "text-foreground"
+                  }`}
                 >
-                  {link.label}
+                  <span className="font-mono text-xs text-accent pt-1.5 w-6 flex-shrink-0">
+                    0{idx + 1}
+                  </span>
+                  <TextRoll
+                    center
+                    active={pulseIndex === idx}
+                    className="text-5xl font-black font-heading uppercase tracking-tight"
+                  >
+                    {link.label}
+                  </TextRoll>
                 </Link>
               ))}
+
+              <Link
+                href={legalLink.href}
+                onClick={() => setMobileMenuOpen(false)}
+                aria-current={pathname === legalLink.href ? "page" : undefined}
+                className="pt-4 text-[11px] font-mono text-muted self-start"
+              >
+                <TextRoll center>{legalLink.label}</TextRoll>
+              </Link>
             </div>
 
             <div className="space-y-4 pt-8 border-t border-card-border">
