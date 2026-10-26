@@ -3,8 +3,8 @@
 Updated: 2026-10-26
 
 ## Now
-- Task: Fixed Samsung Internet 30 and LinkedIn in-app browser theme-reveal jump in `src/components/theme-transition.ts`. Mobile/touch/Samsung/LinkedIn browsers now run a viewport-locked DOM-clone `clip-path` reveal (`circle -> rectangle -> polygon`) in `position: fixed; inset: 0` coordinates instead of Chromium's `document.startViewTransition` Snapshot Containing Block (`SCB`), while desktop browsers keep native View Transitions.
-- Uncommitted changes: `src/components/theme-transition.ts`, `src/components/vt-debug.tsx`, `src/app/globals.css`, plus title/cards/nav work. TODO-VERIFY: Fancy Components licence (Skiper UI free licence needs attribution, added in Footer); neither is in `docs/ASSETS.md`.
+- Task: Fixed Samsung Internet 30 / LinkedIn theme-reveal jump and the 700ms font-revert flash during theme transitions (`src/components/theme-transition.ts`, `src/components/Header.tsx`, `src/components/ThemeFontSwitcher.tsx`). The DOM-clone overlay no longer copies `font-pair-0` onto `overlay.className` (which overrode inherited `--font-heading` with `--font-space` during the 700ms reveal) and explicitly preserves `--font-heading` and `--font-display`.
+- Uncommitted changes: `src/components/theme-transition.ts`, `src/components/Header.tsx`, `src/components/ThemeFontSwitcher.tsx`. TODO-VERIFY: Fancy Components licence (Skiper UI free licence needs attribution, added in Footer); neither is in `docs/ASSETS.md`.
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher

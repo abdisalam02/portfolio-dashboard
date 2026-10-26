@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FiSun, FiMoon } from "react-icons/fi";
-import { applyPaletteAndFonts, WADA_PALETTES } from "./ThemeFontSwitcher";
+import { applyPaletteOnly, WADA_PALETTES } from "./ThemeFontSwitcher";
 import { runThemeTransition } from "./theme-transition";
 import { TextRoll } from "./ui/text-roll";
 import InkSignature from "./InkSignature";
@@ -88,13 +88,12 @@ export default function Header() {
     localStorage.setItem("ag_theme", nextLight ? "light" : "dark");
 
     const savedPalette = localStorage.getItem("ag_wada_palette") || "00";
-    const savedFont = localStorage.getItem("ag_font_pair") || "00";
     const palette =
       WADA_PALETTES.find((item) => item.id === savedPalette) || WADA_PALETTES[0];
     const nextBg = nextLight ? palette.light.bg : palette.dark.bg;
 
     runThemeTransition(() => {
-      applyPaletteAndFonts(savedPalette, savedFont, !nextLight);
+      applyPaletteOnly(savedPalette, !nextLight);
 
       window.dispatchEvent(
         new CustomEvent("ag-manual-theme-toggle", {

@@ -1163,11 +1163,7 @@ export default function ThemeFontSwitcher() {
       if (custom.detail && typeof custom.detail.isLightMode === "boolean") {
         const nextLight = custom.detail.isLightMode;
         setIsLightMode(nextLight);
-        applyPaletteAndFonts(
-          stateRef.current.paletteId,
-          stateRef.current.fontId,
-          !nextLight
-        );
+        applyPaletteOnly(stateRef.current.paletteId, !nextLight);
       }
     };
     window.addEventListener("ag-manual-theme-toggle", onManualModeChange);

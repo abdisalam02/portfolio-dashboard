@@ -244,11 +244,18 @@ function runDomCloneTransition(
   applyThemeSnapshot(root, prevSnap);
 
   // 4. Prepare overlay container locked to the visual layout viewport (0, 0, 100vw, 100dvh).
+  // Do NOT copy `font-pair-*` classes from `root.className` onto `overlay`, because `.font-pair-0`
+  // in globals.css sets `--font-heading: var(--font-space)` which would override the inherited
+  // `--font-heading` on `root.style` for the 700ms reveal.
   const overlay = document.createElement("div");
   overlay.setAttribute("data-theme-clone-overlay", variant);
   overlay.setAttribute("aria-hidden", "true");
-  overlay.className = root.className;
   applyThemeSnapshot(overlay, nextSnap);
+
+  const curHeadingFont = root.style.getPropertyValue("--font-heading");
+  const curDisplayFont = root.style.getPropertyValue("--font-display");
+  if (curHeadingFont) overlay.style.setProperty("--font-heading", curHeadingFont);
+  if (curDisplayFont) overlay.style.setProperty("--font-display", curDisplayFont);
 
   const nextBg = nextSnap.vars["--bg"] || "var(--bg)";
   const nextFg = nextSnap.vars["--fg"] || "var(--fg)";
