@@ -122,19 +122,22 @@ function getKeyframesPx(
     const cx = Math.round(originX);
     const cy = Math.round(originY);
     return [
-      { clipPath: `circle(0px at ${cx}px ${cy}px)` },
-      { clipPath: `circle(${radius}px at ${cx}px ${cy}px)` },
+      { clipPath: `circle(0px at ${cx}px ${cy}px)`, filter: "blur(8px)" },
+      { filter: "blur(4px)", offset: 0.5 },
+      { clipPath: `circle(${radius}px at ${cx}px ${cy}px)`, filter: "blur(0px)" },
     ];
   }
   if (variant === "rectangle") {
     return [
-      { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
-      { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" },
+      { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)", filter: "blur(8px)" },
+      { filter: "blur(4px)", offset: 0.5 },
+      { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", filter: "blur(0px)" },
     ];
   }
   return [
-    { clipPath: "polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%)" },
-    { clipPath: "polygon(0% 0%, 220% 0%, 100% 100%, 0% 220%)" },
+    { clipPath: "polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%)", filter: "blur(8px)" },
+    { filter: "blur(4px)", offset: 0.5 },
+    { clipPath: "polygon(0% 0%, 220% 0%, 100% 100%, 0% 220%)", filter: "blur(0px)" },
   ];
 }
 
@@ -268,6 +271,7 @@ function runDomCloneTransition(
   overlay.setAttribute("data-theme-clone-overlay", variant);
   overlay.setAttribute("aria-hidden", "true");
   applyThemeSnapshot(overlay, nextSnap);
+  applyThemeSnapshot(bodyClone, nextSnap);
 
   const curHeadingFont = root.style.getPropertyValue("--font-heading");
   const curDisplayFont = root.style.getPropertyValue("--font-display");
@@ -291,7 +295,7 @@ function runDomCloneTransition(
   overlay.style.backgroundColor = nextBg;
   overlay.style.color = nextFg;
   overlay.style.transform = "translateZ(0)";
-  overlay.style.willChange = "clip-path";
+  overlay.style.willChange = "clip-path, filter";
 
   const bodyRect = body.getBoundingClientRect();
 
@@ -461,7 +465,9 @@ function runDomCloneTransition(
     }
     overlay.remove();
     requestAnimationFrame(() => {
-      root.classList.remove("theme-vt");
+      requestAnimationFrame(() => {
+        root.classList.remove("theme-vt");
+      });
     });
   };
 
@@ -516,10 +522,20 @@ function runDesktopViewTransition(
     ::view-transition-new(root) {
       z-index: 2;
       animation: ag-vt-reveal ${DURATION_MS}ms ${EASING} both;
+      filter: blur(2px);
     }
     @keyframes ag-vt-reveal {
-      from { clip-path: ${fromClip}; }
-      to { clip-path: ${toClip}; }
+      from {
+        clip-path: ${fromClip};
+        filter: blur(8px);
+      }
+      50% {
+        filter: blur(4px);
+      }
+      to {
+        clip-path: ${toClip};
+        filter: blur(0px);
+      }
     }
   `;
 

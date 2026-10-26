@@ -50,8 +50,8 @@ AccordionHairlineRule L16-48; AccordionBrutalistCell L49-81; AccordionNumberedDo
 EXTRACTED_MAP L30-55; Pill L98-126; InspectModal L127-343; InspoVaultInner L344-610
 ### src/components/library/NavComponents.tsx (605 lines)
 NavEditorialSplit L20-39; NavBrutalistGrid L40-60; NavFloatingPill L61-84; NavTerminalHud L85-105; NavMagazineStack L106-127; NavUnderlineRule L128-155; NavCornerAnchors L156-176; NavBottomDock L177-213; NavMarqueeTicker L214-234; NavAtelierCart L235-254; NavDotDrawer L255-294; NavFolderTabs L329-359; NavTerracottaEarthy L360-379; NavNeoBrutalistPop L437-456; NavMagicFloatingDock L457-478; NavStreetwearBadge L516-535; NavNordicCobaltPill L555-578; NavY2KChromeMarquee L579-605
-### src/components/theme-transition.ts (575 lines)
-nextVariant L74-94; getKeyframesPx L111-140; shouldUseDomClone L141-164; applyThemeSnapshot L179-204; runDomCloneTransition L205-474; runDesktopViewTransition L475-541; runThemeTransition L542-575
+### src/components/theme-transition.ts (591 lines)
+nextVariant L74-94; getKeyframesPx L111-143; shouldUseDomClone L144-167; applyThemeSnapshot L182-207; runDomCloneTransition L208-480; runDesktopViewTransition L481-557; runThemeTransition L558-591
 ### src/components/library/PricingComponents.tsx (549 lines)
 PricingEditorialLedger L7-36; PricingBrutalist3Tier L37-67; PricingTerracottaCards L68-91; PricingPatisserieTiers L92-119; PricingWabiSabiMenu L120-143; PricingCyberGrillzCaps L144-171; PricingNeoPopStickers L172-193; PricingMagicGlowingCard L194-214; PricingLuxuryJewelryCarat L215-238; PricingWeddingPackages L239-266; PricingBarberBoard L267-292; PricingBotanicalSubscription L293-314; PricingAddonChecklist L315-367; PricingSliderDeposit L368-389; PricingSplitTwoTone L390-413; PricingNordicCobaltMatrix L429-487; PricingSolarAmberIndustrial L488-517; PricingNeoMintTreatmentTree L518-549
 

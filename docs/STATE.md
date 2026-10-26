@@ -3,8 +3,8 @@
 Updated: 2026-10-26
 
 ## Now
-- Task: Fixed `/work` and `/contact` theme-reveal jump/resize and the 700ms recording freeze in `src/components/theme-transition.ts`. Kept `.sticky` (`StackingCards` on `/work`) in normal document flow (`position: relative`) so `/work` no longer collapses by 720px; locked `bodyClone` via measured `getBoundingClientRect()` deltas; added a 60fps `requestAnimationFrame` loop so `AutoScrollFrame` and `<video>` recordings keep playing smoothly during the reveal.
-- Uncommitted changes: `src/components/theme-transition.ts`, `src/app/work/page.tsx`, `src/app/contact/page.tsx`, `docs/VT-FINDINGS.md`. TODO-VERIFY: Fancy Components & Skiper UI entries in `docs/ASSETS.md`.
+- Task: Fixed contact input flicker during theme transitions (applied `nextSnap` directly to `bodyClone`, removed `transition: background-color 0.75s` on body, scoped input transitions to border/shadow); implemented Skiper UI's `blur` option (`blur(8px)` -> `blur(4px)` -> `blur(0px)`) across mobile and desktop theme reveals (`src/components/theme-transition.ts`, `src/app/globals.css`, `src/app/contact/page.tsx`).
+- Uncommitted changes: `src/components/theme-transition.ts`, `src/app/globals.css`, `src/app/contact/page.tsx`. TODO-VERIFY: Fancy Components & Skiper UI entries in `docs/ASSETS.md`.
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher

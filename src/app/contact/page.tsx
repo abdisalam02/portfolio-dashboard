@@ -229,7 +229,7 @@ function ContactForm() {
                     placeholder="Your Name / Studio"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
-                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-all flex-1 min-w-0 w-full"
+                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-[border-color,box-shadow] flex-1 min-w-0 w-full"
                     required
                   />
                   <input
@@ -237,7 +237,7 @@ function ContactForm() {
                     placeholder="your.email@example.com"
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
-                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-all flex-1 min-w-0 w-full"
+                    className="px-3.5 py-2 rounded-lg bg-background border border-card-border text-xs text-foreground placeholder:text-muted/60 focus:outline-none focus:border-foreground transition-[border-color,box-shadow] flex-1 min-w-0 w-full"
                     required
                   />
                 </div>
@@ -252,7 +252,7 @@ function ContactForm() {
                       key={type}
                       type="button"
                       onClick={() => setSelectedType(type)}
-                      className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs transition-[border-color,background-color,color] ${
                         selectedType === type
                           ? "bg-foreground text-background font-bold"
                           : "bg-background border border-card-border text-muted hover:text-foreground hover:border-foreground"
@@ -296,7 +296,7 @@ I'm looking to build or redesign a website. Here are a few details about what I 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background text-xs font-mono font-bold hover:opacity-90 transition-all active:scale-95 disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background text-xs font-mono font-bold hover:opacity-90 transition-opacity active:scale-95 disabled:opacity-50"
                   >
                     <FiSend size={13} />
                     <span>{isSubmitting ? "SENDING..." : "SEND MESSAGE"}</span>
@@ -305,7 +305,7 @@ I'm looking to build or redesign a website. Here are a few details about what I 
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl bg-card border border-card-border text-foreground text-xs font-mono hover:border-foreground transition-all active:scale-95"
+                    className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl bg-card border border-card-border text-foreground text-xs font-mono hover:border-foreground transition-[border-color,background-color] active:scale-95"
                   >
                     {copied ? (
                       <>

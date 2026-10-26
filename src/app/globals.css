@@ -60,7 +60,6 @@
     color: var(--fg);
     font-family: var(--font-body), sans-serif;
     overflow-x: clip;
-    transition: background-color 0.75s ease-in-out, color 0.75s ease-in-out;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -215,6 +214,7 @@
 input, textarea {
   color: var(--fg);
   background-color: transparent;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .theme-obsidian input:-webkit-autofill,
