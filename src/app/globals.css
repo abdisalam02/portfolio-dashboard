@@ -64,15 +64,26 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* The reveal captures the new page state, so the colour fade has to be off while it runs */
-  html.theme-vt body {
-    transition: none;
-    touch-action: none;
+  /* Disable colour transitions during theme clip-path reveals and inside the viewport clone */
+  html.theme-vt body,
+  html.theme-vt *,
+  [data-theme-clone-overlay],
+  [data-theme-clone-overlay] *,
+  [data-theme-clone-overlay] *::before,
+  [data-theme-clone-overlay] *::after {
+    transition: none !important;
   }
 
-  /* Debug-only comparison: does scroll chaining move Samsung's toolbars mid-reveal? */
-  html.theme-vt.vt-overscroll body {
-    overscroll-behavior: none;
+  [data-theme-clone-overlay],
+  [data-theme-clone-overlay] *,
+  [data-theme-clone-overlay] *::before,
+  [data-theme-clone-overlay] *::after {
+    animation: none !important;
+  }
+
+  [data-theme-clone-overlay] .signature-underline {
+    stroke-dashoffset: 0 !important;
+    opacity: 0.85 !important;
   }
 
   @media (prefers-reduced-motion: reduce) {
