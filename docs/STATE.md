@@ -18,7 +18,7 @@ Updated: 2026-10-25
 - Global vs Workspace: `~/.gemini/GEMINI.md` is universal; repo `GEMINI.md` governs this project and wins on conflict.
 
 ## Open items
-- Samsung Internet 30 VT jitter: deploy, open `?vtdebug=1&vtmode=ua-freeze` then `vtmode=measured`, tap STOP AUTO + the theme button, send the COPY JSON output. Details in `docs/VT-DEBUG.md`.
+- Samsung Internet 30 VT jitter: start with `docs/VT-FINDINGS.md` (short: cause, leading fix, 2-minute phone test). Details in `docs/VT-DEBUG.md`. Deploy, test `?vtdebug=1&vtmode=ua-freeze` first; if clean, promote it to `auto`.
 - CSP `style-src 'self' 'unsafe-inline'` blocks the Fontshare stylesheet (`api.fontshare.com`), so every Fontshare heading falls back to sans-serif. Needs a self-host or allowlist decision.
 - TODO-VERIFY: Sole proprietorship registration in `src/config/legal.ts`.
 - TODO-VERIFY: Written client permissions for Gangina and MNO.CRM.
