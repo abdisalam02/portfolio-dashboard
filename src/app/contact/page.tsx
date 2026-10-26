@@ -340,7 +340,7 @@ I'm looking to build or redesign a website. Here are a few details about what I 
 
 export default function ContactPage() {
   return (
-    <Suspense fallback={<div className="min-h-dvh bg-background" />}>
+    <Suspense fallback={<div className="min-h-svh bg-background" />}>
       <ContactForm />
     </Suspense>
   );

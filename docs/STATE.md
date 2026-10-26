@@ -3,8 +3,8 @@
 Updated: 2026-10-26
 
 ## Now
-- Task: Fixed Samsung Internet 30 / LinkedIn theme-reveal jump and the 700ms font-revert flash during theme transitions (`src/components/theme-transition.ts`, `src/components/Header.tsx`, `src/components/ThemeFontSwitcher.tsx`). The DOM-clone overlay no longer copies `font-pair-0` onto `overlay.className` (which overrode inherited `--font-heading` with `--font-space` during the 700ms reveal) and explicitly preserves `--font-heading` and `--font-display`.
-- Uncommitted changes: `src/components/theme-transition.ts`, `src/components/Header.tsx`, `src/components/ThemeFontSwitcher.tsx`. TODO-VERIFY: Fancy Components licence (Skiper UI free licence needs attribution, added in Footer); neither is in `docs/ASSETS.md`.
+- Task: Fixed `/work` and `/contact` theme-reveal jump/resize and the 700ms recording freeze in `src/components/theme-transition.ts`. Kept `.sticky` (`StackingCards` on `/work`) in normal document flow (`position: relative`) so `/work` no longer collapses by 720px; locked `bodyClone` via measured `getBoundingClientRect()` deltas; added a 60fps `requestAnimationFrame` loop so `AutoScrollFrame` and `<video>` recordings keep playing smoothly during the reveal.
+- Uncommitted changes: `src/components/theme-transition.ts`, `src/app/work/page.tsx`, `src/app/contact/page.tsx`, `docs/VT-FINDINGS.md`. TODO-VERIFY: Fancy Components & Skiper UI entries in `docs/ASSETS.md`.
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher

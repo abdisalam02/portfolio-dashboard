@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function WorkPage() {
   return (
-    <main className="min-h-svh relative selection:bg-foreground selection:text-background pt-16">
+    <main className="min-h-svh relative bg-background text-foreground selection:bg-foreground selection:text-background pt-16">
       <Header />
       <ClientWork headingTitle="WORK" showSadija={true} isWorkPage={true} />
       <Footer />

@@ -4,14 +4,17 @@
 // Cycles strictly in order: circle -> rectangle -> polygon -> circle...
 //
 // Why mobile / Samsung Internet / LinkedIn in-app browsers use DOM-Clone Clip-Path Reveal:
-// Chromium's View Transitions Level 1 anchors `::view-transition` to the Snapshot Containing Block (SCB),
-// which includes retractable browser toolbars (`100lvh`). On Samsung Internet 30 (top URL bar + bottom
-// toolbar) and LinkedIn's Android Custom Tab / WebView, the SCB origin is offset from the visual viewport
-// by the top toolbar height (~56px), making `document.startViewTransition` jump the entire page up for
-// the duration of the animation and snap back down at the end.
-// By rendering the incoming theme inside a `position: fixed; inset: 0` viewport-locked DOM clone animated
-// via Web Animations API `clip-path`, the reveal stays 100% in layout-viewport coordinates and cannot jump
-// by even 1px on any mobile or in-app browser.
+// 1. Chromium's `document.startViewTransition` anchors `::view-transition` to the Snapshot Containing Block
+//    (SCB, 100lvh). On Samsung Internet 30 (top URL bar + bottom toolbar) and LinkedIn's in-app browser,
+//    the SCB origin sits ~56px above the visual viewport, making `startViewTransition` jump the entire page
+//    up by ~56px for 700ms and snap back down at the end.
+// 2. Our DOM-Clone Clip-Path Reveal renders the incoming theme inside a `position: fixed` overlay in live
+//    DOM coordinates and aligns `bodyClone` using measured `body.getBoundingClientRect() - overlay.getBoundingClientRect()`
+//    deltas on every animation frame:
+//    - `.sticky` elements (like Fancy `StackingCards` on `/work`) remain in normal document flow with
+//      `position: relative` so their container height never collapses.
+//    - `AutoScrollFrame` recordings and `<video>` reels are synced on every `requestAnimationFrame` tick
+//      throughout the 700ms reveal so they never freeze or snap at the end.
 
 export type TransitionVariant = "circle" | "rectangle" | "polygon";
 
@@ -89,38 +92,38 @@ function nextVariant(): TransitionVariant {
   return variant;
 }
 
-function getOrigin(trigger?: HTMLElement | null): { x: number; y: number } {
-  if (typeof window === "undefined") return { x: 50, y: 0 };
+function getOriginPx(trigger?: HTMLElement | null): { x: number; y: number } {
+  if (typeof window === "undefined") return { x: 0, y: 0 };
+  const vw = window.innerWidth || 1;
+  const vh = window.innerHeight || 1;
   if (trigger) {
     const rect = trigger.getBoundingClientRect();
     if (rect.width > 0 || rect.height > 0) {
-      const x = Math.round(((rect.left + rect.width / 2) / window.innerWidth) * 100);
-      const y = Math.round(((rect.top + rect.height / 2) / window.innerHeight) * 100);
       return {
-        x: Math.max(0, Math.min(100, x)),
-        y: Math.max(0, Math.min(100, y)),
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
       };
     }
   }
-  return { x: 92, y: 4 };
+  return { x: vw * 0.92, y: vh * 0.04 };
 }
 
-function getKeyframes(
+function getKeyframesPx(
   variant: TransitionVariant,
   originX: number,
   originY: number,
-  vw: number,
-  vh: number
+  width: number,
+  height: number
 ): Keyframe[] {
   if (variant === "circle") {
-    const px = (originX / 100) * vw;
-    const py = (originY / 100) * vh;
-    const maxDx = Math.max(px, vw - px);
-    const maxDy = Math.max(py, vh - py);
-    const radius = Math.ceil(Math.hypot(maxDx, maxDy) * 1.05);
+    const maxDx = Math.max(originX, width - originX);
+    const maxDy = Math.max(originY, height - originY);
+    const radius = Math.ceil(Math.hypot(maxDx, maxDy) * 1.08);
+    const cx = Math.round(originX);
+    const cy = Math.round(originY);
     return [
-      { clipPath: `circle(0px at ${originX}% ${originY}%)` },
-      { clipPath: `circle(${radius}px at ${originX}% ${originY}%)` },
+      { clipPath: `circle(0px at ${cx}px ${cy}px)` },
+      { clipPath: `circle(${radius}px at ${cx}px ${cy}px)` },
     ];
   }
   if (variant === "rectangle") {
@@ -192,13 +195,18 @@ function applyThemeSnapshot(target: HTMLElement, snap: ThemeSnapshot): void {
 
 /**
  * Viewport-locked DOM Clone Clip-Path Reveal.
- * Zero View-Transition SCB involvement -> mathematically impossible to jump on Samsung Internet or LinkedIn.
+ * - Uses measured `getBoundingClientRect()` deltas between the live DOM and the overlay so
+ *   Samsung Internet / LinkedIn toolbar offsets can never shift the page.
+ * - Keeps `.sticky` elements (such as `/work` StackingCards) in normal flow (`position: relative`)
+ *   so their container height never collapses.
+ * - Syncs `AutoScrollFrame` scrollTop and `<video>` frames at 60fps via `requestAnimationFrame`
+ *   so recordings never freeze or snap during the 700ms reveal.
  */
 function runDomCloneTransition(
   apply: () => void,
   variant: TransitionVariant,
-  originX: number,
-  originY: number
+  viewportOriginX: number,
+  viewportOriginY: number
 ): void {
   const root = document.documentElement;
   const body = document.body;
@@ -212,28 +220,40 @@ function runDomCloneTransition(
     activeCleanup = null;
   }
 
-  const vw = root.clientWidth || window.innerWidth;
-  const vh = window.innerHeight;
-  const startScrollY = window.scrollY;
+  // 1. Measure live `.fixed` elements (already out of normal flow) and `.sticky` elements (in normal flow).
+  const liveFixed = Array.from(body.querySelectorAll<HTMLElement>(".fixed"));
+  const fixedRects = liveFixed.map((el) => el.getBoundingClientRect());
 
-  // 1. Measure live viewport rects for fixed/sticky elements and inner scroll offsets before cloning.
-  const livePinned = Array.from(
-    body.querySelectorAll<HTMLElement>(".fixed, .sticky")
-  );
-  const pinnedRects = livePinned.map((el) => el.getBoundingClientRect());
+  const liveSticky = Array.from(body.querySelectorAll<HTMLElement>(".sticky"));
+  const stickyRects = liveSticky.map((el) => el.getBoundingClientRect());
 
-  const liveScrollers = Array.from(
-    body.querySelectorAll<HTMLElement>("*")
-  ).filter((el) => el.scrollTop > 0);
-  const scrollerOffsets = new Map<number, number>();
+  // Track all scrollable containers (including AutoScrollFrame preview containers) by node index.
   const allLiveNodes = Array.from(body.querySelectorAll<HTMLElement>("*"));
-  for (const scroller of liveScrollers) {
-    const idx = allLiveNodes.indexOf(scroller);
-    if (idx >= 0) scrollerOffsets.set(idx, scroller.scrollTop);
+  const scrollerIndices: number[] = [];
+  for (let i = 0; i < allLiveNodes.length; i += 1) {
+    const node = allLiveNodes[i];
+    if (node && (node.scrollTop > 0 || node.scrollHeight > node.clientHeight + 2)) {
+      scrollerIndices.push(i);
+    }
   }
 
   // 2. Clone live body before mutating theme state.
   const bodyClone = body.cloneNode(true) as HTMLElement;
+
+  // Sync form control values (<input>, <textarea>) so `/contact` inputs never appear blank or shift.
+  const liveInputs = Array.from(
+    body.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea")
+  );
+  const cloneInputs = Array.from(
+    bodyClone.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea")
+  );
+  for (let i = 0; i < cloneInputs.length; i += 1) {
+    const li = liveInputs[i];
+    const ci = cloneInputs[i];
+    if (li && ci) {
+      ci.value = li.value;
+    }
+  }
 
   // 3. Run `apply()` ONCE synchronously to capture the new theme variables, then restore old vars on root
   // while the clip-path overlay animates over the old root.
@@ -243,10 +263,7 @@ function runDomCloneTransition(
   const nextSnap = readThemeSnapshot(root);
   applyThemeSnapshot(root, prevSnap);
 
-  // 4. Prepare overlay container locked to the visual layout viewport (0, 0, 100vw, 100dvh).
-  // Do NOT copy `font-pair-*` classes from `root.className` onto `overlay`, because `.font-pair-0`
-  // in globals.css sets `--font-heading: var(--font-space)` which would override the inherited
-  // `--font-heading` on `root.style` for the 700ms reveal.
+  // 4. Prepare overlay container covering the visual viewport.
   const overlay = document.createElement("div");
   overlay.setAttribute("data-theme-clone-overlay", variant);
   overlay.setAttribute("aria-hidden", "true");
@@ -260,11 +277,14 @@ function runDomCloneTransition(
   const nextBg = nextSnap.vars["--bg"] || "var(--bg)";
   const nextFg = nextSnap.vars["--fg"] || "var(--fg)";
 
+  const vw = root.clientWidth || window.innerWidth;
+  const vh = Math.max(window.innerHeight, root.clientHeight || 0);
+
   overlay.style.position = "fixed";
   overlay.style.top = "0";
   overlay.style.left = "0";
-  overlay.style.width = "100vw";
-  overlay.style.height = "100dvh";
+  overlay.style.width = `${vw}px`;
+  overlay.style.height = `${vh}px`;
   overlay.style.zIndex = "2147483000";
   overlay.style.pointerEvents = "none";
   overlay.style.overflow = "hidden";
@@ -273,11 +293,13 @@ function runDomCloneTransition(
   overlay.style.transform = "translateZ(0)";
   overlay.style.willChange = "clip-path";
 
-  // Position cloned body at -scrollY so normal document flow aligns 1:1 with the live viewport.
+  const bodyRect = body.getBoundingClientRect();
+
   bodyClone.style.position = "absolute";
-  bodyClone.style.top = `${-startScrollY}px`;
-  bodyClone.style.left = "0";
-  bodyClone.style.width = `${vw}px`;
+  bodyClone.style.top = `${bodyRect.top}px`;
+  bodyClone.style.left = `${bodyRect.left}px`;
+  bodyClone.style.width = `${bodyRect.width}px`;
+  bodyClone.style.minHeight = `${bodyRect.height}px`;
   bodyClone.style.margin = "0";
   bodyClone.style.backgroundColor = nextBg;
   bodyClone.style.color = nextFg;
@@ -288,29 +310,17 @@ function runDomCloneTransition(
     if (node.id) node.removeAttribute("id");
   }
 
-  // Pin fixed & sticky elements inside the clone to their exact viewport coordinates.
-  const clonePinned = Array.from(
-    bodyClone.querySelectorAll<HTMLElement>(".fixed, .sticky")
-  );
-  for (let i = 0; i < clonePinned.length; i += 1) {
-    const el = clonePinned[i];
-    const rect = pinnedRects[i];
-    if (!el || !rect) continue;
-    el.style.position = "fixed";
-    el.style.top = `${rect.top}px`;
-    el.style.left = `${rect.left}px`;
-    el.style.width = `${rect.width}px`;
-    el.style.height = `${rect.height}px`;
-    el.style.bottom = "auto";
-    el.style.right = "auto";
-    el.style.margin = "0";
-  }
-
-  // Copy current video frame onto a canvas replacement so cloned <video> never flashes black or reloads.
+  // Replace cloned <video> elements with live-synced <canvas> elements so videos keep playing at 60fps.
   const liveVideos = Array.from(body.querySelectorAll<HTMLVideoElement>("video"));
   const cloneVideos = Array.from(
     bodyClone.querySelectorAll<HTMLVideoElement>("video")
   );
+  const videoPairs: Array<{
+    video: HTMLVideoElement;
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+  }> = [];
+
   for (let i = 0; i < cloneVideos.length; i += 1) {
     const lv = liveVideos[i];
     const cv = cloneVideos[i];
@@ -327,9 +337,9 @@ function runDomCloneTransition(
       if (ctx) {
         ctx.drawImage(lv, 0, 0, canvas.width, canvas.height);
         cv.replaceWith(canvas);
+        videoPairs.push({ video: lv, canvas, ctx });
       }
     } catch {
-      // Cross-origin or unready video fallback: hide cloned video so live video underneath shows through.
       cv.style.opacity = "0";
     }
   }
@@ -337,22 +347,100 @@ function runDomCloneTransition(
   overlay.appendChild(bodyClone);
   root.appendChild(overlay);
 
-  // Restore inner scroll positions (e.g. AutoScrollFrame previews) after insertion.
-  for (const [idx, scrollTop] of scrollerOffsets.entries()) {
-    const cloneScroller = allCloneNodes[idx];
-    if (cloneScroller) {
-      cloneScroller.scrollTop = scrollTop;
-    }
+  // 5. Measure actual rendered `overlayRect` in case the mobile browser offset `position: fixed; top: 0`
+  //    by its top toolbar height, and lock `bodyClone`, `.fixed`, and `.sticky` elements to exact live rects.
+  const overlayRect = overlay.getBoundingClientRect();
+  const liveBodyRectNow = body.getBoundingClientRect();
+  bodyClone.style.top = `${liveBodyRectNow.top - overlayRect.top}px`;
+  bodyClone.style.left = `${liveBodyRectNow.left - overlayRect.left}px`;
+
+  // Verify 1:1 alignment of bodyClone against live body and correct any sub-pixel residual.
+  const cloneBodyRectNow = bodyClone.getBoundingClientRect();
+  const residualY = liveBodyRectNow.top - cloneBodyRectNow.top;
+  const residualX = liveBodyRectNow.left - cloneBodyRectNow.left;
+  if (Math.abs(residualY) > 0.05 || Math.abs(residualX) > 0.05) {
+    bodyClone.style.top = `${parseFloat(bodyClone.style.top) + residualY}px`;
+    bodyClone.style.left = `${parseFloat(bodyClone.style.left) + residualX}px`;
   }
 
-  // Keep normal flow aligned if momentum scrolling continues during the 700ms reveal.
-  const onScrollSync = () => {
-    bodyClone.style.top = `${-window.scrollY}px`;
-  };
-  window.addEventListener("scroll", onScrollSync, { passive: true });
+  // Pin `.fixed` elements (Header, countdown pill) to their exact viewport coordinates inside `overlay`.
+  const cloneFixed = Array.from(bodyClone.querySelectorAll<HTMLElement>(".fixed"));
+  for (let i = 0; i < cloneFixed.length; i += 1) {
+    const el = cloneFixed[i];
+    const rect = fixedRects[i];
+    if (!el || !rect) continue;
+    el.style.position = "fixed";
+    el.style.top = `${rect.top - overlayRect.top}px`;
+    el.style.left = `${rect.left - overlayRect.left}px`;
+    el.style.width = `${rect.width}px`;
+    el.style.height = `${rect.height}px`;
+    el.style.bottom = "auto";
+    el.style.right = "auto";
+    el.style.margin = "0";
+  }
 
-  const keyframes = getKeyframes(variant, originX, originY, vw, vh);
+  // Keep `.sticky` elements (e.g. `/work` StackingCards) IN NORMAL DOCUMENT FLOW (`position: relative`)
+  // so their parent container NEVER collapses in height, and shift them by the exact delta between their
+  // natural flow position and their live sticky viewport position.
+  const cloneSticky = Array.from(bodyClone.querySelectorAll<HTMLElement>(".sticky"));
+  for (let i = 0; i < cloneSticky.length; i += 1) {
+    const el = cloneSticky[i];
+    const targetRect = stickyRects[i];
+    if (!el || !targetRect) continue;
+    el.style.position = "relative";
+    el.style.top = "0px";
+    el.style.left = "0px";
+    const naturalRect = el.getBoundingClientRect();
+    const dy = targetRect.top - naturalRect.top;
+    const dx = targetRect.left - naturalRect.left;
+    el.style.top = `${dy}px`;
+    el.style.left = `${dx}px`;
+  }
+
+  // 6. Live 60fps synchronization loop during the 700ms reveal:
+  //    - Keeps `AutoScrollFrame` scrolling smoothly at 60fps (no freeze or snap).
+  //    - Keeps `<video>` (Sadija reel) playing smoothly at 60fps (no freeze or snap).
+  //    - Keeps `bodyClone` locked to `body.getBoundingClientRect()` if momentum scrolling is active.
   let finished = false;
+  let rafId = 0;
+
+  const syncFrame = () => {
+    if (finished) return;
+
+    const curOverlayRect = overlay.getBoundingClientRect();
+    const curBodyRect = body.getBoundingClientRect();
+    bodyClone.style.top = `${curBodyRect.top - curOverlayRect.top}px`;
+
+    for (const idx of scrollerIndices) {
+      const liveNode = allLiveNodes[idx];
+      const cloneNode = allCloneNodes[idx];
+      if (liveNode && cloneNode && cloneNode.scrollTop !== liveNode.scrollTop) {
+        cloneNode.scrollTop = liveNode.scrollTop;
+      }
+    }
+
+    for (const pair of videoPairs) {
+      try {
+        pair.ctx.drawImage(
+          pair.video,
+          0,
+          0,
+          pair.canvas.width,
+          pair.canvas.height
+        );
+      } catch {
+        // Ignore frame draw errors.
+      }
+    }
+
+    rafId = requestAnimationFrame(syncFrame);
+  };
+
+  syncFrame();
+
+  const localOriginX = viewportOriginX - overlayRect.left;
+  const localOriginY = viewportOriginY - overlayRect.top;
+  const keyframes = getKeyframesPx(variant, localOriginX, localOriginY, vw, vh);
 
   const anim = overlay.animate(keyframes, {
     duration: DURATION_MS,
@@ -364,7 +452,7 @@ function runDomCloneTransition(
     if (finished) return;
     finished = true;
     activeCleanup = null;
-    window.removeEventListener("scroll", onScrollSync);
+    if (rafId) cancelAnimationFrame(rafId);
     applyThemeSnapshot(root, nextSnap);
     try {
       anim.cancel();
@@ -408,7 +496,7 @@ function runDesktopViewTransition(
 
   const vw = root.clientWidth || window.innerWidth;
   const vh = window.innerHeight;
-  const frames = getKeyframes(variant, originX, originY, vw, vh);
+  const frames = getKeyframesPx(variant, originX, originY, vw, vh);
   const fromClip = String(frames[0]?.clipPath ?? "circle(0px at 50% 50%)");
   const toClip = String(frames[1]?.clipPath ?? "circle(150% at 50% 50%)");
 
@@ -476,7 +564,7 @@ export function runThemeTransition(
   }
 
   const variant = nextVariant();
-  const { x, y } = getOrigin(options?.trigger);
+  const { x, y } = getOriginPx(options?.trigger);
 
   if (shouldUseDomClone()) {
     runDomCloneTransition(apply, variant, x, y);
