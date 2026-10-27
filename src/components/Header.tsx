@@ -84,15 +84,14 @@ export default function Header() {
 
   const toggleTheme = (event: React.MouseEvent<HTMLButtonElement>) => {
     const nextLight = !isLightMode;
-    setIsLightMode(nextLight);
-    localStorage.setItem("ag_theme", nextLight ? "light" : "dark");
-
     const savedPalette = localStorage.getItem("ag_wada_palette") || "00";
     const palette =
       WADA_PALETTES.find((item) => item.id === savedPalette) || WADA_PALETTES[0];
     const nextBg = nextLight ? palette.light.bg : palette.dark.bg;
 
     runThemeTransition(() => {
+      setIsLightMode(nextLight);
+      localStorage.setItem("ag_theme", nextLight ? "light" : "dark");
       applyPaletteOnly(savedPalette, !nextLight);
 
       window.dispatchEvent(
@@ -167,6 +166,7 @@ export default function Header() {
 
             {/* Light/Dark Variant Toggle for Active Palette */}
             <button
+              data-theme-toggle-btn=""
               onClick={toggleTheme}
               className="px-3 py-1.5 rounded-full bg-card border border-card-border text-foreground hover:border-accent transition-all flex items-center gap-1.5 text-xs font-mono"
               title={
@@ -176,11 +176,13 @@ export default function Header() {
               }
               aria-label="Toggle palette light or dark mode"
             >
-              {isLightMode ? (
-                <FiMoon size={13} />
-              ) : (
-                <FiSun size={13} className="text-accent" />
-              )}
+              <span className="inline-flex items-center justify-center transition-transform duration-300">
+                {isLightMode ? (
+                  <FiMoon size={13} />
+                ) : (
+                  <FiSun size={13} className="text-accent" />
+                )}
+              </span>
               <span className="text-[10px] font-semibold">
                 {isLightMode ? "DARK" : "LIGHT"}
               </span>
@@ -190,15 +192,18 @@ export default function Header() {
           {/* Mobile Right Controls */}
           <div className="flex md:hidden items-center gap-2">
             <button
+              data-theme-toggle-btn=""
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-card border border-card-border text-foreground hover:border-accent transition-colors flex items-center justify-center"
               aria-label="Toggle palette light or dark mode"
             >
-              {isLightMode ? (
-                <FiMoon size={16} />
-              ) : (
-                <FiSun size={16} className="text-accent" />
-              )}
+              <span className="inline-flex items-center justify-center transition-transform duration-300">
+                {isLightMode ? (
+                  <FiMoon size={16} />
+                ) : (
+                  <FiSun size={16} className="text-accent" />
+                )}
+              </span>
             </button>
 
             <button

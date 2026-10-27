@@ -5,13 +5,13 @@ Read this before searching. Open files by line range. Never read a "Big file" wh
 ## Routes
 | URL | Entry (lines) | UI lives in (lines) |
 |---|---|---|
-| / | src/app/page.tsx (19) | src/components/Header.tsx (292)<br>src/components/Hero.tsx (81)<br>src/components/ClientWork.tsx (362) |
+| / | src/app/page.tsx (19) | src/components/Header.tsx (297)<br>src/components/Hero.tsx (81)<br>src/components/ClientWork.tsx (362) |
 | /api/auth-pin | src/app/api/auth-pin/route.ts (21) | API handler |
 | /api/generate-pitch | src/app/api/generate-pitch/route.ts (256) | API handler |
 | /api/send-email | src/app/api/send-email/route.ts (321) | API handler |
-| /contact | src/app/contact/page.tsx (348) | src/components/Header.tsx (292)<br>src/components/Footer.tsx (125) |
+| /contact | src/app/contact/page.tsx (348) | src/components/Header.tsx (297)<br>src/components/Footer.tsx (125) |
 | /customizer | src/app/customizer/page.tsx (12) | src/app/library/page.tsx (778) |
-| /demo | src/app/demo/page.tsx (102) | src/components/Header.tsx (292)<br>src/components/Footer.tsx (125)<br>src/components/StudioPinGate.tsx (149) |
+| /demo | src/app/demo/page.tsx (102) | src/components/Header.tsx (297)<br>src/components/Footer.tsx (125)<br>src/components/StudioPinGate.tsx (149) |
 | /demo/cakes | src/app/demo/cakes/page.tsx (17) | src/components/demo/LuffyCakesView.tsx (1857)<br>src/components/StudioPinGate.tsx (149) |
 | /demo/nails | src/app/demo/nails/page.tsx (17) | src/components/demo/StudioKloNailsView.tsx (1168)<br>src/components/StudioPinGate.tsx (149) |
 | /estimate | src/app/estimate/page.tsx (6) | self-contained |
@@ -21,9 +21,9 @@ Read this before searching. Open files by line range. Never read a "Big file" wh
 | /preview/cakes | src/app/preview/cakes/page.tsx (13) | src/components/demo/LuffyCakesView.tsx (1857)<br>src/components/StudioPinGate.tsx (149) |
 | /preview/nails | src/app/preview/nails/page.tsx (13) | src/components/demo/StudioKloNailsView.tsx (1168)<br>src/components/StudioPinGate.tsx (149) |
 | /pricing | src/app/pricing/page.tsx (6) | self-contained |
-| /privacy | src/app/privacy/page.tsx (135) | src/components/Header.tsx (292)<br>src/components/Footer.tsx (125)<br>src/config/legal.ts (19) |
+| /privacy | src/app/privacy/page.tsx (135) | src/components/Header.tsx (297)<br>src/components/Footer.tsx (125)<br>src/config/legal.ts (19) |
 | /studio | src/app/studio/page.tsx (1426) | self-contained |
-| /work | src/app/work/page.tsx (19) | src/components/Header.tsx (292)<br>src/components/ClientWork.tsx (362)<br>src/components/Footer.tsx (125) |
+| /work | src/app/work/page.tsx (19) | src/components/Header.tsx (297)<br>src/components/ClientWork.tsx (362)<br>src/components/Footer.tsx (125) |
 
 ## Big files (over 500 lines: use these ranges)
 ### src/components/library/registry.ts (2234 lines)
@@ -46,12 +46,12 @@ BookingDateStrip L19-63; BookingTimeMatrix L64-103; BookingBoardingPass L104-142
 GalleryFilmstrip L8-49; GalleryEditorialDuo L50-83; GalleryMasonryTrio L84-109; GalleryPolaroidSpecimen L110-135; GalleryVerticalStacker L136-158; GalleryHoverZoom L159-200; GallerySixGrid L201-227; GalleryBeforeAfter L245-282; GalleryBlueprintReveal L283-312; GalleryCircularFraming L313-332; GalleryFocusTrio L333-358; GalleryTerracottaUrns L359-381; GalleryCakeFlavorsGrid L382-408; GalleryZenMatchaNails L409-436; GalleryCyberChromeGrillz L437-462; GalleryNeoPopStickerPinboard L463-496; GalleryMagicParallaxStack L497-528; GalleryLuxuryGoldJewels L529-552; GalleryWedding35mmFilm L553-576; GalleryBarberFadeGrid L577-602; GalleryEspressoPolaroidStrip L622-651; GalleryRetroSunsetMosaic L652-685
 ### src/components/library/DropdownComponents.tsx (655 lines)
 AccordionHairlineRule L16-48; AccordionBrutalistCell L49-81; AccordionNumberedDossier L82-117; AccordionSideBySide L118-158; AccordionPlusMinus L159-184; AccordionFloatingCards L185-215; AccordionServicePrice L216-245; AccordionTabPills L246-275; AccordionCodeInspector L276-310; AccordionChevronSnap L311-334; AccordionNestedDrilldown L335-380; AccordionBorderlessGhost L381-408; AccordionTerracottaPill L409-432; AccordionPatisserieFlavors L433-464; AccordionWabiSabiTea L465-486; AccordionCyberTerminal L487-508; AccordionNeoPopChunky L509-532; AccordionMagicGlassGlow L533-557; AccordionLuxuryGoldAtelier L558-584; AccordionWeddingTimeline L585-610; AccordionBarberQueueCheck L611-634; AccordionBotanicalCare L635-655
+### src/components/theme-transition.ts (637 lines)
+nextVariant L74-94; getKeyframesPx L111-143; shouldUseDomClone L144-167; applyThemeSnapshot L182-207; runDomCloneTransition L208-526; runDesktopViewTransition L527-603; runThemeTransition L604-637
 ### src/app/inspo/page.tsx (618 lines)
 EXTRACTED_MAP L30-55; Pill L98-126; InspectModal L127-343; InspoVaultInner L344-610
 ### src/components/library/NavComponents.tsx (605 lines)
 NavEditorialSplit L20-39; NavBrutalistGrid L40-60; NavFloatingPill L61-84; NavTerminalHud L85-105; NavMagazineStack L106-127; NavUnderlineRule L128-155; NavCornerAnchors L156-176; NavBottomDock L177-213; NavMarqueeTicker L214-234; NavAtelierCart L235-254; NavDotDrawer L255-294; NavFolderTabs L329-359; NavTerracottaEarthy L360-379; NavNeoBrutalistPop L437-456; NavMagicFloatingDock L457-478; NavStreetwearBadge L516-535; NavNordicCobaltPill L555-578; NavY2KChromeMarquee L579-605
-### src/components/theme-transition.ts (591 lines)
-nextVariant L74-94; getKeyframesPx L111-143; shouldUseDomClone L144-167; applyThemeSnapshot L182-207; runDomCloneTransition L208-480; runDesktopViewTransition L481-557; runThemeTransition L558-591
 ### src/components/library/PricingComponents.tsx (549 lines)
 PricingEditorialLedger L7-36; PricingBrutalist3Tier L37-67; PricingTerracottaCards L68-91; PricingPatisserieTiers L92-119; PricingWabiSabiMenu L120-143; PricingCyberGrillzCaps L144-171; PricingNeoPopStickers L172-193; PricingMagicGlowingCard L194-214; PricingLuxuryJewelryCarat L215-238; PricingWeddingPackages L239-266; PricingBarberBoard L267-292; PricingBotanicalSubscription L293-314; PricingAddonChecklist L315-367; PricingSliderDeposit L368-389; PricingSplitTwoTone L390-413; PricingNordicCobaltMatrix L429-487; PricingSolarAmberIndustrial L488-517; PricingNeoMintTreatmentTree L518-549
 

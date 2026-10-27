@@ -3,8 +3,8 @@
 Updated: 2026-10-26
 
 ## Now
-- Task: Fixed contact input flicker during theme transitions (applied `nextSnap` directly to `bodyClone`, removed `transition: background-color 0.75s` on body, scoped input transitions to border/shadow); implemented Skiper UI's `blur` option (`blur(8px)` -> `blur(4px)` -> `blur(0px)`) across mobile and desktop theme reveals (`src/components/theme-transition.ts`, `src/app/globals.css`, `src/app/contact/page.tsx`).
-- Uncommitted changes: `src/components/theme-transition.ts`, `src/app/globals.css`, `src/app/contact/page.tsx`. TODO-VERIFY: Fancy Components & Skiper UI entries in `docs/ASSETS.md`.
+- Task: Fixed signature freezing and theme toggle button snapping during theme transitions (`src/components/InkSignature.tsx`, `src/components/Header.tsx`, `src/components/theme-transition.ts`). Added live 60fps sync for `InkSignature` stroke/underline/nib in `syncFrame()`; deferred `setIsLightMode` inside the transition callback and synced cloned button state so the toggle never snaps visually.
+- Uncommitted changes: `src/components/InkSignature.tsx`, `src/components/Header.tsx`, `src/components/theme-transition.ts`. TODO-VERIFY: Fancy Components & Skiper UI in `docs/ASSETS.md`.
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher

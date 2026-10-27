@@ -401,10 +401,24 @@ function runDomCloneTransition(
     el.style.left = `${dx}px`;
   }
 
+  // Keep cloned theme toggle buttons in sync with the incoming theme state inside the reveal
+  const isNextDark = nextSnap.classes.includes("theme-obsidian");
+  const cloneToggleBtns = Array.from(bodyClone.querySelectorAll<HTMLElement>("[data-theme-toggle-btn]"));
+  for (const btn of cloneToggleBtns) {
+    const textSpan = btn.querySelector("span.text-\\[10px\\]");
+    if (textSpan) {
+      textSpan.textContent = isNextDark ? "LIGHT" : "DARK";
+    }
+  }
+
   // 6. Live 60fps synchronization loop during the 700ms reveal:
   //    - Keeps `AutoScrollFrame` scrolling smoothly at 60fps (no freeze or snap).
   //    - Keeps `<video>` (Sadija reel) playing smoothly at 60fps (no freeze or snap).
+  //    - Keeps `InkSignature` drawing smoothly at 60fps across all pages (no freeze or snap).
   //    - Keeps `bodyClone` locked to `body.getBoundingClientRect()` if momentum scrolling is active.
+  const liveSigs = Array.from(body.querySelectorAll<HTMLElement>("[data-ink-signature-root]"));
+  const cloneSigs = Array.from(bodyClone.querySelectorAll<HTMLElement>("[data-ink-signature-root]"));
+
   let finished = false;
   let rafId = 0;
 
@@ -434,6 +448,38 @@ function runDomCloneTransition(
         );
       } catch {
         // Ignore frame draw errors.
+      }
+    }
+
+    // Synchronize active InkSignature stroke progress at 60fps
+    for (let s = 0; s < liveSigs.length; s += 1) {
+      const ls = liveSigs[s];
+      const cs = cloneSigs[s];
+      if (!ls || !cs) continue;
+
+      const lt = ls.querySelector<HTMLElement>("[data-ink-signature-text]");
+      const ct = cs.querySelector<HTMLElement>("[data-ink-signature-text]");
+      if (lt && ct && lt.style.clipPath) {
+        ct.style.clipPath = lt.style.clipPath;
+        ct.style.setProperty("-webkit-clip-path", lt.style.clipPath);
+      }
+
+      const lp = ls.querySelector<SVGPathElement>("[data-ink-signature-path]");
+      const cp = cs.querySelector<SVGPathElement>("[data-ink-signature-path]");
+      if (lp && cp && lp.style.strokeDashoffset) {
+        cp.style.strokeDashoffset = lp.style.strokeDashoffset;
+      }
+
+      const ln = ls.querySelector<HTMLElement>("[data-ink-signature-nib]");
+      const cn = cs.querySelector<HTMLElement>("[data-ink-signature-nib]");
+      if (cn) {
+        if (ln && ln.style.left) {
+          cn.style.display = "";
+          cn.style.left = ln.style.left;
+          cn.style.opacity = ln.style.opacity;
+        } else {
+          cn.style.display = "none";
+        }
       }
     }
 

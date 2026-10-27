@@ -129,11 +129,13 @@ export default function InkSignature({
     <div
       ref={containerRef}
       onClick={playAnimation}
+      data-ink-signature-root=""
       title="Click to replay ink signature"
       className={`inline-flex flex-col items-start cursor-pointer select-none ${className}`}
     >
       <div className="relative py-2 pr-6">
         <span
+          data-ink-signature-text=""
           className={`font-signature ${textSizeClass} font-normal leading-[0.86] text-foreground block whitespace-nowrap`}
           style={{
             clipPath: `inset(-20% ${clipRightPercent}% -20% 0%)`,
@@ -146,6 +148,7 @@ export default function InkSignature({
         {/* Live traveling ink nib point in accent color while signing */}
         {writeProgress > 0.02 && writeProgress < 0.98 && (
           <span
+            data-ink-signature-nib=""
             aria-hidden="true"
             className="pointer-events-none absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-accent"
             style={{
@@ -163,6 +166,7 @@ export default function InkSignature({
         aria-hidden="true"
       >
         <path
+          data-ink-signature-path=""
           d="M 16 12 Q 82 3, 148 11 T 214 7"
           fill="none"
           stroke="currentColor"
