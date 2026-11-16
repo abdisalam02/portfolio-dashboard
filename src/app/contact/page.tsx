@@ -124,7 +124,7 @@ function ContactForm() {
   };
 
   return (
-    <main className="relative min-h-svh bg-background text-foreground bento-grid-bg">
+    <main className="relative min-h-svh bg-background text-foreground">
       <Header />
 
       <div className="pt-32 pb-20 md:pt-40 md:pb-28 px-4 sm:px-8 max-w-4xl mx-auto">
@@ -132,20 +132,20 @@ function ContactForm() {
         <div className="mb-6">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-mono text-muted hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-body text-muted hover:text-foreground transition-colors"
           >
             <FiArrowLeft />
-            <span>BACK TO HOME</span>
+            <span>Back to home</span>
           </Link>
         </div>
 
         {/* Page Headline */}
         <div className="mb-10 space-y-3 min-w-0 max-w-full overflow-hidden">
           <h1 className="text-[clamp(1.75rem,7.5vw,3.75rem)] font-black font-heading tracking-tight max-w-full overflow-hidden">
-            <FlippingWordSwap word1="GET IN TOUCH" />
+            <FlippingWordSwap word1="NEW PROJECT" />
           </h1>
           <p className="text-sm sm:text-base text-muted font-body leading-relaxed max-w-xl">
-            Have a project in mind or want to discuss a new website? Drop a message below and I&apos;ll get back to you.
+            Send your current URL, scope, or timeline. Replies go straight from hello@agure.space.
           </p>
         </div>
 
@@ -296,26 +296,26 @@ I'm looking to build or redesign a website. Here are a few details about what I 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background text-xs font-mono font-bold hover:opacity-90 transition-opacity active:scale-95 disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background text-xs font-body font-semibold hover:opacity-90 transition-opacity active:scale-95 disabled:opacity-50"
                   >
                     <FiSend size={13} />
-                    <span>{isSubmitting ? "SENDING..." : "SEND MESSAGE"}</span>
+                    <span>{isSubmitting ? "Sending..." : "Send message"}</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl bg-card border border-card-border text-foreground text-xs font-mono hover:border-foreground transition-[border-color,background-color] active:scale-95"
+                    className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl bg-card border border-card-border text-foreground text-xs font-body hover:border-foreground transition-[border-color,background-color] active:scale-95"
                   >
                     {copied ? (
                       <>
                         <FiCheck className="text-emerald-400" />
-                        <span>COPIED</span>
+                        <span>Copied</span>
                       </>
                     ) : (
                       <>
                         <FiCopy />
-                        <span>COPY EMAIL</span>
+                        <span>Copy email</span>
                       </>
                     )}
                   </button>

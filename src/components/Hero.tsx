@@ -25,12 +25,9 @@ export default function Hero() {
             <InkSignature size="hero" replayEveryScroll={true} />
           </h1>
 
-          <div className="flex items-center gap-2.5 pt-1">
-            <span className="w-2 h-2 rounded-full bg-accent" />
-            <p className="text-xs sm:text-sm font-mono text-foreground/85">
-              WEB DEVELOPER &amp; DESIGNER / OSLO
-            </p>
-          </div>
+          <p className="text-xs sm:text-sm font-body text-muted">
+            Web developer &amp; designer, Oslo
+          </p>
         </div>
 
         {/* Human Casual Statement */}
@@ -45,35 +42,30 @@ export default function Hero() {
           </p>
         </motion.div>
 
-        {/* Direct Actions Using Palette Accent + Surface Colors */}
+        {/* Direct Actions */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="flex flex-wrap items-center gap-4 pt-2"
+          className="flex flex-wrap items-center gap-6 pt-2"
         >
           <a
             href="#work"
             onClick={scrollToWork}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-accent text-accent-fg text-xs font-mono font-bold hover:opacity-90 transition-all active:scale-95"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-accent-fg text-sm font-body font-medium hover:opacity-90 transition-opacity active:scale-95"
           >
-            <span>VIEW WORK</span>
+            <span>View work</span>
             <FiArrowDown className="text-sm" />
           </a>
 
           <Link
             href="/work"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-card border border-card-border text-foreground text-xs font-mono hover:border-accent transition-all active:scale-95"
+            className="inline-flex items-center gap-1.5 text-sm font-body text-foreground hover:text-accent transition-colors underline underline-offset-4 decoration-card-border hover:decoration-accent"
           >
-            <span>ALL PROJECTS</span>
+            <span>All projects</span>
             <FiArrowUpRight className="text-sm text-accent" />
           </Link>
         </motion.div>
-      </div>
-
-      {/* Subtle bottom hint indicating to scroll down */}
-      <div className="flex items-center justify-end pt-4 border-t border-card-border">
-        <FiArrowDown className="text-accent" />
       </div>
     </section>
   );

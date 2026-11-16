@@ -1,10 +1,10 @@
 # STATE.md: resume point (read first, keep under 30 lines)
 
-Updated: 2026-10-26
+Updated: 2026-10-29
 
 ## Now
-- Task: Fixed signature freezing and theme toggle button snapping during theme transitions (`src/components/InkSignature.tsx`, `src/components/Header.tsx`, `src/components/theme-transition.ts`). Added live 60fps sync for `InkSignature` stroke/underline/nib in `syncFrame()`; deferred `setIsLightMode` inside the transition callback and synced cloned button state so the toggle never snaps visually.
-- Uncommitted changes: `src/components/InkSignature.tsx`, `src/components/Header.tsx`, `src/components/theme-transition.ts`. TODO-VERIFY: Fancy Components & Skiper UI in `docs/ASSETS.md`.
+- Task: Removed AI-template patterns across Hero, ClientWork, ContactSection, Footer, and /contact.
+- Uncommitted changes: none. TODO-VERIFY: Fancy Components & Skiper UI in `docs/ASSETS.md`.
 
 ## Next (max 3)
 1. Split `LuffyCakesView.tsx` (1,857 lines) into data, configurator, voucher
@@ -17,12 +17,13 @@ Updated: 2026-10-26
 - Global vs Workspace: `~/.gemini/GEMINI.md` is universal; repo `GEMINI.md` governs this project and wins on conflict.
 
 ## Open items
-- CSP `style-src 'self' 'unsafe-inline'` blocks the Fontshare stylesheet (`api.fontshare.com`), so every Fontshare heading falls back to sans-serif. Needs a self-host or allowlist decision.
+- CSP `style-src` blocks Fontshare (`api.fontshare.com`); headings fall back to sans. Needs self-host or allowlist.
 - TODO-VERIFY: Sole proprietorship registration in `src/config/legal.ts`.
 - TODO-VERIFY: Written client permissions for Gangina and MNO.CRM.
 - TODO-VERIFY: Clear rights for Pinterest demo images in `docs/ASSETS.md`.
 
-## Done (one line each; details live in `git log`)
+## Recent (max 5, one line each)
+- 2026-10-29 — Applied workspace harness; added pointer files and removed a dead doc reference.
 - Audit phases 1-6 finished (legal, privacy, pricing, security headers, honeypot).
 - Installed `check-design.mjs`, `gen-arch.mjs`, `verify.mjs` and updated `package.json`.
 - Archived 3,500+ lines of redundant demo code to `archive/old-demos/`.

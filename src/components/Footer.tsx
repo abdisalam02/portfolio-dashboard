@@ -12,21 +12,29 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-card-border pt-16 pb-14 px-4 sm:px-8 max-w-7xl mx-auto">
-      {/* Bold Full-Width LET'S TALK + Scroll-Triggered Handwritten Signature (Re-runs every scroll) */}
-      <div className="pb-14 border-b border-card-border flex flex-col md:flex-row md:items-end justify-between gap-10">
+    <footer className="pt-20 md:pt-28 pb-14 px-4 sm:px-8 max-w-7xl mx-auto">
+      {/* Direct Email Close + Handwritten Signature */}
+      <div className="pb-14 flex flex-col md:flex-row md:items-end justify-between gap-10">
         <div className="space-y-4 min-w-0 flex-1 max-w-full">
-          <h2 className="text-[clamp(2.35rem,11vw,7.5rem)] font-black font-heading tracking-tighter leading-[0.88] text-foreground max-w-full">
-            <FlippingWordSwap word1="LET'S TALK" />
-          </h2>
-          <div className="flex flex-wrap items-center gap-6 pt-2 text-sm font-mono">
+          <p className="text-sm font-body text-muted">
+            Direct email &amp; project inquiries
+          </p>
+          <h2 className="text-[clamp(1.6rem,6vw,4.5rem)] font-black font-heading tracking-tighter leading-[0.95] text-foreground max-w-full break-all sm:break-normal">
             <a
               href="mailto:hello@agure.space"
-              className="inline-flex items-center gap-1.5 text-accent hover:opacity-75 transition-opacity border-b border-accent pb-0.5 font-bold"
+              className="hover:text-accent transition-colors"
             >
-              <span>hello@agure.space</span>
-              <FiArrowUpRight size={14} />
+              <FlippingWordSwap word1="hello@agure.space" />
             </a>
+          </h2>
+          <div className="flex flex-wrap items-center gap-6 pt-2 text-sm font-body">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-1.5 text-accent hover:opacity-75 transition-opacity underline underline-offset-4 font-medium"
+            >
+              <span>Project form</span>
+              <FiArrowUpRight size={14} />
+            </Link>
             <a
               href="https://instagram.com/a.gure"
               target="_blank"
@@ -39,7 +47,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Scroll-Animated Ink Signature (Replays Every Time You Scroll Down) + Back to Top */}
+        {/* Scroll-Animated Ink Signature + Back to Top */}
         <div className="flex items-end justify-between md:justify-end gap-6">
           <InkSignature size="footer" replayEveryScroll={true} />
 
@@ -54,45 +62,40 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Compartmentalized 1px Hairline Footer Bar */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 border-b border-l border-card-border text-xs font-mono text-muted bg-card/40">
-        <div className="p-3.5 border-r border-t border-card-border font-bold text-foreground">
-          A.Gure
+      {/* Borderless Footer Navigation & Colophon */}
+      <div className="pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-body text-muted">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <span className="font-semibold text-foreground">A.Gure</span>
+          <span>Oslo, Norway</span>
+          <span>© 2026</span>
         </div>
-        <div className="p-3.5 border-r border-t border-card-border text-accent font-semibold">
-          © 2026
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <Link href="/work" className="hover:text-foreground transition-colors">
+            Work
+          </Link>
+          <Link href="/contact" className="hover:text-foreground transition-colors">
+            Contact
+          </Link>
+          <Link href="/privacy" className="hover:text-foreground transition-colors">
+            Personvern
+          </Link>
+          <a
+            href="https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-foreground transition-colors"
+          >
+            LinkedIn
+          </a>
+          <a
+            href="https://github.com/abdisalam02"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-foreground transition-colors"
+          >
+            GitHub
+          </a>
         </div>
-        <div className="p-3.5 border-r border-t border-card-border">
-          Oslo, Norway
-        </div>
-        <a
-          href="mailto:hello@agure.space"
-          className="p-3.5 border-r border-t border-card-border hover:text-accent transition-colors truncate"
-        >
-          hello@agure.space
-        </a>
-        <Link
-          href="/work"
-          className="p-3.5 border-r border-t border-card-border hover:text-accent transition-colors"
-        >
-          Work
-        </Link>
-        <a
-          href="https://www.linkedin.com/in/abdi-salam-qorane-gure-416766183/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="p-3.5 border-r border-t border-card-border hover:text-accent transition-colors"
-        >
-          LinkedIn
-        </a>
-        <a
-          href="https://github.com/abdisalam02"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="p-3.5 border-r border-t border-card-border hover:text-accent transition-colors"
-        >
-          GitHub
-        </a>
       </div>
 
       <LegalFooter />

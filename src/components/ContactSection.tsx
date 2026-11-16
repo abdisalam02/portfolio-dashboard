@@ -16,15 +16,15 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-32 px-4 sm:px-8 max-w-7xl mx-auto border-t border-card-border">
+    <section id="contact" className="py-24 md:py-32 px-4 sm:px-8 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-        {/* Left Column: Human Casual Invitation */}
+        {/* Left Column: Direct Inquiry Prompt */}
         <div className="lg:col-span-7 space-y-4 min-w-0 max-w-full overflow-hidden">
-          <h2 className="text-[clamp(1.15rem,4.8vw,3.5rem)] font-black font-heading tracking-tight max-w-full overflow-hidden">
-            <FlippingWordSwap word1="GOT A PROJECT IN MIND?" />
+          <h2 className="text-[clamp(1.5rem,4.8vw,3.5rem)] font-black font-heading tracking-tight max-w-full overflow-hidden">
+            <FlippingWordSwap word1="DIRECT INQUIRIES" />
           </h2>
           <p className="text-base sm:text-lg text-muted font-body max-w-xl leading-relaxed">
-            Need a new website, a redesign, or have an idea you want to discuss? Reach out directly and I will get back to you.
+            Send your current URL, scope, or timeline.
           </p>
         </div>
 
@@ -36,18 +36,18 @@ export default function ContactSection() {
             </span>
             <button
               onClick={handleCopy}
-              className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-background border border-card-border hover:border-accent transition-colors text-xs font-mono text-foreground active:scale-95"
+              className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-background border border-card-border hover:border-accent transition-colors text-xs font-body text-foreground active:scale-95"
               aria-label="Copy email address"
             >
               {copied ? (
                 <>
                   <FiCheck className="text-accent" />
-                  <span>COPIED</span>
+                  <span>Copied</span>
                 </>
               ) : (
                 <>
                   <FiCopy />
-                  <span>COPY EMAIL</span>
+                  <span>Copy email</span>
                 </>
               )}
             </button>
@@ -55,10 +55,10 @@ export default function ContactSection() {
 
           <Link
             href="/contact"
-            className="w-full inline-flex items-center justify-center gap-2 py-4 px-6 rounded-xl bg-accent text-accent-fg text-xs font-mono font-bold hover:opacity-90 transition-all active:scale-95"
+            className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-accent text-accent-fg text-sm font-body font-medium hover:opacity-90 transition-opacity active:scale-95"
           >
             <FiMail />
-            <span>SEND A MESSAGE</span>
+            <span>Send a message</span>
             <FiArrowUpRight />
           </Link>
         </div>

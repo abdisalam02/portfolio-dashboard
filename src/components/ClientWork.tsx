@@ -85,9 +85,9 @@ export default function ClientWork({
     : allProjects.filter((p) => p.id !== "sadija");
 
   return (
-    <section id="work" className="py-16 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto">
-      {/* Monumental Editorial Section Header with 3D Font-Flip on Title */}
-      <div className="border-t border-b border-card-border py-8 sm:py-10 mb-8 md:mb-12">
+    <section id="work" className="py-20 md:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
+      {/* Editorial Section Header */}
+      <div className="pb-10 mb-12 md:mb-16">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="flex items-start gap-2 sm:gap-3 min-w-0 max-w-full flex-1">
             <h2 className="min-w-0 flex-1 text-[clamp(2.25rem,10vw,6.5rem)] font-black font-heading tracking-tighter leading-[0.88] text-foreground">
@@ -105,7 +105,7 @@ export default function ClientWork({
               <div>
                 <Link
                   href="/work"
-                  className="inline-flex items-center gap-1.5 text-xs font-mono text-accent hover:opacity-80 transition-opacity underline underline-offset-4"
+                  className="inline-flex items-center gap-1.5 text-xs font-body font-medium text-accent hover:opacity-80 transition-opacity underline underline-offset-4"
                 >
                   <span>View full archive including Sadija</span>
                   <FiArrowUpRight size={13} />
@@ -115,20 +115,17 @@ export default function ClientWork({
           </div>
         </div>
 
-        {/* Dedicated /work page: three cards that stack as you scroll. Each slot is one card tall, so the effect adds about three card heights of scroll and no blank gap. Each card has its own layout: ledger, matrix, index. */}
+        {/* Dedicated /work page: three cards that stack as you scroll. */}
         {isWorkPage && (
-          <StackingCards totalCards={3} className="mt-8 pt-6 border-t border-card-border">
-            {/* 01: ledger. Hollow index left, ruled list right, each row points at the site it came from. */}
+          <StackingCards totalCards={3} className="mt-10 pt-4">
+            {/* 01: ledger. */}
             <StackingCardItem index={0} className="h-[15rem] sm:h-[12.5rem] pb-3 z-[1]">
               <div className="h-full p-4 sm:p-5 rounded-xl bg-card border border-card-border overflow-hidden grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-8">
-                <div className="sm:col-span-4 flex sm:flex-col items-center sm:items-start justify-between sm:justify-between">
-                  <span
-                    className="outline-index text-5xl sm:text-7xl font-black font-heading h-[1.05em] inline-flex items-center leading-none select-none text-accent"
-                    aria-hidden="true"
-                  >
+                <div className="sm:col-span-4 flex sm:flex-col items-center sm:items-start justify-between">
+                  <span className="font-mono text-xs text-accent font-semibold">
                     01
                   </span>
-                  <span className="font-mono text-[11px] text-muted uppercase tracking-wide">
+                  <span className="font-body text-xs text-muted">
                     What I build
                   </span>
                 </div>
@@ -148,28 +145,23 @@ export default function ClientWork({
               </div>
             </StackingCardItem>
 
-            {/* 02: matrix. Four ruled cells, one fact each. */}
+            {/* 02: matrix. */}
             <StackingCardItem index={1} className="h-[15rem] sm:h-[12.5rem] pb-3 z-[2]">
               <div className="h-full rounded-xl bg-card border border-card-border overflow-hidden flex flex-col">
                 <div className="flex items-center justify-between px-4 sm:px-5 py-2.5 border-b border-card-border">
-                  <span className="font-mono text-[11px] text-muted uppercase tracking-wide">Approach</span>
-                  <span
-                    className="outline-index text-2xl font-black font-heading h-[1.05em] inline-flex items-center leading-none select-none text-accent"
-                    aria-hidden="true"
-                  >
-                    02
-                  </span>
+                  <span className="font-body text-xs text-muted">How I work</span>
+                  <span className="font-mono text-xs text-accent font-semibold">02</span>
                 </div>
                 <dl className="flex-1 grid grid-cols-2 sm:grid-cols-4 divide-x divide-card-border [&>div:nth-child(n+3)]:border-t sm:[&>div:nth-child(n+3)]:border-t-0 [&>div]:border-card-border">
                   {[
                     ["1-on-1", "Design and code, start to finish."],
-                    ["No templates", "No page builders or generic themes."],
-                    ["Light pages", "Fast load times, clean type."],
+                    ["From scratch", "Next.js and custom CSS, no page builders."],
+                    ["1–2 weeks", "Target turnaround from brief to live link."],
                     ["Yours", "You own the finished site and your content."],
-                  ].map(([term, detail], i) => (
+                  ].map(([term, detail]) => (
                     <div key={term} className="p-3 sm:p-4 flex flex-col justify-between gap-1">
-                      <dt className="font-mono text-[11px] text-accent font-bold">
-                        {String.fromCharCode(97 + i)} / {term}
+                      <dt className="font-body text-xs text-accent font-semibold">
+                        {term}
                       </dt>
                       <dd className="font-body text-xs text-foreground/85 leading-snug">{detail}</dd>
                     </div>
@@ -182,8 +174,8 @@ export default function ClientWork({
             <StackingCardItem index={2} className="h-[15rem] sm:h-[12.5rem] pb-3 z-[3]">
               <div className="h-full p-4 sm:p-5 rounded-xl bg-accent text-accent-fg overflow-hidden flex flex-col">
                 <div className="flex items-center justify-between pb-2 border-b border-accent-fg/30">
-                  <span className="font-mono text-[11px] uppercase tracking-wide opacity-80">Archive index</span>
-                  <span className="font-mono text-[11px] opacity-80">03</span>
+                  <span className="font-body text-xs opacity-80">Archive index</span>
+                  <span className="font-mono text-xs opacity-80">03</span>
                 </div>
                 <div className="flex-1 flex flex-col justify-around">
                   {visibleProjects.map((p, i) => (
@@ -213,65 +205,43 @@ export default function ClientWork({
         )}
       </div>
 
-      {/* Editorial Hairline Project Index Rows (Immediately Connected Below Header) */}
-      <div className="divide-y divide-card-border border-b border-card-border">
+      {/* Editorial Project Rows */}
+      <div className="space-y-20 md:space-y-28">
         {visibleProjects.map((project, idx) => {
           const displayIndex = `0${idx + 1}`;
           return (
             <article
               key={project.id}
               id={`project-${project.id}`}
-              className="py-12 md:py-20 first:pt-2 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center"
             >
-              {/* Left Column: Outlined Index Number, Human Story & Circular Action Button */}
+              {/* Left Column: Clean Index, Human Story & Single Direct Link */}
               <div className="lg:col-span-5 flex flex-col justify-between space-y-6 order-2 lg:order-1">
-                <div className="space-y-6">
-                  {/* Outlined Index Number + Year/Category Row */}
-                  <div className="flex items-baseline justify-between border-b border-card-border pb-4">
-                    <span
-                      className="outline-index text-5xl sm:text-6xl font-black font-heading h-[1.05em] inline-flex items-center leading-none select-none text-accent"
-                      aria-hidden="true"
-                    >
-                      {displayIndex}
+                <div className="space-y-5">
+                  {/* Understated Index & Year/Category Line */}
+                  <div className="flex flex-wrap items-baseline justify-between gap-2 text-xs text-muted">
+                    <span className="font-mono text-accent font-semibold">
+                      {displayIndex} · {project.year} · {project.statusLabel}
                     </span>
-                    <div className="text-right">
-                      <span className="text-xs font-mono text-accent font-bold block">
-                        {project.year} / {project.statusLabel}
-                      </span>
-                      <span className="text-xs text-muted font-body">
-                        {project.category}
-                      </span>
-                    </div>
+                    <span className="font-body">
+                      {project.category}
+                    </span>
                   </div>
 
-                  {/* Brand Mark, Title (with FlippingWordSwap) & Circular ↗ Launch Icon */}
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <div className="relative w-9 h-9 rounded-lg bg-card border border-card-border flex items-center justify-center p-1.5 flex-shrink-0">
-                        <Image
-                          src={project.logoSrc}
-                          alt={`${project.name} mark`}
-                          fill
-                          sizes="36px"
-                          className="object-contain p-1"
-                        />
-                      </div>
-                      <h3 className="min-w-0 flex-1 text-3xl sm:text-4xl font-black font-heading tracking-tight text-foreground">
-                        <FlippingWordSwap word1={project.name} />
-                      </h3>
+                  {/* Brand Mark & Title */}
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="relative w-9 h-9 rounded-lg bg-card border border-card-border flex items-center justify-center p-1.5 flex-shrink-0">
+                      <Image
+                        src={project.logoSrc}
+                        alt={`${project.name} mark`}
+                        fill
+                        sizes="36px"
+                        className="object-contain p-1"
+                      />
                     </div>
-
-                    {/* Circular 1px Launch Button */}
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-11 h-11 rounded-full border border-accent text-accent hover:bg-accent hover:text-accent-fg transition-colors flex items-center justify-center flex-shrink-0"
-                      title={`Open ${project.name} live site`}
-                      aria-label={`Open ${project.name} live site`}
-                    >
-                      <FiArrowUpRight size={18} />
-                    </a>
+                    <h3 className="min-w-0 flex-1 text-3xl sm:text-4xl font-black font-heading tracking-tight text-foreground">
+                      <FlippingWordSwap word1={project.name} />
+                    </h3>
                   </div>
 
                   {/* Grounded Human Story */}
@@ -279,33 +249,21 @@ export default function ClientWork({
                     {project.description}
                   </p>
 
-                  {/* Deliverables List */}
-                  <div className="space-y-2 pt-1">
-                    <span className="text-xs font-mono text-muted/80 block">
-                      Deliverables:
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                      {project.deliverables.map((item, i) => (
-                        <span
-                          key={i}
-                          className="text-xs font-body px-3 py-1.5 rounded-lg bg-card border border-card-border text-foreground/90"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  {/* Inline Deliverables Summary */}
+                  <p className="text-xs font-body text-foreground/75 leading-relaxed">
+                    {project.deliverables.join(" · ")}
+                  </p>
                 </div>
 
-                {/* Direct Link to Live App */}
-                <div className="pt-2">
+                {/* Single Direct Link to Live Site */}
+                <div className="pt-1">
                   <a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-accent text-accent-fg text-xs font-mono font-bold hover:opacity-90 transition-all active:scale-95"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-accent text-accent-fg text-xs font-body font-semibold hover:opacity-90 transition-opacity active:scale-95"
                   >
-                    <span>VISIT LIVE WEBSITE</span>
+                    <span>Visit live site</span>
                     <FiArrowUpRight className="text-sm" />
                   </a>
                 </div>
